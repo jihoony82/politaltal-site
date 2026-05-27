@@ -1,7 +1,7 @@
-# 정치탈탈.com (한글 punycode) → politaltal.com (영문 정규)
-# SEO·외부 링크 안정성을 위해 모든 트래픽을 영문 도메인으로 통일
-https://xn--2y5bo8ir4ba.com/*  https://politaltal.com/:splat  301
-https://www.xn--2y5bo8ir4ba.com/*  https://politaltal.com/:splat  301
-
-# www → root 통일
-https://www.politaltal.com/*  https://politaltal.com/:splat  301
+# Cloudflare Workers + Static Assets _redirects
+# 상대 경로만 지원 (절대 URL 불가)
+#
+# 도메인 간 리다이렉트(정치탈탈.com → politaltal.com)는
+# Cloudflare 대시보드 → 정치탈탈.com → Rules → Redirect Rules 에서 설정
+#
+# 현재는 같은 도메인 내 리다이렉트가 없으므로 비어있음
