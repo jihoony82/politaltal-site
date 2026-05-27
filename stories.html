@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>의원실 이야기 - 정치탈탈</title>
+  <meta name="description" content="의원·보좌관이 직접 영상으로 전하는 의정활동 비하인드 스토리. 데이터가 보여주지 못하는 맥락을 만나보세요.">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="container">
+      <a href="/" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
+        <span>정치탈탈</span>
+      </a>
+      <a href="/login.html" id="headerAuthBtn" style="font-size:12px;font-weight:700;padding:6px 12px;
+                                    background:var(--color-primary);color:white;
+                                    border-radius:6px;text-decoration:none;
+                                    display:flex;align-items:center;gap:6px;">
+        로그인
+      </a>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <a href="/" class="back-link">← 홈으로</a>
+      <div class="section-title">🎙 의원실 이야기</div>
+      <div class="section-sub">보좌관·의원의 직접 목소리로 듣는 의정활동 비하인드</div>
+
+      <div class="stat-card" style="background:linear-gradient(135deg,#fff7ed 0%,#ffe9d4 100%);border:1px solid #fdba74;">
+        <h2 style="color:#92400e;">📣 의원실에 알립니다</h2>
+        <p style="font-size:13px;color:#78350f;line-height:1.8;">
+          <strong>의원실 / 보좌관 분들께</strong>: 의정활동의 비하인드 스토리, 정책 설명 영상, 지역구 활동 등을 무료로 노출해드립니다.<br>
+          정치탈탈은 의원의 활동을 데이터로 보여주는 동시에, <strong>본인 목소리로 직접 설명</strong>할 수 있는 공간을 제공합니다.<br>
+          이메일 <a href="mailto:jihoony8282@naver.com" style="color:var(--color-accent);"><strong>jihoony8282@naver.com</strong></a> 으로 영상 링크를 보내주시면 검토 후 게재해드립니다.
+        </p>
+      </div>
+
+      <div class="sub-tabs">
+        <span class="sub-tab active">🎬 전체</span>
+        <span class="sub-tab">📜 정책 설명</span>
+        <span class="sub-tab">🏛 본회의 비하인드</span>
+        <span class="sub-tab">📍 지역구 활동</span>
+        <span class="sub-tab">🎤 보좌관 인터뷰</span>
+      </div>
+
+      <div class="video-grid">
+        <div class="video-card placeholder-card">
+          <div class="video-thumb">
+            <div class="video-icon">▶</div>
+            <span class="video-duration">준비 중</span>
+          </div>
+          <div class="video-info">
+            <span class="video-category">정책 설명</span>
+            <h4>주거 안정 법안, 무엇이 달라지나요?</h4>
+            <p>의원실 직접 제작 · 5분 미리보기</p>
+          </div>
+        </div>
+
+        <div class="video-card placeholder-card">
+          <div class="video-thumb">
+            <div class="video-icon">▶</div>
+            <span class="video-duration">준비 중</span>
+          </div>
+          <div class="video-info">
+            <span class="video-category">보좌관 인터뷰</span>
+            <h4>법안 하나 만들기까지 — 보좌관의 하루</h4>
+            <p>의원실 비하인드 · 8분</p>
+          </div>
+        </div>
+
+        <div class="video-card placeholder-card">
+          <div class="video-thumb">
+            <div class="video-icon">▶</div>
+            <span class="video-duration">준비 중</span>
+          </div>
+          <div class="video-info">
+            <span class="video-category">지역구 활동</span>
+            <h4>우리 동네에 무엇이 필요한가요?</h4>
+            <p>지역 현장 영상 · 3분</p>
+          </div>
+        </div>
+
+        <div class="video-card placeholder-card">
+          <div class="video-thumb">
+            <div class="video-icon">▶</div>
+            <span class="video-duration">준비 중</span>
+          </div>
+          <div class="video-info">
+            <span class="video-category">본회의 비하인드</span>
+            <h4>표결 직전, 마지막 협상 현장</h4>
+            <p>의원실 영상 · 4분</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card" style="margin-top:24px;">
+        <h2>💡 의원실 이야기는 어떤 곳인가요?</h2>
+        <p style="font-size:13px;line-height:1.8;color:var(--color-text);">
+          정치탈탈은 데이터 시각화 플랫폼이지만, 데이터가 보여주지 못하는 <strong>맥락</strong>이 있습니다.<br>
+          예를 들어 "발의 건수가 적은 의원"이 사실은 <strong>큰 법안 1건</strong>에 집중하고 있을 수도 있고,<br>
+          "표결 불참"이 알고 보면 <strong>국정감사 출장</strong> 때문일 수도 있어요.<br><br>
+          의원실 이야기는 이런 맥락을 <strong>의원·보좌관이 직접 영상으로 설명</strong>하는 공간입니다.<br>
+          유권자에게는 더 깊은 이해를, 의원에게는 본인 활동을 알릴 기회를 제공합니다.
+        </p>
+      </div>
+
+      <div class="stat-card">
+        <h2>🎁 의원실을 위한 혜택 (무료)</h2>
+        <ul style="font-size:13px;color:var(--color-text);line-height:1.9;list-style:none;padding:0;">
+          <li>✅ 영상 게재 비용 <strong>0원</strong> (정치자금법 무관, 정보 제공 차원)</li>
+          <li>✅ 의원 상세 페이지에 <strong>"의원실 이야기" 섹션 자동 연결</strong></li>
+          <li>✅ 의원실 채널 (유튜브/인스타) 링크 함께 노출</li>
+          <li>✅ 데이터로 보이지 않는 <strong>활동의 맥락</strong>을 직접 설명할 기회</li>
+        </ul>
+        <div class="source-note" style="margin-top:12px;">
+          ⚠️ 선거기간 90일 전부터는 공직선거법 준수를 위해 신규 영상 게재가 중단됩니다.
+        </div>
+      </div>
+    </div>
+    </main>
+  <nav class="bottom-nav">
+    <a href="/" class="">
+      <span class="icon">🏠</span>홈
+    </a>
+    <a href="/list.html" class="">
+      <span class="icon">📋</span>의원
+    </a>
+    <a href="/stories.html" class="active">
+      <span class="icon">🎙</span>의원실
+    </a>
+    <a href="/community.html" class="">
+      <span class="icon">💬</span>커뮤니티
+    </a>
+    <a href="/learn.html" class="">
+      <span class="icon">📚</span>배움터
+    </a>
+  </nav>
+</body>
+</html>

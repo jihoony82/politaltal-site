@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>정치 성향 매칭 테스트 - 정치탈탈</title>
+  <meta name="description" content="7개 가치관 질문으로 알아보는 나의 정치 성향. 가장 비슷한 활동을 하는 의원을 추천해드립니다.">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="container">
+      <a href="/" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
+        <span>정치탈탈</span>
+      </a>
+      <a href="/login.html" id="headerAuthBtn" style="font-size:12px;font-weight:700;padding:6px 12px;
+                                    background:var(--color-primary);color:white;
+                                    border-radius:6px;text-decoration:none;
+                                    display:flex;align-items:center;gap:6px;">
+        로그인
+      </a>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <a href="/" class="back-link">← 홈으로</a>
+      <div class="section-title">🎯 정치 성향 매칭 테스트</div>
+      <div class="section-sub">7개 질문으로 알아보는 나의 정치 가치관</div>
+
+      <div class="stat-card" style="background:#fef3c7;border-left:3px solid #f59e0b;">
+        <p style="font-size:12px;color:#78350f;line-height:1.7;">
+          ⚠️ 본 테스트는 <strong>본인의 정치 가치관 탐색 도구</strong>이며,
+          특정 의원·정당의 지지를 권유하지 않습니다. 답변은 본인 기기에만 저장되며 어디로도 전송되지 않습니다.
+        </p>
+      </div>
+
+      <!-- 시작 화면 -->
+      <div id="matchIntro" class="stat-card" style="text-align:center;padding:36px 24px;">
+        <div style="font-size:56px;margin-bottom:16px;">🧭</div>
+        <h2 style="font-size:20px;font-weight:800;margin-bottom:8px;">내 가치관과 닮은 의원은?</h2>
+        <p style="font-size:13px;color:var(--color-text-soft);line-height:1.6;margin-bottom:24px;">
+          부동산·복지·노동·환경 등 7개 영역의 가치관 질문에 답하면<br>
+          가장 비슷한 활동을 하는 의원을 추천해드립니다.
+        </p>
+        <button onclick="startMatch()" style="padding:14px 32px;background:var(--color-accent);color:white;
+                border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;">
+          테스트 시작하기 →
+        </button>
+        <p style="font-size:11px;color:var(--color-text-soft);margin-top:16px;">소요시간 약 1분</p>
+      </div>
+
+      <!-- 질문 화면 -->
+      <div id="matchQuestion" class="stat-card" style="display:none;">
+        <div id="matchProgress" style="height:6px;background:#f1f5f9;border-radius:3px;overflow:hidden;margin-bottom:20px;">
+          <div id="matchBar" style="height:100%;background:var(--color-accent);width:0;transition:width 0.4s;"></div>
+        </div>
+        <div id="matchQuestionNum" style="font-size:11px;color:var(--color-text-soft);font-weight:600;margin-bottom:8px;"></div>
+        <h2 id="matchQuestionText" style="font-size:18px;font-weight:800;margin-bottom:20px;line-height:1.5;"></h2>
+        <div id="matchOptions"></div>
+      </div>
+
+      <!-- 결과 화면 -->
+      <div id="matchResult" class="stat-card" style="display:none;text-align:center;padding:24px;">
+        <div style="font-size:48px;margin-bottom:12px;">🎉</div>
+        <h2 style="font-size:20px;font-weight:800;">테스트 완료!</h2>
+        <p id="matchSpectrum" style="font-size:14px;color:var(--color-text-soft);margin:12px 0;"></p>
+
+        <div style="margin:20px 0;padding:16px;background:#f1f5f9;border-radius:10px;">
+          <div style="font-size:12px;color:var(--color-text-soft);">당신과 가까운 성향의 의원</div>
+          <div id="matchPoliticianCard" style="margin-top:12px;"></div>
+        </div>
+
+        <p style="font-size:11px;color:var(--color-text-soft);line-height:1.7;margin:12px 0;">
+          이 결과는 <strong>가치관 자가진단</strong>이며 정확한 표결 일치도가 아닙니다.<br>
+          실제 의원의 의정활동은 데이터로 직접 확인하세요.
+        </p>
+
+        <div style="display:flex;gap:8px;margin-top:16px;">
+          <button onclick="restartMatch()" style="flex:1;padding:12px;background:var(--color-border);border:none;
+                  border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">
+            🔄 다시 하기
+          </button>
+          <button onclick="shareResult()" style="flex:1;padding:12px;background:var(--color-accent);color:white;
+                  border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">
+            📤 결과 공유
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const PARTY_TOP = {"더불어민주당": {"mona_cd": "JC14718Q", "name": "윤준병", "district": "전북 정읍시고창군"}, "국민의힘": {"mona_cd": "JNL7001A", "name": "김선교", "district": "경기 여주시양평군"}, "조국혁신당": {"mona_cd": "XG348314", "name": "정춘생", "district": "비례대표"}, "진보당": {"mona_cd": "3TP65086", "name": "윤종오", "district": "울산 북구"}, "개혁신당": {"mona_cd": "WI719547", "name": "이주영", "district": "비례대표"}, "기본소득당": {"mona_cd": "GE71932C", "name": "용혜인", "district": "비례대표"}, "사회민주당": {"mona_cd": "T4I4862D", "name": "한창민", "district": "비례대표"}};
+
+      // 질문 데이터 — 7개 가치관 영역
+      // score: 진보(-2) ~ 보수(+2)
+      const QUESTIONS = [
+        {
+          q: '🏠 부동산 정책에서 더 중요한 것은?',
+          options: [
+            { t: '주거권 보장을 위한 강한 규제', score: -2 },
+            { t: '균형 잡힌 규제와 공급 확대', score: -1 },
+            { t: '시장 자율과 공급 중심', score: 1 },
+            { t: '규제 완화와 거래 활성화', score: 2 },
+          ]
+        },
+        {
+          q: '💰 복지 정책의 방향은?',
+          options: [
+            { t: '모두에게 동일한 보편 복지', score: -2 },
+            { t: '점진적 확대 + 일부 선별', score: -1 },
+            { t: '취약계층 중심 선별 복지', score: 1 },
+            { t: '재정 건전성 우선', score: 2 },
+          ]
+        },
+        {
+          q: '🏭 노동·기업 관계에서 우선되어야 할 것은?',
+          options: [
+            { t: '노동자 권리 강화·노조 보호', score: -2 },
+            { t: '노사 균형 + 협의 우선', score: -1 },
+            { t: '기업 활동 자유 + 일자리 창출', score: 1 },
+            { t: '규제 완화·기업 경쟁력', score: 2 },
+          ]
+        },
+        {
+          q: '🌱 환경·기후 정책은?',
+          options: [
+            { t: '탄소중립 가속화 + 강한 규제', score: -2 },
+            { t: '점진적 전환 + 산업 지원', score: -1 },
+            { t: '경제 균형 + 자율 감축', score: 1 },
+            { t: '경제 우선 + 최소 규제', score: 2 },
+          ]
+        },
+        {
+          q: '🌐 외교·안보의 방향은?',
+          options: [
+            { t: '자주 외교 + 다자 협력', score: -2 },
+            { t: '한반도 평화 우선', score: -1 },
+            { t: '한미동맹 강화', score: 1 },
+            { t: '강력한 안보 + 한미일 협력', score: 2 },
+          ]
+        },
+        {
+          q: '🎓 교육 정책의 핵심은?',
+          options: [
+            { t: '교육 평등 + 공교육 강화', score: -2 },
+            { t: '균형 + 사교육 부담 완화', score: -1 },
+            { t: '자율과 다양성 + 수월성', score: 1 },
+            { t: '시장 자율 + 교육 선택권', score: 2 },
+          ]
+        },
+        {
+          q: '⚖️ 사회 변화의 속도는?',
+          options: [
+            { t: '적극적인 사회 개혁 필요', score: -2 },
+            { t: '단계적 개선', score: -1 },
+            { t: '안정 + 신중한 변화', score: 1 },
+            { t: '전통과 안정 유지', score: 2 },
+          ]
+        },
+      ];
+
+      let currentQ = 0;
+      let scores = [];
+
+      function startMatch() {
+        currentQ = 0; scores = [];
+        document.getElementById('matchIntro').style.display = 'none';
+        document.getElementById('matchQuestion').style.display = '';
+        renderQuestion();
+      }
+
+      function renderQuestion() {
+        const q = QUESTIONS[currentQ];
+        document.getElementById('matchProgress').firstElementChild.style.width = ((currentQ + 1) / QUESTIONS.length * 100) + '%';
+        document.getElementById('matchQuestionNum').textContent = `${currentQ + 1} / ${QUESTIONS.length}`;
+        document.getElementById('matchQuestionText').textContent = q.q;
+
+        const opts = document.getElementById('matchOptions');
+        opts.innerHTML = q.options.map((o, i) =>
+          `<button onclick="selectOption(${i})" style="display:block;width:100%;text-align:left;padding:14px 16px;
+                  margin-bottom:8px;background:white;border:1.5px solid var(--color-border);border-radius:10px;
+                  font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;
+                  transition:all 0.15s;color:var(--color-text);"
+                  onmouseover="this.style.borderColor='var(--color-accent)';this.style.background='#fff7f3'"
+                  onmouseout="this.style.borderColor='var(--color-border)';this.style.background='white'">
+             ${o.t}
+           </button>`
+        ).join('');
+      }
+
+      function selectOption(idx) {
+        scores.push(QUESTIONS[currentQ].options[idx].score);
+        currentQ++;
+        if (currentQ >= QUESTIONS.length) {
+          showResult();
+        } else {
+          renderQuestion();
+        }
+      }
+
+      function showResult() {
+        document.getElementById('matchQuestion').style.display = 'none';
+        document.getElementById('matchResult').style.display = '';
+
+        const total = scores.reduce((a, b) => a + b, 0);
+        const avg = total / scores.length;
+        let spectrum = '';
+        let party = '';
+        if (avg <= -1.4) { spectrum = '진보적 가치관 (-)'; party = '진보당'; }
+        else if (avg <= -0.6) { spectrum = '중도-진보 (-)'; party = '더불어민주당'; }
+        else if (avg <= -0.2) { spectrum = '중도-진보 성향'; party = '조국혁신당'; }
+        else if (avg <= 0.2) { spectrum = '균형 중도'; party = '기본소득당'; }
+        else if (avg <= 0.6) { spectrum = '중도-보수 성향'; party = '개혁신당'; }
+        else if (avg <= 1.4) { spectrum = '중도-보수 (+)'; party = '국민의힘'; }
+        else { spectrum = '보수적 가치관 (+)'; party = '국민의힘'; }
+
+        document.getElementById('matchSpectrum').innerHTML =
+          `당신의 가치관 점수: <strong style="color:var(--color-accent);font-size:18px;">${total > 0 ? '+' : ''}${total}</strong><br>` +
+          `<span style="font-size:13px;">${spectrum}</span>`;
+
+        const p = PARTY_TOP[party];
+        const card = document.getElementById('matchPoliticianCard');
+        if (p) {
+          card.innerHTML = `
+            <a href="/politician/${p.mona_cd}.html" style="text-decoration:none;color:inherit;
+               display:block;padding:12px;background:white;border-radius:8px;">
+              <div style="font-size:18px;font-weight:800;">${p.name}</div>
+              <div style="font-size:12px;color:var(--color-text-soft);margin-top:4px;">${party} · ${p.district}</div>
+              <div style="font-size:11px;color:var(--color-accent);margin-top:6px;font-weight:700;">활동 보러가기 →</div>
+            </a>
+          `;
+        } else {
+          card.innerHTML = '<div style="color:var(--color-text-soft);font-size:13px;">해당 성향의 의원 정보를 찾지 못했습니다.</div>';
+        }
+
+        // localStorage에 결과 저장
+        try {
+          localStorage.setItem('politaltal.matchResult', JSON.stringify({
+            scores, total, spectrum, party, at: Date.now()
+          }));
+        } catch(e) {}
+      }
+
+      function restartMatch() {
+        document.getElementById('matchResult').style.display = 'none';
+        document.getElementById('matchIntro').style.display = '';
+      }
+
+      function shareResult() {
+        const total = scores.reduce((a, b) => a + b, 0);
+        const text = `정치탈탈 가치관 테스트 결과: ${total > 0 ? '+' : ''}${total}점\n나와 닮은 의원은?\nhttps://politaltal.com/match.html`;
+        if (navigator.share) {
+          navigator.share({ title: '정치탈탈 매칭 테스트', text: text, url: 'https://politaltal.com/match.html' })
+            .catch(e => { /* user cancelled */ });
+        } else {
+          navigator.clipboard.writeText(text);
+          alert('결과가 복사되었습니다. 친구에게 붙여넣어 공유해보세요!');
+        }
+      }
+    </script>
+    </main>
+  <nav class="bottom-nav">
+    <a href="/" class="">
+      <span class="icon">🏠</span>홈
+    </a>
+    <a href="/list.html" class="">
+      <span class="icon">📋</span>의원
+    </a>
+    <a href="/stories.html" class="">
+      <span class="icon">🎙</span>의원실
+    </a>
+    <a href="/community.html" class="">
+      <span class="icon">💬</span>커뮤니티
+    </a>
+    <a href="/learn.html" class="">
+      <span class="icon">📚</span>배움터
+    </a>
+  </nav>
+</body>
+</html>

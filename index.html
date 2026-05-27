@@ -138,6 +138,11 @@
           <span data-tooltip="제22대 국회 임기: 2024년 5월 30일 ~ 2028년 5월 29일">제22대 국회</span>
           · 공공데이터 기반
         </span>
+        <div class="live-badge">
+          <span class="live-dot"></span>
+          <span>실시간 데이터 연동 중</span>
+          <span class="live-time">· 매주 자동 갱신</span>
+        </div>
         <h1 class="hero-title">
           내가 뽑은 의원,<br>
           <em>진짜 일하고 있나요?</em>
@@ -187,6 +192,13 @@
           <span class="home-icon">🏠</span>
           <span>내 집 주소로 우리 의원 찾기</span>
         </button>
+
+        <!-- GPS 위치로 찾기 -->
+        <button class="gps-btn" onclick="findByGPS()">
+          <span>📍</span>
+          <span>현재 위치로 우리 동네 의원 찾기</span>
+        </button>
+
         <div id="addressResults" class="address-results"></div>
 
         <div class="or-divider">또는 이름·지역으로 검색</div>
@@ -198,87 +210,138 @@
                  oninput="onSearch(event)">
         </div>
         <div id="searchResults" class="search-results"></div>
-        <div class="sido-list">
+
+        <!-- 한국 지도 (인터랙티브) -->
+        <div class="korea-map-wrap">
+          <div class="korea-map-title">🗺 지도에서 지역 클릭</div>
           
-        <a href="/list.html?sido=경기" class="sido-chip">
-          경기
-          <span class="count">57명</span>
-        </a>
-    
-        <a href="/list.html?sido=서울" class="sido-chip">
-          서울
-          <span class="count">48명</span>
-        </a>
-    
-        <a href="/list.html?sido=비례대표" class="sido-chip">
-          비례대표
-          <span class="count">46명</span>
-        </a>
-    
-        <a href="/list.html?sido=부산" class="sido-chip">
-          부산
-          <span class="count">17명</span>
-        </a>
-    
-        <a href="/list.html?sido=경남" class="sido-chip">
-          경남
-          <span class="count">16명</span>
-        </a>
-    
-        <a href="/list.html?sido=경북" class="sido-chip">
-          경북
-          <span class="count">13명</span>
-        </a>
-    
-        <a href="/list.html?sido=인천" class="sido-chip">
-          인천
-          <span class="count">12명</span>
-        </a>
-    
-        <a href="/list.html?sido=대구" class="sido-chip">
-          대구
-          <span class="count">11명</span>
-        </a>
-    
-        <a href="/list.html?sido=전남" class="sido-chip">
-          전남
-          <span class="count">10명</span>
-        </a>
-    
-        <a href="/list.html?sido=충남" class="sido-chip">
-          충남
-          <span class="count">9명</span>
-        </a>
-    
-        <a href="/list.html?sido=강원" class="sido-chip">
-          강원
-          <span class="count">8명</span>
-        </a>
-    
-        <a href="/list.html?sido=전북" class="sido-chip">
-          전북
-          <span class="count">8명</span>
-        </a>
-    
-        <a href="/list.html?sido=충북" class="sido-chip">
-          충북
-          <span class="count">8명</span>
-        </a>
-    
-        <a href="/list.html?sido=광주" class="sido-chip">
-          광주
-          <span class="count">7명</span>
-        </a>
-    
-        <a href="/list.html?sido=대전" class="sido-chip">
-          대전
-          <span class="count">7명</span>
-        </a>
-    
-        <a href="/list.html?sido=울산" class="sido-chip">
-          울산
-          <span class="count">5명</span>
-        </a>
+    <svg class="korea-map" viewBox="0 0 340 460" xmlns="http://www.w3.org/2000/svg">
+      <!-- 강원특별자치도 (북동) -->
+      <a href="/list.html?sido=강원"><g>
+        <path class="korea-region" d="M170,40 L300,55 L310,170 L210,180 L195,140 L165,120 Z"/>
+        <text class="korea-label" x="240" y="105">강원</text>
+        <text class="korea-count" x="240" y="122">8명</text>
+      </g></a>
+
+      <!-- 경기도 -->
+      <a href="/list.html?sido=경기"><g>
+        <path class="korea-region" d="M80,135 L165,120 L195,140 L210,180 L195,225 L100,230 L70,200 Z"/>
+        <text class="korea-label" x="135" y="180">경기</text>
+        <text class="korea-count" x="135" y="197">57명</text>
+      </g></a>
+
+      <!-- 서울 (경기 안의 작은 원) -->
+      <a href="/list.html?sido=서울"><g>
+        <circle class="korea-region" cx="125" cy="160" r="20" style="fill:#e61e2b"/>
+        <text class="korea-label" x="125" y="158" style="font-size:9px;">서울</text>
+        <text class="korea-count" x="125" y="170" style="font-size:8px;">48명</text>
+      </g></a>
+
+      <!-- 인천 -->
+      <a href="/list.html?sido=인천"><g>
+        <rect class="korea-region" x="55" y="160" width="40" height="35" rx="6"/>
+        <text class="korea-label" x="75" y="175">인천</text>
+        <text class="korea-count" x="75" y="187">12명</text>
+      </g></a>
+
+      <!-- 충북 -->
+      <a href="/list.html?sido=충북"><g>
+        <path class="korea-region" d="M195,225 L260,225 L265,290 L200,295 Z"/>
+        <text class="korea-label" x="225" y="255">충북</text>
+        <text class="korea-count" x="225" y="272">8명</text>
+      </g></a>
+
+      <!-- 충남 -->
+      <a href="/list.html?sido=충남"><g>
+        <path class="korea-region" d="M70,235 L195,230 L200,295 L80,300 Z"/>
+        <text class="korea-label" x="125" y="265">충남</text>
+        <text class="korea-count" x="125" y="282">9명</text>
+      </g></a>
+
+      <!-- 세종 (충남/충북 사이 작게) -->
+      <a href="/list.html?sido=세종"><g>
+        <circle class="korea-region" cx="178" cy="265" r="12"/>
+        <text class="korea-label" x="178" y="264" style="font-size:8px;">세종</text>
+        <text class="korea-count" x="178" y="275" style="font-size:7px;">2명</text>
+      </g></a>
+
+      <!-- 대전 -->
+      <a href="/list.html?sido=대전"><g>
+        <circle class="korea-region" cx="170" cy="295" r="14"/>
+        <text class="korea-label" x="170" y="293" style="font-size:9px;">대전</text>
+        <text class="korea-count" x="170" y="304" style="font-size:8px;">7명</text>
+      </g></a>
+
+      <!-- 경북 -->
+      <a href="/list.html?sido=경북"><g>
+        <path class="korea-region" d="M260,180 L310,170 L320,340 L265,335 L260,225 Z"/>
+        <text class="korea-label" x="290" y="250">경북</text>
+        <text class="korea-count" x="290" y="267">13명</text>
+      </g></a>
+
+      <!-- 대구 -->
+      <a href="/list.html?sido=대구"><g>
+        <circle class="korea-region" cx="280" cy="305" r="18"/>
+        <text class="korea-label" x="280" y="303" style="font-size:9px;">대구</text>
+        <text class="korea-count" x="280" y="315" style="font-size:8px;">11명</text>
+      </g></a>
+
+      <!-- 경남 -->
+      <a href="/list.html?sido=경남"><g>
+        <path class="korea-region" d="M210,330 L300,335 L310,400 L220,405 Z"/>
+        <text class="korea-label" x="260" y="365">경남</text>
+        <text class="korea-count" x="260" y="382">16명</text>
+      </g></a>
+
+      <!-- 울산 -->
+      <a href="/list.html?sido=울산"><g>
+        <rect class="korea-region" x="305" y="345" width="32" height="32" rx="6"/>
+        <text class="korea-label" x="321" y="358">울산</text>
+        <text class="korea-count" x="321" y="370">5명</text>
+      </g></a>
+
+      <!-- 부산 -->
+      <a href="/list.html?sido=부산"><g>
+        <circle class="korea-region" cx="295" cy="395" r="18"/>
+        <text class="korea-label" x="295" y="393" style="font-size:9px;">부산</text>
+        <text class="korea-count" x="295" y="405" style="font-size:8px;">17명</text>
+      </g></a>
+
+      <!-- 전북 -->
+      <a href="/list.html?sido=전북"><g>
+        <path class="korea-region" d="M85,305 L200,300 L210,375 L100,370 Z"/>
+        <text class="korea-label" x="145" y="335">전북</text>
+        <text class="korea-count" x="145" y="352">8명</text>
+      </g></a>
+
+      <!-- 전남 -->
+      <a href="/list.html?sido=전남"><g>
+        <path class="korea-region" d="M75,375 L210,378 L220,410 L150,440 L80,420 Z"/>
+        <text class="korea-label" x="145" y="405">전남</text>
+        <text class="korea-count" x="145" y="422">10명</text>
+      </g></a>
+
+      <!-- 광주 -->
+      <a href="/list.html?sido=광주"><g>
+        <circle class="korea-region" cx="120" cy="395" r="14"/>
+        <text class="korea-label" x="120" y="393" style="font-size:9px;">광주</text>
+        <text class="korea-count" x="120" y="404" style="font-size:8px;">7명</text>
+      </g></a>
+
+      <!-- 제주 -->
+      <a href="/list.html?sido=제주"><g>
+        <ellipse class="korea-region" cx="100" cy="450" rx="34" ry="16"/>
+        <text class="korea-label" x="100" y="448" style="font-size:9px;">제주</text>
+        <text class="korea-count" x="100" y="460" style="font-size:8px;">2명</text>
+      </g></a>
+
+      <!-- 비례대표 (지도 오른쪽 하단 안내) -->
+      <a href="/list.html?sido=비례대표"><g>
+        <rect class="korea-region" x="210" y="430" width="115" height="30" rx="14" style="fill:#64748b"/>
+        <text class="korea-label" x="267" y="446" style="font-size:10px;">비례대표</text>
+        <text class="korea-count" x="267" y="459" style="font-size:8px;">46명</text>
+      </g></a>
+    </svg>
     
         </div>
       </div>
@@ -304,6 +367,12 @@
               <span class="party-tag party-민주">더불어민주당</span>
             </div>
             <div class="person-meta">전북 정읍시고창군</div>
+            <div class="rank-bar-wrap">
+              <div class="rank-bar" style="width:100.0%"></div>
+            </div>
+            <div class="person-meta" style="font-size:11px;color:#0a8050;font-weight:600;">
+              ✓ 통과 4건 (가결률 1.3%)
+            </div>
             <div class="featured-bill" title="지방세특례제한법 일부개정법률안">📜 지방세특례제한법 일부개정법률안</div>
           </div>
         </div>
@@ -320,6 +389,12 @@
               <span class="party-tag party-민주">더불어민주당</span>
             </div>
             <div class="person-meta">경기 성남시중원구</div>
+            <div class="rank-bar-wrap">
+              <div class="rank-bar" style="width:71.0%"></div>
+            </div>
+            <div class="person-meta" style="font-size:11px;color:#0a8050;font-weight:600;">
+              ✓ 통과 10건 (가결률 4.7%)
+            </div>
             <div class="featured-bill" title="국유재산특례제한법 일부개정법률안">📜 국유재산특례제한법 일부개정법률안</div>
           </div>
         </div>
@@ -336,6 +411,12 @@
               <span class="party-tag party-민주">더불어민주당</span>
             </div>
             <div class="person-meta">인천 서구을</div>
+            <div class="rank-bar-wrap">
+              <div class="rank-bar" style="width:54.0%"></div>
+            </div>
+            <div class="person-meta" style="font-size:11px;color:#0a8050;font-weight:600;">
+              ✓ 통과 0건 (가결률 0.0%)
+            </div>
             <div class="featured-bill" title="근로기준법 일부개정법률안">📜 근로기준법 일부개정법률안</div>
           </div>
         </div>
@@ -352,6 +433,12 @@
               <span class="party-tag party-민주">더불어민주당</span>
             </div>
             <div class="person-meta">서울 강서구병</div>
+            <div class="rank-bar-wrap">
+              <div class="rank-bar" style="width:50.3%"></div>
+            </div>
+            <div class="person-meta" style="font-size:11px;color:#0a8050;font-weight:600;">
+              ✓ 통과 1건 (가결률 0.7%)
+            </div>
             <div class="featured-bill" title="국민연금법 일부개정법률안">📜 국민연금법 일부개정법률안</div>
           </div>
         </div>
@@ -368,6 +455,12 @@
               <span class="party-tag party-국힘">국민의힘</span>
             </div>
             <div class="person-meta">경기 여주시양평군</div>
+            <div class="rank-bar-wrap">
+              <div class="rank-bar" style="width:49.3%"></div>
+            </div>
+            <div class="person-meta" style="font-size:11px;color:#0a8050;font-weight:600;">
+              ✓ 통과 12건 (가결률 8.1%)
+            </div>
             <div class="featured-bill" title="교원의 지위 향상 및 교육활동 보호를 위한 특별법 일부개정법률안">📜 교원의 지위 향상 및 교육활동 보호를 위한 특별법 일부개정법률안</div>
           </div>
         </div>
@@ -532,6 +625,16 @@
         <div class="section-title">🧭 둘러보기</div>
         <div class="section-sub">관심 있는 방식으로 의원을 탐색하세요</div>
         <div class="browse-grid">
+          <a href="/match.html" class="browse-card" style="background:linear-gradient(135deg,#fff7ed 0%,#ffe9d4 100%);border-color:var(--color-accent-soft);">
+            <div class="browse-icon">🎯</div>
+            <div class="browse-title">나와 닮은 의원 찾기</div>
+            <div class="browse-desc">7개 질문 가치관 테스트</div>
+          </a>
+          <a href="/stories.html" class="browse-card">
+            <div class="browse-icon">🎙</div>
+            <div class="browse-title">의원실 이야기</div>
+            <div class="browse-desc">보좌관·의원 직접 영상</div>
+          </a>
           <a href="/list.html" class="browse-card">
             <div class="browse-icon">📋</div>
             <div class="browse-title">전체 의원 목록</div>
@@ -542,10 +645,10 @@
             <div class="browse-title">발의 활동 순</div>
             <div class="browse-desc">법안 발의 많은 순</div>
           </a>
-          <a href="/list.html?party=더불어민주당" class="browse-card">
-            <div class="browse-icon">🏛</div>
-            <div class="browse-title">정당별 보기</div>
-            <div class="browse-desc">8개 정당 의원</div>
+          <a href="/learn.html" class="browse-card">
+            <div class="browse-icon">📚</div>
+            <div class="browse-title">정치 배움터</div>
+            <div class="browse-desc">기초 용어·진보보수·국회</div>
           </a>
           <a href="/list.html?elect=비례대표" class="browse-card">
             <div class="browse-icon">📊</div>
@@ -569,15 +672,15 @@
       
     <div class="ad-slot">
       <span class="ad-label">AD</span>
-      <a href="#" class="ad-content" target="_blank" rel="sponsored noopener">
+      <a href="https://youtube.com/@cocoyo_sale" class="ad-content" target="_blank" rel="sponsored noopener">
         <div class="ad-row">
           <div class="ad-thumb">🎥</div>
           <div class="ad-text">
-            <div class="ad-brand">영상쇼핑 홀릭</div>
+            <div class="ad-brand">코코요 (COCOYO)</div>
             <div class="ad-title">라이브로 만나는 쇼핑의 새 경험</div>
-            <div class="ad-desc">의류·잡화·신발·향수·미용제품을 라이브 방송으로 합리적으로</div>
+            <div class="ad-desc">의류·잡화·신발·향수·미용제품을 라이브 방송으로 합리적으로 · 유튜브 채널 구독하기</div>
           </div>
-          <div class="ad-cta">자세히 →</div>
+          <div class="ad-cta">구독 →</div>
         </div>
       </a>
     </div>
@@ -593,7 +696,7 @@
 
       <div class="footer-info">
         © 2026 정치탈탈 · 본 서비스는 비영리 데이터 시각화 플랫폼입니다<br>
-        정보 정정 요청: contact@politaltal.com
+        정보 정정 요청: jihoony8282@naver.com
       </div>
     </div>
 
@@ -652,6 +755,52 @@
         '경상북도': '경북', '경상남도': '경남',
         '제주특별자치도': '제주',
       };
+
+      // ──── GPS 위치 기반 의원 찾기 ────
+      function findByGPS() {
+        const box = document.getElementById('addressResults');
+        if (!navigator.geolocation) {
+          alert('이 브라우저는 위치 정보를 지원하지 않습니다.');
+          return;
+        }
+        box.innerHTML = '<div class="address-resolved">📍 현재 위치 확인 중... (위치 권한 허용 필요)</div>';
+
+        navigator.geolocation.getCurrentPosition(
+          function(pos) {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            // OpenStreetMap Nominatim 역지오코딩 (무료, 키 불필요, 한글 지원)
+            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=ko&zoom=12`;
+            fetch(url, { headers: { 'User-Agent': 'politaltal/0.3' } })
+              .then(r => r.json())
+              .then(data => {
+                const addr = data.address || {};
+                const sidoRaw = addr.province || addr.state || addr.city || '';
+                const sigungu = addr.borough || addr.county || addr.city_district || addr.suburb || addr.city || '';
+                const sido = SIDO_NORMALIZE[sidoRaw] || sidoRaw.replace(/(특별시|광역시|특별자치시|특별자치도|도)$/, '');
+                const fullAddress = data.display_name || `위도 ${lat.toFixed(4)}, 경도 ${lng.toFixed(4)}`;
+                const dong = addr.neighbourhood || addr.quarter || '';
+                if (!sido) {
+                  box.innerHTML = `<div class="address-empty">위치를 인식하지 못했습니다. 주소로 직접 입력해주세요.</div>`;
+                  return;
+                }
+                findByAddress(sido, sigungu, fullAddress, dong);
+              })
+              .catch(err => {
+                console.error('역지오코딩 실패:', err);
+                box.innerHTML = `<div class="address-empty">위치 정보 조회 실패. 주소로 직접 입력해주세요.</div>`;
+              });
+          },
+          function(err) {
+            let msg = '위치 정보를 가져올 수 없습니다.';
+            if (err.code === 1) msg = '위치 권한이 거부되었습니다. 브라우저 설정에서 허용해주세요.';
+            else if (err.code === 2) msg = '위치를 확인할 수 없습니다.';
+            else if (err.code === 3) msg = '위치 확인 시간이 초과되었습니다.';
+            box.innerHTML = `<div class="address-empty">${msg}</div>`;
+          },
+          { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
+        );
+      }
 
       function openAddressSearch() {
         if (typeof daum === 'undefined' || !daum.Postcode) {
@@ -768,7 +917,10 @@
       <span class="icon">🏠</span>홈
     </a>
     <a href="/list.html" class="">
-      <span class="icon">📋</span>의원 목록
+      <span class="icon">📋</span>의원
+    </a>
+    <a href="/stories.html" class="">
+      <span class="icon">🎙</span>의원실
     </a>
     <a href="/community.html" class="">
       <span class="icon">💬</span>커뮤니티
