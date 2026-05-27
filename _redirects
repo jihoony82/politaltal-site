@@ -1,0 +1,7 @@
+# 정치탈탈.com (한글 punycode) → politaltal.com (영문 정규)
+# SEO·외부 링크 안정성을 위해 모든 트래픽을 영문 도메인으로 통일
+https://xn--2y5bo8ir4ba.com/*  https://politaltal.com/:splat  301
+https://www.xn--2y5bo8ir4ba.com/*  https://politaltal.com/:splat  301
+
+# www → root 통일
+https://www.politaltal.com/*  https://politaltal.com/:splat  301

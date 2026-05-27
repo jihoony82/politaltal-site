@@ -1,0 +1,554 @@
+
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css');
+
+:root {
+  --color-primary: #0a2540;
+  --color-primary-soft: #1c3d5a;
+  --color-accent: #ff5e3a;
+  --color-accent-soft: #ff8267;
+  --color-success: #00a060;
+  --color-warn: #f59e0b;
+  --color-danger: #dc2626;
+  --color-bg: #f7f9fc;
+  --color-card: #ffffff;
+  --color-text: #0a2540;
+  --color-text-soft: #64748b;
+  --color-border: #e2e8f0;
+  --shadow-sm: 0 1px 2px rgba(10, 37, 64, 0.05);
+  --shadow-md: 0 4px 12px rgba(10, 37, 64, 0.08);
+  --shadow-lg: 0 8px 32px rgba(10, 37, 64, 0.12);
+  --radius: 12px;
+  --radius-lg: 20px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+/* ─── 헤더 ───────────────────────────────────────── */
+.app-header {
+  background: var(--color-card);
+  border-bottom: 1px solid var(--color-border);
+  padding: 14px 0;
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.95);
+}
+.app-header .container { display: flex; align-items: center; justify-content: space-between; }
+.brand {
+  font-size: 17px; font-weight: 700; letter-spacing: -0.3px;
+  color: var(--color-primary); display: flex; align-items: center; gap: 6px;
+}
+.brand-emoji { font-size: 20px; }
+.brand-sub {
+  font-size: 11px; color: var(--color-text-soft); font-weight: 500;
+}
+
+/* ─── 히어로 ───────────────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, #0a2540 0%, #1c3d5a 100%);
+  color: white;
+  padding: 48px 0 56px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -100px; right: -100px;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 94, 58, 0.15) 0%, transparent 70%);
+}
+.hero-eyebrow {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  padding: 4px 10px; background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px; margin-bottom: 14px;
+  color: #ffd4c8; letter-spacing: 0.3px;
+}
+.hero-title {
+  font-size: 30px; font-weight: 800; line-height: 1.25;
+  letter-spacing: -0.8px; margin-bottom: 12px;
+}
+.hero-title em {
+  color: var(--color-accent-soft); font-style: normal;
+  display: inline-block;
+}
+.hero-sub {
+  font-size: 15px; color: rgba(255, 255, 255, 0.78);
+  line-height: 1.6; letter-spacing: -0.2px;
+}
+.hero-stats {
+  display: flex; gap: 24px; margin-top: 28px;
+  padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+.hero-stat .num {
+  font-size: 22px; font-weight: 700; letter-spacing: -0.5px;
+}
+.hero-stat .label {
+  font-size: 11px; color: rgba(255, 255, 255, 0.65);
+  margin-top: 2px; letter-spacing: 0.3px;
+}
+
+/* ─── 섹션 공통 ───────────────────────────────────── */
+section { padding: 32px 0; }
+.section-title {
+  font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+.section-sub {
+  font-size: 13px; color: var(--color-text-soft);
+  margin-bottom: 20px; letter-spacing: -0.2px;
+}
+
+/* ─── 지역구 찾기 카드 ──────────────────────────────── */
+.search-card {
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  margin-top: -28px;
+  position: relative;
+  z-index: 2;
+}
+.search-card .label {
+  font-size: 13px; font-weight: 600; color: var(--color-text-soft);
+  margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+}
+.search-card .hook {
+  font-size: 19px; font-weight: 700; letter-spacing: -0.4px;
+  margin-bottom: 16px; color: var(--color-primary);
+}
+.search-input-wrap {
+  position: relative;
+}
+.search-input {
+  width: 100%; padding: 14px 16px 14px 44px;
+  border: 2px solid var(--color-border); border-radius: 10px;
+  font-size: 15px; font-family: inherit;
+  transition: border-color 0.2s;
+  background: white;
+}
+.search-input:focus {
+  outline: none; border-color: var(--color-accent);
+}
+.search-icon {
+  position: absolute; left: 14px; top: 50%;
+  transform: translateY(-50%); color: var(--color-text-soft);
+}
+.search-results {
+  margin-top: 8px; max-height: 280px; overflow-y: auto;
+  border-radius: 10px;
+}
+.search-results.has-results { background: #f8fafc; padding: 4px; }
+.search-result {
+  display: flex; padding: 10px 12px; border-radius: 8px;
+  text-decoration: none; color: var(--color-text);
+  align-items: center; justify-content: space-between;
+}
+.search-result:hover { background: white; }
+.search-result .name { font-weight: 600; font-size: 14px; }
+.search-result .district { font-size: 12px; color: var(--color-text-soft); }
+
+.sido-list {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+  margin-top: 14px;
+}
+.sido-chip {
+  padding: 10px 8px; text-align: center; font-size: 13px;
+  background: #f1f5f9; border-radius: 8px; cursor: pointer;
+  font-weight: 500; color: var(--color-primary);
+  border: 1px solid transparent;
+  transition: all 0.15s;
+}
+.sido-chip:hover { background: white; border-color: var(--color-accent); color: var(--color-accent); }
+.sido-chip .count { display: block; font-size: 10px; color: var(--color-text-soft); margin-top: 2px; font-weight: 400; }
+
+/* ─── 인사이트 카드 ─────────────────────────────────── */
+.insight-grid {
+  display: grid; gap: 12px;
+}
+.insight-card {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+.insight-card .badge {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  padding: 3px 8px; border-radius: 4px; background: #fff0eb;
+  color: var(--color-accent); margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+.insight-card .insight-title {
+  font-size: 16px; font-weight: 700; letter-spacing: -0.3px;
+  margin-bottom: 10px;
+}
+.insight-card .insight-body { font-size: 14px; color: var(--color-text-soft); line-height: 1.6; }
+.insight-rank {
+  list-style: none; margin-top: 10px;
+}
+.insight-rank li {
+  padding: 8px 0; border-top: 1px solid var(--color-border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.insight-rank li:first-child { border: none; }
+.insight-rank .rank-num {
+  font-size: 13px; font-weight: 700; color: var(--color-accent);
+  width: 18px; display: inline-block;
+}
+.insight-rank .rank-name { font-weight: 600; font-size: 14px; }
+.insight-rank .rank-meta { font-size: 11px; color: var(--color-text-soft); margin-top: 1px; }
+.insight-rank .rank-value { font-size: 14px; font-weight: 700; color: var(--color-primary); }
+
+/* ─── 둘러보기 ───────────────────────────────────── */
+.browse-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+}
+.browse-card {
+  background: var(--color-card); border-radius: var(--radius); padding: 18px;
+  border: 1px solid var(--color-border);
+  text-decoration: none; color: inherit;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.browse-card:hover {
+  transform: translateY(-2px); box-shadow: var(--shadow-md);
+}
+.browse-card .browse-icon { font-size: 22px; margin-bottom: 8px; }
+.browse-card .browse-title { font-weight: 700; font-size: 15px; }
+.browse-card .browse-desc { font-size: 12px; color: var(--color-text-soft); margin-top: 4px; }
+
+/* ─── 정당 태그 ─────────────────────────────────── */
+.party-tag {
+  display: inline-block; padding: 2px 7px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; color: white;
+  background: #64748b; letter-spacing: -0.2px;
+}
+.party-민주 { background: #004ea2; }
+.party-국힘 { background: #e61e2b; }
+.party-조국 { background: #0073cf; }
+.party-진보 { background: #d6001c; }
+.party-개혁 { background: #ff7920; }
+.party-기본 { background: #00b140; }
+.party-사민 { background: #c5b400; }
+.party-무 { background: #64748b; }
+
+/* ─── 의원 상세 페이지 ──────────────────────────────── */
+.profile-card {
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
+}
+.profile-head { display: flex; gap: 16px; align-items: flex-start; }
+.profile-avatar {
+  width: 84px; height: 104px; border-radius: 8px;
+  background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 11px; font-weight: 600;
+  flex-shrink: 0;
+}
+.profile-name {
+  font-size: 24px; font-weight: 800; letter-spacing: -0.6px;
+}
+.profile-meta {
+  font-size: 13px; color: var(--color-text-soft);
+  margin-top: 4px; line-height: 1.6;
+}
+.profile-tags { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+.tag {
+  display: inline-block; padding: 3px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600;
+  background: #f1f5f9; color: var(--color-text);
+}
+
+.stat-card {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.stat-card h2 {
+  font-size: 15px; font-weight: 700; color: var(--color-text);
+  margin-bottom: 16px; display: flex; align-items: center; gap: 6px;
+}
+.stat-row {
+  display: flex; justify-content: space-between;
+  align-items: baseline; margin-bottom: 6px;
+}
+.stat-label { font-size: 13px; color: var(--color-text); font-weight: 500; }
+.stat-value { font-size: 15px; font-weight: 700; }
+.stat-value-accent { color: var(--color-accent); }
+.bar-wrap {
+  background: #f1f5f9; height: 8px; border-radius: 4px;
+  overflow: hidden; margin-bottom: 14px;
+}
+.bar {
+  height: 100%; background: var(--color-primary); border-radius: 4px;
+  transition: width 0.4s;
+}
+.bar.accent { background: var(--color-accent); }
+.bar.success { background: var(--color-success); }
+.bar.warn { background: var(--color-warn); }
+.bar.danger { background: var(--color-danger); }
+
+.source-note {
+  font-size: 11px; color: var(--color-text-soft);
+  margin-top: 4px;
+}
+
+/* 법안 항목 */
+.bill-item {
+  padding: 12px 0; border-bottom: 1px solid var(--color-border);
+}
+.bill-item:last-child { border: none; padding-bottom: 0; }
+.bill-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; line-height: 1.5; }
+.bill-meta { font-size: 12px; color: var(--color-text-soft); display: flex; gap: 8px; align-items: center; }
+.bill-status {
+  display: inline-block; padding: 1px 7px; border-radius: 4px;
+  font-size: 10px; font-weight: 600;
+}
+.bill-status.passed { background: #d1fae5; color: #065f46; }
+.bill-status.pending { background: #fef3c7; color: #92400e; }
+.bill-status.failed { background: #fee2e2; color: #991b1b; }
+
+/* 툴팁 (data-tooltip 속성으로 동작) */
+[data-tooltip] {
+  position: relative; cursor: help;
+  text-decoration: underline dotted rgba(255, 255, 255, 0.4);
+  text-underline-offset: 3px;
+}
+[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute; bottom: calc(100% + 8px); left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 37, 64, 0.95); color: white;
+  padding: 8px 12px; border-radius: 8px;
+  font-size: 12px; font-weight: 500;
+  white-space: nowrap; z-index: 200;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+[data-tooltip]:hover::before {
+  content: ''; position: absolute; bottom: calc(100% + 2px); left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(10, 37, 64, 0.95);
+  z-index: 200;
+}
+
+/* 인사이트 카드 - 발의 TOP 5 새 레이아웃 */
+.rank-with-count {
+  display: flex; align-items: flex-start; gap: 12px; padding: 12px 0;
+  border-top: 1px solid var(--color-border);
+}
+.rank-with-count:first-child { border: none; padding-top: 4px; }
+.rank-with-count .count-block {
+  min-width: 56px; text-align: right;
+  flex-shrink: 0;
+}
+.rank-with-count .count-num {
+  font-size: 22px; font-weight: 800; color: var(--color-accent);
+  letter-spacing: -0.8px; line-height: 1;
+}
+.rank-with-count .count-unit {
+  font-size: 11px; color: var(--color-text-soft);
+  margin-top: 2px;
+}
+.rank-with-count .person-thumb {
+  width: 40px; height: 40px; border-radius: 50%;
+  object-fit: cover; object-position: center 25%;
+  flex-shrink: 0; background: #e2e8f0;
+}
+.rank-with-count .person-info { flex: 1; min-width: 0; }
+.rank-with-count .person-name {
+  font-weight: 700; font-size: 14px;
+  display: flex; align-items: center; gap: 6px;
+}
+.rank-with-count .person-meta {
+  font-size: 11px; color: var(--color-text-soft);
+  margin-top: 2px;
+}
+.rank-with-count .featured-bill {
+  font-size: 12px; color: var(--color-text); margin-top: 4px;
+  background: #f1f5f9; padding: 4px 8px; border-radius: 6px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+  border-left: 2px solid var(--color-accent);
+}
+
+/* 좌우 2분할 랭킹 카드 */
+.split-rank {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin-top: 12px;
+}
+.split-rank .split-col h4 {
+  font-size: 12px; font-weight: 700;
+  color: var(--color-text-soft); margin-bottom: 8px;
+  padding-bottom: 6px; border-bottom: 2px solid var(--color-border);
+  letter-spacing: -0.2px;
+}
+.split-rank ul { list-style: none; }
+.split-rank li {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 0; font-size: 12px;
+}
+.split-rank .mini-thumb {
+  width: 24px; height: 24px; border-radius: 50%;
+  object-fit: cover; object-position: center 25%;
+  flex-shrink: 0; background: #e2e8f0;
+}
+.split-rank .mini-name { font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.split-rank .mini-value {
+  font-weight: 700; font-size: 12px; color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+@media (max-width: 400px) {
+  .split-rank { grid-template-columns: 1fr; }
+}
+
+/* 의원 목록 (list.html) */
+.member-list { display: grid; gap: 8px; }
+.member-row {
+  background: var(--color-card); border-radius: var(--radius); padding: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+  text-decoration: none; color: inherit;
+  border: 1px solid transparent;
+  transition: all 0.15s; gap: 12px;
+}
+.member-row:hover { border-color: var(--color-accent); transform: translateX(2px); }
+.member-row-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+.member-row-right { text-align: right; flex-shrink: 0; }
+.member-info { flex: 1; min-width: 0; }
+.member-info .name { font-weight: 700; font-size: 15px; }
+.member-info .name-meta {
+  font-size: 12px; color: var(--color-text-soft);
+  margin-top: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* 의원 사진 (썸네일) */
+.avatar-thumb {
+  width: 52px; height: 52px; border-radius: 50%;
+  object-fit: cover; object-position: center 25%;
+  background: #e2e8f0; flex-shrink: 0;
+  border: 2px solid #f1f5f9;
+}
+.avatar-placeholder {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 18px; font-weight: 700;
+  flex-shrink: 0; border: 2px solid #f1f5f9;
+}
+
+/* 검색 결과의 작은 썸네일 */
+.search-result {
+  gap: 10px;
+}
+.search-result-thumb {
+  width: 36px; height: 36px; border-radius: 50%;
+  object-fit: cover; object-position: center 25%;
+  background: #e2e8f0; flex-shrink: 0;
+}
+.search-result-info { flex: 1; min-width: 0; }
+
+/* 인사이트 카드 의원 썸네일 */
+.rank-thumb {
+  width: 32px; height: 32px; border-radius: 50%;
+  object-fit: cover; object-position: center 25%;
+  margin-right: 8px; vertical-align: middle;
+  background: #e2e8f0;
+}
+
+/* 의원 상세 페이지 - 큰 사진 */
+.profile-avatar-img {
+  width: 92px; height: 116px; border-radius: 10px;
+  object-fit: cover; object-position: center 20%;
+  background: #e2e8f0;
+  flex-shrink: 0;
+}
+
+/* 세부지역(시군구) 필터 칩 */
+.sigungu-bar {
+  display: flex; gap: 6px; overflow-x: auto;
+  padding-bottom: 8px; margin-bottom: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+.sigungu-bar::-webkit-scrollbar { height: 4px; }
+.sigungu-bar::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
+.sigungu-chip {
+  padding: 6px 12px; font-size: 12px; font-weight: 500;
+  background: white; border: 1px solid var(--color-border);
+  border-radius: 999px; white-space: nowrap; cursor: pointer;
+  color: var(--color-text); flex-shrink: 0;
+}
+.sigungu-chip:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.sigungu-chip.active {
+  background: var(--color-primary); color: white; border-color: var(--color-primary);
+}
+
+/* 필터바 */
+.filter-bar {
+  display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.filter-bar select, .filter-bar input {
+  padding: 10px 14px; border: 1px solid var(--color-border);
+  border-radius: 8px; font-size: 13px; background: white;
+  font-family: inherit;
+}
+.filter-bar input { flex: 1; min-width: 120px; }
+.filter-bar input:focus, .filter-bar select:focus {
+  outline: none; border-color: var(--color-accent);
+}
+
+/* 디스클레이머 / 푸터 */
+.disclaimer {
+  background: white; border-radius: var(--radius);
+  padding: 20px; font-size: 12px; color: var(--color-text-soft);
+  line-height: 1.7; margin-top: 16px;
+  border-left: 3px solid var(--color-accent);
+}
+.footer-info {
+  text-align: center; padding: 32px 16px;
+  color: var(--color-text-soft); font-size: 11px;
+  line-height: 1.7;
+}
+
+/* 하단 네비 */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--color-border);
+  display: flex; padding: 8px 0; z-index: 100;
+}
+.bottom-nav a {
+  flex: 1; text-align: center; padding: 6px;
+  font-size: 11px; color: var(--color-text-soft);
+  text-decoration: none; font-weight: 500;
+}
+.bottom-nav a.active { color: var(--color-accent); font-weight: 700; }
+.bottom-nav .icon { display: block; font-size: 20px; margin-bottom: 2px; }
+
+main { padding-bottom: 88px; }
+
+a { color: var(--color-primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.back-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 13px; color: var(--color-text-soft);
+  font-weight: 500; margin: 16px 0;
+}
+.back-link:hover { color: var(--color-primary); text-decoration: none; }
