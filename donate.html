@@ -45,32 +45,78 @@
       </div>
 
       <div class="stat-card">
-        <h2>💳 후원 방법</h2>
+        <h2>💳 간편 후원 (지금 바로 가능)</h2>
+        <div class="donate-options">
+          <a href="https://qr.kakaopay.com/Ej9JMVIgN" class="donate-card" target="_blank" rel="noopener">
+            <div class="donate-icon">💛</div>
+            <h4>카카오페이 송금</h4>
+            <p>1,000원부터 1초 만에<br>탭하면 카카오톡 앱이 열려요</p>
+          </a>
+          <div class="donate-card" onclick="copyAccount(event)" style="cursor:pointer;">
+            <div class="donate-icon">🏦</div>
+            <h4>계좌이체</h4>
+            <p style="font-family:'SF Mono',Menlo,monospace;font-size:13px;font-weight:700;color:var(--color-primary);margin:4px 0;">
+              토스뱅크<br>1001-4435-3586
+            </p>
+            <p style="font-size:11px;">예금주: 김x훈</p>
+            <div style="margin-top:8px;padding:6px 10px;background:var(--color-accent);
+                        color:white;border-radius:6px;font-size:12px;font-weight:700;display:inline-block;">
+              📋 계좌번호 복사
+            </div>
+          </div>
+        </div>
+        <div class="source-note" style="margin-top:12px;">
+          후원금은 수수료 0%로 운영자에게 직접 전달됩니다. 카카오페이는 앱 자동 실행, 계좌이체는 카드 탭 시 복사됩니다.
+        </div>
+      </div>
+
+      <div id="toast" style="position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
+                              background:var(--color-primary);color:white;padding:12px 20px;
+                              border-radius:24px;font-size:13px;font-weight:600;
+                              opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:1000;
+                              box-shadow:0 4px 16px rgba(0,0,0,0.2);">
+        ✅ 계좌번호가 복사되었습니다
+      </div>
+
+      <script>
+        function copyAccount(e) {
+          e.preventDefault();
+          const account = '1001-4435-3586';
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(account).then(() => showToast());
+          } else {
+            // 폴백: textarea + execCommand
+            const ta = document.createElement('textarea');
+            ta.value = account; document.body.appendChild(ta);
+            ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+            showToast();
+          }
+        }
+        function showToast() {
+          const t = document.getElementById('toast');
+          t.style.opacity = '1';
+          setTimeout(() => { t.style.opacity = '0'; }, 2000);
+        }
+      </script>
+
+      <div class="stat-card">
+        <h2>🎨 정기·콘텐츠 후원 (준비 중)</h2>
         <div class="donate-options">
           <a href="#" class="donate-card" target="_blank" rel="noopener">
-            <div class="donate-icon">☕</div>
-            <h4>Buy Me a Coffee</h4>
-            <p>$3부터 일회성 후원<br>해외 카드 결제도 가능</p>
-          </a>
-          <a href="#" class="donate-card" target="_blank" rel="noopener">
-            <div class="donate-icon">💛</div>
-            <h4>카카오페이</h4>
-            <p>1,000원부터 간편 송금<br>가장 빠른 방법</p>
+            <div class="donate-icon">🎁</div>
+            <h4>포스타입 정기 후원</h4>
+            <p>매월 자동 후원 + 멤버십 콘텐츠<br>(준비 중)</p>
           </a>
           <a href="#" class="donate-card" target="_blank" rel="noopener">
             <div class="donate-icon">🏦</div>
             <h4>계좌이체</h4>
             <p>은행 직접 송금<br>(준비 중)</p>
           </a>
-          <a href="#" class="donate-card" target="_blank" rel="noopener">
-            <div class="donate-icon">🎁</div>
-            <h4>정기 후원</h4>
-            <p>매월 자동 후원<br>(준비 중)</p>
-          </a>
         </div>
-        <div class="source-note" style="margin-top:16px;">
+        <div class="source-note" style="margin-top:12px;">
           ⚠️ 본 후원은 <strong>정치탈탈 서비스 운영</strong>을 위한 것이며,
-          <strong>특정 정당·후보·정치인에 대한 정치자금이 아닙니다</strong>. (정치자금법 무관)
+          <strong>특정 정당·후보·정치인에 대한 정치자금이 아닙니다</strong>. (정치자금법 무관)<br>
+          정식 PG(토스 페이먼츠)는 사업자 등록 완료 후 도입 예정.
         </div>
       </div>
 
