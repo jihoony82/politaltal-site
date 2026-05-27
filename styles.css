@@ -714,6 +714,139 @@ a:hover { text-decoration: underline; }
 }
 .back-link:hover { color: var(--color-primary); text-decoration: none; }
 
+/* ─── 광고 자리 ───────────────────────────────────── */
+.ad-slot {
+  position: relative;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 20px 0;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.ad-slot:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.ad-label {
+  position: absolute; top: 8px; right: 8px;
+  font-size: 9px; font-weight: 700;
+  padding: 2px 6px; border-radius: 3px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-text-soft);
+  border: 1px solid var(--color-border);
+  letter-spacing: 0.5px; z-index: 2;
+}
+.ad-content {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, #fff7f3 0%, #fff 60%);
+}
+.ad-content:hover { text-decoration: none; }
+.ad-row { display: flex; gap: 14px; align-items: center; }
+.ad-thumb {
+  width: 56px; height: 56px; border-radius: 12px;
+  background: linear-gradient(135deg, #ff5e3a, #ff8267);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(255, 94, 58, 0.3);
+}
+.ad-text { flex: 1; min-width: 0; }
+.ad-brand {
+  font-size: 11px; font-weight: 700; color: var(--color-accent);
+  letter-spacing: 0.5px; text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.ad-title {
+  font-size: 15px; font-weight: 700; color: var(--color-text);
+  margin-bottom: 3px; line-height: 1.3;
+}
+.ad-desc {
+  font-size: 12px; color: var(--color-text-soft);
+  line-height: 1.5;
+}
+.ad-cta {
+  color: var(--color-accent); font-size: 13px; font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ─── 후원 배지 + 페이지 ─────────────────────────── */
+.donate-banner {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffe9d4 100%);
+  border: 1px solid #fdba74;
+  border-radius: var(--radius);
+  padding: 16px 20px; margin: 20px 0;
+  display: flex; gap: 14px; align-items: center;
+}
+.donate-banner .icon {
+  font-size: 28px; flex-shrink: 0;
+}
+.donate-banner .text { flex: 1; }
+.donate-banner h3 {
+  font-size: 14px; font-weight: 800;
+  margin-bottom: 2px; color: #92400e;
+}
+.donate-banner p {
+  font-size: 12px; color: #78350f; line-height: 1.5;
+}
+.donate-banner a {
+  background: var(--color-accent); color: white;
+  padding: 8px 14px; border-radius: 8px;
+  font-size: 13px; font-weight: 700;
+  text-decoration: none; flex-shrink: 0;
+  transition: all 0.2s;
+}
+.donate-banner a:hover {
+  background: #e54a26;
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.donate-options {
+  display: grid; gap: 12px;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 16px;
+}
+@media (max-width: 540px) {
+  .donate-options { grid-template-columns: 1fr; }
+}
+.donate-card {
+  background: white; border-radius: var(--radius);
+  padding: 20px; border: 1px solid var(--color-border);
+  text-decoration: none; color: inherit;
+  transition: all 0.15s; text-align: center;
+}
+.donate-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+}
+.donate-card .donate-icon { font-size: 36px; margin-bottom: 8px; }
+.donate-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.donate-card p { font-size: 11px; color: var(--color-text-soft); line-height: 1.5; }
+
+/* ─── 외부 링크 (재산공개) ─────────────────────────── */
+.ext-link-card {
+  background: #f1f5f9; border-radius: var(--radius);
+  padding: 14px 16px; margin: 12px 0;
+  display: flex; gap: 12px; align-items: center;
+  text-decoration: none; color: inherit;
+  border-left: 3px solid #0ea5e9;
+  transition: all 0.15s;
+}
+.ext-link-card:hover {
+  background: #e0f2fe;
+  text-decoration: none;
+}
+.ext-link-card .ext-icon { font-size: 24px; flex-shrink: 0; }
+.ext-link-card .ext-info { flex: 1; }
+.ext-link-card .ext-title { font-size: 13px; font-weight: 700; color: #075985; }
+.ext-link-card .ext-desc { font-size: 11px; color: var(--color-text-soft); margin-top: 2px; }
+.ext-link-card .ext-arrow { font-size: 18px; color: #0ea5e9; }
+
 /* 커뮤니티 / 배움터 공통 */
 .coming-soon-banner {
   background: linear-gradient(135deg, #fff4f0 0%, #ffe8df 100%);
