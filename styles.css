@@ -46,11 +46,80 @@ body {
 .app-header .container { display: flex; align-items: center; justify-content: space-between; }
 .brand {
   font-size: 17px; font-weight: 700; letter-spacing: -0.3px;
-  color: var(--color-primary); display: flex; align-items: center; gap: 6px;
+  color: var(--color-primary); display: flex; align-items: center; gap: 8px;
 }
-.brand-emoji { font-size: 20px; }
+.brand-logo {
+  width: 28px; height: 28px;
+  display: inline-block; flex-shrink: 0;
+}
 .brand-sub {
   font-size: 11px; color: var(--color-text-soft); font-weight: 500;
+}
+
+/* 정당 로고 그리드 (히어로 하단) */
+.party-showcase {
+  margin-top: 24px; padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.party-showcase-title {
+  font-size: 11px; color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 10px; letter-spacing: 0.3px;
+}
+.party-grid {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.party-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 12px; color: white; font-weight: 500;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.party-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  display: inline-block;
+}
+.party-count { color: rgba(255, 255, 255, 0.55); font-size: 11px; }
+
+/* 좋아요 (관심 의원) 버튼 */
+.fav-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: 8px;
+  background: white; border: 1.5px solid var(--color-border);
+  font-size: 13px; font-weight: 600; color: var(--color-text);
+  cursor: pointer; font-family: inherit;
+  transition: all 0.15s;
+}
+.fav-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.fav-btn.active {
+  background: linear-gradient(135deg, #fff4f0 0%, #ffe5db 100%);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.fav-btn .heart { font-size: 14px; }
+.fav-btn.active .heart { animation: pop 0.3s ease; }
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+.fav-note {
+  font-size: 10px; color: var(--color-text-soft);
+  margin-top: 4px;
+}
+
+/* TOP5 카드의 의원 메타 (당명·지역구) */
+.split-rank li {
+  flex-wrap: wrap;
+}
+.split-rank .mini-info {
+  flex: 1; min-width: 0; display: flex; flex-direction: column;
+}
+.split-rank .mini-meta {
+  font-size: 10px; color: var(--color-text-soft);
+  margin-top: 1px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
 /* ─── 히어로 ───────────────────────────────────────── */
@@ -552,3 +621,112 @@ a:hover { text-decoration: underline; }
   font-weight: 500; margin: 16px 0;
 }
 .back-link:hover { color: var(--color-primary); text-decoration: none; }
+
+/* 커뮤니티 / 배움터 공통 */
+.coming-soon-banner {
+  background: linear-gradient(135deg, #fff4f0 0%, #ffe8df 100%);
+  border: 1px solid var(--color-accent-soft);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  font-size: 13px; color: var(--color-text);
+  line-height: 1.6;
+}
+.coming-soon-banner strong { color: var(--color-accent); }
+
+.sub-tabs {
+  display: flex; gap: 4px; overflow-x: auto;
+  margin: 16px 0; padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+.sub-tab {
+  padding: 10px 16px; font-size: 13px; font-weight: 600;
+  background: white; border: 1px solid var(--color-border);
+  border-radius: 999px; white-space: nowrap; cursor: pointer;
+  color: var(--color-text); flex-shrink: 0;
+}
+.sub-tab.active {
+  background: var(--color-primary); color: white;
+  border-color: var(--color-primary);
+}
+
+/* 커뮤니티 게시글 */
+.post-card {
+  background: white; border-radius: var(--radius);
+  padding: 16px; margin-bottom: 10px;
+  box-shadow: var(--shadow-sm); border: 1px solid var(--color-border);
+}
+.post-meta {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--color-text-soft);
+  margin-bottom: 8px;
+}
+.post-category {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  background: #eef2ff; color: #4338ca; font-weight: 600;
+}
+.post-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.post-preview {
+  font-size: 13px; color: var(--color-text-soft); line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.post-stats {
+  display: flex; gap: 12px; margin-top: 10px;
+  font-size: 11px; color: var(--color-text-soft);
+}
+
+.write-btn-floating {
+  position: fixed; bottom: 80px; right: 20px;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--color-accent); color: white;
+  font-size: 24px; border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(255, 94, 58, 0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 50;
+}
+
+/* 배움터 카드 */
+.learn-grid { display: grid; gap: 12px; }
+.learn-card {
+  background: white; border-radius: var(--radius);
+  padding: 20px; box-shadow: var(--shadow-sm);
+  border-left: 3px solid var(--color-accent);
+}
+.learn-card h3 {
+  font-size: 16px; font-weight: 800; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.learn-card p {
+  font-size: 13px; color: var(--color-text); line-height: 1.7;
+  margin-bottom: 8px;
+}
+.learn-card .term {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  background: #eef2ff; color: #4338ca; font-size: 12px;
+  font-weight: 600; margin: 4px 4px 0 0;
+}
+.learn-q {
+  background: #f1f5f9; border-radius: 8px;
+  padding: 12px 16px; margin: 12px 0;
+  font-size: 13px; font-weight: 600;
+  color: var(--color-primary);
+}
+.learn-a {
+  font-size: 13px; color: var(--color-text); line-height: 1.7;
+}
+.compare-table {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  margin: 12px 0;
+}
+.compare-cell {
+  padding: 14px; border-radius: 8px;
+  font-size: 12px; line-height: 1.6;
+}
+.compare-cell h4 {
+  font-size: 13px; font-weight: 800; margin-bottom: 6px;
+}
+.compare-cell.progress { background: #e0f2fe; color: #075985; }
+.compare-cell.progress h4 { color: #0369a1; }
+.compare-cell.conservative { background: #fee2e2; color: #991b1b; }
+.compare-cell.conservative h4 { color: #b91c1c; }

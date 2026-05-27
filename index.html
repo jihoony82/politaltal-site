@@ -11,7 +11,12 @@
   <header class="app-header">
     <div class="container">
       <a href="/" class="brand">
-        <span class="brand-emoji">🔍</span>
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
         <span>정치탈탈</span>
       </a>
       <span class="brand-sub">의정활동을 데이터로 탈탈</span>
@@ -46,6 +51,20 @@
             <div class="label">본회의 표결 기록</div>
           </div>
         </div>
+
+        <div class="party-showcase">
+          <div class="party-showcase-title">제22대 국회 8개 정당</div>
+          <div class="party-grid">
+            <span class="party-badge"><span class="party-dot" style="background:#004ea2"></span>더불어민주당 <span class="party-count">152</span></span>
+            <span class="party-badge"><span class="party-dot" style="background:#e61e2b"></span>국민의힘 <span class="party-count">106</span></span>
+            <span class="party-badge"><span class="party-dot" style="background:#0073cf"></span>조국혁신당 <span class="party-count">12</span></span>
+            <span class="party-badge"><span class="party-dot" style="background:#64748b"></span>무소속 <span class="party-count">7</span></span>
+            <span class="party-badge"><span class="party-dot" style="background:#d6001c"></span>진보당 <span class="party-count">4</span></span>
+            <span class="party-badge"><span class="party-dot" style="background:#ff7920"></span>개혁신당 <span class="party-count">3</span></span>
+            <span class="party-badge"><span class="party-dot" style="background:#00b140"></span>기본소득당 <span class="party-count">1</span></span>
+            <span class="party-badge"><span class="party-dot" style="background:#c5b400"></span>사회민주당 <span class="party-count">1</span></span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -56,7 +75,7 @@
         <div class="search-input-wrap">
           <span class="search-icon">🔍</span>
           <input type="text" id="searchInput" class="search-input"
-                 placeholder="의원 이름·지역구·정당 검색 (예: 강남, 권성동)"
+                 placeholder="의원 이름·지역구·정당 검색 (예: 강남, 박주민)"
                  oninput="onSearch(event)">
         </div>
         <div id="searchResults" class="search-results"></div>
@@ -146,8 +165,8 @@
       </div>
 
       <section>
-        <div class="section-title">📊 이번 주 인사이트</div>
-        <div class="section-sub">데이터로 본 제22대 국회 의정활동</div>
+        <div class="section-title">🔥 진짜 일하는 의원, 누구?</div>
+        <div class="section-sub">기사 헤드라인 대신 국회 공식 데이터로 본 의정활동</div>
         <div class="insight-grid">
           <div class="insight-card">
             <span class="badge">대표발의 TOP 5</span>
@@ -249,31 +268,46 @@
                 <ul>
             <li>
               <img class="mini-thumb" src="/images/politicians/CAA7713A.jpg" alt="백종헌" loading="lazy">
-              <a href="/politician/CAA7713A.html" class="mini-name">백종헌</a>
+              <div class="mini-info">
+                <a href="/politician/CAA7713A.html" class="mini-name">백종헌</a>
+                <div class="mini-meta">국힘 · 부산 금정구</div>
+              </div>
               <span class="mini-value">31.6%</span>
             </li>
             
             <li>
               <img class="mini-thumb" src="/images/politicians/TZP9391O.jpg" alt="이철규" loading="lazy">
-              <a href="/politician/TZP9391O.html" class="mini-name">이철규</a>
+              <div class="mini-info">
+                <a href="/politician/TZP9391O.html" class="mini-name">이철규</a>
+                <div class="mini-meta">국힘 · 강원 동해시태백…</div>
+              </div>
               <span class="mini-value">22.2%</span>
             </li>
             
             <li>
               <img class="mini-thumb" src="/images/politicians/LYY5513O.jpg" alt="권영진" loading="lazy">
-              <a href="/politician/LYY5513O.html" class="mini-name">권영진</a>
+              <div class="mini-info">
+                <a href="/politician/LYY5513O.html" class="mini-name">권영진</a>
+                <div class="mini-meta">국힘 · 대구 달서구병</div>
+              </div>
               <span class="mini-value">18.2%</span>
             </li>
             
             <li>
               <img class="mini-thumb" src="/images/politicians/5KV82250.jpg" alt="조경태" loading="lazy">
-              <a href="/politician/5KV82250.html" class="mini-name">조경태</a>
+              <div class="mini-info">
+                <a href="/politician/5KV82250.html" class="mini-name">조경태</a>
+                <div class="mini-meta">국힘 · 부산 사하구을</div>
+              </div>
               <span class="mini-value">16.1%</span>
             </li>
             
             <li>
               <img class="mini-thumb" src="/images/politicians/W3U3344O.jpg" alt="이기헌" loading="lazy">
-              <a href="/politician/W3U3344O.html" class="mini-name">이기헌</a>
+              <div class="mini-info">
+                <a href="/politician/W3U3344O.html" class="mini-name">이기헌</a>
+                <div class="mini-meta">민주 · 경기 고양시병</div>
+              </div>
               <span class="mini-value">15.2%</span>
             </li>
             </ul>
@@ -283,31 +317,46 @@
                 <ul>
             <li>
               <img class="mini-thumb" src="/images/politicians/T2T8225E.jpg" alt="강경숙" loading="lazy">
-              <a href="/politician/T2T8225E.html" class="mini-name">강경숙</a>
+              <div class="mini-info">
+                <a href="/politician/T2T8225E.html" class="mini-name">강경숙</a>
+                <div class="mini-meta">조국 · 비례대표</div>
+              </div>
               <span class="mini-value">100.0%</span>
             </li>
             
             <li>
               <img class="mini-thumb" src="/images/politicians/3CC88975.jpg" alt="김기표" loading="lazy">
-              <a href="/politician/3CC88975.html" class="mini-name">김기표</a>
+              <div class="mini-info">
+                <a href="/politician/3CC88975.html" class="mini-name">김기표</a>
+                <div class="mini-meta">민주 · 경기 부천시을</div>
+              </div>
               <span class="mini-value">100.0%</span>
             </li>
             
             <li>
               <img class="mini-thumb" src="/images/politicians/88O1334C.jpg" alt="김성회" loading="lazy">
-              <a href="/politician/88O1334C.html" class="mini-name">김성회</a>
+              <div class="mini-info">
+                <a href="/politician/88O1334C.html" class="mini-name">김성회</a>
+                <div class="mini-meta">민주 · 경기 고양시갑</div>
+              </div>
               <span class="mini-value">100.0%</span>
             </li>
             
             <li>
               <img class="mini-thumb" src="/images/politicians/5765663F.jpg" alt="김영진" loading="lazy">
-              <a href="/politician/5765663F.html" class="mini-name">김영진</a>
+              <div class="mini-info">
+                <a href="/politician/5765663F.html" class="mini-name">김영진</a>
+                <div class="mini-meta">민주 · 경기 수원시병</div>
+              </div>
               <span class="mini-value">100.0%</span>
             </li>
             
             <li>
               <img class="mini-thumb" src="/images/politicians/7BM2933Y.jpg" alt="김영호" loading="lazy">
-              <a href="/politician/7BM2933Y.html" class="mini-name">김영호</a>
+              <div class="mini-info">
+                <a href="/politician/7BM2933Y.html" class="mini-name">김영호</a>
+                <div class="mini-meta">민주 · 서울 서대문구을</div>
+              </div>
               <span class="mini-value">100.0%</span>
             </li>
             </ul>
@@ -441,11 +490,11 @@
     <a href="/list.html" class="">
       <span class="icon">📋</span>의원 목록
     </a>
-    <a href="#" class="">
-      <span class="icon">⚖️</span>비교
+    <a href="/community.html" class="">
+      <span class="icon">💬</span>커뮤니티
     </a>
-    <a href="#" class="">
-      <span class="icon">ℹ️</span>정보
+    <a href="/learn.html" class="">
+      <span class="icon">📚</span>배움터
     </a>
   </nav>
 </body>
