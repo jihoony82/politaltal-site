@@ -19,11 +19,31 @@
         </svg>
         <span>정치탈탈</span>
       </a>
-      <a href="/login.html" style="font-size:12px;font-weight:700;padding:6px 12px;
+      <a href="/login.html" id="headerAuthBtn" style="font-size:12px;font-weight:700;padding:6px 12px;
                                     background:var(--color-primary);color:white;
-                                    border-radius:6px;text-decoration:none;">
+                                    border-radius:6px;text-decoration:none;
+                                    display:flex;align-items:center;gap:6px;">
         로그인
       </a>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
     </div>
   </header>
   <main>
