@@ -52,16 +52,17 @@
       <div class="section-title">📚 정치 배움터</div>
       <div class="section-sub">정치를 더 잘 이해하기 위한 기본 지식</div>
 
-      <div class="sub-tabs">
-        <span class="sub-tab active">🎯 기본 용어</span>
-        <span class="sub-tab">⚖️ 진보 vs 보수</span>
-        <span class="sub-tab">🏛 국회의 구조</span>
-        <span class="sub-tab">🗳️ 선거 제도</span>
+      <div class="sub-tabs" id="learnTabs">
+        <span class="sub-tab active" data-target="terms">🎯 기본 용어</span>
+        <span class="sub-tab" data-target="ideology">⚖️ 진보 vs 보수</span>
+        <span class="sub-tab" data-target="assembly">🏛 국회의 구조</span>
+        <span class="sub-tab" data-target="election">🗳️ 선거 제도</span>
+        <span class="sub-tab" data-target="data">📊 데이터 읽기</span>
       </div>
 
       <div class="learn-grid">
 
-        <div class="learn-card">
+        <div class="learn-card" data-pane="terms">
           <h3>🎯 의정활동 기본 용어</h3>
           <p>국회의원이 하는 일과 관련된 핵심 용어를 알아보세요.</p>
 
@@ -78,7 +79,7 @@
           <p style="margin-top:8px;">법안이 원래 모습대로 통과되면 <strong>원안가결</strong>, 수정되어 통과되면 <strong>수정가결</strong>, 통과 못 하면 <strong>폐기</strong>입니다. <strong>대안반영폐기</strong>는 비슷한 법안으로 흡수되어 폐기된 경우예요.</p>
         </div>
 
-        <div class="learn-card">
+        <div class="learn-card" data-pane="ideology" hidden>
           <h3>⚖️ 진보와 보수, 뭐가 다를까?</h3>
           <p>정치 성향을 나누는 가장 흔한 두 분류. 100% 깔끔하게 갈리진 않지만 큰 흐름을 이해하는 데 도움이 됩니다.</p>
 
@@ -113,7 +114,7 @@
           </div>
         </div>
 
-        <div class="learn-card">
+        <div class="learn-card" data-pane="assembly" hidden>
           <h3>🏛 국회는 어떻게 일할까?</h3>
           <p>국회의원 300명이 어떤 구조 안에서 활동하는지 알아봅시다.</p>
 
@@ -131,7 +132,7 @@
           <p style="margin-top:8px;">매년 1회, 국회가 정부 부처와 공공기관의 운영을 감사하는 활동. 이때 의원들이 부처 장관·기관장을 불러 질의합니다.</p>
         </div>
 
-        <div class="learn-card">
+        <div class="learn-card" data-pane="election" hidden>
           <h3>🗳️ 한국의 선거 제도</h3>
           <p>유권자가 정치에 직접 참여하는 핵심 통로.</p>
 
@@ -155,7 +156,7 @@
           </div>
         </div>
 
-        <div class="learn-card">
+        <div class="learn-card" data-pane="data" hidden>
           <h3>📊 데이터로 의정활동 읽는 법</h3>
           <p>정치탈탈에서 보는 숫자들, 어떻게 해석해야 할까요?</p>
 
@@ -210,6 +211,27 @@
         더 자세한 내용은 국회 의안정보시스템, 중앙선거관리위원회 등 공식 자료를 참고하세요.
       </div>
     </div>
+
+    <script>
+      // 배움터 탭 토글
+      (function() {
+        const tabs = document.querySelectorAll('#learnTabs .sub-tab');
+        const panes = document.querySelectorAll('.learn-card[data-pane]');
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            const target = tab.dataset.target;
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            panes.forEach(p => {
+              p.hidden = (p.dataset.pane !== target);
+            });
+            // 부드럽게 스크롤 (선택 사항)
+            const visible = document.querySelector('.learn-card[data-pane="' + target + '"]');
+            if (visible) visible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+      })();
+    </script>
     </main>
   <nav class="bottom-nav">
     <a href="/" class="">

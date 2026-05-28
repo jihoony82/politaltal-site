@@ -1489,6 +1489,49 @@ a:hover { text-decoration: underline; }
 }
 .placeholder-card { opacity: 0.85; }
 
+/* 광고 문의 토글 버튼 */
+.ad-toggle-btn {
+  display: flex; align-items: center; gap: 14px;
+  width: 100%;
+  padding: 16px 20px;
+  margin: 24px 0 12px;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffe9d4 100%);
+  border: 1.5px solid #fdba74;
+  border-radius: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: all 0.2s;
+}
+.ad-toggle-btn:hover {
+  background: linear-gradient(135deg, #ffe9d4 0%, #fdba74 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 122, 26, 0.2);
+}
+.ad-toggle-btn.open {
+  background: linear-gradient(135deg, #ffe9d4 0%, #fdba74 100%);
+}
+.ad-toggle-icon { font-size: 28px; flex-shrink: 0; }
+.ad-toggle-text { flex: 1; }
+.ad-toggle-text strong {
+  display: block; font-size: 15px; color: #92400e; font-weight: 800;
+}
+.ad-toggle-text small {
+  display: block; font-size: 12px; color: #b45309; margin-top: 2px;
+}
+.ad-toggle-arrow {
+  font-size: 14px; color: #92400e;
+  font-weight: 700; transition: transform 0.2s;
+}
+
+.ad-section {
+  animation: ad-fade-in 0.3s ease;
+}
+@keyframes ad-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ─── 외부 링크 (재산공개) ─────────────────────────── */
 .ext-link-card {
   background: #f1f5f9; border-radius: var(--radius);
