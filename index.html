@@ -348,12 +348,22 @@
 
       <section>
         <div class="section-title">🔥 진짜 일하는 의원, 누구?</div>
-        <div class="section-sub">기사 헤드라인 대신 국회 공식 데이터로 본 의정활동</div>
-        <div class="insight-grid">
+        <div class="section-sub">관심 있는 관점을 선택해서 보세요</div>
+
+        <!-- 카테고리 탭 -->
+        <div class="insight-tabs">
+          <button class="insight-tab active" data-cat="activity">🏆 의정 활동</button>
+          <button class="insight-tab" data-cat="people">👥 인물</button>
+          <button class="insight-tab" data-cat="wealth">💰 재산</button>
+          <button class="insight-tab" data-cat="surprise">🎯 의외의 데이터</button>
+        </div>
+
+        <!-- ─── 의정 활동 ─── -->
+        <div class="insight-pane active" data-pane="activity">
           <div class="insight-card">
             <span class="badge">대표발의 TOP 5</span>
             <div class="insight-title">가장 활발한 입법 활동</div>
-            <div class="insight-body">22대 국회에서 대표발의 법안이 가장 많은 의원 5명과 각자의 최근 발의 법안입니다.</div>
+            <div class="insight-body">22대 국회에서 대표발의 법안이 가장 많은 의원과 각자의 최근 법안입니다.</div>
             <div style="margin-top: 8px;">
         <div class="rank-with-count">
           <div class="count-block">
@@ -471,8 +481,7 @@
             <span class="badge">통과율 vs 출석률 TOP 5</span>
             <div class="insight-title">입법 성과 vs 본회의 성실도</div>
             <div class="insight-body">
-              <strong>통과율</strong>은 발의 10건 이상 의원 중 본회의 통과 비율,
-              <strong>표결 참여율</strong>은 본회의 표결 기록 30건 이상 의원 중 출석·표결 비율입니다.
+              <strong>통과율</strong>은 발의 10건 이상 중 통과 비율, <strong>표결 참여율</strong>은 본회의 표결 30건 이상 의원 기준
             </div>
             <div class="split-rank">
               <div class="split-col">
@@ -575,9 +584,368 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- ─── 인물 ─── -->
+        <div class="insight-pane" data-pane="people" style="display:none;">
+          <div class="insight-card">
+            <span class="badge">최연소 의원 TOP 5</span>
+            <div class="insight-title">22대 국회 최연소 의원</div>
+            <div class="insight-body">새로운 세대의 정치 — 가장 어린 의원 5명입니다.</div>
+            <ul class="insight-rank">
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">1.</span>
+                <img class="rank-thumb" src="/images/politicians/2KM3589W.jpg" alt="손솔" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/2KM3589W.html" class="rank-name">손솔</a>
+                  <div class="rank-meta">진보당 · 비례대표</div>
+                </div>
+              </div>
+              <span class="rank-value">만 31세</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">2.</span>
+                <img class="rank-thumb" src="/images/politicians/TJW93720.jpg" alt="전용기" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/TJW93720.html" class="rank-name">전용기</a>
+                  <div class="rank-meta">더불어민주당 · 경기 화성시정</div>
+                </div>
+              </div>
+              <span class="rank-value">만 35세</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">3.</span>
+                <img class="rank-thumb" src="/images/politicians/EPI69383.jpg" alt="김용태" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/EPI69383.html" class="rank-name">김용태</a>
+                  <div class="rank-meta">국민의힘 · 경기 포천시가평군</div>
+                </div>
+              </div>
+              <span class="rank-value">만 36세</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">4.</span>
+                <img class="rank-thumb" src="/images/politicians/GE71932C.jpg" alt="용혜인" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/GE71932C.html" class="rank-name">용혜인</a>
+                  <div class="rank-meta">기본소득당 · 비례대표</div>
+                </div>
+              </div>
+              <span class="rank-value">만 36세</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">5.</span>
+                <img class="rank-thumb" src="/images/politicians/J1G57517.jpg" alt="모경종" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/J1G57517.html" class="rank-name">모경종</a>
+                  <div class="rank-meta">더불어민주당 · 인천 서구병</div>
+                </div>
+              </div>
+              <span class="rank-value">만 37세</span>
+            </li>
+            </ul>
+          </div>
 
           <div class="insight-card">
-            <span class="badge">의외의 데이터</span>
+            <span class="badge">다선 의원 TOP 5</span>
+            <div class="insight-title">의정활동 베테랑</div>
+            <div class="insight-body">국회 경험이 가장 풍부한 다선 의원 5명입니다.</div>
+            <ul class="insight-rank">
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">1.</span>
+                <img class="rank-thumb" src="/images/politicians/5KV82250.jpg" alt="조경태" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/5KV82250.html" class="rank-name">조경태</a>
+                  <div class="rank-meta">국민의힘 · 부산 사하구을</div>
+                </div>
+              </div>
+              <span class="rank-value">6선</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">2.</span>
+                <img class="rank-thumb" src="/images/politicians/8SV6917G.jpg" alt="주호영" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/8SV6917G.html" class="rank-name">주호영</a>
+                  <div class="rank-meta">국민의힘 · 대구 수성구갑</div>
+                </div>
+              </div>
+              <span class="rank-value">6선</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">3.</span>
+                <img class="rank-thumb" src="/images/politicians/IN328264.jpg" alt="조정식" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/IN328264.html" class="rank-name">조정식</a>
+                  <div class="rank-meta">더불어민주당 · 경기 시흥시을</div>
+                </div>
+              </div>
+              <span class="rank-value">6선</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">4.</span>
+                <img class="rank-thumb" src="/images/politicians/1WE5693J.jpg" alt="김태년" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/1WE5693J.html" class="rank-name">김태년</a>
+                  <div class="rank-meta">더불어민주당 · 경기 성남시수정구</div>
+                </div>
+              </div>
+              <span class="rank-value">5선</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">5.</span>
+                <img class="rank-thumb" src="/images/politicians/V429892C.jpg" alt="정성호" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/V429892C.html" class="rank-name">정성호</a>
+                  <div class="rank-meta">더불어민주당 · 경기 동두천시양주시연천군갑</div>
+                </div>
+              </div>
+              <span class="rank-value">5선</span>
+            </li>
+            </ul>
+          </div>
+
+          <div class="insight-card">
+            <span class="badge">여성 의원 활동 TOP 5</span>
+            <div class="insight-title">가장 활발한 여성 의원</div>
+            <div class="insight-body">대표발의가 가장 많은 여성 의원 5명입니다.</div>
+            <ul class="insight-rank">
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">1.</span>
+                <img class="rank-thumb" src="/images/politicians/0R68099X.jpg" alt="이수진" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/0R68099X.html" class="rank-name">이수진</a>
+                  <div class="rank-meta">더불어민주당 · 경기 성남시중원구</div>
+                </div>
+              </div>
+              <span class="rank-value">213건</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">2.</span>
+                <img class="rank-thumb" src="/images/politicians/XPP2564T.jpg" alt="한정애" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/XPP2564T.html" class="rank-name">한정애</a>
+                  <div class="rank-meta">더불어민주당 · 서울 강서구병</div>
+                </div>
+              </div>
+              <span class="rank-value">151건</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">3.</span>
+                <img class="rank-thumb" src="/images/politicians/CNZ51556.jpg" alt="김예지" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/CNZ51556.html" class="rank-name">김예지</a>
+                  <div class="rank-meta">국민의힘 · 비례대표</div>
+                </div>
+              </div>
+              <span class="rank-value">132건</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">4.</span>
+                <img class="rank-thumb" src="/images/politicians/TKJ4800F.jpg" alt="서영교" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/TKJ4800F.html" class="rank-name">서영교</a>
+                  <div class="rank-meta">더불어민주당 · 서울 중랑구갑</div>
+                </div>
+              </div>
+              <span class="rank-value">131건</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">5.</span>
+                <img class="rank-thumb" src="/images/politicians/3BC6890E.jpg" alt="김미애" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/3BC6890E.html" class="rank-name">김미애</a>
+                  <div class="rank-meta">국민의힘 · 부산 해운대구을</div>
+                </div>
+              </div>
+              <span class="rank-value">121건</span>
+            </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ─── 재산 ─── -->
+        <div class="insight-pane" data-pane="wealth" style="display:none;">
+          <div class="insight-card">
+            <span class="badge">신고 재산 TOP 5</span>
+            <div class="insight-title">재산 신고액 상위 5명</div>
+            <div class="insight-body">
+              공직자윤리위원회 2025년 정기공개 기준. 본인+배우자+직계존비속 합산 신고액입니다.
+            </div>
+            <ul class="insight-rank">
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">1.</span>
+                <img class="rank-thumb" src="/images/politicians/YOG1280B.jpg" alt="안철수" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/YOG1280B.html" class="rank-name">안철수</a>
+                  <div class="rank-meta">국민의힘 · 경기 성남시분당구갑</div>
+                </div>
+              </div>
+              <span class="rank-value">1,367억 8,982만원</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">2.</span>
+                <img class="rank-thumb" src="/images/politicians/N4R2421C.jpg" alt="박덕흠" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/N4R2421C.html" class="rank-name">박덕흠</a>
+                  <div class="rank-meta">국민의힘 · 충북 보은군옥천군영동군괴산군</div>
+                </div>
+              </div>
+              <span class="rank-value">535억 320만원</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">3.</span>
+                <img class="rank-thumb" src="/images/politicians/4019850M.jpg" alt="박정" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/4019850M.html" class="rank-name">박정</a>
+                  <div class="rank-meta">더불어민주당 · 경기 파주시을</div>
+                </div>
+              </div>
+              <span class="rank-value">360억 3,571만원</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">4.</span>
+                <img class="rank-thumb" src="/images/politicians/CAA7713A.jpg" alt="백종헌" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/CAA7713A.html" class="rank-name">백종헌</a>
+                  <div class="rank-meta">국민의힘 · 부산 금정구</div>
+                </div>
+              </div>
+              <span class="rank-value">323억 5,514만원</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">5.</span>
+                <img class="rank-thumb" src="/images/politicians/HS39431V.jpg" alt="고동진" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/HS39431V.html" class="rank-name">고동진</a>
+                  <div class="rank-meta">국민의힘 · 서울 강남구병</div>
+                </div>
+              </div>
+              <span class="rank-value">316억 7,412만원</span>
+            </li>
+            </ul>
+            <div class="source-note" style="margin-top:8px;">
+              출처: 공직자윤리위원회 정기공개 (2025.3) · 언론보도 종합
+            </div>
+          </div>
+
+          <div class="insight-card" style="background:#fef3c7;border-left:3px solid #f59e0b;">
+            <span class="badge" style="background:#fff7ed;color:#92400e;">참고</span>
+            <div class="insight-title" style="color:#78350f;">⚠️ 재산 데이터는 신고액 기준</div>
+            <div class="insight-body" style="color:#92400e;">
+              본인이 신고한 자료라 실제 자산과 차이가 있을 수 있습니다.
+              <strong>"수상한 증가"</strong> 같은 해석은 정치탈탈이 직접 하지 않으며, 수치만 제공합니다.
+              개별 의원의 상세 자료는 <a href="https://www.peti.go.kr" target="_blank" style="color:var(--color-accent);">공직윤리시스템</a>에서 검색하세요.
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── 의외의 데이터 ─── -->
+        <div class="insight-pane" data-pane="surprise" style="display:none;">
+          <div class="insight-card">
+            <span class="badge">초선 신예 TOP 5</span>
+            <div class="insight-title">22대 첫 등원, 가장 활발한 초선</div>
+            <div class="insight-body">초선이지만 발의 활동이 다선 의원 못지않은 신예 5명입니다.</div>
+            <ul class="insight-rank">
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">1.</span>
+                <img class="rank-thumb" src="/images/politicians/6K79158C.jpg" alt="이용우" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/6K79158C.html" class="rank-name">이용우</a>
+                  <div class="rank-meta">더불어민주당 · 인천 서구을</div>
+                </div>
+              </div>
+              <span class="rank-value">162건</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">2.</span>
+                <img class="rank-thumb" src="/images/politicians/6WK3815W.jpg" alt="김태선" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/6WK3815W.html" class="rank-name">김태선</a>
+                  <div class="rank-meta">더불어민주당 · 울산 동구</div>
+                </div>
+              </div>
+              <span class="rank-value">134건</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">3.</span>
+                <img class="rank-thumb" src="/images/politicians/ZW43496R.jpg" alt="박홍배" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/ZW43496R.html" class="rank-name">박홍배</a>
+                  <div class="rank-meta">더불어민주당 · 비례대표</div>
+                </div>
+              </div>
+              <span class="rank-value">131건</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">4.</span>
+                <img class="rank-thumb" src="/images/politicians/E2B3753X.jpg" alt="박해철" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/E2B3753X.html" class="rank-name">박해철</a>
+                  <div class="rank-meta">더불어민주당 · 경기 안산시병</div>
+                </div>
+              </div>
+              <span class="rank-value">122건</span>
+            </li>
+            
+            <li>
+              <div style="display:flex;align-items:center;flex:1;min-width:0;">
+                <span class="rank-num">5.</span>
+                <img class="rank-thumb" src="/images/politicians/NX534083.jpg" alt="박성훈" loading="lazy">
+                <div style="min-width:0;">
+                  <a href="/politician/NX534083.html" class="rank-name">박성훈</a>
+                  <div class="rank-meta">국민의힘 · 부산 북구을</div>
+                </div>
+              </div>
+              <span class="rank-value">117건</span>
+            </li>
+            </ul>
+          </div>
+
+          <div class="insight-card">
+            <span class="badge">선수별 평균</span>
             <div class="insight-title">선수(選數)와 입법 활동은 비례할까?</div>
             <div class="insight-body">초선이라 의정활동이 적을 거란 통념과 다르게, 선수별 평균 발의 건수는 의외의 패턴을 보입니다.</div>
             <ul class="insight-rank">
@@ -619,6 +987,29 @@
     </ul>
           </div>
         </div>
+
+        <script>
+          (function() {
+            const tabs = document.querySelectorAll('.insight-tab');
+            const panes = document.querySelectorAll('.insight-pane');
+            tabs.forEach(t => {
+              t.addEventListener('click', () => {
+                tabs.forEach(x => x.classList.remove('active'));
+                t.classList.add('active');
+                const cat = t.dataset.cat;
+                panes.forEach(p => {
+                  if (p.dataset.pane === cat) {
+                    p.style.display = '';
+                    p.classList.add('active');
+                  } else {
+                    p.style.display = 'none';
+                    p.classList.remove('active');
+                  }
+                });
+              });
+            });
+          })();
+        </script>
       </section>
 
       <section>

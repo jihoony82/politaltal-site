@@ -404,6 +404,36 @@ section { padding: 32px 0; }
   border-style: solid;
 }
 
+/* ─── 인사이트 카테고리 탭 ───────────────────────── */
+.insight-tabs {
+  display: flex; gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.insight-tabs::-webkit-scrollbar { display: none; }
+.insight-tab {
+  padding: 10px 16px;
+  background: white;
+  border: 1.5px solid var(--color-border);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px; font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer; white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.insight-tab:hover { border-color: var(--color-accent); }
+.insight-tab.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+.insight-pane { display: block; }
+
 /* ─── 인사이트 카드 ─────────────────────────────────── */
 .insight-grid {
   display: grid; gap: 12px;
