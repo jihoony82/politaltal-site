@@ -55,6 +55,33 @@
   <main>
     <div class="container">
       <a href="/" class="back-link">← 홈으로</a>
+
+      <!-- 내 지역구 찾기 (홈에서 의원 탭으로 이동) -->
+      <div class="search-card" style="margin-top:0;">
+        <div class="sc-grid">
+          <div class="sc-left">
+            <div class="label">📍 내 지역구 찾기</div>
+            <div class="hook">우리 동네 의원, 일 잘하고 있을까?</div>
+            <button class="address-btn" onclick="openAddressSearch()">
+              <span class="home-icon">🏠</span><span>내 집 주소로 우리 의원 찾기</span>
+            </button>
+            <button class="gps-btn" onclick="findByGPS()">
+              <span>📍</span><span>현재 위치로 우리 동네 의원 찾기</span>
+            </button>
+            <div id="addressResults" class="address-results"></div>
+          </div>
+          <div class="sc-right">
+            <div class="korea-map-wrap">
+              <div class="korea-map-title">🗺 지도에서 지역 클릭</div>
+              <div id="koreaMapContainer" class="korea-map-real"></div>
+              <div style="text-align:center;margin-top:8px;">
+                <button class="proportional-chip" onclick="applyRegion('비례대표','','비례대표')" style="border:none;cursor:pointer;">📊 비례대표 보기 →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="section-title">📋 제22대 국회의원 (286명)</div>
       <div class="section-sub">이름·지역구·정당으로 검색하세요</div>
       <div class="filter-bar">
@@ -5624,6 +5651,81 @@
       renderSigunguChips();
       filterList();
     </script>
+    
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+      (function(){
+        const SIDO_NORMALIZE = {
+          '서울특별시':'서울','부산광역시':'부산','대구광역시':'대구','인천광역시':'인천',
+          '광주광역시':'광주','대전광역시':'대전','울산광역시':'울산','세종특별자치시':'세종',
+          '경기도':'경기','강원특별자치도':'강원','강원도':'강원','충청북도':'충북','충청남도':'충남',
+          '전북특별자치도':'전북','전라북도':'전북','전라남도':'전남','경상북도':'경북','경상남도':'경남',
+          '제주특별자치도':'제주'
+        };
+        const MAP_ID_TO_NAME = {'busan':'부산','daegu':'대구','daejeon':'대전','gangwon':'강원','gwangju':'광주','gyeonggi':'경기','incheon':'인천','jeju':'제주','sejong':'세종','seoul':'서울','ulsan':'울산','north-chungcheong':'충북','south-chungcheong':'충남','north-gyeongsang':'경북','south-gyeongsang':'경남','north-jeolla':'전북','south-jeolla':'전남'};
+
+        function note(html){ const b=document.getElementById('addressResults'); if(b) b.innerHTML=html; }
+
+        window.applyRegion = function(sido, sigungu, label){
+          const sel=document.getElementById('sidoFilter'); if(!sel) return;
+          sel.value = sido;
+          currentSigungu='';
+          renderSigunguChips();
+          if(sigungu){
+            const sg = sigungu.replace(/(구|시|군)$/,'');
+            document.querySelectorAll('.sigungu-chip').forEach(function(c){
+              const v=c.dataset.sgg;
+              if(v && (v===sigungu || v.replace(/(구|시|군)$/,'')===sg)){
+                currentSigungu=v;
+                document.querySelectorAll('.sigungu-chip').forEach(function(x){x.classList.remove('active');});
+                c.classList.add('active');
+              }
+            });
+          }
+          filterList();
+          if(label) note('<div class="address-resolved">📍 '+label+' → <strong>'+sido+(currentSigungu?(' '+currentSigungu):'')+'</strong> 의원</div>');
+          const ml=document.getElementById('memberList'); if(ml) ml.scrollIntoView({behavior:'smooth',block:'start'});
+        };
+
+        window.findByGPS = function(){
+          if(!navigator.geolocation){ alert('이 브라우저는 위치 정보를 지원하지 않습니다.'); return; }
+          note('<div class="address-resolved">📍 현재 위치 확인 중... (위치 권한 허용 필요)</div>');
+          navigator.geolocation.getCurrentPosition(function(pos){
+            const u='https://nominatim.openstreetmap.org/reverse?format=json&lat='+pos.coords.latitude+'&lon='+pos.coords.longitude+'&accept-language=ko&zoom=12';
+            fetch(u,{headers:{'User-Agent':'politaltal/0.3'}}).then(function(r){return r.json();}).then(function(d){
+              const a=d.address||{};
+              const sidoRaw=a.province||a.state||a.city||'';
+              const sgg=a.borough||a.county||a.city_district||a.suburb||a.city||'';
+              const sido=SIDO_NORMALIZE[sidoRaw]||sidoRaw.replace(/(특별시|광역시|특별자치시|특별자치도|도)$/,'');
+              if(!sido){ note('<div class="address-empty">위치를 인식하지 못했습니다. 주소로 입력해주세요.</div>'); return; }
+              applyRegion(sido, sgg, '현재 위치');
+            }).catch(function(){ note('<div class="address-empty">위치 조회 실패. 주소로 입력해주세요.</div>'); });
+          }, function(){ note('<div class="address-empty">위치 권한이 거부되었거나 확인할 수 없습니다.</div>'); }, {enableHighAccuracy:false,timeout:10000,maximumAge:60000});
+        };
+
+        window.openAddressSearch = function(){
+          if(typeof daum==='undefined'||!daum.Postcode){ alert('주소 검색 서비스를 불러오는 중입니다. 잠시 후 다시 시도해주세요.'); return; }
+          new daum.Postcode({ oncomplete:function(data){
+            const sido=SIDO_NORMALIZE[data.sido]||data.sido;
+            applyRegion(sido, data.sigungu||'', data.roadAddress||data.jibunAddress||'');
+          }, theme:{ bgColor:'#0a2540', searchBgColor:'#ff5e3a', queryTextColor:'#FFFFFF', emphTextColor:'#ff5e3a' } }).open();
+        };
+
+        // 지도 로드 + 클릭 → 지역 필터
+        fetch('/data/south-korea.svg').then(function(r){return r.text();}).then(function(svgText){
+          const c=document.getElementById('koreaMapContainer'); if(!c) return;
+          c.innerHTML=svgText;
+          const svg=c.querySelector('svg'); if(!svg) return;
+          svg.setAttribute('class','korea-map korea-map-svg'); svg.removeAttribute('width'); svg.removeAttribute('height');
+          svg.querySelectorAll('path').forEach(function(path){
+            const name=MAP_ID_TO_NAME[path.getAttribute('id')]||''; if(!name) return;
+            path.setAttribute('class','korea-region-real'); path.setAttribute('data-sido',name); path.style.cursor='pointer';
+            path.addEventListener('click', function(){ applyRegion(name,'',name); });
+          });
+        }).catch(function(e){ console.warn('지도 로드 실패', e); });
+      })();
+    </script>
+    
     </main>
   <nav class="bottom-nav">
     <a href="/" class="">
