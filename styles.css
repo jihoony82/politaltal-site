@@ -431,6 +431,69 @@ section { padding: 32px 0; }
 }
 .korea-map-credit a { color: inherit; text-decoration: underline; }
 
+/* 지도 hover tooltip */
+.map-tooltip {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1000;
+  background: rgba(10, 37, 64, 0.96);
+  color: white;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  min-width: 200px; max-width: 280px;
+  opacity: 0; transform: translateY(4px);
+  transition: opacity 0.15s, transform 0.15s;
+  will-change: left, top, opacity;
+}
+.map-tooltip.show {
+  opacity: 1; transform: translateY(0);
+}
+.map-tooltip .mt-title {
+  font-size: 16px; font-weight: 800; letter-spacing: -0.3px;
+  color: #ff8267;
+}
+.map-tooltip .mt-count {
+  font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+  margin-top: -2px; margin-bottom: 10px;
+}
+.map-tooltip .mt-section {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.map-tooltip .mt-label {
+  font-size: 10px; color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.5px; margin-bottom: 4px;
+  font-weight: 600;
+}
+.map-tooltip .mt-top {
+  font-weight: 700; font-size: 13px;
+}
+.map-tooltip .mt-top .mt-meta {
+  font-weight: 500; color: rgba(255, 255, 255, 0.7); font-size: 11px;
+}
+.map-tooltip .mt-parties {
+  display: flex; flex-wrap: wrap; gap: 4px;
+}
+.map-tooltip .mt-party {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 3px 8px; border-radius: 999px;
+  font-size: 11px; font-weight: 500;
+}
+.map-tooltip .mt-party strong {
+  color: #ffd4c8; font-weight: 700; margin-left: 2px;
+}
+.map-tooltip .mt-cta {
+  margin-top: 12px; padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 11px; color: #ffd4c8;
+  text-align: right; font-weight: 600;
+}
+
 .proportional-chip {
   display: inline-block;
   padding: 8px 18px;

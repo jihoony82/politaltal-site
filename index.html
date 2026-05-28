@@ -213,7 +213,12 @@
 
         <!-- 한국 지도 (인터랙티브) -->
         <div class="korea-map-wrap">
-          <div class="korea-map-title">🗺 지도에서 지역 클릭</div>
+          <div class="korea-map-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:4px;" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            지도에서 지역 클릭 (마우스 올리면 정보 보기)
+          </div>
           
     <div id="koreaMapContainer" class="korea-map-real"></div>
     <div style="text-align:center;margin-top:8px;">
@@ -224,29 +229,69 @@
     <div class="korea-map-credit">
       지도 데이터: <a href="https://github.com/VictorCazanave/svg-maps" target="_blank" rel="noopener" style="color:inherit;">VictorCazanave/svg-maps</a> (CC BY 4.0)
     </div>
+
+    <!-- 지도 hover 툴팁 -->
+    <div id="mapTooltip" class="map-tooltip"></div>
+
     <script>
       (function() {
         const SIDO_COUNTS = {"경기": 57, "서울": 48, "비례대표": 46, "부산": 17, "경남": 16, "경북": 13, "인천": 12, "대구": 11, "전남": 10, "충남": 9, "강원": 8, "전북": 8, "충북": 8, "광주": 7, "대전": 7, "울산": 5, "세종": 2, "제주": 2};
-        // SVG id (영문) → 한글 시도명
+        const SIDO_INFO = {"비례대표": {"count": 46, "top_name": "김예지", "top_party": "국민의힘", "top_mona": "CNZ51556", "top_bills": 132, "parties": {"국민의힘": 18, "조국혁신당": 12, "더불어민주당": 8}}, "대구": {"count": 11, "top_name": "김상훈", "top_party": "국민의힘", "top_mona": "1Y73132H", "top_bills": 83, "parties": {"국민의힘": 11}}, "경기": {"count": 57, "top_name": "이수진", "top_party": "더불어민주당", "top_mona": "0R68099X", "top_bills": 213, "parties": {"더불어민주당": 50, "국민의힘": 6, "개혁신당": 1}}, "경북": {"count": 13, "top_name": "이만희", "top_party": "국민의힘", "top_mona": "OSV9142K", "top_bills": 124, "parties": {"국민의힘": 13}}, "경남": {"count": 16, "top_name": "김정호", "top_party": "더불어민주당", "top_mona": "9LD2641Q", "top_bills": 100, "parties": {"국민의힘": 13, "더불어민주당": 3}}, "서울": {"count": 48, "top_name": "한정애", "top_party": "더불어민주당", "top_mona": "XPP2564T", "top_bills": 151, "parties": {"더불어민주당": 33, "국민의힘": 11, "무소속": 4}}, "충남": {"count": 9, "top_name": "문진석", "top_party": "더불어민주당", "top_mona": "4U29186R", "top_bills": 127, "parties": {"더불어민주당": 6, "국민의힘": 3}}, "세종": {"count": 2, "top_name": "강준현", "top_party": "더불어민주당", "top_mona": "5KV96424", "top_bills": 60, "parties": {"더불어민주당": 1, "무소속": 1}}, "부산": {"count": 17, "top_name": "김미애", "top_party": "국민의힘", "top_mona": "3BC6890E", "top_bills": 121, "parties": {"국민의힘": 17}}, "강원": {"count": 8, "top_name": "허영", "top_party": "더불어민주당", "top_mona": "FU53642G", "top_bills": 82, "parties": {"국민의힘": 6, "더불어민주당": 2}}, "전남": {"count": 10, "top_name": "김문수", "top_party": "더불어민주당", "top_mona": "86R9476S", "top_bills": 98, "parties": {"더불어민주당": 10}}, "인천": {"count": 12, "top_name": "이용우", "top_party": "더불어민주당", "top_mona": "6K79158C", "top_bills": 162, "parties": {"더불어민주당": 10, "국민의힘": 2}}, "울산": {"count": 5, "top_name": "김태선", "top_party": "더불어민주당", "top_mona": "6WK3815W", "top_bills": 134, "parties": {"국민의힘": 3, "더불어민주당": 1, "진보당": 1}}, "전북": {"count": 8, "top_name": "윤준병", "top_party": "더불어민주당", "top_mona": "JC14718Q", "top_bills": 300, "parties": {"더불어민주당": 7, "무소속": 1}}, "제주": {"count": 2, "top_name": "김한규", "top_party": "더불어민주당", "top_mona": "NUB4941Z", "top_bills": 67, "parties": {"더불어민주당": 2}}, "광주": {"count": 7, "top_name": "조인철", "top_party": "더불어민주당", "top_mona": "ZKB18611", "top_bills": 98, "parties": {"더불어민주당": 7}}, "충북": {"count": 8, "top_name": "엄태영", "top_party": "국민의힘", "top_mona": "8348421R", "top_bills": 99, "parties": {"더불어민주당": 5, "국민의힘": 3}}, "대전": {"count": 7, "top_name": "박용갑", "top_party": "더불어민주당", "top_mona": "1JI2689F", "top_bills": 91, "parties": {"더불어민주당": 7}}};
         const ID_TO_NAME = {
-          'busan': '부산',
-          'daegu': '대구',
-          'daejeon': '대전',
-          'gangwon': '강원',
-          'gwangju': '광주',
-          'gyeonggi': '경기',
-          'incheon': '인천',
-          'jeju': '제주',
-          'sejong': '세종',
-          'seoul': '서울',
-          'ulsan': '울산',
-          'north-chungcheong': '충북',
-          'south-chungcheong': '충남',
-          'north-gyeongsang': '경북',
-          'south-gyeongsang': '경남',
-          'north-jeolla': '전북',
-          'south-jeolla': '전남',
+          'busan': '부산', 'daegu': '대구', 'daejeon': '대전',
+          'gangwon': '강원', 'gwangju': '광주', 'gyeonggi': '경기',
+          'incheon': '인천', 'jeju': '제주', 'sejong': '세종',
+          'seoul': '서울', 'ulsan': '울산',
+          'north-chungcheong': '충북', 'south-chungcheong': '충남',
+          'north-gyeongsang': '경북', 'south-gyeongsang': '경남',
+          'north-jeolla': '전북', 'south-jeolla': '전남',
         };
+
+        const tooltip = document.getElementById('mapTooltip');
+
+        function buildTooltipHtml(name, info) {
+          if (!info) return `<div class="mt-title">${name}</div><div class="mt-row">정보 없음</div>`;
+          const parties = Object.entries(info.parties || {})
+            .map(([p, c]) => `<span class="mt-party">${p} <strong>${c}</strong></span>`)
+            .join('');
+          return `
+            <div class="mt-title">${name}</div>
+            <div class="mt-count">${info.count}명</div>
+            <div class="mt-section">
+              <div class="mt-label">🏆 가장 활발</div>
+              <div class="mt-top">${info.top_name} <span class="mt-meta">(${info.top_party}, 발의 ${info.top_bills}건)</span></div>
+            </div>
+            <div class="mt-section">
+              <div class="mt-label">정당 분포</div>
+              <div class="mt-parties">${parties}</div>
+            </div>
+            <div class="mt-cta">클릭하여 전체 보기 →</div>
+          `;
+        }
+
+        function showTooltip(x, y, name) {
+          const info = SIDO_INFO[name];
+          tooltip.innerHTML = buildTooltipHtml(name, info);
+          tooltip.classList.add('show');
+          moveTooltip(x, y);
+        }
+
+        function moveTooltip(x, y) {
+          const w = tooltip.offsetWidth;
+          const h = tooltip.offsetHeight;
+          // 화면 오른쪽 끝 넘어가지 않게
+          let left = x + 14;
+          if (left + w > window.innerWidth - 8) left = x - w - 14;
+          let top = y + 14;
+          if (top + h > window.innerHeight - 8) top = y - h - 14;
+          if (top < 8) top = 8;
+          tooltip.style.left = left + 'px';
+          tooltip.style.top = top + 'px';
+        }
+
+        function hideTooltip() {
+          tooltip.classList.remove('show');
+        }
 
         fetch('/data/south-korea.svg')
           .then(r => r.text())
@@ -259,26 +304,34 @@
             svg.removeAttribute('width');
             svg.removeAttribute('height');
 
-            // 모든 path에 클릭 + hover 추가
             svg.querySelectorAll('path').forEach(path => {
               const id = path.getAttribute('id');
               const name = ID_TO_NAME[id] || '';
-              const count = SIDO_COUNTS[name] || 0;
+              if (!name) return;
               path.setAttribute('class', 'korea-region-real');
               path.setAttribute('data-sido', name);
-              if (name) {
-                const label = path.getAttribute('aria-label') || name;
-                path.setAttribute('aria-label', `${label} (${count}명)`);
-                path.style.cursor = 'pointer';
-                path.addEventListener('click', () => {
-                  window.location.href = `/list.html?sido=${encodeURIComponent(name)}`;
-                });
-                // 툴팁용 title 요소
-                const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-                title.textContent = `${name} · ${count}명 (클릭)`;
-                path.appendChild(title);
-              }
+              path.style.cursor = 'pointer';
+
+              path.addEventListener('mouseenter', (e) => showTooltip(e.clientX, e.clientY, name));
+              path.addEventListener('mousemove', (e) => moveTooltip(e.clientX, e.clientY));
+              path.addEventListener('mouseleave', hideTooltip);
+              path.addEventListener('touchstart', (e) => {
+                // 모바일: 첫 탭은 툴팁, 두 번째 탭은 페이지 이동
+                if (path.dataset.touched === '1') return;
+                e.preventDefault();
+                const touch = e.touches[0];
+                showTooltip(touch.clientX, touch.clientY, name);
+                path.dataset.touched = '1';
+                setTimeout(() => { path.dataset.touched = ''; }, 2500);
+              }, { passive: false });
+              path.addEventListener('click', () => {
+                window.location.href = `/list.html?sido=${encodeURIComponent(name)}`;
+              });
             });
+
+            // 지도 밖으로 마우스가 빠지면 툴팁 닫기
+            svg.addEventListener('mouseleave', hideTooltip);
+            document.addEventListener('scroll', hideTooltip, { passive: true });
           })
           .catch(err => console.warn('한국 지도 로드 실패', err));
       })();
