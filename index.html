@@ -221,6 +221,10 @@
           </div>
           
     <div id="koreaMapContainer" class="korea-map-real"></div>
+
+    <!-- 모바일용 시도 정보 카드 (탭 시 표시) -->
+    <div id="sidoInfoCard" class="sido-info-card"></div>
+
     <div style="text-align:center;margin-top:8px;">
       <a href="/list.html?sido=비례대표" class="proportional-chip">
         📊 비례대표 46명 →
@@ -230,7 +234,7 @@
       지도 데이터: <a href="https://github.com/VictorCazanave/svg-maps" target="_blank" rel="noopener" style="color:inherit;">VictorCazanave/svg-maps</a> (CC BY 4.0)
     </div>
 
-    <!-- 지도 hover 툴팁 -->
+    <!-- 데스크탑 hover 툴팁 -->
     <div id="mapTooltip" class="map-tooltip"></div>
 
     <script>
@@ -248,12 +252,19 @@
         };
 
         const tooltip = document.getElementById('mapTooltip');
+        const infoCard = document.getElementById('sidoInfoCard');
 
-        function buildTooltipHtml(name, info) {
-          if (!info) return `<div class="mt-title">${name}</div><div class="mt-row">정보 없음</div>`;
+        // 터치 기반 디바이스 감지 (모바일/태블릿)
+        const isTouchDevice = window.matchMedia('(hover: none)').matches;
+
+        function buildInfoHtml(name, info, asCard) {
+          if (!info) return `<div class="mt-title">${name}</div><div>정보 없음</div>`;
           const parties = Object.entries(info.parties || {})
             .map(([p, c]) => `<span class="mt-party">${p} <strong>${c}</strong></span>`)
             .join('');
+          const ctaHtml = asCard
+            ? `<a href="/list.html?sido=${encodeURIComponent(name)}" class="sido-card-cta">의원 목록 보기 →</a>`
+            : `<div class="mt-cta">클릭하여 전체 보기 →</div>`;
           return `
             <div class="mt-title">${name}</div>
             <div class="mt-count">${info.count}명</div>
@@ -265,13 +276,13 @@
               <div class="mt-label">정당 분포</div>
               <div class="mt-parties">${parties}</div>
             </div>
-            <div class="mt-cta">클릭하여 전체 보기 →</div>
+            ${ctaHtml}
           `;
         }
 
         function showTooltip(x, y, name) {
           const info = SIDO_INFO[name];
-          tooltip.innerHTML = buildTooltipHtml(name, info);
+          tooltip.innerHTML = buildInfoHtml(name, info, false);
           tooltip.classList.add('show');
           moveTooltip(x, y);
         }
@@ -279,7 +290,6 @@
         function moveTooltip(x, y) {
           const w = tooltip.offsetWidth;
           const h = tooltip.offsetHeight;
-          // 화면 오른쪽 끝 넘어가지 않게
           let left = x + 14;
           if (left + w > window.innerWidth - 8) left = x - w - 14;
           let top = y + 14;
@@ -291,6 +301,21 @@
 
         function hideTooltip() {
           tooltip.classList.remove('show');
+        }
+
+        function showSidoCard(name) {
+          const info = SIDO_INFO[name];
+          infoCard.innerHTML = buildInfoHtml(name, info, true);
+          infoCard.classList.add('show');
+          // 현재 선택 표시
+          document.querySelectorAll('.korea-region-real').forEach(p => p.classList.remove('selected'));
+          const sel = document.querySelector(`.korea-region-real[data-sido="${name}"]`);
+          if (sel) sel.classList.add('selected');
+        }
+
+        function hideSidoCard() {
+          infoCard.classList.remove('show');
+          document.querySelectorAll('.korea-region-real').forEach(p => p.classList.remove('selected'));
         }
 
         fetch('/data/south-korea.svg')
@@ -312,26 +337,34 @@
               path.setAttribute('data-sido', name);
               path.style.cursor = 'pointer';
 
-              path.addEventListener('mouseenter', (e) => showTooltip(e.clientX, e.clientY, name));
-              path.addEventListener('mousemove', (e) => moveTooltip(e.clientX, e.clientY));
-              path.addEventListener('mouseleave', hideTooltip);
-              path.addEventListener('touchstart', (e) => {
-                // 모바일: 첫 탭은 툴팁, 두 번째 탭은 페이지 이동
-                if (path.dataset.touched === '1') return;
-                e.preventDefault();
-                const touch = e.touches[0];
-                showTooltip(touch.clientX, touch.clientY, name);
-                path.dataset.touched = '1';
-                setTimeout(() => { path.dataset.touched = ''; }, 2500);
-              }, { passive: false });
-              path.addEventListener('click', () => {
-                window.location.href = `/list.html?sido=${encodeURIComponent(name)}`;
-              });
+              if (isTouchDevice) {
+                // 모바일: 탭 = 카드 표시 (이동 X, CTA 버튼으로 이동)
+                path.addEventListener('click', (e) => {
+                  e.preventDefault();
+                  showSidoCard(name);
+                });
+              } else {
+                // 데스크탑: hover = 툴팁, 클릭 = 이동
+                path.addEventListener('mouseenter', (e) => showTooltip(e.clientX, e.clientY, name));
+                path.addEventListener('mousemove', (e) => moveTooltip(e.clientX, e.clientY));
+                path.addEventListener('mouseleave', hideTooltip);
+                path.addEventListener('click', () => {
+                  window.location.href = `/list.html?sido=${encodeURIComponent(name)}`;
+                });
+              }
             });
 
-            // 지도 밖으로 마우스가 빠지면 툴팁 닫기
-            svg.addEventListener('mouseleave', hideTooltip);
-            document.addEventListener('scroll', hideTooltip, { passive: true });
+            if (!isTouchDevice) {
+              svg.addEventListener('mouseleave', hideTooltip);
+              document.addEventListener('scroll', hideTooltip, { passive: true });
+            } else {
+              // 모바일: 지도 외부 탭 시 카드 닫기
+              document.addEventListener('click', (e) => {
+                if (!container.contains(e.target) && !infoCard.contains(e.target)) {
+                  hideSidoCard();
+                }
+              });
+            }
           })
           .catch(err => console.warn('한국 지도 로드 실패', err));
       })();
