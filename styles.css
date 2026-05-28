@@ -30,6 +30,9 @@ body {
   line-height: 1.5;
   font-size: 15px;
   -webkit-font-smoothing: antialiased;
+  /* 한글 줄바꿈: 단어(띄어쓰기) 단위로 끊기 + 긴 URL/영문은 넘치지 않게 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
