@@ -80,7 +80,9 @@
       
     <script>
       (function(){
-        const API = '/api/comments';
+        const API_BASE = 'https://politaltal-comments.jihoony821209.workers.dev';
+        const API = API_BASE + '/comments';
+        const REPORT = API_BASE + '/report';
         const LKEY = 'politaltal.localComments';
 
         function esc(s){ const d=document.createElement('div'); d.textContent=(s==null?'':s); return d.innerHTML; }
@@ -154,7 +156,7 @@
         window.reportComment = async function(id, el){
           if(!confirm('이 댓글을 신고할까요? (비방·허위사실 등)')) return;
           try {
-            await fetch('/api/report', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ id: id }) });
+            await fetch(REPORT, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ id: id }) });
             const item = el && el.closest('.live-feed-item');
             if(item){ item.style.opacity='0.5'; el.textContent='신고됨'; el.disabled=true; }
           } catch(e){ alert('신고 처리 중 오류가 발생했어요.'); }
