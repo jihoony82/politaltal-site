@@ -951,7 +951,16 @@ section { padding: 32px 0; }
   box-shadow: var(--shadow-sm);
   margin-bottom: 16px;
 }
-.profile-head { display: flex; gap: 16px; align-items: flex-start; }
+.profile-head { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+/* 프로필 우측 핵심 지표 미니 */
+.glance-mini { width: 210px; flex-shrink: 0; }
+.glance-mini .gm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.gm-item { background: #f8fafc; border: 1px solid var(--color-border); border-radius: 9px; padding: 9px 6px; text-align: center; }
+.gm-num { font-size: 18px; font-weight: 800; color: var(--color-primary); line-height: 1; }
+.gm-num small { font-size: 11px; font-weight: 700; color: var(--color-text-soft); margin-left: 1px; }
+.gm-lbl { font-size: 10px; color: var(--color-text-soft); margin-top: 4px; font-weight: 600; }
+.gm-note { font-size: 9.5px; color: #94a3b8; margin-top: 7px; text-align: center; line-height: 1.4; }
+@media (max-width: 600px) { .glance-mini { width: 100%; margin-top: 4px; } }
 .profile-avatar {
   width: 84px; height: 104px; border-radius: 8px;
   background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
