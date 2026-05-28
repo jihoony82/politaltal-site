@@ -58,6 +58,59 @@
       <div class="section-title">💬 커뮤니티</div>
       <div class="section-sub">데이터 기반 클린 토론 — 유권자들의 정치 놀이터</div>
 
+      <!-- 면책 고지 (필수) -->
+      <div class="community-disclaimer">
+        ⚖️ <strong>의견 면책 고지</strong> — 이곳의 모든 글·댓글·투표는 <strong>작성자 개인의 의견</strong>이며,
+        정치탈탈의 공식 입장과 무관합니다. 정치탈탈은 <strong>객관적 공공데이터의 중립적 전달</strong>만을 지향하며,
+        특정 정당·정치인을 지지하거나 반대하지 않습니다.<br>
+        사실과 다른 주장·비방·명예훼손성 게시물은 신고 시 삭제될 수 있습니다.
+      </div>
+
+      <!-- 실시간 의견 (미리보기) -->
+      <div class="section-title" style="font-size:16px;margin-top:18px;">⚡ 실시간 의견</div>
+      <div class="section-sub" style="margin-bottom:6px;">바로바로 올라가는 짧은 한마디 — 닉네임은 자동 부여됩니다</div>
+      <div class="live-feed-composer">
+        <textarea id="lfcText" placeholder="지금 떠오른 생각을 한마디로 남겨보세요 (객관적 근거와 함께면 더 좋아요)"></textarea>
+        <div class="lfc-row">
+          <span class="lfc-nick">🔒 현재는 <strong>내 기기에만</strong> 저장되는 미리보기예요 (공개 게시는 백엔드 연동 후)</span>
+          <button class="lfc-send" onclick="postLocalComment()">올리기</button>
+        </div>
+      </div>
+      <div id="liveFeed"></div>
+      
+    <script>
+      (function(){
+        const KEY = 'politaltal.localComments';
+        const NICKS = ['관심시민','데이터러버','우리동네유권자','팩트체커','초보관찰자','조용한관전러','숫자로보는유권자'];
+        function load(){ try { return JSON.parse(localStorage.getItem(KEY)||'[]'); } catch(e){ return []; } }
+        function save(a){ localStorage.setItem(KEY, JSON.stringify(a.slice(0,50))); }
+        function nick(){ return NICKS[Math.floor(Math.random()*NICKS.length)] + (Math.floor(Math.random()*900)+100); }
+        function render(){
+          const box = document.getElementById('liveFeed');
+          if(!box) return;
+          const items = load();
+          if(!items.length){ box.innerHTML = '<div style="font-size:12px;color:#94a3b8;padding:10px 2px;">아직 남긴 의견이 없어요. 첫 의견을 남겨보세요 (지금은 내 기기에만 보여요).</div>'; return; }
+          box.innerHTML = items.map(function(){ return '<div class="live-feed-item"><div class="lfi-meta">👤 <span class="lfi-nick"></span> · <span class="lfi-time"></span> · <span style="color:#f59e0b;">내 기기 미리보기</span></div><div class="lfi-text"></div></div>'; }).join('');
+          const texts = box.querySelectorAll('.lfi-text');
+          const nicks = box.querySelectorAll('.lfi-nick');
+          const times = box.querySelectorAll('.lfi-time');
+          items.forEach(function(c,i){ if(texts[i]) texts[i].textContent = c.text; if(nicks[i]) nicks[i].textContent = c.nick; if(times[i]) times[i].textContent = c.time; });
+        }
+        window.postLocalComment = function(){
+          const t = document.getElementById('lfcText');
+          const v = (t.value||'').trim();
+          if(!v){ t.focus(); return; }
+          const items = load();
+          items.unshift({ nick: nick(), time: '방금', text: v });
+          save(items);
+          t.value = '';
+          render();
+        };
+        render();
+      })();
+    </script>
+    
+
       <!-- 커뮤니티 특징 (정치탈탈만의 차별점) -->
       <div class="stat-card" style="background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);border-left:3px solid #0ea5e9;">
         <h2 style="color:#075985;font-size:15px;">🎯 정치탈탈 커뮤니티만의 차별점</h2>

@@ -140,6 +140,24 @@
       </svg>
 
       <div class="container">
+        <!-- 최상단 검색 (네이버 스타일) -->
+        <div class="hero-search">
+          <div class="hero-search-box">
+            <span class="hs-icon">🔍</span>
+            <input type="text" id="heroSearchInput" class="hero-search-input"
+                   placeholder="의원 이름·지역구·정당 검색 (예: 강남, 박주민)"
+                   oninput="onHeroSearch(event)" autocomplete="off">
+          </div>
+          <div id="heroSearchResults" class="search-results hero-results"></div>
+          <div class="hero-search-hints">
+            <span onclick="quickSearch('서울')">서울</span>
+            <span onclick="quickSearch('경기')">경기</span>
+            <span onclick="quickSearch('부산')">부산</span>
+            <span onclick="quickSearch('더불어민주당')">민주당</span>
+            <span onclick="quickSearch('국민의힘')">국민의힘</span>
+          </div>
+        </div>
+
         <span class="hero-eyebrow">
           <span data-tooltip="제22대 국회 임기: 2024년 5월 30일 ~ 2028년 5월 29일">제22대 국회</span>
           · 공공데이터 기반
@@ -189,6 +207,17 @@
     </section>
 
     <div class="container">
+      <!-- 국회 생중계 (본회의·상임위 의사중계시스템) -->
+      <a href="https://assembly.webcast.go.kr" target="_blank" rel="noopener" class="live-tv-banner">
+        <span class="ltv-dot"></span>
+        <span class="ltv-icon">📺</span>
+        <div class="ltv-text">
+          <strong>국회 생중계 보기</strong>
+          <span>본회의·상임위 의사중계 — 발의·표결이 이뤄지는 현장</span>
+        </div>
+        <span class="ltv-go">→</span>
+      </a>
+
       <div class="search-card">
         <div class="label">📍 내 지역구 찾기</div>
         <div class="hook">우리 동네 의원, 일 잘하고 있을까?</div>
@@ -1260,6 +1289,31 @@
         }
         box.innerHTML = hits.map(renderHit).join('');
         box.className = 'search-results has-results';
+      }
+
+      // ──── 히어로 상단 검색 (네이버 스타일) ────
+      function onHeroSearch(e) {
+        const q = e.target.value.trim().toLowerCase();
+        const box = document.getElementById('heroSearchResults');
+        if (!q) { box.innerHTML = ''; box.className = 'search-results hero-results'; return; }
+        const hits = SEARCH_DATA.filter(m =>
+          m.name.toLowerCase().includes(q) ||
+          m.district.toLowerCase().includes(q) ||
+          m.party.toLowerCase().includes(q)
+        ).slice(0, 10);
+        if (hits.length === 0) {
+          box.innerHTML = '<div style="padding:12px;color:#64748b;font-size:13px;">검색 결과가 없습니다.</div>';
+          box.className = 'search-results hero-results has-results';
+          return;
+        }
+        box.innerHTML = hits.map(renderHit).join('');
+        box.className = 'search-results hero-results has-results';
+      }
+      function quickSearch(term) {
+        const input = document.getElementById('heroSearchInput');
+        input.value = term;
+        onHeroSearch({ target: input });
+        input.focus();
       }
 
       // ──── 주소로 의원 찾기 ────
