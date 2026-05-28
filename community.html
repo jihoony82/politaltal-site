@@ -67,19 +67,17 @@
             비방·허위사실·명예훼손성 글은 신고 시 삭제될 수 있습니다.
           </div>
           <div>
-            <!-- 방송 선택 탭: 국회방송(NATV) ↔ KTV -->
+            <!-- 방송 선택 탭: 국회방송(NATV) ↔ KTV (라이브 영상 ID 빌드 시 자동 주입) -->
+            
             <div class="cl-tv-tabs">
-              <button class="cl-tv-tab active" data-ch="UCL-WOj1FxKR8Hlzg5tvnWKg" onclick="switchTV(this)">📺 국회방송 (본회의·상임위)</button>
-              <button class="cl-tv-tab" data-ch="UCIMOytYIzaUpoAM2bpT4JZQ" onclick="switchTV(this)">📡 KTV 국민방송</button>
+              <button class="cl-tv-tab active" data-vid="FCsi2Jgrqyg" data-name="KTV 국민방송" onclick="switchTV(this)">📡 KTV 🔴 LIVE</button>
+              <button class="cl-tv-tab" data-vid="mkQJy8F4758" data-name="국회방송 NATV" onclick="switchTV(this)">📺 국회방송(NATV)</button>
             </div>
             <div class="cl-video-wrap">
-              <iframe id="clTvFrame" src="https://www.youtube.com/embed/live_stream?channel=UCL-WOj1FxKR8Hlzg5tvnWKg"
-                      title="국회 생중계"
-                      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-                      referrerpolicy="strict-origin-when-cross-origin"
-                      allowfullscreen></iframe>
+              <iframe id="clTvFrame" src="https://www.youtube.com/embed/FCsi2Jgrqyg?rel=0" title="국회 생중계" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
-            <div class="cl-video-cap"><span class="live-dot"></span> <span id="clTvCap">국회방송 NATV 생중계 · 본회의·상임위 (회의 없는 시간엔 방송이 안 보일 수 있어요)</span></div>
+            <div class="cl-video-cap"><span class="live-dot"></span> <span id="clTvCap">KTV 국민방송 (24시간 생중계) 생중계</span></div>
+    
           </div>
           <a href="https://assembly.webcast.go.kr" target="_blank" rel="noopener" class="cl-webcast-link">
             🗂 국회 의사중계시스템 — 상임위별 전체 채널 보기 →
@@ -190,19 +188,21 @@
           } catch(e){ alert('신고 처리 중 오류가 발생했어요.'); }
         };
 
-        // 방송 채널 전환 (국회방송 NATV ↔ KTV)
-        const TV_CAPS = {
-          'UCL-WOj1FxKR8Hlzg5tvnWKg': '국회방송 NATV 생중계 · 본회의·상임위 (회의 없는 시간엔 방송이 안 보일 수 있어요)',
-          'UCIMOytYIzaUpoAM2bpT4JZQ': 'KTV 국민방송 생중계 · 24시간 정책방송 (국회 중계 포함)'
-        };
+        // 방송 채널 전환 (국회방송 NATV ↔ KTV) — 실제 라이브 영상 ID로 임베드
         window.switchTV = function(btn){
-          const ch = btn.getAttribute('data-ch');
-          const frame = document.getElementById('clTvFrame');
-          if(frame) frame.src = 'https://www.youtube.com/embed/live_stream?channel=' + ch;
+          const vid = btn.getAttribute('data-vid');
+          const name = btn.getAttribute('data-name') || '';
+          const wrap = document.querySelector('.cl-video-wrap');
+          const cap = document.getElementById('clTvCap');
           document.querySelectorAll('.cl-tv-tab').forEach(function(b){ b.classList.remove('active'); });
           btn.classList.add('active');
-          const cap = document.getElementById('clTvCap');
-          if(cap) cap.textContent = TV_CAPS[ch] || '';
+          if(!vid){
+            if(wrap) wrap.innerHTML = '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:13px;text-align:center;padding:20px;">현재 '+name+' 생방송이 없습니다.<br>다른 채널을 선택하거나 아래 의사중계시스템에서 확인하세요.</div>';
+            if(cap) cap.textContent = name + ' · 현재 방송 없음';
+            return;
+          }
+          if(wrap) wrap.innerHTML = '<iframe id="clTvFrame" src="https://www.youtube.com/embed/'+vid+'?autoplay=1&mute=1&rel=0" title="국회 생중계" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+          if(cap) cap.textContent = name + ' 생중계';
         };
 
         refresh();
