@@ -132,6 +132,24 @@ body {
 .live-tv-banner .ltv-text span { font-size: 11px; color: #cbd5e1; margin-top: 2px; }
 .live-tv-banner .ltv-go { font-size: 18px; color: #94a3b8; }
 
+/* ── 홈 2-기둥 (의원 검증 + 실시간 커뮤니티) ── */
+.home-pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0 4px; }
+@media (max-width: 560px) { .home-pillars { grid-template-columns: 1fr; } }
+.pillar { position: relative; display: block; text-decoration: none; border-radius: 14px; padding: 18px; border: 1px solid var(--color-border); background: var(--color-card); transition: transform .15s, box-shadow .15s, border-color .15s; }
+.pillar:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,.10); }
+.pillar-verify:hover { border-color: var(--color-primary); }
+.pillar-community { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-color: transparent; }
+.pillar-community:hover { box-shadow: 0 12px 30px rgba(0,0,0,.28); }
+.pillar-ico { font-size: 26px; }
+.pillar-tt { font-size: 17px; font-weight: 800; margin: 8px 0 4px; color: var(--color-text); }
+.pillar-community .pillar-tt { color: #fff; }
+.pillar-ds { font-size: 12.5px; line-height: 1.55; color: var(--color-text-soft); }
+.pillar-community .pillar-ds { color: #cbd5e1; }
+.pillar-live { position: absolute; top: 14px; right: 14px; font-size: 10px; font-weight: 800; color: #fff; background: #ef4444; padding: 2px 8px; border-radius: 20px; letter-spacing: .5px; }
+.pillar-go { display: inline-block; margin-top: 10px; font-size: 12px; font-weight: 700; }
+.pillar-verify .pillar-go { color: var(--color-primary); }
+.pillar-community .pillar-go { color: #7dd3fc; }
+
 /* ── 의원 한눈에 요약 (그래프 우선) ── */
 .glance-card .glance-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .glance-item { background: #f8fafc; border-radius: 10px; padding: 12px 14px; }

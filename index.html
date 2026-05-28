@@ -172,8 +172,8 @@
           <em>진짜 일하고 있나요?</em>
         </h1>
         <p class="hero-sub">
-          기사 헤드라인이 아닌, 국회 공식 데이터로 검증합니다.<br>
-          286명의 의정활동, 17,295건의 발의 법안을 한눈에.
+          기사 헤드라인이 아닌 <strong style="color:#fff;">국회 공식 데이터</strong>로 286명 의원을 검증하고,<br>
+          국회 생중계를 보며 시민들과 <strong style="color:#fff;">실시간으로 토론</strong>하는 곳.
         </p>
         <div class="hero-stats">
           <div class="hero-stat">
@@ -190,33 +190,26 @@
           </div>
         </div>
 
-        <div class="party-showcase">
-          <div class="party-showcase-title">제22대 국회 8개 정당</div>
-          <div class="party-grid">
-            <span class="party-badge"><span class="party-dot" style="background:#004ea2"></span>더불어민주당 <span class="party-count">152</span></span>
-            <span class="party-badge"><span class="party-dot" style="background:#e61e2b"></span>국민의힘 <span class="party-count">106</span></span>
-            <span class="party-badge"><span class="party-dot" style="background:#0073cf"></span>조국혁신당 <span class="party-count">12</span></span>
-            <span class="party-badge"><span class="party-dot" style="background:#64748b"></span>무소속 <span class="party-count">7</span></span>
-            <span class="party-badge"><span class="party-dot" style="background:#d6001c"></span>진보당 <span class="party-count">4</span></span>
-            <span class="party-badge"><span class="party-dot" style="background:#ff7920"></span>개혁신당 <span class="party-count">3</span></span>
-            <span class="party-badge"><span class="party-dot" style="background:#00b140"></span>기본소득당 <span class="party-count">1</span></span>
-            <span class="party-badge"><span class="party-dot" style="background:#c5b400"></span>사회민주당 <span class="party-count">1</span></span>
-          </div>
-        </div>
       </div>
     </section>
 
     <div class="container">
-      <!-- 국회 생중계 (본회의·상임위 의사중계시스템) -->
-      <a href="https://assembly.webcast.go.kr" target="_blank" rel="noopener" class="live-tv-banner">
-        <span class="ltv-dot"></span>
-        <span class="ltv-icon">📺</span>
-        <div class="ltv-text">
-          <strong>국회 생중계 보기</strong>
-          <span>본회의·상임위 의사중계 — 발의·표결이 이뤄지는 현장</span>
-        </div>
-        <span class="ltv-go">→</span>
-      </a>
+      <!-- 두 축: 의원 검증 + 실시간 커뮤니티 (정체성 한눈에) -->
+      <div class="home-pillars">
+        <a href="/list.html" class="pillar pillar-verify">
+          <div class="pillar-ico">🔍</div>
+          <div class="pillar-tt">의원 검증</div>
+          <div class="pillar-ds">국회 공식 데이터로 286명 의원의<br>발의·표결·출석·재산을 한눈에</div>
+          <span class="pillar-go">의원 전체 보기 →</span>
+        </a>
+        <a href="/community" class="pillar pillar-community">
+          <span class="pillar-live">🔴 LIVE</span>
+          <div class="pillar-ico">💬</div>
+          <div class="pillar-tt">실시간 커뮤니티</div>
+          <div class="pillar-ds">국회 생중계를 보며<br>시민들과 실시간으로 토론해요</div>
+          <span class="pillar-go">채팅 들어가기 →</span>
+        </a>
+      </div>
 
       <div class="search-card">
         <div class="label">📍 내 지역구 찾기</div>
@@ -236,15 +229,7 @@
 
         <div id="addressResults" class="address-results"></div>
 
-        <div class="or-divider">또는 이름·지역으로 검색</div>
-
-        <div class="search-input-wrap">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="searchInput" class="search-input"
-                 placeholder="의원 이름·지역구·정당 검색 (예: 강남, 박주민)"
-                 oninput="onSearch(event)">
-        </div>
-        <div id="searchResults" class="search-results"></div>
+        <div class="or-divider">또는 지도에서 지역 클릭</div>
 
         <!-- 한국 지도 (인터랙티브) -->
         <div class="korea-map-wrap">
