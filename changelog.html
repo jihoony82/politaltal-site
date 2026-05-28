@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>업데이트 기록 - 정치탈탈</title>
+  <meta name="description" content="정치탈탈의 주간 업데이트 기록. 모든 데이터 변동을 투명하게 공개합니다.">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="container">
+      <a href="/" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
+        <span>정치탈탈</span>
+      </a>
+      <a href="/login.html" id="headerAuthBtn" style="font-size:12px;font-weight:700;padding:6px 12px;
+                                    background:var(--color-primary);color:white;
+                                    border-radius:6px;text-decoration:none;
+                                    display:flex;align-items:center;gap:6px;">
+        로그인
+      </a>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <a href="/" class="back-link">← 홈으로</a>
+      <div class="section-title">🔄 업데이트 기록</div>
+      <div class="section-sub">정치탈탈은 매주 월요일 자동 갱신됩니다. 변경 내역을 투명하게 공개합니다.</div>
+
+      <div class="stat-card" style="background:#e0f2fe;border-left:3px solid #0ea5e9;">
+        <p style="font-size:13px;color:#075985;line-height:1.7;">
+          💡 모든 데이터는 <strong>국회 공식 OpenAPI (열린국회정보)</strong> 기준입니다.<br>
+          매주 월요일 새벽 5시에 자동 동기화되며, 변경 사항이 본 페이지에 즉시 기록됩니다.<br>
+          텔레그램 봇 알림도 함께 발송됩니다 (운영자 한정).
+        </p>
+      </div>
+
+      
+        <div class="stat-card" style="text-align:center;padding:32px;color:var(--color-text-soft);">
+          📭 아직 기록된 업데이트가 없습니다.<br>
+          <small>매주 월요일 새벽에 자동 업데이트가 실행됩니다.</small>
+        </div>
+        
+
+      <div class="footer-info">
+        모든 업데이트는 GitHub 커밋 기록으로도 확인 가능합니다:
+        <a href="https://github.com/jihoony82/politaltal-site/commits/main" target="_blank">github.com/politaltal-site</a>
+      </div>
+    </div>
+    </main>
+  <nav class="bottom-nav">
+    <a href="/" class="active">
+      <span class="icon">🏠</span>홈
+    </a>
+    <a href="/list.html" class="">
+      <span class="icon">📋</span>의원
+    </a>
+    <a href="/stories.html" class="">
+      <span class="icon">🎙</span>의원실
+    </a>
+    <a href="/community.html" class="">
+      <span class="icon">💬</span>커뮤니티
+    </a>
+    <a href="/learn.html" class="">
+      <span class="icon">📚</span>배움터
+    </a>
+  </nav>
+</body>
+</html>
