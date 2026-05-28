@@ -554,26 +554,34 @@ section { padding: 32px 0; }
 
 /* ─── 한국 지도 (인터랙티브 SVG) ─────────────────────── */
 .korea-map-wrap {
-  margin-top: 16px; padding: 16px;
+  margin-top: 0; padding: 12px;
   background: linear-gradient(135deg,#f8fafc 0%,#eef2f7 100%);
   border-radius: var(--radius);
 }
 .korea-map-title {
   font-size: 12px; color: var(--color-text-soft);
-  text-align: center; margin-bottom: 8px;
+  text-align: center; margin-bottom: 6px;
   font-weight: 600;
 }
 .korea-map-real {
-  width: 100%; max-width: 360px; margin: 0 auto;
+  width: 100%; max-width: 280px; margin: 0 auto;
   display: flex; justify-content: center;
-  min-height: 380px;
+  min-height: 210px;
 }
 .korea-map-svg {
   width: 100%; height: auto;
-  max-height: 480px;
+  max-height: 300px;
   display: block;
   filter: drop-shadow(0 2px 6px rgba(10, 37, 64, 0.08));
 }
+
+/* ── 검색 카드 2단 배치 (버튼 | 지도) ── */
+.sc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: stretch; }
+@media (max-width: 680px) { .sc-grid { grid-template-columns: 1fr; gap: 14px; } }
+.sc-left { display: flex; flex-direction: column; }
+.sc-left .address-btn { margin-top: 12px; }
+.sc-right { display: flex; flex-direction: column; }
+.sc-right .korea-map-wrap { height: 100%; display: flex; flex-direction: column; justify-content: center; }
 .korea-region-real {
   fill: #cbd5e1;
   stroke: white;

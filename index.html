@@ -200,34 +200,37 @@
       </div>
 
       <div class="search-card">
-        <div class="label">📍 내 지역구 찾기</div>
-        <div class="hook">우리 동네 의원, 일 잘하고 있을까?</div>
+        <div class="sc-grid">
+          <!-- 좌: 주소·GPS 검색 -->
+          <div class="sc-left">
+            <div class="label">📍 내 지역구 찾기</div>
+            <div class="hook">우리 동네 의원, 일 잘하고 있을까?</div>
 
-        <!-- 주소로 찾기 (카카오 우편번호) -->
-        <button class="address-btn" onclick="openAddressSearch()">
-          <span class="home-icon">🏠</span>
-          <span>내 집 주소로 우리 의원 찾기</span>
-        </button>
+            <!-- 주소로 찾기 (카카오 우편번호) -->
+            <button class="address-btn" onclick="openAddressSearch()">
+              <span class="home-icon">🏠</span>
+              <span>내 집 주소로 우리 의원 찾기</span>
+            </button>
 
-        <!-- GPS 위치로 찾기 -->
-        <button class="gps-btn" onclick="findByGPS()">
-          <span>📍</span>
-          <span>현재 위치로 우리 동네 의원 찾기</span>
-        </button>
+            <!-- GPS 위치로 찾기 -->
+            <button class="gps-btn" onclick="findByGPS()">
+              <span>📍</span>
+              <span>현재 위치로 우리 동네 의원 찾기</span>
+            </button>
 
-        <div id="addressResults" class="address-results"></div>
-
-        <div class="or-divider">또는 지도에서 지역 클릭</div>
-
-        <!-- 한국 지도 (인터랙티브) -->
-        <div class="korea-map-wrap">
-          <div class="korea-map-title">
-            <svg width="14" height="14" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:4px;" fill="currentColor">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-            </svg>
-            지도에서 지역 클릭 (마우스 올리면 정보 보기)
+            <div id="addressResults" class="address-results"></div>
           </div>
-          
+
+          <!-- 우: 한국 지도 (인터랙티브) -->
+          <div class="sc-right">
+            <div class="korea-map-wrap">
+              <div class="korea-map-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:4px;" fill="currentColor">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                지도에서 지역 클릭
+              </div>
+              
     <div id="koreaMapContainer" class="korea-map-real"></div>
 
     <!-- 모바일용 시도 정보 카드 (탭 시 표시) -->
@@ -378,6 +381,8 @@
       })();
     </script>
     
+            </div>
+          </div>
         </div>
       </div>
 
