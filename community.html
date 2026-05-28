@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>커뮤니티 - 정치탈탈</title>
-  <meta name="description" content="정치탈탈 커뮤니티 - 유권자들의 정치 토론 공간 (Stage 3 출시 예정)">
+  <meta name="description" content="정치탈탈 커뮤니티 - 데이터 기반 클린 토론 공간 (Stage 3 출시 예정)">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -50,12 +50,23 @@
     <div class="container">
       <a href="/" class="back-link">← 홈으로</a>
       <div class="section-title">💬 커뮤니티</div>
-      <div class="section-sub">유권자들의 정치 토론 공간</div>
+      <div class="section-sub">데이터 기반 클린 토론 — 유권자들의 정치 놀이터</div>
+
+      <!-- 커뮤니티 특징 (정치탈탈만의 차별점) -->
+      <div class="stat-card" style="background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);border-left:3px solid #0ea5e9;">
+        <h2 style="color:#075985;font-size:15px;">🎯 정치탈탈 커뮤니티만의 차별점</h2>
+        <ul style="font-size:12px;color:#075985;line-height:1.9;list-style:none;padding:0;margin:8px 0 0;">
+          <li>🔗 <strong>의원 데이터 인용</strong>: 의원 카드를 댓글에 첨부해 근거 있는 토론</li>
+          <li>📍 <strong>우리 지역 로컬</strong>: 본인 지역구 주민들과 실생활 이슈 공유</li>
+          <li>🎭 <strong>페르소나 닉네임</strong>: 시스템이 자동 부여 (예: "강남구유권자A") — 익명 + 안전</li>
+          <li>📊 <strong>찬반 투표 컴포넌트</strong>: 의원 표결 vs 시민 여론 자동 비교</li>
+          <li>🛡 <strong>강력한 신고 + 등급제</strong>: 변호사 자문 기반 클린 환경</li>
+        </ul>
+      </div>
 
       <div class="coming-soon-banner">
-        🚧 <strong>커뮤니티는 Stage 3 출시 예정</strong>입니다.<br>
+        🚧 <strong>커뮤니티는 Stage 3 출시 예정</strong>입니다.
         아래 화면은 미리보기이며, 실제 글쓰기·댓글은 변호사 자문 + 백엔드 구축 완료 후 활성화됩니다.
-        건전한 토론 문화를 위해 <strong>아이디 등급제·실명 인증·강력한 신고 시스템</strong>을 함께 도입할 예정이에요.
       </div>
 
       <div class="sub-tabs">
@@ -69,81 +80,114 @@
       
         <div class="post-card">
           <div class="post-meta">
-            <span class="post-category">자유게시판</span>
-            <span>익명1 · 방금</span>
-          </div>
-          <div class="post-title">강남갑 지역구 의원 어떻게 생각하세요?</div>
-          <div class="post-preview">처음 정치에 관심 갖기 시작했는데, 우리 동네 의원 활동 자료를 보고 의견을 나누고 싶어요...</div>
-          <div class="post-stats">
-            <span>👁 42</span>
-            <span>💬 18</span>
-            <span>❤️ 14</span>
-          </div>
-        </div>
-        
-        <div class="post-card">
-          <div class="post-meta">
             <span class="post-category">정책토론</span>
-            <span>익명2 · 1시간 전</span>
+            <span>👤 마포구데이터분석가 · 30분 전</span>
           </div>
-          <div class="post-title">최근 통과된 ○○법 어떻게 보세요?</div>
-          <div class="post-preview">본회의 통과된 법안의 영향에 대해 다양한 시각이 있을 것 같습니다. 데이터를 보고 토론해봐요.</div>
+          <div class="post-title">주거안정법 어떻게 보세요? 의원 표결 vs 여론</div>
+          <div class="post-preview">지난주 본회의에서 통과된 주거안정법. 의원들의 표결과 시민 의견을 비교해봅시다.</div>
+          
+            <a href="/politician/6AU2417B.html" class="post-badge party-민주" onclick="event.stopPropagation();">
+              📊 박주민 데이터 보기 →
+            </a>
+            
+          
+            <div class="post-poll">
+              <div class="poll-title">📊 이 법안에 찬성?</div>
+              <div class="poll-bar">
+                <div class="poll-yes" style="width:46%">46%</div>
+                <div class="poll-no" style="width:20%">20%</div>
+                <div class="poll-neu" style="width:34%">34%</div>
+              </div>
+              <div class="poll-legend">
+                <span>✅ 찬성 65</span>
+                <span>❌ 반대 28</span>
+                <span>🤔 모름 7</span>
+              </div>
+            </div>
+            
           <div class="post-stats">
-            <span>👁 87</span>
-            <span>💬 34</span>
-            <span>❤️ 29</span>
+            <span>👁 287</span>
+            <span>💬 64</span>
+            <span>❤️ 142</span>
           </div>
         </div>
         
         <div class="post-card">
           <div class="post-meta">
             <span class="post-category">우리지역</span>
-            <span>익명3 · 3시간 전</span>
+            <span>👤 강남구유권자A · 1시간 전</span>
           </div>
-          <div class="post-title">[서울] 강서구 주민 모임</div>
-          <div class="post-preview">강서구 거주자 분들 모여서 지역 현안 얘기해요.</div>
+          <div class="post-title">[강남구] 지역구 의원실에 민원 넣어보신 분?</div>
+          <div class="post-preview">강남갑·을·병 의원실에 도로 민원 넣어봤는데 응답 속도가 다르더군요. 경험 공유해요.</div>
+          
+          
           <div class="post-stats">
-            <span>👁 21</span>
-            <span>💬 7</span>
-            <span>❤️ 7</span>
+            <span>👁 124</span>
+            <span>💬 23</span>
+            <span>❤️ 41</span>
+          </div>
+        </div>
+        
+        <div class="post-card">
+          <div class="post-meta">
+            <span class="post-category">정책토론</span>
+            <span>👤 소신있는재선투표자 · 3시간 전</span>
+          </div>
+          <div class="post-title">환경 관련 법안 통과율이 너무 낮은 이유?</div>
+          <div class="post-preview">환경노동위 의원들 데이터 보니 가결률이 평균 이하네요. 왜 그럴까요?</div>
+          
+            <a href="/politician/T2T8225E.html" class="post-badge party-조국" onclick="event.stopPropagation();">
+              📊 강경숙 데이터 보기 →
+            </a>
+            
+          
+          <div class="post-stats">
+            <span>👁 198</span>
+            <span>💬 41</span>
+            <span>❤️ 87</span>
           </div>
         </div>
         
         <div class="post-card">
           <div class="post-meta">
             <span class="post-category">Q&A</span>
-            <span>익명4 · 5시간 전</span>
+            <span>👤 정치입문자 · 5시간 전</span>
           </div>
-          <div class="post-title">법안 발의 절차가 어떻게 되나요?</div>
-          <div class="post-preview">초보적인 질문인데, 의원이 법을 만들 때 어떤 절차를 거치는지 궁금합니다.</div>
+          <div class="post-title">법안 발의부터 통과까지 절차가 어떻게 되나요?</div>
+          <div class="post-preview">초보적인 질문인데, 의원이 법을 만들 때 어떤 절차를 거치는지 궁금합니다. 배움터에 좀...</div>
+          
+          
           <div class="post-stats">
-            <span>👁 56</span>
-            <span>💬 12</span>
-            <span>❤️ 18</span>
+            <span>👁 92</span>
+            <span>💬 18</span>
+            <span>❤️ 30</span>
           </div>
         </div>
         
         <div class="post-card">
           <div class="post-meta">
             <span class="post-category">자유게시판</span>
-            <span>익명5 · 어제</span>
+            <span>👤 데이터러버 · 어제</span>
           </div>
-          <div class="post-title">정치탈탈 사이트 사용법 공유</div>
-          <div class="post-preview">데이터 보는 법 공유합니다. 발의수만 보지 말고 통과율도 같이 봐야...</div>
+          <div class="post-title">정치탈탈 사이트 활용법 공유 — 발의수 함정 주의</div>
+          <div class="post-preview">발의수만 보지 말고 통과율도 같이 봐야 합니다. 300건 발의 vs 50건 발의 + 통과 20건...</div>
+          
+          
           <div class="post-stats">
-            <span>👁 134</span>
-            <span>💬 45</span>
-            <span>❤️ 44</span>
+            <span>👁 421</span>
+            <span>💬 67</span>
+            <span>❤️ 140</span>
           </div>
         </div>
         
 
-      <div style="text-align:center; padding: 40px 0; color: var(--color-text-soft); font-size: 13px;">
-        — 위 게시글은 모두 예시입니다 —
+      <div style="text-align:center;padding:30px 0;color:var(--color-text-soft);font-size:12px;line-height:1.7;">
+        — 위 게시글·투표는 모두 예시입니다 —<br>
+        실제 출시 시 모든 게시글은 데이터 인용·투표·의원 링크가 결합된 형태로 표시됩니다
       </div>
     </div>
 
-    <button class="write-btn-floating" onclick="alert('커뮤니티는 Stage 3 출시 예정입니다.\n\n현재는 미리보기 단계이며, 실제 글쓰기는 변호사 자문 + 백엔드 구축 후 활성화됩니다.')">✏️</button>
+    <button class="write-btn-floating" onclick="alert('커뮤니티는 Stage 3 출시 예정입니다.\n\n출시 시 적용 예정:\n• 페르소나 닉네임 (시스템 자동 부여)\n• 의원 데이터 카드 인용\n• 찬반 투표 컴포넌트\n• 강력한 신고 시스템 + 변호사 자문\n\n현재는 미리보기 단계입니다.')">✏️</button>
     </main>
   <nav class="bottom-nav">
     <a href="/" class="">

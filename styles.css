@@ -868,82 +868,124 @@ section { padding: 32px 0; }
   margin-top: 2px;
 }
 
-/* 마인드맵 네트워크 그래프 (의원 한눈에) */
-.member-network {
+/* 빅데이터 워드클라우드 (의원 한눈에) */
+.member-bigdata {
   background: linear-gradient(180deg, #fafbfc 0%, #ffffff 100%);
   border-radius: var(--radius-lg);
-  padding: 18px;
+  padding: 16px 18px;
   margin-bottom: 12px;
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
 }
-.network-header {
+.bd-header {
   display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
-.network-title {
+.bd-title {
   font-size: 16px; font-weight: 800; letter-spacing: -0.3px;
   color: var(--color-primary);
 }
-.network-tag {
+.bd-tag {
   font-size: 9px; font-weight: 800; letter-spacing: 1px;
   padding: 3px 8px; border-radius: 4px;
   background: linear-gradient(135deg, #ff5e3a, #ff8267);
   color: white;
 }
-.network-legend {
-  display: flex; flex-wrap: wrap; gap: 12px;
-  margin-bottom: 4px; padding-bottom: 4px;
-  font-size: 11px; color: var(--color-text-soft);
+.bd-legend {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  margin-bottom: 10px;
+  font-size: 10px; color: var(--color-text-soft);
 }
-.net-legend-item {
-  display: inline-flex; align-items: center; gap: 4px;
+.bd-leg {
+  display: inline-flex; align-items: center; gap: 3px;
   font-weight: 600;
 }
-.net-legend-item .dot {
-  width: 8px; height: 8px; border-radius: 50%;
+.bd-dot {
+  width: 7px; height: 7px; border-radius: 50%;
 }
-.net-legend-item .dot-red { background: #dc2626; }
-.net-legend-item .dot-blue { background: #2563eb; }
-.net-legend-item .dot-gray { background: #64748b; }
-.net-legend-item .dot-orange { background: #ff5e3a; }
+.bd-dot-red { background: #dc2626; }
+.bd-dot-blue { background: #2563eb; }
+.bd-dot-gray { background: #64748b; }
+.bd-dot-orange { background: #ff5e3a; }
 
-.network-svg {
-  width: 100%; max-width: 560px; height: auto;
-  display: block; margin: 0 auto;
+/* 워드클라우드 핵심 */
+.bigdata-cloud {
+  background: white;
+  border-radius: 14px;
+  padding: 24px 18px;
+  text-align: center;
+  line-height: 1.6;
+  border: 1px dashed var(--color-border);
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 12px;
 }
-.network-svg .net-edge {
-  transition: opacity 0.2s, stroke-width 0.2s;
-}
-.network-svg .net-node {
+.bd-word {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 0 2px;
   cursor: help;
-  transition: transform 0.2s;
-  transform-origin: center;
-  transform-box: fill-box;
+  transition: transform 0.2s, filter 0.2s;
+  position: relative;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
 }
-.network-svg .net-node:hover {
-  transform: scale(1.12);
+.bd-word:hover {
+  transform: scale(1.18) rotate(0deg) !important;
+  filter: brightness(1.1);
+  z-index: 5;
 }
-.network-svg .net-node:hover ~ .net-edge,
-.network-svg .net-node:hover circle {
-  filter: drop-shadow(0 0 6px rgba(0,0,0,0.15));
+/* hover tooltip */
+.bd-word::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 37, 64, 0.95);
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 100;
 }
-.network-svg .net-central circle {
-  filter: drop-shadow(0 4px 12px rgba(10, 37, 64, 0.25));
-}
-.network-svg .net-central {
-  animation: pulse-central 3s ease-in-out infinite;
-  transform-origin: center;
-  transform-box: fill-box;
-}
-@keyframes pulse-central {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-}
-.network-hint {
+.bd-word:hover::after { opacity: 1; }
+
+/* 폰트 크기 */
+.bd-word.bd-name { font-size: 38px; font-weight: 900; letter-spacing: -1px; }
+.bd-word.bd-major { font-size: 26px; font-weight: 800; }
+.bd-word.bd-medium { font-size: 18px; font-weight: 700; }
+.bd-word.bd-small { font-size: 14px; font-weight: 600; }
+.bd-word.bd-tiny { font-size: 11px; font-weight: 500; opacity: 0.7; }
+
+/* 색상 */
+.bd-word.bd-red { color: #dc2626; }
+.bd-word.bd-orange { color: #ff5e3a; }
+.bd-word.bd-blue { color: #2563eb; }
+.bd-word.bd-green { color: #16a34a; }
+.bd-word.bd-gray { color: #64748b; }
+.bd-word.bd-purple { color: #a855f7; }
+.bd-word.bd-dark { color: #0a2540; }
+
+.bd-hint {
   text-align: center;
   font-size: 11px; color: var(--color-text-soft);
-  margin-top: 6px; font-weight: 500;
+  margin-top: 8px; font-weight: 500;
+}
+
+/* 모바일 - 크기 축소 */
+@media (max-width: 540px) {
+  .bd-word.bd-name { font-size: 30px; }
+  .bd-word.bd-major { font-size: 22px; }
+  .bd-word.bd-medium { font-size: 16px; }
 }
 
 /* 빅데이터 의원 한눈에 카드 */
@@ -1629,6 +1671,72 @@ a:hover { text-decoration: underline; }
   box-shadow: 0 4px 16px rgba(255, 94, 58, 0.4);
   display: flex; align-items: center; justify-content: center;
   z-index: 50;
+}
+
+/* 커뮤니티: 의원 데이터 카드 인용 (배지 형태) */
+.post-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 999px;
+  text-decoration: none;
+  margin-top: 8px;
+  background: rgba(0, 0, 0, 0.05);
+  color: white;
+  transition: all 0.15s;
+}
+.post-badge:hover {
+  transform: translateY(-1px);
+  text-decoration: none;
+  filter: brightness(1.1);
+}
+.post-badge.party-민주 { background: #004ea2; }
+.post-badge.party-국힘 { background: #e61e2b; }
+.post-badge.party-조국 { background: #0073cf; }
+.post-badge.party-진보 { background: #d6001c; }
+.post-badge.party-개혁 { background: #ff7920; }
+.post-badge.party-기본 { background: #00b140; }
+.post-badge.party-사민 { background: #c5b400; color: #333; }
+.post-badge.party-무 { background: #64748b; }
+
+/* 커뮤니티: 투표 컴포넌트 */
+.post-poll {
+  background: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 10px;
+}
+.poll-title {
+  font-size: 12px; font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 6px;
+}
+.poll-bar {
+  display: flex; height: 24px;
+  border-radius: 6px; overflow: hidden;
+  font-size: 11px; font-weight: 700;
+  margin-bottom: 6px;
+}
+.poll-yes {
+  background: linear-gradient(90deg, #10b981, #059669);
+  color: white; display: flex; align-items: center; justify-content: center;
+  min-width: 0; overflow: hidden; white-space: nowrap;
+}
+.poll-no {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+  color: white; display: flex; align-items: center; justify-content: center;
+  min-width: 0; overflow: hidden; white-space: nowrap;
+}
+.poll-neu {
+  background: #94a3b8;
+  color: white; display: flex; align-items: center; justify-content: center;
+  min-width: 0; overflow: hidden; white-space: nowrap;
+}
+.poll-legend {
+  display: flex; gap: 10px;
+  font-size: 10px; color: var(--color-text-soft);
+  font-weight: 600;
 }
 
 /* 배움터 카드 */
