@@ -171,12 +171,12 @@ body {
 .why-title { font-size: 22px; font-weight: 800; color: var(--color-text); line-height: 1.35; }
 .why-title em { font-style: normal; color: var(--color-primary); }
 .why-sub { font-size: 13px; color: var(--color-text-soft); margin-top: 8px; }
-.why-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 480px; margin: 18px auto 0; }
-.why-stat { background: var(--color-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 14px 8px 12px; box-shadow: 0 2px 8px rgba(10,37,64,.05); }
-.why-stat .num { font-size: 23px; font-weight: 800; color: var(--color-primary); line-height: 1; }
+.why-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 540px; margin: 18px auto 0; }
+.why-stat { background: var(--color-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 15px 6px 13px; box-shadow: 0 2px 8px rgba(10,37,64,.05); overflow: hidden; }
+.why-stat .num { font-size: 21px; font-weight: 800; color: var(--color-primary); line-height: 1.15; white-space: nowrap; }
 .why-stat .num small { font-size: 12px; font-weight: 700; color: var(--color-text-soft); margin-left: 1px; }
-.why-stat .label { font-size: 11px; color: var(--color-text-soft); margin-top: 6px; font-weight: 600; }
-@media (max-width: 480px) { .why-title { font-size: 19px; } .why-stat .num { font-size: 19px; } .why-stat .label { font-size: 10px; } }
+.why-stat .label { font-size: 11px; color: var(--color-text-soft); margin-top: 7px; font-weight: 600; white-space: nowrap; }
+@media (max-width: 480px) { .why-title { font-size: 19px; } .why-stat .num { font-size: 16px; } .why-stat .label { font-size: 9.5px; } }
 
 /* ── 의원 한눈에 요약 (그래프 우선) ── */
 .glance-card .glance-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
