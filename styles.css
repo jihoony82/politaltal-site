@@ -868,6 +868,84 @@ section { padding: 32px 0; }
   margin-top: 2px;
 }
 
+/* 마인드맵 네트워크 그래프 (의원 한눈에) */
+.member-network {
+  background: linear-gradient(180deg, #fafbfc 0%, #ffffff 100%);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  margin-bottom: 12px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+.network-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px;
+}
+.network-title {
+  font-size: 16px; font-weight: 800; letter-spacing: -0.3px;
+  color: var(--color-primary);
+}
+.network-tag {
+  font-size: 9px; font-weight: 800; letter-spacing: 1px;
+  padding: 3px 8px; border-radius: 4px;
+  background: linear-gradient(135deg, #ff5e3a, #ff8267);
+  color: white;
+}
+.network-legend {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  margin-bottom: 4px; padding-bottom: 4px;
+  font-size: 11px; color: var(--color-text-soft);
+}
+.net-legend-item {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-weight: 600;
+}
+.net-legend-item .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+}
+.net-legend-item .dot-red { background: #dc2626; }
+.net-legend-item .dot-blue { background: #2563eb; }
+.net-legend-item .dot-gray { background: #64748b; }
+.net-legend-item .dot-orange { background: #ff5e3a; }
+
+.network-svg {
+  width: 100%; max-width: 560px; height: auto;
+  display: block; margin: 0 auto;
+}
+.network-svg .net-edge {
+  transition: opacity 0.2s, stroke-width 0.2s;
+}
+.network-svg .net-node {
+  cursor: help;
+  transition: transform 0.2s;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.network-svg .net-node:hover {
+  transform: scale(1.12);
+}
+.network-svg .net-node:hover ~ .net-edge,
+.network-svg .net-node:hover circle {
+  filter: drop-shadow(0 0 6px rgba(0,0,0,0.15));
+}
+.network-svg .net-central circle {
+  filter: drop-shadow(0 4px 12px rgba(10, 37, 64, 0.25));
+}
+.network-svg .net-central {
+  animation: pulse-central 3s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+@keyframes pulse-central {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+.network-hint {
+  text-align: center;
+  font-size: 11px; color: var(--color-text-soft);
+  margin-top: 6px; font-weight: 500;
+}
+
 /* 빅데이터 의원 한눈에 카드 */
 .member-snapshot {
   background: linear-gradient(135deg, #0a2540 0%, #1c3d5a 60%, #0a2540 100%);
