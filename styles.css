@@ -816,6 +816,75 @@ section { padding: 32px 0; }
 .bill-status.pending { background: #fef3c7; color: #92400e; }
 .bill-status.failed { background: #fee2e2; color: #991b1b; }
 
+/* 데이터 출처 ⓘ 아이콘 */
+.data-info {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: var(--color-text-soft);
+  font-size: 10px; font-weight: 700;
+  margin-left: 4px;
+  cursor: help;
+  font-style: normal;
+  vertical-align: middle;
+  position: relative;
+}
+.data-info:hover {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* 레이더 차트 */
+.radar-wrap {
+  display: flex; justify-content: center;
+  padding: 8px;
+}
+.radar-svg {
+  max-width: 280px; width: 100%; height: auto;
+}
+.radar-legend {
+  margin-top: 12px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.rl-item {
+  font-size: 12px; color: var(--color-text);
+  line-height: 1.6;
+}
+.rl-item strong {
+  color: var(--color-primary);
+}
+
+/* 워드클라우드 */
+.word-cloud {
+  display: flex; flex-wrap: wrap;
+  gap: 8px 10px;
+  padding: 12px 4px;
+  justify-content: center;
+  align-items: baseline;
+  min-height: 80px;
+}
+.wc-word {
+  color: var(--color-primary);
+  cursor: default;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+.wc-word:hover { color: var(--color-accent); }
+.wc-cnt {
+  font-size: 9px;
+  color: var(--color-text-soft);
+  margin-left: 2px;
+  font-weight: 600;
+  vertical-align: super;
+}
+.word-cloud-empty {
+  text-align: center; color: var(--color-text-soft);
+  font-size: 13px; padding: 20px;
+}
+
 /* 툴팁 (data-tooltip 속성으로 동작) */
 [data-tooltip] {
   position: relative; cursor: help;
