@@ -54,88 +54,44 @@
   </header>
   <main>
     <section class="hero">
-      <!-- 히어로 일러스트: 돋보기로 데이터를 함께 들여다보는 시민들 -->
-      <svg class="hero-illustration" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <linearGradient id="lensGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="rgba(255,255,255,0.15)"/>
-            <stop offset="100%" stop-color="rgba(255,255,255,0.03)"/>
-          </linearGradient>
-          <filter id="softGlow">
-            <feGaussianBlur stdDeviation="2" result="blur"/>
-            <feMerge>
-              <feMergeNode in="blur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-
-        <!-- 떠다니는 데이터 점들 (배경 장식) -->
-        <circle cx="40" cy="60" r="2" fill="#ff8267" opacity="0.6"/>
-        <circle cx="240" cy="40" r="2.5" fill="#fff" opacity="0.4"/>
-        <circle cx="30" cy="180" r="1.5" fill="#ff8267" opacity="0.5"/>
-        <circle cx="250" cy="200" r="2" fill="#fff" opacity="0.5"/>
-        <circle cx="200" cy="240" r="1.5" fill="#ff8267" opacity="0.4"/>
-
-        <!-- 시민 실루엣 3명 (다양한 키, 돋보기 뒤로) -->
-        <!-- 왼쪽 시민 (살짝 작음) -->
-        <g transform="translate(45, 140)" opacity="0.7">
-          <circle cx="0" cy="0" r="11" fill="#cbd5e1"/>
-          <path d="M -14,12 Q -14,35 0,35 Q 14,35 14,12 Z" fill="#cbd5e1"/>
-        </g>
-        <!-- 중앙 뒤 시민 -->
-        <g transform="translate(85, 125)" opacity="0.55">
-          <circle cx="0" cy="0" r="13" fill="#94a3b8"/>
-          <path d="M -16,14 Q -16,40 0,40 Q 16,40 16,14 Z" fill="#94a3b8"/>
-        </g>
-        <!-- 오른쪽 시민 -->
-        <g transform="translate(225, 145)" opacity="0.65">
-          <circle cx="0" cy="0" r="10" fill="#cbd5e1"/>
-          <path d="M -13,11 Q -13,32 0,32 Q 13,32 13,11 Z" fill="#cbd5e1"/>
-        </g>
-
-        <!-- 큰 돋보기 (중앙 메인 요소) -->
-        <!-- 돋보기 손잡이 -->
-        <line x1="195" y1="195" x2="245" y2="245" stroke="#ff5e3a" stroke-width="10" stroke-linecap="round"/>
-        <line x1="195" y1="195" x2="245" y2="245" stroke="#ff8267" stroke-width="4" stroke-linecap="round"/>
-
-        <!-- 돋보기 렌즈 외곽 (오렌지) -->
-        <circle cx="135" cy="135" r="72" fill="rgba(10,37,64,0.6)" stroke="#ff5e3a" stroke-width="6"/>
-
-        <!-- 렌즈 안 배경 (살짝 글로우) -->
-        <circle cx="135" cy="135" r="66" fill="url(#lensGrad)"/>
-
-        <!-- 렌즈 안: 막대 그래프 (8개 정당색 차트) -->
-        <g transform="translate(95, 165)" filter="url(#softGlow)">
-          <!-- 막대들: 정당색을 살짝 활용 -->
-          <rect x="0" y="-35" width="8" height="35" fill="#004ea2" rx="1.5"/>
-          <rect x="10" y="-26" width="8" height="26" fill="#e61e2b" rx="1.5"/>
-          <rect x="20" y="-18" width="8" height="18" fill="#0073cf" rx="1.5"/>
-          <rect x="30" y="-30" width="8" height="30" fill="#ff7920" rx="1.5"/>
-          <rect x="40" y="-22" width="8" height="22" fill="#00b140" rx="1.5"/>
-          <rect x="50" y="-14" width="8" height="14" fill="#c5b400" rx="1.5"/>
-          <rect x="60" y="-40" width="8" height="40" fill="#d6001c" rx="1.5"/>
-          <rect x="70" y="-28" width="8" height="28" fill="#64748b" rx="1.5"/>
-
-          <!-- 그래프 베이스 라인 -->
-          <line x1="-4" y1="0" x2="82" y2="0" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
-        </g>
-
-        <!-- 렌즈 안: 작은 트렌드 선 그래프 (위쪽) -->
-        <polyline points="100,115 112,108 125,112 138,100 150,105 163,95 175,98"
-                  fill="none" stroke="#ff8267" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  opacity="0.9"/>
-        <circle cx="100" cy="115" r="2" fill="#ff8267"/>
-        <circle cx="138" cy="100" r="2" fill="#ff8267"/>
-        <circle cx="175" cy="98" r="2" fill="#ff8267"/>
-
-        <!-- 렌즈 위 하이라이트 (반사광) -->
-        <ellipse cx="110" cy="105" rx="20" ry="10" fill="rgba(255,255,255,0.18)" transform="rotate(-30 110 105)"/>
-
-        <!-- 작은 체크 마크 (검증의 의미) -->
-        <g transform="translate(195, 75)" opacity="0.85">
-          <circle r="14" fill="#ff5e3a"/>
-          <path d="M -6,0 L -2,5 L 7,-5" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- 히어로 일러스트: 국회의사당 라인아트 -->
+      <svg class="hero-illustration" viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- 배경 데이터 점 -->
+        <circle cx="34" cy="40" r="2" fill="#ff8267" opacity="0.6"/>
+        <circle cx="248" cy="48" r="2.5" fill="#ffffff" opacity="0.4"/>
+        <circle cx="252" cy="150" r="2" fill="#ff8267" opacity="0.5"/>
+        <circle cx="28" cy="148" r="1.5" fill="#ffffff" opacity="0.45"/>
+        <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+        <!-- 깃대 + 깃발 -->
+        <line x1="140" y1="44" x2="140" y2="30" stroke-width="1.8" opacity="0.85"/>
+        <path d="M140 31 L151 35 L140 39 Z" fill="#ff5e3a" stroke="none" opacity="0.95"/>
+        <!-- 돔 (얕은 반구) -->
+        <path d="M114 86 Q140 46 166 86" stroke-width="2.6" opacity="0.95"/>
+        <!-- 돔 받침(드럼) -->
+        <path d="M118 86 L118 96 M162 86 L162 96 M118 96 L162 96" stroke-width="2" opacity="0.85"/>
+        <!-- 중앙 박공(페디먼트) -->
+        <path d="M96 112 L140 98 L184 112" stroke-width="2.2" opacity="0.85"/>
+        <!-- 엔타블러처(기둥 위 지붕선) -->
+        <line x1="52" y1="120" x2="228" y2="120" stroke-width="2.6" opacity="0.92"/>
+        <!-- 기둥 (콜로네이드) -->
+        <line x1="60" y1="124" x2="60" y2="162" stroke-width="2" opacity="0.8"/>
+        <line x1="73" y1="124" x2="73" y2="162" stroke-width="2" opacity="0.8"/>
+        <line x1="86" y1="124" x2="86" y2="162" stroke-width="2" opacity="0.8"/>
+        <line x1="99" y1="124" x2="99" y2="162" stroke-width="2" opacity="0.8"/>
+        <line x1="112" y1="124" x2="112" y2="162" stroke-width="2" opacity="0.8"/>
+        <line x1="125" y1="124" x2="125" y2="162" stroke-width="2" opacity="0.8"/>
+        <line x1="155" y1="124" x2="155" y2="162" stroke-width="2" opacity="0.8"/>
+        <line x1="168" y1="124" x2="168" y2="162" stroke-width="2" opacity="0.8"/>
+        <line x1="181" y1="124" x2="181" y2="162" stroke-width="2" opacity="0.8"/>
+        <line x1="194" y1="124" x2="194" y2="162" stroke-width="2" opacity="0.8"/>
+        <line x1="207" y1="124" x2="207" y2="162" stroke-width="2" opacity="0.8"/>
+        <line x1="220" y1="124" x2="220" y2="162" stroke-width="2" opacity="0.8"/>
+        <!-- 중앙 출입구(아치) -->
+        <path d="M132 162 L132 138 Q140 130 148 138 L148 162" stroke-width="1.8" opacity="0.7"/>
+        <!-- 기단/계단 -->
+        <line x1="46" y1="166" x2="234" y2="166" stroke-width="2.6" opacity="0.9"/>
+        <line x1="38" y1="174" x2="242" y2="174" stroke-width="2" opacity="0.65"/>
+        <line x1="30" y1="182" x2="250" y2="182" stroke-width="1.8" opacity="0.5"/>
         </g>
       </svg>
 

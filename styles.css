@@ -337,12 +337,12 @@ body {
 }
 .hero .container { position: relative; z-index: 2; }
 .hero-illustration {
-  position: absolute; top: 32px;
+  position: absolute; top: 30px;
   /* 데스크탑: container(720px) 우측 안쪽에 위치 */
-  right: calc(50% - 360px + 16px);
-  width: 260px; height: 260px;
+  right: calc(50% - 360px + 8px);
+  width: 250px; height: 188px;
   z-index: 1;
-  opacity: 0.95;
+  opacity: 0.8;
   pointer-events: none;
   animation: floatGentle 6s ease-in-out infinite;
 }
