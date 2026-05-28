@@ -364,28 +364,98 @@ section { padding: 32px 0; }
   text-align: center; margin-bottom: 8px;
   font-weight: 600;
 }
-.korea-map {
-  width: 100%; max-width: 340px; margin: 0 auto;
+.korea-map-real {
+  width: 100%; max-width: 360px; margin: 0 auto;
+  display: flex; justify-content: center;
+  min-height: 380px;
+}
+.korea-map-svg {
+  width: 100%; height: auto;
+  max-height: 480px;
   display: block;
   filter: drop-shadow(0 2px 6px rgba(10, 37, 64, 0.08));
 }
+.korea-region-real {
+  fill: #cbd5e1;
+  stroke: white;
+  stroke-width: 1;
+  transition: fill 0.15s;
+}
+.korea-region-real:hover {
+  fill: var(--color-accent);
+}
+/* 시도별 색상 차등화 (의원 수에 따라 - 데이터 색칠하면 더 직관적이지만 일단 균일) */
+.korea-map-svg path[data-sido="서울"],
+.korea-map-svg path[data-sido="경기"],
+.korea-map-svg path[data-sido="인천"] { fill: #5b8def; }
+.korea-map-svg path[data-sido="서울"]:hover,
+.korea-map-svg path[data-sido="경기"]:hover,
+.korea-map-svg path[data-sido="인천"]:hover { fill: var(--color-accent); }
+
+.korea-map-svg path[data-sido="강원"] { fill: #6fb3a8; }
+.korea-map-svg path[data-sido="강원"]:hover { fill: var(--color-accent); }
+
+.korea-map-svg path[data-sido="충북"],
+.korea-map-svg path[data-sido="충남"],
+.korea-map-svg path[data-sido="대전"],
+.korea-map-svg path[data-sido="세종"] { fill: #f0a84e; }
+.korea-map-svg path[data-sido="충북"]:hover,
+.korea-map-svg path[data-sido="충남"]:hover,
+.korea-map-svg path[data-sido="대전"]:hover,
+.korea-map-svg path[data-sido="세종"]:hover { fill: var(--color-accent); }
+
+.korea-map-svg path[data-sido="전북"],
+.korea-map-svg path[data-sido="전남"],
+.korea-map-svg path[data-sido="광주"] { fill: #d4744f; }
+.korea-map-svg path[data-sido="전북"]:hover,
+.korea-map-svg path[data-sido="전남"]:hover,
+.korea-map-svg path[data-sido="광주"]:hover { fill: var(--color-accent); }
+
+.korea-map-svg path[data-sido="경북"],
+.korea-map-svg path[data-sido="경남"],
+.korea-map-svg path[data-sido="대구"],
+.korea-map-svg path[data-sido="울산"],
+.korea-map-svg path[data-sido="부산"] { fill: #c87f9c; }
+.korea-map-svg path[data-sido="경북"]:hover,
+.korea-map-svg path[data-sido="경남"]:hover,
+.korea-map-svg path[data-sido="대구"]:hover,
+.korea-map-svg path[data-sido="울산"]:hover,
+.korea-map-svg path[data-sido="부산"]:hover { fill: var(--color-accent); }
+
+.korea-map-svg path[data-sido="제주"] { fill: #82c5cf; }
+.korea-map-svg path[data-sido="제주"]:hover { fill: var(--color-accent); }
+
+.korea-map-credit {
+  text-align: center; font-size: 10px;
+  color: var(--color-text-soft); margin-top: 8px;
+}
+.korea-map-credit a { color: inherit; text-decoration: underline; }
+
+.proportional-chip {
+  display: inline-block;
+  padding: 8px 18px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 999px;
+  font-size: 12px; font-weight: 700;
+  text-decoration: none;
+  margin-top: 8px;
+}
+.proportional-chip:hover {
+  background: var(--color-accent); text-decoration: none;
+}
+
+/* (구) sido-chip - 호환성용 */
 .korea-region {
   cursor: pointer; transition: all 0.2s;
   fill: var(--color-primary); stroke: white; stroke-width: 1.5;
 }
 .korea-region:hover {
   fill: var(--color-accent);
-  transform: translateY(-1px);
 }
-.korea-label {
-  font-size: 10px; font-weight: 700;
-  fill: white; pointer-events: none;
-  text-anchor: middle; dominant-baseline: central;
-}
-.korea-count {
-  font-size: 9px; font-weight: 600;
-  fill: rgba(255,255,255,0.85); pointer-events: none;
-  text-anchor: middle;
+.korea-label, .korea-count {
+  pointer-events: none; text-anchor: middle;
+  fill: white;
 }
 
 /* GPS 버튼 */

@@ -215,133 +215,74 @@
         <div class="korea-map-wrap">
           <div class="korea-map-title">🗺 지도에서 지역 클릭</div>
           
-    <svg class="korea-map" viewBox="0 0 340 460" xmlns="http://www.w3.org/2000/svg">
-      <!-- 강원특별자치도 (북동) -->
-      <a href="/list.html?sido=강원"><g>
-        <path class="korea-region" d="M170,40 L300,55 L310,170 L210,180 L195,140 L165,120 Z"/>
-        <text class="korea-label" x="240" y="105">강원</text>
-        <text class="korea-count" x="240" y="122">8명</text>
-      </g></a>
+    <div id="koreaMapContainer" class="korea-map-real"></div>
+    <div style="text-align:center;margin-top:8px;">
+      <a href="/list.html?sido=비례대표" class="proportional-chip">
+        📊 비례대표 46명 →
+      </a>
+    </div>
+    <div class="korea-map-credit">
+      지도 데이터: <a href="https://github.com/VictorCazanave/svg-maps" target="_blank" rel="noopener" style="color:inherit;">VictorCazanave/svg-maps</a> (CC BY 4.0)
+    </div>
+    <script>
+      (function() {
+        const SIDO_COUNTS = {"경기": 57, "서울": 48, "비례대표": 46, "부산": 17, "경남": 16, "경북": 13, "인천": 12, "대구": 11, "전남": 10, "충남": 9, "강원": 8, "전북": 8, "충북": 8, "광주": 7, "대전": 7, "울산": 5, "세종": 2, "제주": 2};
+        // SVG id (영문) → 한글 시도명
+        const ID_TO_NAME = {
+          'busan': '부산',
+          'daegu': '대구',
+          'daejeon': '대전',
+          'gangwon': '강원',
+          'gwangju': '광주',
+          'gyeonggi': '경기',
+          'incheon': '인천',
+          'jeju': '제주',
+          'sejong': '세종',
+          'seoul': '서울',
+          'ulsan': '울산',
+          'north-chungcheong': '충북',
+          'south-chungcheong': '충남',
+          'north-gyeongsang': '경북',
+          'south-gyeongsang': '경남',
+          'north-jeolla': '전북',
+          'south-jeolla': '전남',
+        };
 
-      <!-- 경기도 -->
-      <a href="/list.html?sido=경기"><g>
-        <path class="korea-region" d="M80,135 L165,120 L195,140 L210,180 L195,225 L100,230 L70,200 Z"/>
-        <text class="korea-label" x="135" y="180">경기</text>
-        <text class="korea-count" x="135" y="197">57명</text>
-      </g></a>
+        fetch('/data/south-korea.svg')
+          .then(r => r.text())
+          .then(svgText => {
+            const container = document.getElementById('koreaMapContainer');
+            container.innerHTML = svgText;
+            const svg = container.querySelector('svg');
+            if (!svg) return;
+            svg.setAttribute('class', 'korea-map korea-map-svg');
+            svg.removeAttribute('width');
+            svg.removeAttribute('height');
 
-      <!-- 서울 (경기 안의 작은 원) -->
-      <a href="/list.html?sido=서울"><g>
-        <circle class="korea-region" cx="125" cy="160" r="20" style="fill:#e61e2b"/>
-        <text class="korea-label" x="125" y="158" style="font-size:9px;">서울</text>
-        <text class="korea-count" x="125" y="170" style="font-size:8px;">48명</text>
-      </g></a>
-
-      <!-- 인천 -->
-      <a href="/list.html?sido=인천"><g>
-        <rect class="korea-region" x="55" y="160" width="40" height="35" rx="6"/>
-        <text class="korea-label" x="75" y="175">인천</text>
-        <text class="korea-count" x="75" y="187">12명</text>
-      </g></a>
-
-      <!-- 충북 -->
-      <a href="/list.html?sido=충북"><g>
-        <path class="korea-region" d="M195,225 L260,225 L265,290 L200,295 Z"/>
-        <text class="korea-label" x="225" y="255">충북</text>
-        <text class="korea-count" x="225" y="272">8명</text>
-      </g></a>
-
-      <!-- 충남 -->
-      <a href="/list.html?sido=충남"><g>
-        <path class="korea-region" d="M70,235 L195,230 L200,295 L80,300 Z"/>
-        <text class="korea-label" x="125" y="265">충남</text>
-        <text class="korea-count" x="125" y="282">9명</text>
-      </g></a>
-
-      <!-- 세종 (충남/충북 사이 작게) -->
-      <a href="/list.html?sido=세종"><g>
-        <circle class="korea-region" cx="178" cy="265" r="12"/>
-        <text class="korea-label" x="178" y="264" style="font-size:8px;">세종</text>
-        <text class="korea-count" x="178" y="275" style="font-size:7px;">2명</text>
-      </g></a>
-
-      <!-- 대전 -->
-      <a href="/list.html?sido=대전"><g>
-        <circle class="korea-region" cx="170" cy="295" r="14"/>
-        <text class="korea-label" x="170" y="293" style="font-size:9px;">대전</text>
-        <text class="korea-count" x="170" y="304" style="font-size:8px;">7명</text>
-      </g></a>
-
-      <!-- 경북 -->
-      <a href="/list.html?sido=경북"><g>
-        <path class="korea-region" d="M260,180 L310,170 L320,340 L265,335 L260,225 Z"/>
-        <text class="korea-label" x="290" y="250">경북</text>
-        <text class="korea-count" x="290" y="267">13명</text>
-      </g></a>
-
-      <!-- 대구 -->
-      <a href="/list.html?sido=대구"><g>
-        <circle class="korea-region" cx="280" cy="305" r="18"/>
-        <text class="korea-label" x="280" y="303" style="font-size:9px;">대구</text>
-        <text class="korea-count" x="280" y="315" style="font-size:8px;">11명</text>
-      </g></a>
-
-      <!-- 경남 -->
-      <a href="/list.html?sido=경남"><g>
-        <path class="korea-region" d="M210,330 L300,335 L310,400 L220,405 Z"/>
-        <text class="korea-label" x="260" y="365">경남</text>
-        <text class="korea-count" x="260" y="382">16명</text>
-      </g></a>
-
-      <!-- 울산 -->
-      <a href="/list.html?sido=울산"><g>
-        <rect class="korea-region" x="305" y="345" width="32" height="32" rx="6"/>
-        <text class="korea-label" x="321" y="358">울산</text>
-        <text class="korea-count" x="321" y="370">5명</text>
-      </g></a>
-
-      <!-- 부산 -->
-      <a href="/list.html?sido=부산"><g>
-        <circle class="korea-region" cx="295" cy="395" r="18"/>
-        <text class="korea-label" x="295" y="393" style="font-size:9px;">부산</text>
-        <text class="korea-count" x="295" y="405" style="font-size:8px;">17명</text>
-      </g></a>
-
-      <!-- 전북 -->
-      <a href="/list.html?sido=전북"><g>
-        <path class="korea-region" d="M85,305 L200,300 L210,375 L100,370 Z"/>
-        <text class="korea-label" x="145" y="335">전북</text>
-        <text class="korea-count" x="145" y="352">8명</text>
-      </g></a>
-
-      <!-- 전남 -->
-      <a href="/list.html?sido=전남"><g>
-        <path class="korea-region" d="M75,375 L210,378 L220,410 L150,440 L80,420 Z"/>
-        <text class="korea-label" x="145" y="405">전남</text>
-        <text class="korea-count" x="145" y="422">10명</text>
-      </g></a>
-
-      <!-- 광주 -->
-      <a href="/list.html?sido=광주"><g>
-        <circle class="korea-region" cx="120" cy="395" r="14"/>
-        <text class="korea-label" x="120" y="393" style="font-size:9px;">광주</text>
-        <text class="korea-count" x="120" y="404" style="font-size:8px;">7명</text>
-      </g></a>
-
-      <!-- 제주 -->
-      <a href="/list.html?sido=제주"><g>
-        <ellipse class="korea-region" cx="100" cy="450" rx="34" ry="16"/>
-        <text class="korea-label" x="100" y="448" style="font-size:9px;">제주</text>
-        <text class="korea-count" x="100" y="460" style="font-size:8px;">2명</text>
-      </g></a>
-
-      <!-- 비례대표 (지도 오른쪽 하단 안내) -->
-      <a href="/list.html?sido=비례대표"><g>
-        <rect class="korea-region" x="210" y="430" width="115" height="30" rx="14" style="fill:#64748b"/>
-        <text class="korea-label" x="267" y="446" style="font-size:10px;">비례대표</text>
-        <text class="korea-count" x="267" y="459" style="font-size:8px;">46명</text>
-      </g></a>
-    </svg>
+            // 모든 path에 클릭 + hover 추가
+            svg.querySelectorAll('path').forEach(path => {
+              const id = path.getAttribute('id');
+              const name = ID_TO_NAME[id] || '';
+              const count = SIDO_COUNTS[name] || 0;
+              path.setAttribute('class', 'korea-region-real');
+              path.setAttribute('data-sido', name);
+              if (name) {
+                const label = path.getAttribute('aria-label') || name;
+                path.setAttribute('aria-label', `${label} (${count}명)`);
+                path.style.cursor = 'pointer';
+                path.addEventListener('click', () => {
+                  window.location.href = `/list.html?sido=${encodeURIComponent(name)}`;
+                });
+                // 툴팁용 title 요소
+                const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+                title.textContent = `${name} · ${count}명 (클릭)`;
+                path.appendChild(title);
+              }
+            });
+          })
+          .catch(err => console.warn('한국 지도 로드 실패', err));
+      })();
+    </script>
     
         </div>
       </div>
