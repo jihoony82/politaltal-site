@@ -839,46 +839,147 @@ section { padding: 32px 0; }
 /* 레이더 차트 */
 .radar-wrap {
   display: flex; justify-content: center;
-  padding: 8px;
+  padding: 16px 8px 8px;
 }
 .radar-svg {
-  max-width: 280px; width: 100%; height: auto;
+  max-width: 300px; width: 100%; height: auto;
 }
 .radar-legend {
-  margin-top: 12px;
-  display: flex; flex-direction: column; gap: 6px;
+  margin-top: 14px;
+  display: grid; gap: 8px;
 }
 .rl-item {
-  font-size: 12px; color: var(--color-text);
-  line-height: 1.6;
+  display: grid; grid-template-columns: 24px 1fr auto; gap: 6px;
+  align-items: center;
+  padding: 8px 10px;
+  background: #f8fafc;
+  border-radius: 8px;
+  font-size: 13px;
 }
-.rl-item strong {
-  color: var(--color-primary);
+.rl-icon { font-size: 14px; }
+.rl-item strong { color: var(--color-primary); font-weight: 700; }
+.rl-score {
+  font-size: 13px; font-weight: 800; color: var(--color-accent);
+  white-space: nowrap;
+}
+.rl-desc {
+  grid-column: 2 / 4;
+  font-size: 11px; color: var(--color-text-soft);
+  margin-top: 2px;
 }
 
-/* 워드클라우드 */
+/* 빅데이터 의원 한눈에 카드 */
+.member-snapshot {
+  background: linear-gradient(135deg, #0a2540 0%, #1c3d5a 60%, #0a2540 100%);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 12px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+.member-snapshot::before {
+  content: ''; position: absolute;
+  top: -60px; right: -60px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 94, 58, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.snap-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px;
+  position: relative; z-index: 1;
+}
+.snap-title {
+  font-size: 16px; font-weight: 800; color: white;
+  letter-spacing: -0.3px;
+}
+.snap-tag {
+  font-size: 9px; font-weight: 800; letter-spacing: 1px;
+  padding: 3px 8px; border-radius: 4px;
+  background: rgba(255, 94, 58, 0.2);
+  color: #ff8267;
+  border: 1px solid rgba(255, 94, 58, 0.4);
+}
+.snap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  position: relative; z-index: 1;
+}
+.snap-metric {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px 14px;
+  transition: background 0.15s, transform 0.15s;
+}
+.snap-metric:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+.snap-row {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.5px; text-transform: uppercase;
+  font-weight: 700; margin-bottom: 6px;
+}
+.snap-icon { font-size: 13px; }
+.snap-label { font-size: 10px; }
+.snap-value {
+  font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
+  color: white; line-height: 1.1;
+  margin-bottom: 4px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.snap-sub {
+  font-size: 11px; color: rgba(255, 255, 255, 0.55);
+  font-weight: 500; line-height: 1.4;
+}
+/* 컬러 강조 (각 메트릭별 좌측 보더) */
+.snap-metric.snap-green { border-left: 3px solid #10b981; }
+.snap-metric.snap-red { border-left: 3px solid #ef4444; }
+.snap-metric.snap-amber { border-left: 3px solid #f59e0b; }
+.snap-metric.snap-blue { border-left: 3px solid #3b82f6; }
+.snap-metric.snap-purple { border-left: 3px solid #a855f7; }
+.snap-metric.snap-neutral { border-left: 3px solid rgba(255, 255, 255, 0.2); }
+.snap-metric.snap-green .snap-value { color: #6ee7b7; }
+.snap-metric.snap-red .snap-value { color: #fca5a5; }
+.snap-metric.snap-amber .snap-value { color: #fcd34d; }
+.snap-metric.snap-blue .snap-value { color: #93c5fd; }
+.snap-metric.snap-purple .snap-value { color: #d8b4fe; }
+
+/* 워드클라우드 (빅데이터 컬러풀) */
 .word-cloud {
   display: flex; flex-wrap: wrap;
-  gap: 8px 10px;
-  padding: 12px 4px;
+  gap: 10px 14px;
+  padding: 18px 8px;
   justify-content: center;
   align-items: baseline;
-  min-height: 80px;
+  min-height: 100px;
+  background: radial-gradient(circle at center, #f8fafc 0%, #ffffff 80%);
+  border-radius: 12px;
 }
 .wc-word {
-  color: var(--color-primary);
   cursor: default;
-  line-height: 1.2;
+  line-height: 1.1;
   white-space: nowrap;
-  transition: color 0.15s;
+  transition: transform 0.2s, filter 0.2s;
+  letter-spacing: -0.3px;
 }
-.wc-word:hover { color: var(--color-accent); }
+.wc-word:hover {
+  transform: scale(1.1);
+  filter: brightness(1.15);
+}
 .wc-cnt {
-  font-size: 9px;
+  font-size: 10px;
   color: var(--color-text-soft);
-  margin-left: 2px;
+  margin-left: 3px;
   font-weight: 600;
   vertical-align: super;
+  opacity: 0.7;
 }
 .word-cloud-empty {
   text-align: center; color: var(--color-text-soft);
