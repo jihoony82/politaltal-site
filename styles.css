@@ -154,17 +154,28 @@ body {
 .brand-hero { text-align: center; margin: 8px 0 2px; }
 .brand-hero-name { font-size: 30px; font-weight: 900; letter-spacing: -1px; color: #fff; display: inline-flex; align-items: center; }
 .brand-hero-badge { font-size: 11px; font-weight: 700; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25); padding: 3px 9px; border-radius: 20px; margin-left: 10px; color: #fff; }
-.brand-hero-catch { margin-top: 12px; font-size: 15px; line-height: 1.65; color: rgba(255,255,255,.9); }
+.brand-hero-catch { margin-top: 12px; font-size: 15px; line-height: 1.65; color: rgba(255,255,255,.9); word-break: keep-all; }
 .brand-hero-catch strong { color: #ffd9cf; font-weight: 800; }
 @media (max-width: 480px) { .brand-hero-name { font-size: 25px; } .brand-hero-catch { font-size: 13.5px; } }
 
 /* ── 히어로 좌우 일러스트 (시민 | 브랜드 | 국회의사당) ── */
 .hero-flank { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 14px; }
-.hero-flank .brand-hero { margin: 0; flex-shrink: 0; max-width: 380px; }
+.hero-flank .brand-hero { margin: 0; flex-shrink: 1; min-width: 0; max-width: 380px; }
 .hero-side { flex-shrink: 0; opacity: 0.72; pointer-events: none; animation: floatGentle 6s ease-in-out infinite; }
 .hero-side-left { width: 128px; height: auto; }
 .hero-side-right { width: 166px; height: auto; }
-@media (max-width: 860px) { .hero-side { display: none; } .hero-flank { margin-top: 6px; } }
+/* 모바일: 숨기지 않고 작게 표시 (시민·국회의사당) */
+@media (max-width: 860px) {
+  .hero-flank { gap: 10px; margin-top: 8px; }
+  .hero-side { opacity: 0.6; }
+  .hero-side-left { width: 60px; }
+  .hero-side-right { width: 78px; }
+}
+@media (max-width: 360px) {
+  .hero-flank { gap: 6px; }
+  .hero-side-left { width: 46px; }
+  .hero-side-right { width: 60px; }
+}
 
 /* ── "내가 뽑은 의원, 진짜 일하나?" 섹션 (밝은 배경) ── */
 .why-section { text-align: center; margin: 26px 0 8px; }
