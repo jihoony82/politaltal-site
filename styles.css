@@ -1084,8 +1084,11 @@ section { padding: 32px 0; }
 }
 .wc-word {
   cursor: default;
-  line-height: 1.1;
-  white-space: nowrap;
+  line-height: 1.25;
+  white-space: normal;        /* 긴 단어 2줄 허용 */
+  word-break: keep-all;       /* 한국어 어절 단위 줄바꿈 */
+  max-width: 90%;
+  text-align: center;
   transition: transform 0.2s, filter 0.2s;
   letter-spacing: -0.3px;
 }
