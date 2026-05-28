@@ -55,28 +55,51 @@
   <main>
     <div class="container">
       <a href="/" class="back-link">← 홈으로</a>
-      <div class="section-title">💬 커뮤니티</div>
-      <div class="section-sub">데이터 기반 클린 토론 — 유권자들의 정치 놀이터</div>
+      <div class="section-title">💬 커뮤니티 — 국회 생중계 & 실시간 채팅</div>
+      <div class="section-sub">국회 방송을 함께 보며 실시간으로 의견을 나눠요</div>
 
-      <!-- 면책 고지 (필수) -->
-      <div class="community-disclaimer">
-        ⚖️ <strong>의견 면책 고지</strong> — 이곳의 모든 글·댓글·투표는 <strong>작성자 개인의 의견</strong>이며,
-        정치탈탈의 공식 입장과 무관합니다. 정치탈탈은 <strong>객관적 공공데이터의 중립적 전달</strong>만을 지향하며,
-        특정 정당·정치인을 지지하거나 반대하지 않습니다.<br>
-        사실과 다른 주장·비방·명예훼손성 게시물은 신고 시 삭제될 수 있습니다.
-      </div>
+      <div class="cl-layout">
+        <!-- 좌측: 고지 + 국회 방송 -->
+        <div class="cl-left">
+          <div class="community-disclaimer">
+            ⚖️ <strong>면책 고지</strong> — 채팅·댓글은 모두 <strong>작성자 개인의 의견</strong>이며 정치탈탈의 공식 입장과 무관합니다.
+            정치탈탈은 <strong>객관적 공공데이터의 중립적 전달</strong>만 지향하며 특정 정당·정치인을 지지·반대하지 않습니다.
+            비방·허위사실·명예훼손성 글은 신고 시 삭제될 수 있습니다.
+          </div>
+          <div>
+            <div class="cl-video-wrap">
+              <iframe src="https://www.youtube.com/embed/live_stream?channel=UCIMOytYIzaUpoAM2bpT4JZQ"
+                      title="국회·정책 생중계 (KTV 국민방송)"
+                      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                      referrerpolicy="strict-origin-when-cross-origin"
+                      allowfullscreen></iframe>
+            </div>
+            <div class="cl-video-cap"><span class="live-dot"></span> KTV 국민방송 생중계 · 국회 본회의·상임위 중계 포함</div>
+          </div>
+          <a href="https://assembly.webcast.go.kr" target="_blank" rel="noopener" class="cl-webcast-link">
+            📺 국회 의사중계시스템 (본회의·상임위 전체) →
+          </a>
+        </div>
 
-      <!-- 실시간 의견 (미리보기) -->
-      <div class="section-title" style="font-size:16px;margin-top:18px;">⚡ 실시간 의견</div>
-      <div class="section-sub" style="margin-bottom:6px;">바로바로 올라가는 짧은 한마디 — 닉네임은 자동 부여됩니다</div>
-      <div class="live-feed-composer">
-        <textarea id="lfcText" maxlength="500" placeholder="지금 떠오른 생각을 한마디로 남겨보세요 (객관적 근거와 함께면 더 좋아요)"></textarea>
-        <div class="lfc-row">
-          <span class="lfc-nick" id="lfcNote">🔒 닉네임은 자동 부여됩니다 · 비방·허위사실은 신고 시 삭제될 수 있어요</span>
-          <button class="lfc-send" onclick="postComment()">올리기</button>
+        <!-- 우측: 유튜브 라이브 스타일 실시간 채팅 -->
+        <div class="cl-right">
+          <div class="yt-chat">
+            <div class="yt-chat-header">
+              <span class="live-dot"></span> 실시간 채팅
+              <span id="ytCount" style="font-weight:500;color:var(--color-text-soft);"></span>
+            </div>
+            <div class="yt-chat-list" id="liveFeed">
+              <div class="yt-chat-empty">채팅을 불러오는 중…</div>
+            </div>
+            <div class="yt-chat-note" id="lfcNote">닉네임 자동 부여 · 비방·허위사실은 신고 시 삭제될 수 있어요</div>
+            <div class="yt-chat-composer">
+              <input type="text" id="lfcText" maxlength="500" placeholder="메시지 보내기…"
+                     onkeydown="if(event.key==='Enter'){postComment();}">
+              <button class="lfc-send" onclick="postComment()">전송</button>
+            </div>
+          </div>
         </div>
       </div>
-      <div id="liveFeed"></div>
       
     <script>
       (function(){
@@ -86,29 +109,29 @@
         const LKEY = 'politaltal.localComments';
 
         function esc(s){ const d=document.createElement('div'); d.textContent=(s==null?'':s); return d.innerHTML; }
-        function timeAgo(ms){
-          const s = Math.floor((Date.now()-ms)/1000);
-          if (s < 60) return '방금';
-          if (s < 3600) return Math.floor(s/60)+'분 전';
-          if (s < 86400) return Math.floor(s/3600)+'시간 전';
-          const d = new Date(ms); return (d.getMonth()+1)+'/'+d.getDate();
-        }
+        function nickColor(s){ let h=0; for(const ch of (s||'')) h=(h*31+ch.charCodeAt(0))%360; return 'hsl('+h+',55%,42%)'; }
         function loadLocal(){ try { return JSON.parse(localStorage.getItem(LKEY)||'[]'); } catch(e){ return []; } }
         function saveLocal(a){ localStorage.setItem(LKEY, JSON.stringify(a.slice(0,50))); }
         function setNote(t){ const n=document.getElementById('lfcNote'); if(n) n.innerHTML = t; }
+        function setCount(n){ const c=document.getElementById('ytCount'); if(c) c.textContent = n ? ('· '+n) : ''; }
 
         function renderItems(items, isLocal){
           const box = document.getElementById('liveFeed');
           if(!box) return;
+          const wasAtBottom = (box.scrollHeight - box.scrollTop - box.clientHeight) < 60;
           if(!items || !items.length){
-            box.innerHTML = '<div style="font-size:12px;color:#94a3b8;padding:10px 2px;">아직 남긴 의견이 없어요. 첫 의견을 남겨보세요!</div>';
-            return;
+            box.innerHTML = '<div class="yt-chat-empty">아직 채팅이 없어요.<br>첫 메시지를 남겨보세요! 💬</div>';
+            setCount(0); return;
           }
-          box.innerHTML = items.map(function(c){
-            const tag = isLocal ? ' · <span style="color:#f59e0b;">내 기기 미리보기</span>' : '';
-            const rep = (!isLocal && c.id) ? ' <button class="lfi-report" onclick="reportComment('+c.id+',this)">🚩 신고</button>' : '';
-            return '<div class="live-feed-item"><div class="lfi-meta">👤 '+esc(c.nickname)+' · '+timeAgo(c.created_at)+tag+rep+'</div><div class="lfi-text">'+esc(c.body)+'</div></div>';
+          // API는 최신순(DESC) → 채팅은 오래된→최신(아래로) 표시
+          const ordered = items.slice().reverse();
+          box.innerHTML = ordered.map(function(c){
+            const rep = (!isLocal && c.id) ? '<span class="ytr" onclick="reportComment('+c.id+',this)">🚩 신고</span>' : '';
+            const tag = isLocal ? '<span class="ytr" style="opacity:1;color:#f59e0b;">미리보기</span>' : '';
+            return '<div class="yt-msg"><span class="ytn" style="color:'+nickColor(c.nickname)+'">'+esc(c.nickname)+'</span><span class="ytt">'+esc(c.body)+'</span>'+rep+tag+'</div>';
           }).join('');
+          if(wasAtBottom) box.scrollTop = box.scrollHeight;
+          setCount(items.length);
         }
 
         async function refresh(){
@@ -117,13 +140,13 @@
             if (r.ok) {
               const d = await r.json();
               if (d && d.ok) {
-                setNote('🌐 <strong>공개 게시</strong>됩니다 · 닉네임 자동 부여 · 비방·허위사실은 신고 시 삭제');
+                setNote('🌐 공개 채팅입니다 · 닉네임 자동 부여 · 비방·허위사실은 신고 시 삭제');
                 renderItems(d.comments || [], false);
                 return;
               }
             }
           } catch(e){}
-          setNote('🔒 현재 <strong>내 기기 미리보기</strong> (서버 댓글 연결 후 공개 게시)');
+          setNote('🔒 현재 내 기기 미리보기 (서버 연결 후 공개)');
           renderItems(loadLocal(), true);
         }
 
@@ -135,7 +158,7 @@
           if(btn) btn.disabled = true;
           try {
             const r = await fetch(API, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ body: v }) });
-            if (r.status === 429) { alert('너무 빠르게 작성했어요. 잠시 후 다시 시도해주세요.'); return; }
+            if (r.status === 429) { alert('너무 빠르게 보냈어요. 잠시 후 다시 시도해주세요.'); return; }
             if (r.ok) {
               const d = await r.json();
               if (d && d.ok) { t.value=''; await refresh(); return; }
@@ -146,7 +169,7 @@
             items.unshift({ nickname: '나(미리보기)', body: v, created_at: Date.now() });
             saveLocal(items);
             t.value='';
-            setNote('🔒 현재 <strong>내 기기 미리보기</strong> (서버 댓글 연결 후 공개 게시)');
+            setNote('🔒 현재 내 기기 미리보기 (서버 연결 후 공개)');
             renderItems(items, true);
           } finally {
             if(btn) btn.disabled = false;
@@ -154,15 +177,16 @@
         };
 
         window.reportComment = async function(id, el){
-          if(!confirm('이 댓글을 신고할까요? (비방·허위사실 등)')) return;
+          if(!confirm('이 메시지를 신고할까요? (비방·허위사실 등)')) return;
           try {
             await fetch(REPORT, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ id: id }) });
-            const item = el && el.closest('.live-feed-item');
-            if(item){ item.style.opacity='0.5'; el.textContent='신고됨'; el.disabled=true; }
+            const m = el && el.closest('.yt-msg');
+            if(m){ m.style.opacity='0.4'; el.textContent='신고됨'; }
           } catch(e){ alert('신고 처리 중 오류가 발생했어요.'); }
         };
 
         refresh();
+        setInterval(refresh, 20000); // 20초마다 갱신 (라이브 느낌)
       })();
     </script>
     
@@ -179,9 +203,11 @@
         </ul>
       </div>
 
+      <div class="section-title" style="font-size:16px;margin-top:24px;">📋 정책 토론 게시판</div>
       <div class="coming-soon-banner">
-        🚧 <strong>커뮤니티는 Stage 3 출시 예정</strong>입니다.
-        아래 화면은 미리보기이며, 실제 글쓰기·댓글은 변호사 자문 + 백엔드 구축 완료 후 활성화됩니다.
+        ✅ 위 <strong>실시간 채팅</strong>은 지금 작동합니다!
+        아래 <strong>게시판</strong>(글쓰기·찬반투표·의원 데이터 인용)은 준비 중이며,
+        정식 오픈은 변호사 자문 완료 후 진행됩니다. 아래는 미리보기예요.
       </div>
 
       <div class="sub-tabs">
