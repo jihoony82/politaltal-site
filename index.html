@@ -181,14 +181,14 @@
 
         <!-- 카테고리 탭 -->
         <div class="insight-tabs">
-          <button class="insight-tab active" data-cat="activity">
+          <button class="insight-tab active" data-cat="wealth">
+            <span class="tab-emoji">💰</span>재산
+          </button>
+          <button class="insight-tab" data-cat="activity">
             <span class="tab-emoji">🏆</span>의정 활동
           </button>
           <button class="insight-tab" data-cat="people">
             <span class="tab-emoji">👥</span>인물
-          </button>
-          <button class="insight-tab" data-cat="wealth">
-            <span class="tab-emoji">💰</span>재산
           </button>
           <button class="insight-tab" data-cat="surprise">
             <span class="tab-emoji">🎯</span>의외의 데이터
@@ -196,7 +196,7 @@
         </div>
 
         <!-- ─── 의정 활동 ─── -->
-        <div class="insight-pane active" data-pane="activity">
+        <div class="insight-pane" data-pane="activity" style="display:none;">
           <div class="insight-card">
             <span class="badge">대표발의 TOP 5</span>
             <div class="insight-title">가장 활발한 입법 활동</div>
@@ -628,7 +628,7 @@
         </div>
 
         <!-- ─── 재산 ─── -->
-        <div class="insight-pane" data-pane="wealth" style="display:none;">
+        <div class="insight-pane active" data-pane="wealth">
           <div class="insight-card">
             <span class="badge">신고 재산 상위 5</span>
             <div class="insight-title">📈 재산 신고액 가장 많은 의원</div>
