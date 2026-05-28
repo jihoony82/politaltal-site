@@ -949,7 +949,25 @@ a:hover { text-decoration: underline; }
   display: flex; align-items: center; justify-content: center;
   font-size: 28px; flex-shrink: 0;
   box-shadow: 0 4px 12px rgba(255, 94, 58, 0.3);
+  overflow: hidden;
 }
+.ad-thumb-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.ad-thumb-svg {
+  width: 100%; height: 100%;
+}
+/* 코코요 광고는 분홍 톤으로 차별화 */
+.cocoyo-thumb {
+  background: white;
+  box-shadow: 0 4px 12px rgba(255, 122, 138, 0.25);
+}
+.cocoyo-ad .ad-content {
+  background: linear-gradient(135deg, #fff5f6 0%, #fff 60%);
+}
+.cocoyo-ad .ad-brand { color: #ff7a8a; }
+.cocoyo-ad .ad-cta { color: #ff7a8a; }
 .ad-text { flex: 1; min-width: 0; }
 .ad-brand {
   font-size: 11px; font-weight: 700; color: var(--color-accent);
