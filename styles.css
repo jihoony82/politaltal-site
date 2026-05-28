@@ -176,6 +176,8 @@ body {
 .why-stat .num { font-size: 22px; font-weight: 800; color: var(--color-primary); line-height: 1.1; white-space: nowrap; }
 .why-stat .num small { font-size: 12px; font-weight: 700; color: var(--color-text-soft); margin-left: 1px; }
 .why-stat .label { font-size: 11px; color: var(--color-text-soft); margin-top: 8px; font-weight: 600; white-space: nowrap; line-height: 1.3; }
+.why-stat-link { display: block; text-decoration: none; cursor: pointer; transition: transform .15s, box-shadow .15s, border-color .15s; }
+.why-stat-link:hover { transform: translateY(-2px); border-color: var(--color-primary); box-shadow: 0 6px 16px rgba(10,37,64,.12); }
 @media (max-width: 480px) { .why-title { font-size: 19px; } .why-stat .num { font-size: 17px; } .why-stat .label { font-size: 10px; } }
 
 /* ── 의원 한눈에 요약 (그래프 우선) ── */
