@@ -175,7 +175,13 @@ body {
   border-radius: 10px; padding: 10px 14px; margin: 8px 0;
 }
 .live-feed-item .lfi-meta { font-size: 11px; color: var(--color-text-soft); margin-bottom: 4px; }
-.live-feed-item .lfi-text { font-size: 13px; color: var(--color-text); line-height: 1.6; white-space: pre-wrap; }
+.live-feed-item .lfi-text { font-size: 13px; color: var(--color-text); line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+.lfi-report {
+  background: none; border: none; color: #cbd5e1; font-size: 11px;
+  cursor: pointer; padding: 0 2px; margin-left: 2px;
+}
+.lfi-report:hover { color: #ef4444; }
+.live-feed-composer .lfc-send:disabled { opacity: 0.5; cursor: default; }
 
 /* 정당 로고 그리드 (히어로 하단) */
 .party-showcase {
