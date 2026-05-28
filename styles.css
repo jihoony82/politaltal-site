@@ -474,32 +474,47 @@ section { padding: 32px 0; }
   border-style: solid;
 }
 
-/* ─── 인사이트 카테고리 탭 ───────────────────────── */
+/* ─── 인사이트 카테고리 탭 (sub-tabs와 통일) ───────── */
 .insight-tabs {
   display: flex; gap: 6px;
   overflow-x: auto;
   padding-bottom: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--color-border);
 }
 .insight-tabs::-webkit-scrollbar { display: none; }
 .insight-tab {
-  padding: 10px 16px;
-  background: white;
-  border: 1.5px solid var(--color-border);
-  border-radius: 999px;
+  padding: 8px 4px;
+  margin-right: 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
   font-family: inherit;
   font-size: 13px; font-weight: 600;
-  color: var(--color-text);
+  color: var(--color-text-soft);
   cursor: pointer; white-space: nowrap;
   flex-shrink: 0;
   transition: all 0.15s;
+  margin-bottom: -1px;
+  position: relative;
 }
-.insight-tab:hover { border-color: var(--color-accent); }
+.insight-tab .tab-emoji {
+  font-size: 12px;
+  margin-right: 3px;
+  opacity: 0.85;
+}
+.insight-tab:hover {
+  color: var(--color-text);
+}
 .insight-tab.active {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
-  color: white;
+  color: var(--color-primary);
+  border-bottom-color: var(--color-accent);
+  font-weight: 700;
+}
+.insight-tab.active .tab-emoji {
+  opacity: 1;
 }
 
 .insight-pane { display: block; }
