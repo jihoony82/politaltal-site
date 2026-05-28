@@ -55,6 +55,33 @@ body {
 .brand-sub {
   font-size: 11px; color: var(--color-text-soft); font-weight: 500;
 }
+.header-actions { display: flex; align-items: center; gap: 8px; }
+.header-donate {
+  font-size: 12px; font-weight: 700;
+  padding: 6px 12px;
+  background: transparent;
+  color: #d4391b;
+  border: 1px solid rgba(212, 57, 27, 0.35);
+  border-radius: 6px; text-decoration: none;
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap;
+  transition: background 0.18s, border-color 0.18s, transform 0.12s;
+}
+.header-donate:hover {
+  background: rgba(212, 57, 27, 0.08);
+  border-color: rgba(212, 57, 27, 0.6);
+  transform: translateY(-1px);
+}
+.header-donate .hd-heart { animation: hd-beat 2.4s ease-in-out infinite; }
+@keyframes hd-beat {
+  0%, 88%, 100% { transform: scale(1); }
+  92% { transform: scale(1.25); }
+  96% { transform: scale(1.1); }
+}
+@media (max-width: 380px) {
+  .header-donate .hd-text { display: none; }
+  .header-donate { padding: 6px 9px; }
+}
 
 /* 정당 로고 그리드 (히어로 하단) */
 .party-showcase {
