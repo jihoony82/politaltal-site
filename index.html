@@ -54,8 +54,55 @@
   </header>
   <main>
     <section class="hero">
-      <!-- 히어로 일러스트: 국회의사당 라인아트 -->
-      <svg class="hero-illustration" viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+      <div class="container">
+        <!-- 최상단 검색 (네이버 스타일) -->
+        <div class="hero-search">
+          <div class="hero-search-box">
+            <span class="hs-icon">🔍</span>
+            <input type="text" id="heroSearchInput" class="hero-search-input"
+                   placeholder="의원 이름·지역구·정당 검색 (예: 강남, 박주민)"
+                   oninput="onHeroSearch(event)" autocomplete="off">
+          </div>
+          <div id="heroSearchResults" class="search-results hero-results"></div>
+          <div class="hero-search-hints">
+            <span onclick="quickSearch('서울')">서울</span>
+            <span onclick="quickSearch('경기')">경기</span>
+            <span onclick="quickSearch('부산')">부산</span>
+            <span onclick="quickSearch('더불어민주당')">민주당</span>
+            <span onclick="quickSearch('국민의힘')">국민의힘</span>
+          </div>
+        </div>
+
+        <!-- 좌우 일러스트(시민·국회의사당) + 브랜드 -->
+        <div class="hero-flank">
+          <svg class="hero-side hero-side-left" viewBox="0 0 200 185" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="34" y="16" width="88" height="46" rx="13" stroke-width="2.3" opacity="0.9"/>
+              <path d="M58 62 L55 76 L74 62" stroke-width="2.3" opacity="0.9"/>
+              <circle cx="59" cy="39" r="2.6" fill="#ffffff" stroke="none" opacity="0.9"/>
+              <circle cx="78" cy="39" r="2.6" fill="#ffffff" stroke="none" opacity="0.9"/>
+              <circle cx="97" cy="39" r="2.6" fill="#ffffff" stroke="none" opacity="0.9"/>
+              <rect x="124" y="44" width="46" height="29" rx="9" stroke="#ff8267" stroke-width="2" opacity="0.9"/>
+              <path d="M152 73 L152 84 L141 73" stroke="#ff8267" stroke-width="2" opacity="0.9"/>
+              <g stroke-width="2.5" opacity="0.92">
+                <circle cx="50" cy="116" r="13"/>
+                <path d="M30 163 v-10 a20 20 0 0 1 40 0 v10"/>
+                <circle cx="100" cy="108" r="15"/>
+                <path d="M76 168 v-12 a24 24 0 0 1 48 0 v12"/>
+                <circle cx="150" cy="118" r="12"/>
+                <path d="M132 163 v-9 a18 18 0 0 1 36 0 v9"/>
+              </g>
+            </g>
+          </svg>
+          <div class="brand-hero">
+            <div class="brand-hero-name">정치탈탈<span class="brand-hero-badge">제22대 국회</span></div>
+            <p class="brand-hero-catch">
+              국회 공식 데이터로 의원을 <strong>검증</strong>하고,<br>
+              국회 생중계를 보며 시민들과 <strong>실시간으로 토론</strong>하는 곳
+            </p>
+          </div>
+          <svg class="hero-side hero-side-right" viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <!-- 배경 데이터 점 -->
         <circle cx="34" cy="40" r="2" fill="#ff8267" opacity="0.6"/>
         <circle cx="248" cy="48" r="2.5" fill="#ffffff" opacity="0.4"/>
@@ -94,33 +141,6 @@
         <line x1="30" y1="182" x2="250" y2="182" stroke-width="1.8" opacity="0.5"/>
         </g>
       </svg>
-
-      <div class="container">
-        <!-- 최상단 검색 (네이버 스타일) -->
-        <div class="hero-search">
-          <div class="hero-search-box">
-            <span class="hs-icon">🔍</span>
-            <input type="text" id="heroSearchInput" class="hero-search-input"
-                   placeholder="의원 이름·지역구·정당 검색 (예: 강남, 박주민)"
-                   oninput="onHeroSearch(event)" autocomplete="off">
-          </div>
-          <div id="heroSearchResults" class="search-results hero-results"></div>
-          <div class="hero-search-hints">
-            <span onclick="quickSearch('서울')">서울</span>
-            <span onclick="quickSearch('경기')">경기</span>
-            <span onclick="quickSearch('부산')">부산</span>
-            <span onclick="quickSearch('더불어민주당')">민주당</span>
-            <span onclick="quickSearch('국민의힘')">국민의힘</span>
-          </div>
-        </div>
-
-        <!-- 브랜드 + 정체성 캐치프레이즈 -->
-        <div class="brand-hero">
-          <div class="brand-hero-name">정치탈탈<span class="brand-hero-badge">제22대 국회</span></div>
-          <p class="brand-hero-catch">
-            국회 공식 데이터로 의원을 <strong>검증</strong>하고,<br>
-            국회 생중계를 보며 시민들과 <strong>실시간으로 토론</strong>하는 곳
-          </p>
         </div>
 
       </div>

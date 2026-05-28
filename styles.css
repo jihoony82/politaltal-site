@@ -158,6 +158,14 @@ body {
 .brand-hero-catch strong { color: #ffd9cf; font-weight: 800; }
 @media (max-width: 480px) { .brand-hero-name { font-size: 25px; } .brand-hero-catch { font-size: 13.5px; } }
 
+/* ── 히어로 좌우 일러스트 (시민 | 브랜드 | 국회의사당) ── */
+.hero-flank { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 14px; }
+.hero-flank .brand-hero { margin: 0; flex-shrink: 0; max-width: 380px; }
+.hero-side { flex-shrink: 0; opacity: 0.72; pointer-events: none; animation: floatGentle 6s ease-in-out infinite; }
+.hero-side-left { width: 128px; height: auto; }
+.hero-side-right { width: 166px; height: auto; }
+@media (max-width: 860px) { .hero-side { display: none; } .hero-flank { margin-top: 6px; } }
+
 /* ── "내가 뽑은 의원, 진짜 일하나?" 섹션 (밝은 배경) ── */
 .why-section { text-align: center; margin: 26px 0 8px; }
 .why-title { font-size: 22px; font-weight: 800; color: var(--color-text); line-height: 1.35; }
