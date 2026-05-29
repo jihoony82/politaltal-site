@@ -201,6 +201,13 @@
                 };
                 localStorage.setItem('politaltal.user', JSON.stringify(user));
                 showLoggedIn(user);
+                // 집계: 로그인 수만 카운트 (닉네임·프로필 등 개인정보 미전송)
+                try {
+                  fetch('https://politaltal-comments.jihoony821209.workers.dev/track', {
+                    method: 'POST', headers: { 'content-type': 'application/json' },
+                    body: JSON.stringify({ event: 'login' })
+                  });
+                } catch (e) {}
               },
               fail: function(err) {
                 alert('사용자 정보 조회 실패: ' + JSON.stringify(err));
