@@ -46,6 +46,14 @@
 
     <div id="dash" style="display:none;">
       <div class="card">
+        <div style="display:flex; gap:32px;">
+          <div><div class="big" style="font-size:32px;" id="tvVisits">–</div><div class="label">방문 (최근 30일)</div></div>
+          <div><div class="big" style="font-size:32px; color:var(--navy);" id="tvViews">–</div><div class="label">페이지뷰 (최근 30일)</div></div>
+        </div>
+        <div id="tvNote" class="note"></div>
+      </div>
+
+      <div class="card">
         <div class="big" id="total">–</div>
         <div class="label">누적 로그인 수</div>
       </div>
@@ -63,7 +71,26 @@
 
   <script>
     const API = 'https://politaltal-comments.jihoony821209.workers.dev/stats';
+    const TRAFFIC_API = 'https://politaltal-comments.jihoony821209.workers.dev/traffic';
     const KEY_STORE = 'politaltal.adminKey';
+
+    async function loadTraffic() {
+      const key = localStorage.getItem(KEY_STORE);
+      const note = document.getElementById('tvNote');
+      try {
+        const r = await fetch(TRAFFIC_API + '?key=' + encodeURIComponent(key));
+        const d = await r.json();
+        if (d.ok) {
+          document.getElementById('tvVisits').textContent = (d.total_visits || 0).toLocaleString();
+          document.getElementById('tvViews').textContent = (d.total_pageviews || 0).toLocaleString();
+          note.textContent = 'Cloudflare Web Analytics 실데이터 · 쿠키리스 (개인정보 미수집)';
+        } else if (d.error === 'cf_not_configured' || d.error === 'no_site_tag') {
+          note.innerHTML = '⚙️ Cloudflare 트래픽 연동 전 — Worker에 <b>CF_API_TOKEN</b>·<b>CF_ACCOUNT_ID</b> 설정 필요';
+        } else {
+          note.textContent = '트래픽 조회 오류: ' + (d.error || '');
+        }
+      } catch (e) { note.textContent = '트래픽 조회 실패'; }
+    }
 
     function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
 
@@ -80,6 +107,7 @@
       document.getElementById('keyCard').style.display = 'none';
       document.getElementById('dash').style.display = 'block';
       document.getElementById('total').textContent = (d.total_logins || 0).toLocaleString();
+      loadTraffic();
       const daily = (d.daily || []).slice().reverse(); // 오래된→최신
       const max = Math.max(1, ...daily.map(x => x.logins));
       const box = document.getElementById('daily');
