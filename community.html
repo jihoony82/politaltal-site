@@ -86,8 +86,8 @@
             <!-- 방송 선택 탭: 국회방송(NATV) ↔ KTV (라이브 영상 ID 빌드 시 자동 주입) -->
             
             <div class="cl-tv-tabs">
-              <button class="cl-tv-tab active" data-vid="FCsi2Jgrqyg" data-name="KTV 국민방송" onclick="switchTV(this)">📡 KTV 🔴 LIVE</button>
-              <button class="cl-tv-tab" data-vid="mkQJy8F4758" data-name="국회방송 NATV" onclick="switchTV(this)">📺 국회방송(NATV)</button>
+              <button class="cl-tv-tab active" data-key="ktv" data-channel="UCIMOytYIzaUpoAM2bpT4JZQ" data-vid="FCsi2Jgrqyg" data-name="KTV 국민방송" onclick="switchTV(this)">📡 KTV 🔴 LIVE</button>
+              <button class="cl-tv-tab" data-key="natv" data-channel="UCL-WOj1FxKR8Hlzg5tvnWKg" data-vid="mkQJy8F4758" data-name="국회방송 NATV" onclick="switchTV(this)">📺 국회방송(NATV)</button>
             </div>
             <div class="cl-video-wrap">
               <iframe id="clTvFrame" src="https://www.youtube.com/embed/FCsi2Jgrqyg?rel=0" title="국회 생중계" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -208,36 +208,82 @@
         window.switchTV = function(btn){
           const vid = btn.getAttribute('data-vid');
           const name = btn.getAttribute('data-name') || '';
+          const isLive = btn.getAttribute('data-is-live') === '1';
           const wrap = document.querySelector('.cl-video-wrap');
           const cap = document.getElementById('clTvCap');
           document.querySelectorAll('.cl-tv-tab').forEach(function(b){ b.classList.remove('active'); });
           btn.classList.add('active');
           if(!vid){
-            if(wrap) wrap.innerHTML = '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:13px;text-align:center;padding:20px;">현재 '+name+' 생방송이 없습니다.<br>다른 채널을 선택하거나 아래 의사중계시스템에서 확인하세요.</div>';
-            if(cap) cap.textContent = name + ' · 현재 방송 없음';
+            if(wrap) wrap.innerHTML = '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:13px;text-align:center;padding:20px;">현재 '+name+' 영상을 불러올 수 없습니다.<br>아래 의사중계시스템에서 확인하세요.</div>';
+            if(cap) cap.textContent = name + ' · 영상 없음';
             return;
           }
-          if(wrap) wrap.innerHTML = '<iframe id="clTvFrame" src="https://www.youtube.com/embed/'+vid+'?autoplay=1&mute=1&rel=0" title="국회 생중계" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
-          if(cap) cap.textContent = name + ' 생중계';
+          if(wrap) wrap.innerHTML = '<iframe id="clTvFrame" src="https://www.youtube.com/embed/'+vid+'?autoplay=1&mute=1&rel=0" title="국회 방송" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+          if(cap) cap.textContent = name + (isLive ? ' 🔴 생중계' : ' · 최신 영상');
         };
 
+        // 라이브 상태 자동 갱신 — /live 엔드포인트로 채널의 현재 videoId·isLive 조회
+        async function refreshTVStatus(){
+          const tabs = Array.from(document.querySelectorAll('.cl-tv-tab[data-channel]'));
+          if(!tabs.length) return;
+          let firstLiveTab = null;
+          await Promise.all(tabs.map(async function(tab){
+            const channel = tab.getAttribute('data-channel');
+            const key = tab.getAttribute('data-key');
+            const name = tab.getAttribute('data-name') || '';
+            try {
+              const r = await fetch(API_BASE + '/live?channel=' + encodeURIComponent(channel));
+              const d = await r.json();
+              if (!d || !d.ok) throw new Error('no_data');
+              const newVid = d.videoId;
+              const prevVid = tab.getAttribute('data-vid');
+              tab.setAttribute('data-vid', newVid);
+              tab.setAttribute('data-is-live', d.isLive ? '1' : '0');
+              const tagShort = (key === 'ktv') ? '📡 KTV' : '📺 NATV';
+              const fullName = (key === 'ktv') ? 'KTV 국민방송' : '국회방송(NATV)';
+              tab.textContent = tagShort + (d.isLive ? ' 🔴 LIVE' : ' · 최신영상');
+              tab.setAttribute('data-name', fullName);
+              if(d.isLive && !firstLiveTab) firstLiveTab = tab;
+              // 현재 활성 탭의 videoId가 바뀌었으면 iframe 교체
+              if (tab.classList.contains('active') && newVid && newVid !== prevVid){
+                const wrap = document.querySelector('.cl-video-wrap');
+                const cap = document.getElementById('clTvCap');
+                if (wrap) wrap.innerHTML = '<iframe id="clTvFrame" src="https://www.youtube.com/embed/'+newVid+'?autoplay=1&mute=1&rel=0" title="국회 방송" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+                if (cap) cap.textContent = fullName + (d.isLive ? ' 🔴 생중계' : ' · 최신 영상');
+              }
+            } catch(e){
+              // 실패 시 라벨만 살짝 표기 (기존 vid는 유지)
+              const tagShort = (key === 'ktv') ? '📡 KTV' : '📺 NATV';
+              if(!tab.getAttribute('data-vid')) tab.textContent = tagShort + ' · 확인 실패';
+            }
+          }));
+          // 어떤 탭도 active가 아니거나 active한 탭에 vid가 없으면 → 라이브 탭으로 자동 전환
+          const activeTab = document.querySelector('.cl-tv-tab.active');
+          const needsSwitch = !activeTab || !activeTab.getAttribute('data-vid');
+          if (needsSwitch && firstLiveTab){
+            window.switchTV(firstLiveTab);
+          }
+        }
+
         refresh();
-        setInterval(refresh, 20000); // 20초마다 갱신 (라이브 느낌)
+        setInterval(refresh, 20000); // 20초마다 채팅 갱신 (라이브 느낌)
+        refreshTVStatus();
+        setInterval(refreshTVStatus, 300000); // 5분마다 방송 상태 재확인
       })();
     </script>
     
 
       <div class="section-title" style="font-size:16px;margin-top:24px;">📋 정책 토론 게시판</div>
-      <div class="coming-soon-banner">
-        ✅ 위 <strong>실시간 채팅</strong>은 지금 작동합니다!
-        아래 <strong>게시판</strong>(글쓰기·찬반투표·의원 데이터 인용)은 준비 중이며,
-        정식 오픈은 변호사 자문 완료 후 진행됩니다. 아래는 미리보기예요.
+      <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#075985;line-height:1.6;">
+        🟢 <strong>정책토론 게시판이 오픈했습니다.</strong> 누구나 자유롭게 의견을 남길 수 있어요.
+        비방·허위사실·명예훼손성 글은 신고 시 즉시 검토·삭제됩니다.
+        <br>※ 아래 글은 토론 분위기를 보여주기 위한 <strong>예시글</strong>이며, 실제 사용자 글이 쌓이면 그 위로 표시됩니다.
       </div>
 
       <div class="sub-tabs">
         <span class="sub-tab active">🌐 전체</span>
-        <span class="sub-tab">💭 자유게시판</span>
         <span class="sub-tab">📜 정책토론</span>
+        <span class="sub-tab">💭 자유게시판</span>
         <span class="sub-tab">📍 우리지역</span>
         <span class="sub-tab">❓ Q&A</span>
       </div>
@@ -246,109 +292,61 @@
         <div class="post-card">
           <div class="post-meta">
             <span class="post-category">정책토론</span>
-            <span>👤 마포구데이터분석가 · 30분 전</span>
+            <span>👤 관심시민742 · 방금</span>
           </div>
-          <div class="post-title">주거안정법 어떻게 보세요? 의원 표결 vs 여론</div>
-          <div class="post-preview">지난주 본회의에서 통과된 주거안정법. 의원들의 표결과 시민 의견을 비교해봅시다.</div>
-          
-            <a href="/politician/6AU2417B.html" class="post-badge party-민주" onclick="event.stopPropagation();">
-              📊 박주민 데이터 보기 →
-            </a>
-            
-          
-            <div class="post-poll">
-              <div class="poll-title">📊 이 법안에 찬성?</div>
-              <div class="poll-bar">
-                <div class="poll-yes" style="width:46%">46%</div>
-                <div class="poll-no" style="width:20%">20%</div>
-                <div class="poll-neu" style="width:34%">34%</div>
-              </div>
-              <div class="poll-legend">
-                <span>✅ 찬성 65</span>
-                <span>❌ 반대 28</span>
-                <span>🤔 모름 7</span>
-              </div>
-            </div>
-            
-          <div class="post-stats">
-            <span>👁 287</span>
-            <span>💬 64</span>
-            <span>❤️ 142</span>
-          </div>
-        </div>
-        
-        <div class="post-card">
-          <div class="post-meta">
-            <span class="post-category">우리지역</span>
-            <span>👤 강남구유권자A · 1시간 전</span>
-          </div>
-          <div class="post-title">[강남구] 지역구 의원실에 민원 넣어보신 분?</div>
-          <div class="post-preview">강남갑·을·병 의원실에 도로 민원 넣어봤는데 응답 속도가 다르더군요. 경험 공유해요.</div>
+          <div class="post-title">본회의 출석률 100%인데 발의 0건, '일 잘한 의원' 맞을까요?</div>
+          <div class="post-preview">출석은 만점인데 1년간 법안 발의는 0건인 의원이 의외로 있어요. 출석만 잘 하면 일 잘한 거다 vs 발의 없으면 무능하다 — 의견이 엇갈리네요. 여러분이 '일 잘하는 의원'을 판단하는 1순위 지표는 뭔가요? 출석·발의수·통과율·언론노출도 중 어느 거?
+
+(※ 본 글은 정책토론 게시판 예시글입니다 — 토론 분위기 안내용)</div>
           
           
           <div class="post-stats">
-            <span>👁 124</span>
-            <span>💬 23</span>
-            <span>❤️ 41</span>
+            <span>👁 412</span>
+            <span>💬 58</span>
+            <span>❤️ 137</span>
           </div>
         </div>
         
         <div class="post-card">
           <div class="post-meta">
             <span class="post-category">정책토론</span>
-            <span>👤 소신있는재선투표자 · 3시간 전</span>
+            <span>👤 데이터러버318 · 2시간 전</span>
           </div>
-          <div class="post-title">환경 관련 법안 통과율이 너무 낮은 이유?</div>
-          <div class="post-preview">환경노동위 의원들 데이터 보니 가결률이 평균 이하네요. 왜 그럴까요?</div>
+          <div class="post-title">재산 100억 넘는 의원 13명, '평균' 통계는 왜 함정인가요</div>
+          <div class="post-preview">286명 평균 재산을 단순 산술평균으로 내면 큰 숫자가 나옵니다. 근데 상위 13명을 빼면 평균이 확 떨어져요. 통계에서 흔히 빠지는 함정인데요, 재산·자산 데이터는 '평균(mean)'보다 '중앙값(median)'을 봐야 실제 분포가 보입니다. 여러분은 의원 재산 통계 볼 때 어떤 숫자를 기준으로 삼으시나요?
+
+(※ 본 글은 정책토론 게시판 예시글입니다 — 데이터 읽기 토론 유도용)</div>
           
-            <a href="/politician/T2T8225E.html" class="post-badge party-조국" onclick="event.stopPropagation();">
-              📊 강경숙 데이터 보기 →
-            </a>
-            
           
           <div class="post-stats">
-            <span>👁 198</span>
+            <span>👁 327</span>
             <span>💬 41</span>
-            <span>❤️ 87</span>
+            <span>❤️ 109</span>
           </div>
         </div>
         
         <div class="post-card">
           <div class="post-meta">
-            <span class="post-category">Q&A</span>
-            <span>👤 정치입문자 · 5시간 전</span>
+            <span class="post-category">정책토론</span>
+            <span>👤 팩트체커205 · 어제</span>
           </div>
-          <div class="post-title">법안 발의부터 통과까지 절차가 어떻게 되나요?</div>
-          <div class="post-preview">초보적인 질문인데, 의원이 법을 만들 때 어떤 절차를 거치는지 궁금합니다. 배움터에 좀...</div>
+          <div class="post-title">본회의 표결 '기권' — 책임 회피일까, 신중함일까?</div>
+          <div class="post-preview">민감한 법안마다 '기권'을 누르는 의원이 있고, 거의 모든 표결에서 찬성·반대를 명확히 하는 의원도 있어요. 한쪽에선 '입장을 안 밝히는 건 책임 회피다', 다른 쪽에선 '잘 모르면 기권이 맞다, 강제 찬반이 더 위험'이라고 하죠. 이제 표결 데이터를 누구나 볼 수 있게 된 시대, 기권을 어떻게 해석하는 게 옳을까요?
+
+(※ 본 글은 정책토론 게시판 예시글입니다 — 표결 데이터 해석 토론용)</div>
           
           
           <div class="post-stats">
-            <span>👁 92</span>
-            <span>💬 18</span>
-            <span>❤️ 30</span>
-          </div>
-        </div>
-        
-        <div class="post-card">
-          <div class="post-meta">
-            <span class="post-category">자유게시판</span>
-            <span>👤 데이터러버 · 어제</span>
-          </div>
-          <div class="post-title">정치탈탈 사이트 활용법 공유 — 발의수 함정 주의</div>
-          <div class="post-preview">발의수만 보지 말고 통과율도 같이 봐야 합니다. 300건 발의 vs 50건 발의 + 통과 20건...</div>
-          
-          
-          <div class="post-stats">
-            <span>👁 421</span>
-            <span>💬 67</span>
-            <span>❤️ 140</span>
+            <span>👁 521</span>
+            <span>💬 73</span>
+            <span>❤️ 173</span>
           </div>
         </div>
         
 
-      <div style="text-align:center;padding:30px 0;color:var(--color-text-soft);font-size:12px;line-height:1.7;">
-        — 위 게시글·투표는 모두 예시입니다 —<br>
-        실제 출시 시 모든 게시글은 데이터 인용·투표·의원 링크가 결합된 형태로 표시됩니다
+      <div style="text-align:center;padding:24px 0;color:var(--color-text-soft);font-size:12px;line-height:1.7;">
+        — 위 3개 글은 토론 분위기 안내용 <strong>예시글</strong>입니다 —<br>
+        실제 글쓰기 기능은 단계적으로 추가되며, 현재는 우측 <strong>실시간 채팅</strong>으로 의견을 남겨주세요
       </div>
 
       <!-- 커뮤니티 차별점 소개 (하단) -->
@@ -364,7 +362,7 @@
       </div>
     </div>
 
-    <button class="write-btn-floating" onclick="alert('커뮤니티는 Stage 3 출시 예정입니다.\n\n출시 시 적용 예정:\n• 페르소나 닉네임 (시스템 자동 부여)\n• 의원 데이터 카드 인용\n• 찬반 투표 컴포넌트\n• 강력한 신고 시스템 + 변호사 자문\n\n현재는 미리보기 단계입니다.')">✏️</button>
+    <button class="write-btn-floating" onclick="alert('글쓰기 기능은 곧 추가됩니다.\n\n지금 의견을 남기시려면 우측 \'실시간 채팅\'을 이용해주세요.\n\n• 닉네임 자동 부여 (개인정보 미수집)\n• 비방·허위사실은 신고 즉시 검토·삭제\n• 등록된 채팅은 모든 방문자에게 공개됩니다')">✏️</button>
     </main>
   <nav class="bottom-nav">
     <a href="/" class="">
