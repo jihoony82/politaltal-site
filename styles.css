@@ -226,7 +226,12 @@ img, video { height: auto; }
 /* ── 글쓰기 모달 (게시판) ── */
 .write-modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: flex-end; justify-content: center; }
 .write-modal[hidden] { display: none; }
-.write-modal-backdrop { position: absolute; inset: 0; background: rgba(10,37,64,.55); }
+.write-modal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(10, 37, 64, 0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
 .write-modal-card {
   position: relative; background: #fff; width: 100%; max-width: 560px;
   border-radius: 16px 16px 0 0;
