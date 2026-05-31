@@ -427,6 +427,8 @@
           try { return new Date(Number(ts)).toLocaleDateString('ko-KR'); } catch(e){ return ''; }
         }
 
+        const POSTS_EMPTY_HTML = '<div id="postsEmptyState" style="text-align:center;padding:40px 20px;color:var(--color-text-soft);font-size:13px;line-height:1.7;">📝 아직 등록된 글이 없어요.<br>첫 번째 글을 남겨보세요! 우측 하단 <strong>✏️ 버튼</strong>을 눌러 글을 작성할 수 있습니다.</div>';
+
         async function loadRealPosts(){
           const c = document.getElementById('realPostsContainer');
           if(!c) return;
@@ -435,7 +437,7 @@
           try {
             const r = await fetch(POSTS_API + '?limit=30');
             const d = await r.json();
-            if (!d || !d.ok || !d.posts || !d.posts.length){ c.innerHTML = ''; return; }
+            if (!d || !d.ok || !d.posts || !d.posts.length){ c.innerHTML = POSTS_EMPTY_HTML; return; }
             c.innerHTML = '<div class="real-posts-divider">— 사용자 글 (' + d.posts.length + '개) —</div>' +
               d.posts.map(function(p){
                 return '<div class="post-card">' +
@@ -551,8 +553,8 @@
       <div class="section-title" style="font-size:16px;margin-top:24px;">📋 정책 토론 게시판</div>
       <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#075985;line-height:1.6;">
         🟢 <strong>정책토론 게시판이 오픈했습니다.</strong> 누구나 자유롭게 의견을 남길 수 있어요.
+        우측 하단 <strong>✏️ 버튼</strong>으로 글을 작성하고, 의원 카드도 첨부할 수 있어요.
         비방·허위사실·명예훼손성 글은 신고 시 즉시 검토·삭제됩니다.
-        <br>※ 아래 글은 토론 분위기를 보여주기 위한 <strong>예시글</strong>이며, 실제 사용자 글이 쌓이면 그 위로 표시됩니다.
       </div>
 
       <div class="sub-tabs">
@@ -613,68 +615,12 @@
         </div>
       </details>
 
-      <!-- 실제 사용자 글 (JS가 /posts에서 불러와 채움; 비어 있으면 아래 예시글만 표시) -->
-      <div id="realPostsContainer"></div>
-
-      
-        <div class="post-card">
-          <div class="post-meta">
-            <span class="post-category">정책토론</span>
-            <span>👤 관심시민742 · 방금</span>
-          </div>
-          <div class="post-title">본회의 출석률 100%인데 발의 0건, '일 잘한 의원' 맞을까요?</div>
-          <div class="post-preview">출석은 만점인데 1년간 법안 발의는 0건인 의원이 의외로 있어요. 출석만 잘 하면 일 잘한 거다 vs 발의 없으면 무능하다 — 의견이 엇갈리네요. 여러분이 '일 잘하는 의원'을 판단하는 1순위 지표는 뭔가요? 출석·발의수·통과율·언론노출도 중 어느 거?
-
-(※ 본 글은 정책토론 게시판 예시글입니다 — 토론 분위기 안내용)</div>
-          
-          
-          <div class="post-stats">
-            <span>👁 412</span>
-            <span>💬 58</span>
-            <span>❤️ 137</span>
-          </div>
+      <!-- 실제 사용자 글 (JS가 /posts에서 불러와 채움) -->
+      <div id="realPostsContainer">
+        <div id="postsEmptyState" style="text-align:center;padding:40px 20px;color:var(--color-text-soft);font-size:13px;line-height:1.7;">
+          📝 아직 등록된 글이 없어요.<br>
+          첫 번째 글을 남겨보세요! 우측 하단 <strong>✏️ 버튼</strong>을 눌러 글을 작성할 수 있습니다.
         </div>
-        
-        <div class="post-card">
-          <div class="post-meta">
-            <span class="post-category">정책토론</span>
-            <span>👤 데이터러버318 · 2시간 전</span>
-          </div>
-          <div class="post-title">재산 100억 넘는 의원 13명, '평균' 통계는 왜 함정인가요</div>
-          <div class="post-preview">286명 평균 재산을 단순 산술평균으로 내면 큰 숫자가 나옵니다. 근데 상위 13명을 빼면 평균이 확 떨어져요. 통계에서 흔히 빠지는 함정인데요, 재산·자산 데이터는 '평균(mean)'보다 '중앙값(median)'을 봐야 실제 분포가 보입니다. 여러분은 의원 재산 통계 볼 때 어떤 숫자를 기준으로 삼으시나요?
-
-(※ 본 글은 정책토론 게시판 예시글입니다 — 데이터 읽기 토론 유도용)</div>
-          
-          
-          <div class="post-stats">
-            <span>👁 327</span>
-            <span>💬 41</span>
-            <span>❤️ 109</span>
-          </div>
-        </div>
-        
-        <div class="post-card">
-          <div class="post-meta">
-            <span class="post-category">정책토론</span>
-            <span>👤 팩트체커205 · 어제</span>
-          </div>
-          <div class="post-title">본회의 표결 '기권' — 책임 회피일까, 신중함일까?</div>
-          <div class="post-preview">민감한 법안마다 '기권'을 누르는 의원이 있고, 거의 모든 표결에서 찬성·반대를 명확히 하는 의원도 있어요. 한쪽에선 '입장을 안 밝히는 건 책임 회피다', 다른 쪽에선 '잘 모르면 기권이 맞다, 강제 찬반이 더 위험'이라고 하죠. 이제 표결 데이터를 누구나 볼 수 있게 된 시대, 기권을 어떻게 해석하는 게 옳을까요?
-
-(※ 본 글은 정책토론 게시판 예시글입니다 — 표결 데이터 해석 토론용)</div>
-          
-          
-          <div class="post-stats">
-            <span>👁 521</span>
-            <span>💬 73</span>
-            <span>❤️ 173</span>
-          </div>
-        </div>
-        
-
-      <div style="text-align:center;padding:24px 0;color:var(--color-text-soft);font-size:12px;line-height:1.7;">
-        — 위 3개 글은 토론 분위기 안내용 <strong>예시글</strong>입니다 —<br>
-        실제 글쓰기 기능은 단계적으로 추가되며, 현재는 우측 <strong>실시간 채팅</strong>으로 의견을 남겨주세요
       </div>
 
       <!-- 커뮤니티 차별점 소개 (하단) -->
