@@ -248,6 +248,98 @@ img, video { height: auto; }
 .write-modal-body textarea { resize: vertical; min-height: 140px; word-break: keep-all; line-height: 1.6; }
 .write-modal-body .char-counter { font-size: 10.5px; color: var(--color-text-soft); text-align: right; margin-top: 2px; }
 .write-modal-notice { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; font-size: 11.5px; padding: 8px 10px; border-radius: 8px; margin-top: 12px; line-height: 1.55; }
+
+/* 의원 검색·첨부 (글쓰기 모달) */
+.member-search-wrap { position: relative; }
+.member-search-input {
+  width: 100%; border: 1px solid var(--color-border); border-radius: 8px;
+  padding: 9px 11px 9px 32px; font-size: 13.5px; font-family: inherit;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='16.5' y1='16.5' x2='21' y2='21' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 9px 50%;
+  background-size: 14px;
+}
+.member-search-results {
+  position: absolute; top: 100%; left: 0; right: 0;
+  background: #fff; border: 1px solid var(--color-border); border-top: none;
+  border-radius: 0 0 10px 10px; box-shadow: 0 8px 20px rgba(10,37,64,.12);
+  max-height: 280px; overflow-y: auto; z-index: 10; display: none;
+}
+.member-search-results.open { display: block; }
+.member-search-item {
+  display: flex; align-items: center; gap: 10px; padding: 9px 11px;
+  cursor: pointer; border-bottom: 1px solid #f1f5f9; font-size: 13px;
+  -webkit-tap-highlight-color: rgba(255,94,58,.1);
+}
+.member-search-item:last-child { border-bottom: none; }
+.member-search-item:hover, .member-search-item.active { background: #fff7ed; }
+.member-search-item .ms-thumb { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; flex-shrink: 0; background: #e2e8f0; }
+.member-search-item .ms-thumb-fallback { width: 32px; height: 32px; border-radius: 50%; background: #cbd5e1; color: #475569; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.member-search-item .ms-info { flex: 1; min-width: 0; }
+.member-search-item .ms-name { font-weight: 700; color: var(--color-primary); }
+.member-search-item .ms-meta { font-size: 11px; color: var(--color-text-soft); margin-top: 1px; }
+
+/* 첨부된 의원 칩 (모달 안) */
+.attached-members { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.attached-member-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #fef3c7; border: 1px solid #fcd34d;
+  border-radius: 999px; padding: 4px 8px 4px 4px; font-size: 12px; color: #78350f;
+}
+.attached-member-chip img, .attached-member-chip .chip-thumb {
+  width: 22px; height: 22px; border-radius: 50%; object-fit: cover; background: #fff;
+}
+.attached-member-chip .chip-thumb { display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; color: #92400e; }
+.attached-member-chip button {
+  background: transparent; border: none; cursor: pointer; color: #92400e;
+  padding: 0 4px; font-size: 14px; line-height: 1;
+}
+
+/* 게시글 안에 임베드되는 의원 카드 */
+.embedded-member-card {
+  display: flex; align-items: center; gap: 12px;
+  background: linear-gradient(135deg, #f8fafc 0%, #fff 100%);
+  border: 1px solid var(--color-border); border-left: 4px solid var(--color-accent);
+  border-radius: 10px; padding: 10px 12px; margin: 10px 0;
+  text-decoration: none; color: var(--color-text);
+  transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+  cursor: pointer;
+}
+.embedded-member-card:hover {
+  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(10,37,64,.08);
+  border-left-color: var(--color-primary); text-decoration: none;
+}
+.embedded-member-card .emc-photo {
+  width: 48px; height: 48px; border-radius: 50%; object-fit: cover;
+  background: #e2e8f0; flex-shrink: 0;
+}
+.embedded-member-card .emc-photo-fallback {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: #cbd5e1; color: #475569;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 18px; flex-shrink: 0;
+}
+.embedded-member-card .emc-info { flex: 1; min-width: 0; }
+.embedded-member-card .emc-name {
+  font-weight: 800; font-size: 14px; color: var(--color-primary);
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.embedded-member-card .emc-party {
+  font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px;
+  background: #f1f5f9; color: var(--color-text-soft);
+}
+.embedded-member-card .emc-meta {
+  font-size: 11.5px; color: var(--color-text-soft); margin-top: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.embedded-member-card .emc-arrow {
+  color: var(--color-accent); font-weight: 800; flex-shrink: 0;
+  transition: transform 0.18s;
+}
+.embedded-member-card:hover .emc-arrow { transform: translateX(3px); }
+.embedded-member-card.missing {
+  background: #f8fafc; border-left-color: #94a3b8; color: var(--color-text-soft);
+  font-style: italic; cursor: default;
+}
+.embedded-member-card.missing:hover { transform: none; box-shadow: none; }
 .write-modal-actions { display: flex; gap: 8px; margin-top: 14px; }
 .write-modal-cancel { flex: 1; background: #f1f5f9; color: #475569; border: 1px solid var(--color-border); border-radius: 9px; padding: 11px; font-weight: 600; cursor: pointer; }
 .write-modal-submit { flex: 2; background: var(--color-accent); color: #fff; border: none; border-radius: 9px; padding: 11px; font-weight: 700; cursor: pointer; }

@@ -270,8 +270,153 @@
           }
         }
 
-        // ─── 게시판: 실글 불러오기 + 글쓰기 ───
+        // ─── 게시판: 실글 불러오기 + 글쓰기 + 의원 카드 첨부 ───
         const POSTS_API = API_BASE + '/posts';
+        const MEMBER_MARKER_RE = /\[member:([A-Za-z0-9]{6,12})\]/g;
+        let MEMBERS_INDEX = null;   // { MONA_CD: {name, party, district, term, photo} }
+        let attachedSet = new Set(); // 현재 모달에서 첨부한 MONA_CD들
+
+        async function loadMembersIndex(){
+          if (MEMBERS_INDEX) return MEMBERS_INDEX;
+          try {
+            const r = await fetch('/data/members-mini.json');
+            MEMBERS_INDEX = await r.json();
+          } catch(e){ MEMBERS_INDEX = {}; }
+          return MEMBERS_INDEX;
+        }
+
+        function renderMemberCard(monaCd){
+          const m = MEMBERS_INDEX && MEMBERS_INDEX[monaCd];
+          if (!m) {
+            return '<div class="embedded-member-card missing">📍 의원 카드: 정보를 찾을 수 없습니다 (' + esc(monaCd) + ')</div>';
+          }
+          const photo = m.photo
+            ? '<img class="emc-photo" src="' + esc(m.photo) + '" alt="' + esc(m.name) + '" loading="lazy">'
+            : '<div class="emc-photo-fallback">' + esc((m.name || '?').charAt(0)) + '</div>';
+          const partyChip = m.party ? '<span class="emc-party">' + esc(m.party) + '</span>' : '';
+          const meta = [m.district, m.term].filter(Boolean).join(' · ');
+          return '<a href="/politician/' + esc(monaCd) + '.html" class="embedded-member-card">' +
+            photo +
+            '<div class="emc-info">' +
+              '<div class="emc-name">' + esc(m.name || '') + ' ' + partyChip + '</div>' +
+              '<div class="emc-meta">' + esc(meta || '') + (meta ? ' · ' : '') + '데이터 보기</div>' +
+            '</div>' +
+            '<span class="emc-arrow">→</span>' +
+          '</a>';
+        }
+
+        function renderPostBody(text){
+          // 1) 마커 위치 찾기 → 텍스트와 마커 분리해서 안전하게 렌더
+          const src = text || '';
+          let html = '', last = 0, m;
+          MEMBER_MARKER_RE.lastIndex = 0;
+          while ((m = MEMBER_MARKER_RE.exec(src)) !== null) {
+            if (m.index > last) html += esc(src.slice(last, m.index));
+            html += renderMemberCard(m[1]);
+            last = m.index + m[0].length;
+          }
+          if (last < src.length) html += esc(src.slice(last));
+          return html;
+        }
+
+        // 모달 의원 검색
+        function searchMembers(q){
+          if (!MEMBERS_INDEX || !q) return [];
+          const ql = q.trim().toLowerCase();
+          if (!ql) return [];
+          const hits = [];
+          for (const mona in MEMBERS_INDEX) {
+            const m = MEMBERS_INDEX[mona];
+            const hay = (m.name + ' ' + (m.party||'') + ' ' + (m.district||'')).toLowerCase();
+            if (hay.includes(ql)) {
+              hits.push({ mona, ...m });
+              if (hits.length >= 8) break;
+            }
+          }
+          return hits;
+        }
+
+        window.onMemberSearchInput = async function(){
+          await loadMembersIndex();
+          const inp = document.getElementById('memberSearchInput');
+          const box = document.getElementById('memberSearchResults');
+          const q = (inp && inp.value || '').trim();
+          if (!q) { box.classList.remove('open'); box.innerHTML = ''; return; }
+          const results = searchMembers(q);
+          if (!results.length) {
+            box.innerHTML = '<div class="member-search-item" style="cursor:default;color:#94a3b8;">검색 결과 없음 — 이름을 정확히 입력해보세요</div>';
+            box.classList.add('open');
+            return;
+          }
+          box.innerHTML = results.map(function(m){
+            const ph = m.photo
+              ? '<img class="ms-thumb" src="' + esc(m.photo) + '" alt="">'
+              : '<div class="ms-thumb-fallback">' + esc((m.name||'?').charAt(0)) + '</div>';
+            return '<div class="member-search-item" onmousedown="event.preventDefault();" onclick="window.attachMember(\'' + esc(m.mona) + '\')">' +
+              ph +
+              '<div class="ms-info">' +
+                '<div class="ms-name">' + esc(m.name) + '</div>' +
+                '<div class="ms-meta">' + esc(m.party || '') + (m.district ? ' · ' + esc(m.district) : '') + (m.term ? ' · ' + esc(m.term) : '') + '</div>' +
+              '</div>' +
+            '</div>';
+          }).join('');
+          box.classList.add('open');
+        };
+
+        window.closeMemberSearch = function(){
+          const box = document.getElementById('memberSearchResults');
+          if (box) box.classList.remove('open');
+        };
+
+        window.attachMember = function(monaCd){
+          loadMembersIndex().then(function(){
+            if (attachedSet.has(monaCd)) {
+              alert('이미 첨부된 의원입니다.');
+              return;
+            }
+            attachedSet.add(monaCd);
+            // 본문 끝에 마커 추가 (앞뒤 줄바꿈으로 가독성 확보)
+            const body = document.getElementById('writeBody');
+            const cur = body.value;
+            const sep = cur && !cur.endsWith('\n') ? '\n\n' : '\n';
+            body.value = cur + sep + '[member:' + monaCd + ']\n';
+            window.updateCharCount && window.updateCharCount();
+            renderAttachedChips();
+            // 검색창 초기화
+            const inp = document.getElementById('memberSearchInput');
+            if (inp) inp.value = '';
+            window.closeMemberSearch();
+          });
+        };
+
+        window.removeAttachedMember = function(monaCd){
+          attachedSet.delete(monaCd);
+          // 본문에서 해당 마커들 제거
+          const body = document.getElementById('writeBody');
+          if (body) {
+            const re = new RegExp('\\n*\\[member:' + monaCd + '\\]\\n*', 'g');
+            body.value = body.value.replace(re, '\n').replace(/\n{3,}/g, '\n\n');
+            window.updateCharCount && window.updateCharCount();
+          }
+          renderAttachedChips();
+        };
+
+        function renderAttachedChips(){
+          const box = document.getElementById('attachedMembers');
+          if (!box) return;
+          if (!attachedSet.size) { box.innerHTML = ''; return; }
+          box.innerHTML = Array.from(attachedSet).map(function(mona){
+            const m = MEMBERS_INDEX && MEMBERS_INDEX[mona];
+            if (!m) return '';
+            const ph = m.photo
+              ? '<img src="' + esc(m.photo) + '" alt="">'
+              : '<div class="chip-thumb">' + esc((m.name||'?').charAt(0)) + '</div>';
+            return '<span class="attached-member-chip">' + ph +
+              '<span>📊 ' + esc(m.name) + '</span>' +
+              '<button type="button" onclick="window.removeAttachedMember(\'' + esc(mona) + '\')" title="제거">×</button>' +
+            '</span>';
+          }).join('');
+        }
 
         function timeAgo(ts){
           const s = Math.max(0, Math.floor((Date.now() - Number(ts||0)) / 1000));
@@ -285,6 +430,8 @@
         async function loadRealPosts(){
           const c = document.getElementById('realPostsContainer');
           if(!c) return;
+          // 의원 카드 렌더링 위해 members 인덱스 먼저 보장
+          if (!MEMBERS_INDEX) { try { await loadMembersIndex(); } catch(e){} }
           try {
             const r = await fetch(POSTS_API + '?limit=30');
             const d = await r.json();
@@ -298,7 +445,7 @@
                     '<button class="post-report-btn" onclick="reportBoardPost(' + p.id + ', this)" title="신고">🚩</button>' +
                   '</div>' +
                   '<div class="post-title">' + esc(p.title||'') + '</div>' +
-                  '<div class="post-preview" style="white-space:pre-wrap;">' + esc(p.body||'') + '</div>' +
+                  '<div class="post-preview" style="white-space:pre-wrap;">' + renderPostBody(p.body||'') + '</div>' +
                   '<div class="post-stats">' +
                     '<span>👁 ' + (p.view_count||0) + '</span>' +
                     '<span>💬 0</span>' +
@@ -312,11 +459,15 @@
         window.openWriteModal = function(){
           const m = document.getElementById('writeModal');
           if(m){ m.hidden = false; document.body.style.overflow = 'hidden'; }
+          // 의원 인덱스 로드 (백그라운드)
+          loadMembersIndex();
           setTimeout(function(){ const t = document.getElementById('writeTitle'); if(t) t.focus(); }, 80);
         };
         window.closeWriteModal = function(){
           const m = document.getElementById('writeModal');
           if(m){ m.hidden = true; document.body.style.overflow = ''; }
+          // 검색 결과 닫기
+          window.closeMemberSearch && window.closeMemberSearch();
         };
         window.updateCharCount = function(){
           const t = document.getElementById('writeTitle');
@@ -357,6 +508,9 @@
             }
             document.getElementById('writeTitle').value = '';
             document.getElementById('writeBody').value = '';
+            attachedSet.clear();
+            renderAttachedChips();
+            const msi = document.getElementById('memberSearchInput'); if (msi) msi.value = '';
             window.updateCharCount();
             window.closeWriteModal();
             await loadRealPosts();
@@ -560,6 +714,13 @@
           <label for="writeBody">내용 <span style="color:var(--color-text-soft);font-weight:500;">(최대 1500자)</span></label>
           <textarea id="writeBody" maxlength="1500" rows="8" placeholder="데이터·사실에 근거한 의견·질문을 남겨주세요.&#10;&#10;예) '제22대 본회의 출석률 1위는 누구인가요? 데이터로 확인해보고 싶습니다.'" oninput="updateCharCount()"></textarea>
           <div class="char-counter"><span id="bodyCount">0</span> / 1500</div>
+
+          <label>의원 카드 첨부 <span style="color:var(--color-text-soft);font-weight:500;">(선택 · 클릭하면 글에 의원 카드가 같이 표시됩니다)</span></label>
+          <div class="member-search-wrap">
+            <input type="text" id="memberSearchInput" class="member-search-input" placeholder="의원 이름이나 지역구로 검색 (예: 박주민, 강남)" oninput="onMemberSearchInput()" onfocus="onMemberSearchInput()" onblur="setTimeout(closeMemberSearch, 200)" autocomplete="off">
+            <div id="memberSearchResults" class="member-search-results"></div>
+          </div>
+          <div id="attachedMembers" class="attached-members"></div>
           <div class="write-modal-notice">
             ⚠️ <strong>등록 전 반드시 확인</strong><br>
             • 닉네임은 자동 부여됩니다 (개인정보 미수집).<br>
