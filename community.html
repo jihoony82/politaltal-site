@@ -409,12 +409,15 @@
         <span class="sub-tab">❓ Q&A</span>
       </div>
 
-      <!-- 운영자 법적 공지 (최상단 고정) -->
-      <div class="legal-notice-post">
-        <div class="legal-notice-head">
-          <span class="pin">📌 공지</span>
-          <span>⚖️ 글쓰기 전 반드시 읽어주세요 — 법적 책임 안내</span>
-        </div>
+      <!-- 운영자 법적 공지 (최상단 고정, 처음엔 접힘) -->
+      <details class="legal-notice-post">
+        <summary>
+          <div class="legal-notice-head">
+            <span class="pin">📌 공지</span>
+            <span>⚖️ 글쓰기 전 반드시 읽어주세요 — 법적 책임 안내</span>
+            <span class="legal-toggle"><span class="legal-toggle-closed">펼치기 ▼</span><span class="legal-toggle-open">접기 ▲</span></span>
+          </div>
+        </summary>
         <div class="legal-notice-body">
           <strong>모든 게시글의 법적 책임은 작성자 본인에게 있습니다.</strong>
           한국 형법·정보통신망법·공직선거법상 아래 행위는 <strong class="danger">형사처벌 대상</strong>이며,
@@ -454,7 +457,7 @@
             ※ 이 안내는 일반 법률정보 요약입니다. 구체적 사안의 법적 판단은 변호사·법률 전문가의 자문이 필요합니다.
           </div>
         </div>
-      </div>
+      </details>
 
       <!-- 실제 사용자 글 (JS가 /posts에서 불러와 채움; 비어 있으면 아래 예시글만 표시) -->
       <div id="realPostsContainer"></div>

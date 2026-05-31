@@ -270,21 +270,38 @@ img, video { height: auto; }
 }
 .post-report-btn:hover { opacity: 1; color: #dc2626; }
 
-/* ── 게시판 운영자 법적 공지 (강조 톤) ── */
+/* ── 게시판 운영자 법적 공지 (강조 톤, 접기/펼치기) ── */
 .legal-notice-post {
   background: linear-gradient(180deg, #fff7ed 0%, #fff 100%);
   border: 2px solid #fb923c; border-left: 6px solid #ea580c;
-  border-radius: 12px; padding: 16px 18px; margin: 0 0 14px;
+  border-radius: 12px; margin: 0 0 14px;
   box-shadow: 0 2px 10px rgba(234,88,12,.08);
+  /* details 기본 마커 제거 */
 }
+.legal-notice-post > summary {
+  list-style: none; cursor: pointer; padding: 14px 18px;
+  user-select: none; -webkit-tap-highlight-color: rgba(234,88,12,.1);
+  border-radius: 10px;
+}
+.legal-notice-post > summary::-webkit-details-marker { display: none; }
+.legal-notice-post[open] > summary { border-bottom: 1px dashed #fed7aa; }
 .legal-notice-head {
   font-size: 14px; font-weight: 900; color: #9a3412;
-  display: flex; align-items: center; gap: 6px; margin-bottom: 10px;
-  padding-bottom: 8px; border-bottom: 1px dashed #fed7aa;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
 }
 .legal-notice-head .pin { background: #ea580c; color: #fff; font-size: 10px;
-  padding: 2px 7px; border-radius: 999px; font-weight: 800; letter-spacing: .3px; }
-.legal-notice-body { font-size: 12.5px; color: #431407; line-height: 1.75; word-break: keep-all; }
+  padding: 2px 7px; border-radius: 999px; font-weight: 800; letter-spacing: .3px; flex-shrink: 0; }
+.legal-notice-head .legal-toggle {
+  margin-left: auto; font-size: 11.5px; font-weight: 700; color: #c2410c;
+  background: rgba(234,88,12,.08); border: 1px solid #fed7aa;
+  padding: 3px 10px; border-radius: 999px; white-space: nowrap;
+}
+.legal-notice-post[open] .legal-toggle-closed { display: none; }
+.legal-notice-post:not([open]) .legal-toggle-open { display: none; }
+.legal-notice-post:not([open]) > summary:hover {
+  background: rgba(234,88,12,.04);
+}
+.legal-notice-body { font-size: 12.5px; color: #431407; line-height: 1.75; word-break: keep-all; padding: 14px 18px 16px; }
 .legal-notice-body strong { color: #9a3412; }
 .legal-notice-body .legal-block-title {
   display: block; margin: 10px 0 4px; font-size: 12px; font-weight: 800;
