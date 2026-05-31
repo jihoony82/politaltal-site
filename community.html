@@ -45,7 +45,9 @@
            title="당신의 커피 한 잔이 정치 감시의 눈이 됩니다 👀 (월 1,000원~)">
           <span class="hd-heart">♥</span><span class="hd-text">커피 한 잔</span>
         </a>
-        <a href="/login.html" id="headerAuthBtn" style="font-size:12px;font-weight:700;padding:6px 12px;
+        <a href="/login.html" id="headerAuthBtn"
+           onclick="if(!location.pathname.startsWith('/login')){this.href='/login.html?return='+encodeURIComponent(location.pathname+location.search+location.hash);}"
+           style="font-size:12px;font-weight:700;padding:6px 12px;
                                       background:var(--color-primary);color:white;
                                       border-radius:6px;text-decoration:none;
                                       display:flex;align-items:center;gap:6px;">
@@ -621,11 +623,7 @@
 
       <!-- 실제 사용자 글 (JS가 /posts에서 불러와 채움) -->
       <div id="realPostsContainer">
-        <div id="postsEmptyState" style="text-align:center;padding:40px 20px;color:var(--color-text-soft);font-size:13px;line-height:1.7;">
-          📝 글을 불러오는 중…<br>
-          잠시만 기다려주세요.<br><br>
-          <button onclick="window.loadRealPosts && window.loadRealPosts()" style="background:#0a2540;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;">🔄 다시 불러오기</button>
-        </div>
+        <div id="postsLoading" style="text-align:center;padding:14px 0;color:#cbd5e1;font-size:14px;letter-spacing:8px;">···</div>
       </div>
 
       <!-- 커뮤니티 차별점 소개 (하단) -->

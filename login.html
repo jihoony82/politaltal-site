@@ -45,7 +45,9 @@
            title="당신의 커피 한 잔이 정치 감시의 눈이 됩니다 👀 (월 1,000원~)">
           <span class="hd-heart">♥</span><span class="hd-text">커피 한 잔</span>
         </a>
-        <a href="/login.html" id="headerAuthBtn" style="font-size:12px;font-weight:700;padding:6px 12px;
+        <a href="/login.html" id="headerAuthBtn"
+           onclick="if(!location.pathname.startsWith('/login')){this.href='/login.html?return='+encodeURIComponent(location.pathname+location.search+location.hash);}"
+           style="font-size:12px;font-weight:700;padding:6px 12px;
                                       background:var(--color-primary);color:white;
                                       border-radius:6px;text-decoration:none;
                                       display:flex;align-items:center;gap:6px;">
@@ -165,12 +167,31 @@
         }
       }
 
+      // ?return= 파라미터 안전 검증 (내부 경로만 허용 → open redirect 방지)
+      function getSafeReturnUrl() {
+        try {
+          const r = new URLSearchParams(location.search).get('return') || '';
+          if (r && r.startsWith('/') && !r.startsWith('//')) return r;
+        } catch(e) {}
+        return '';
+      }
+
       function showLoggedIn(user) {
         document.getElementById('loginCard').style.display = 'none';
         const card = document.getElementById('userCard');
         card.style.display = '';
         document.getElementById('userName').textContent = user.name || '회원';
         document.getElementById('userEmail').textContent = user.email || '';
+        // 로그인 직후라면 원래 페이지로 자동 복귀 (약간의 안내 시간 후)
+        const ret = getSafeReturnUrl();
+        if (ret) {
+          // 환영 메시지 짧게 보여주고 이동
+          const note = document.createElement('div');
+          note.style.cssText = 'background:#dcfce7;border:1px solid #86efac;border-radius:8px;padding:10px 14px;margin-top:12px;font-size:12.5px;color:#166534;text-align:center;line-height:1.6;';
+          note.innerHTML = '✅ 로그인 완료! <strong>1.5초 후 원래 페이지로 돌아갑니다…</strong><br><a href="' + ret + '" style="color:#166534;font-weight:700;text-decoration:underline;">바로 가기 →</a>';
+          card.appendChild(note);
+          setTimeout(function(){ location.href = ret; }, 1500);
+        }
         const photo = document.getElementById('userPhoto');
         if (user.photo) {
           photo.src = user.photo;
