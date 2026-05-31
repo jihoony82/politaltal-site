@@ -1,6 +1,18 @@
 {
   "updates": [
     {
+      "timestamp": "2026-06-01T05:00:31",
+      "deltas": {
+        "politicians": 0,
+        "bills": 9,
+        "passed": 0,
+        "votes": 0
+      },
+      "narrative": [
+        "📜 발의 의안: 17,302 → 17,311 (+9건)"
+      ]
+    },
+    {
       "timestamp": "2026-05-28T15:08:25",
       "deltas": {},
       "narrative": [
