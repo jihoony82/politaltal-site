@@ -434,13 +434,23 @@
         async function loadRealPosts(){
           const c = document.getElementById('realPostsContainer');
           if(!c) return;
-          // 의원 카드 렌더링 위해 members 인덱스 먼저 보장
-          if (!MEMBERS_INDEX) { try { await loadMembersIndex(); } catch(e){} }
+          // members 인덱스는 백그라운드 로드 (게시글 렌더링을 막지 않음 - 카드 미리 fallback)
+          if (!MEMBERS_INDEX) { loadMembersIndex().catch(function(){}); }
+          let d;
           try {
             // 캐시 무력화 (브라우저·CDN 캐시 회피)
             const r = await fetch(POSTS_API + '?limit=30&_=' + Date.now(), { cache: 'no-store' });
-            const d = await r.json();
-            if (!d || !d.ok || !d.posts || !d.posts.length){ c.innerHTML = POSTS_EMPTY_HTML; return; }
+            if (!r.ok) { throw new Error('HTTP ' + r.status); }
+            d = await r.json();
+          } catch(err) {
+            // 명시적 에러 표시 — 사용자가 원인 파악 가능
+            c.innerHTML = '<div style="text-align:center;padding:30px 20px;color:#dc2626;font-size:13px;line-height:1.7;">' +
+              '⚠️ 글 목록을 불러오지 못했어요.<br>' +
+              '<span style="color:#94a3b8;font-size:11px;">(' + esc(String(err && err.message || err)) + ')</span><br><br>' +
+              '<button onclick="window.loadRealPosts && window.loadRealPosts()" style="background:#0a2540;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;">🔄 다시 시도</button></div>';
+            return;
+          }
+          if (!d || !d.ok || !d.posts || !d.posts.length){ c.innerHTML = POSTS_EMPTY_HTML; return; }
             c.innerHTML = '<div class="real-posts-divider">— 사용자 글 (' + d.posts.length + '개) —</div>' +
               d.posts.map(function(p){
                 return '<div class="post-card">' +
