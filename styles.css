@@ -33,7 +33,12 @@ body {
   /* 한글 줄바꿈: 단어(띄어쓰기) 단위로 끊기 + 긴 URL/영문은 넘치지 않게 */
   word-break: keep-all;
   overflow-wrap: break-word;
+  /* 모바일 안전망: 어떤 자식 요소도 가로 스크롤을 발생시키지 않도록 */
+  overflow-x: hidden;
 }
+/* 모바일 안전망: 미디어/임베드는 항상 컨테이너 폭 안에 */
+img, video, iframe, svg { max-width: 100%; }
+img, video { height: auto; }
 
 .container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
 
@@ -156,7 +161,8 @@ body {
 /* ── 히어로 브랜드 블록 (정치탈탈 + 캐치프레이즈) ── */
 .brand-hero { text-align: center; margin: 8px 0 2px; }
 .brand-hero-name { font-size: 30px; font-weight: 900; letter-spacing: -1px; color: #fff; display: inline-flex; align-items: center; }
-.brand-hero-badge { font-size: 11px; font-weight: 700; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25); padding: 3px 9px; border-radius: 20px; margin-left: 10px; color: #fff; }
+.brand-hero-badge { font-size: 11px; font-weight: 700; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25); padding: 3px 9px; border-radius: 20px; margin-left: 10px; color: #fff; display: inline-block; white-space: nowrap; }
+@media (max-width: 380px) { .brand-hero-badge { margin-left: 0; margin-top: 6px; display: inline-block; } }
 .brand-hero-catch { margin-top: 12px; font-size: 15px; line-height: 1.65; color: rgba(255,255,255,.9); word-break: keep-all; }
 .brand-hero-catch strong { color: #ffd9cf; font-weight: 800; }
 @media (max-width: 480px) { .brand-hero-name { font-size: 25px; } .brand-hero-catch { font-size: 13.5px; } }
@@ -186,6 +192,7 @@ body {
 .why-title em { font-style: normal; color: var(--color-primary); }
 .why-sub { font-size: 13px; color: var(--color-text-soft); margin-top: 8px; }
 .why-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 540px; margin: 18px auto 0; }
+@media (max-width: 360px) { .why-stats { grid-template-columns: repeat(3, 1fr); gap: 6px; } .why-stat { padding: 8px 6px; } }
 .why-stat { background: var(--color-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 15px 6px 14px; box-shadow: 0 2px 8px rgba(10,37,64,.05); }
 .why-stat .num { font-size: 22px; font-weight: 800; color: var(--color-primary); line-height: 1.1; white-space: nowrap; }
 .why-stat .num small { font-size: 12px; font-weight: 700; color: var(--color-text-soft); margin-left: 1px; }
@@ -215,6 +222,36 @@ body {
   font-size: 12px; color: #92400e; line-height: 1.7;
 }
 .community-disclaimer strong { color: #78350f; }
+
+/* ── 게시판 운영자 법적 공지 (강조 톤) ── */
+.legal-notice-post {
+  background: linear-gradient(180deg, #fff7ed 0%, #fff 100%);
+  border: 2px solid #fb923c; border-left: 6px solid #ea580c;
+  border-radius: 12px; padding: 16px 18px; margin: 0 0 14px;
+  box-shadow: 0 2px 10px rgba(234,88,12,.08);
+}
+.legal-notice-head {
+  font-size: 14px; font-weight: 900; color: #9a3412;
+  display: flex; align-items: center; gap: 6px; margin-bottom: 10px;
+  padding-bottom: 8px; border-bottom: 1px dashed #fed7aa;
+}
+.legal-notice-head .pin { background: #ea580c; color: #fff; font-size: 10px;
+  padding: 2px 7px; border-radius: 999px; font-weight: 800; letter-spacing: .3px; }
+.legal-notice-body { font-size: 12.5px; color: #431407; line-height: 1.75; word-break: keep-all; }
+.legal-notice-body strong { color: #9a3412; }
+.legal-notice-body .legal-block-title {
+  display: block; margin: 10px 0 4px; font-size: 12px; font-weight: 800;
+  color: #7c2d12; letter-spacing: .2px;
+}
+.legal-notice-body ul { margin: 4px 0 4px 0; padding-left: 18px; }
+.legal-notice-body li { margin: 4px 0; }
+.legal-notice-body .danger { color: #b91c1c; }
+.legal-notice-body .ok { color: #047857; }
+@media (max-width: 480px) {
+  .legal-notice-post { padding: 13px 14px; }
+  .legal-notice-head { font-size: 13px; }
+  .legal-notice-body { font-size: 12px; }
+}
 .live-feed-composer {
   background: var(--color-card); border: 1px solid var(--color-border);
   border-radius: 12px; padding: 14px; margin: 14px 0;
@@ -263,6 +300,7 @@ body {
 /* 유튜브 라이브 채팅 */
 .yt-chat { display: flex; flex-direction: column; height: 540px; border: 1px solid var(--color-border); border-radius: 12px; overflow: hidden; background: var(--color-card); }
 @media (max-width: 760px) { .yt-chat { height: 440px; } }
+@media (max-width: 480px) { .yt-chat { height: 360px; } }
 .yt-chat-header { padding: 10px 14px; border-bottom: 1px solid var(--color-border); font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; background: #fafafa; }
 .yt-chat-header .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #ef4444; animation: ltv-pulse 1.6s infinite; }
 .yt-chat-list { flex: 1; overflow-y: auto; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px; }
@@ -566,6 +604,8 @@ section { padding: 32px 0; }
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
   margin-top: 14px;
 }
+@media (max-width: 480px) { .sido-list { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 340px) { .sido-list { grid-template-columns: repeat(2, 1fr); } }
 .sido-chip {
   padding: 10px 8px; text-align: center; font-size: 13px;
   background: #f1f5f9; border-radius: 8px; cursor: pointer;
@@ -1546,6 +1586,7 @@ section { padding: 32px 0; }
   font-family: inherit;
 }
 .filter-bar input { flex: 1; min-width: 120px; }
+@media (max-width: 400px) { .filter-bar input { min-width: 70px; } }
 .filter-bar input:focus, .filter-bar select:focus {
   outline: none; border-color: var(--color-accent);
 }
@@ -1570,16 +1611,19 @@ section { padding: 32px 0; }
   backdrop-filter: blur(12px);
   border-top: 1px solid var(--color-border);
   display: flex; padding: 8px 0; z-index: 100;
+  /* iOS safe-area (notch/홈 인디케이터) 영역만큼 하단 여백 추가 */
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
 }
 .bottom-nav a {
-  flex: 1; text-align: center; padding: 6px;
+  flex: 1; text-align: center; padding: 8px 4px;
   font-size: 11px; color: var(--color-text-soft);
   text-decoration: none; font-weight: 500;
+  min-height: 48px;
 }
 .bottom-nav a.active { color: var(--color-accent); font-weight: 700; }
 .bottom-nav .icon { display: block; font-size: 20px; margin-bottom: 2px; }
 
-main { padding-bottom: 88px; }
+main { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
 
 a { color: var(--color-primary); text-decoration: none; }
 a:hover { text-decoration: underline; }
