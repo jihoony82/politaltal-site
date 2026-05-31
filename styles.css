@@ -376,22 +376,30 @@ img, video { height: auto; }
   /* details 기본 마커 제거 */
 }
 .legal-notice-post > summary {
-  list-style: none; cursor: pointer; padding: 14px 18px;
+  list-style: none; cursor: pointer; padding: 10px 14px;
   user-select: none; -webkit-tap-highlight-color: rgba(234,88,12,.1);
   border-radius: 10px;
 }
 .legal-notice-post > summary::-webkit-details-marker { display: none; }
 .legal-notice-post[open] > summary { border-bottom: 1px dashed #fed7aa; }
 .legal-notice-head {
-  font-size: 14px; font-weight: 900; color: #9a3412;
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  font-size: 13.5px; font-weight: 800; color: #9a3412;
+  display: flex; align-items: center; gap: 8px; flex-wrap: nowrap;
 }
-.legal-notice-head .pin { background: #ea580c; color: #fff; font-size: 10px;
-  padding: 2px 7px; border-radius: 999px; font-weight: 800; letter-spacing: .3px; flex-shrink: 0; }
+.legal-notice-head .pin {
+  background: #ea580c; color: #fff; font-size: 10px;
+  padding: 2px 7px; border-radius: 999px; font-weight: 800; letter-spacing: .3px;
+  flex-shrink: 0;
+}
+.legal-notice-head .legal-title {
+  flex: 1; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 .legal-notice-head .legal-toggle {
-  margin-left: auto; font-size: 11.5px; font-weight: 700; color: #c2410c;
+  margin-left: auto; font-size: 11px; font-weight: 700; color: #c2410c;
   background: rgba(234,88,12,.08); border: 1px solid #fed7aa;
-  padding: 3px 10px; border-radius: 999px; white-space: nowrap;
+  padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+  flex-shrink: 0;
 }
 .legal-notice-post[open] .legal-toggle-closed { display: none; }
 .legal-notice-post:not([open]) .legal-toggle-open { display: none; }
@@ -409,9 +417,11 @@ img, video { height: auto; }
 .legal-notice-body .danger { color: #b91c1c; }
 .legal-notice-body .ok { color: #047857; }
 @media (max-width: 480px) {
-  .legal-notice-post { padding: 13px 14px; }
-  .legal-notice-head { font-size: 13px; }
-  .legal-notice-body { font-size: 12px; }
+  .legal-notice-post > summary { padding: 9px 12px; }
+  .legal-notice-head { font-size: 12.5px; gap: 6px; }
+  .legal-notice-head .pin { font-size: 9.5px; padding: 2px 6px; }
+  .legal-notice-head .legal-toggle { font-size: 10.5px; padding: 2px 7px; }
+  .legal-notice-body { font-size: 12px; padding: 12px 14px 14px; }
 }
 .live-feed-composer {
   background: var(--color-card); border: 1px solid var(--color-border);
