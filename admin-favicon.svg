@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 관리자 모드 배지: 황금 외곽 + 네이비 내부 + '관' 글자 -->
+  <circle cx="16" cy="16" r="15" fill="#d4af37" stroke="#8a6914" stroke-width="0.8"/>
+  <circle cx="16" cy="16" r="11.5" fill="#0a2540"/>
+  <text x="16" y="22.5" text-anchor="middle" font-family="-apple-system, system-ui, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" font-size="15.5" font-weight="900" fill="#d4af37">관</text>
+</svg>
