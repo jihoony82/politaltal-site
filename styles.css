@@ -253,9 +253,9 @@ img, video { height: auto; }
 .member-search-wrap { position: relative; }
 .member-search-input {
   width: 100%; border: 1px solid var(--color-border); border-radius: 8px;
-  padding: 9px 11px 9px 32px; font-size: 13.5px; font-family: inherit;
-  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='16.5' y1='16.5' x2='21' y2='21' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 9px 50%;
-  background-size: 14px;
+  padding: 9px 11px 9px 38px; font-size: 13.5px; font-family: inherit;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='16.5' y1='16.5' x2='21' y2='21' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 12px center;
+  background-size: 16px;
 }
 .member-search-results {
   position: absolute; top: 100%; left: 0; right: 0;
