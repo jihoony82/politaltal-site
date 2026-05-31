@@ -141,7 +141,7 @@
       const key = getKey();
       const note = document.getElementById('tvNote');
       try {
-        const r = await fetch(TRAFFIC_API + '?key=' + encodeURIComponent(key));
+        const r = await fetch(TRAFFIC_API + '?key=' + encodeURIComponent(key) + '&_=' + Date.now());
         const d = await r.json();
         if (d.ok) {
           document.getElementById('tvVisits').textContent = (d.total_visits || 0).toLocaleString();
@@ -159,7 +159,7 @@
       const key = getKey();
       const box = document.getElementById('modList');
       try {
-        const r = await fetch(ADMIN_POSTS_API + '?key=' + encodeURIComponent(key));
+        const r = await fetch(ADMIN_POSTS_API + '?key=' + encodeURIComponent(key) + '&_=' + Date.now());
         const d = await r.json();
         if (!d.ok){ box.innerHTML = '<div class="empty">조회 실패: ' + esc(d.error || '서버 오류') + '</div>'; return; }
         MOD_DATA = { posts: d.posts || [], comments: d.comments || [] };
@@ -249,7 +249,7 @@
 
     async function load(key) {
       try {
-        const r = await fetch(API + '?key=' + encodeURIComponent(key));
+        const r = await fetch(API + '?key=' + encodeURIComponent(key) + '&_=' + Date.now());
         if (r.status === 401) { return { unauthorized: true }; }
         const d = await r.json();
         return d;

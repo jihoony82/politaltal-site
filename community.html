@@ -160,7 +160,7 @@
 
         async function refresh(){
           try {
-            const r = await fetch(API, { headers: { 'accept':'application/json' } });
+            const r = await fetch(API + '?_=' + Date.now(), { headers: { 'accept':'application/json' }, cache: 'no-store' });
             if (r.ok) {
               const d = await r.json();
               if (d && d.ok) {
@@ -427,7 +427,7 @@
           try { return new Date(Number(ts)).toLocaleDateString('ko-KR'); } catch(e){ return ''; }
         }
 
-        const POSTS_EMPTY_HTML = '<div id="postsEmptyState" style="text-align:center;padding:40px 20px;color:var(--color-text-soft);font-size:13px;line-height:1.7;">📝 아직 등록된 글이 없어요.<br>첫 번째 글을 남겨보세요! 우측 하단 <strong>✏️ 버튼</strong>을 눌러 글을 작성할 수 있습니다.</div>';
+        const POSTS_EMPTY_HTML = '<div id="postsEmptyState" style="text-align:center;padding:40px 20px;color:var(--color-text-soft);font-size:13px;line-height:1.7;">📝 아직 등록된 글이 없어요.<br>첫 번째 글을 남겨보세요! 우측 하단 <strong>✏️ 버튼</strong>을 눌러 글을 작성할 수 있습니다.<br><br><button onclick="window.loadRealPosts && window.loadRealPosts()" style="background:#0a2540;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;">🔄 다시 불러오기</button></div>';
 
         async function loadRealPosts(){
           const c = document.getElementById('realPostsContainer');
@@ -435,7 +435,8 @@
           // 의원 카드 렌더링 위해 members 인덱스 먼저 보장
           if (!MEMBERS_INDEX) { try { await loadMembersIndex(); } catch(e){} }
           try {
-            const r = await fetch(POSTS_API + '?limit=30');
+            // 캐시 무력화 (브라우저·CDN 캐시 회피)
+            const r = await fetch(POSTS_API + '?limit=30&_=' + Date.now(), { cache: 'no-store' });
             const d = await r.json();
             if (!d || !d.ok || !d.posts || !d.posts.length){ c.innerHTML = POSTS_EMPTY_HTML; return; }
             c.innerHTML = '<div class="real-posts-divider">— 사용자 글 (' + d.posts.length + '개) —</div>' +
@@ -540,6 +541,9 @@
           }
         });
 
+        // 새로고침 버튼에서 호출할 수 있도록 노출
+        window.loadRealPosts = loadRealPosts;
+
         refresh();
         setInterval(refresh, 20000); // 20초마다 채팅 갱신 (라이브 느낌)
         refreshTVStatus();
@@ -618,8 +622,9 @@
       <!-- 실제 사용자 글 (JS가 /posts에서 불러와 채움) -->
       <div id="realPostsContainer">
         <div id="postsEmptyState" style="text-align:center;padding:40px 20px;color:var(--color-text-soft);font-size:13px;line-height:1.7;">
-          📝 아직 등록된 글이 없어요.<br>
-          첫 번째 글을 남겨보세요! 우측 하단 <strong>✏️ 버튼</strong>을 눌러 글을 작성할 수 있습니다.
+          📝 글을 불러오는 중…<br>
+          잠시만 기다려주세요.<br><br>
+          <button onclick="window.loadRealPosts && window.loadRealPosts()" style="background:#0a2540;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;">🔄 다시 불러오기</button>
         </div>
       </div>
 
