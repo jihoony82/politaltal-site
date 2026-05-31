@@ -270,10 +270,126 @@
           }
         }
 
+        // ─── 게시판: 실글 불러오기 + 글쓰기 ───
+        const POSTS_API = API_BASE + '/posts';
+
+        function timeAgo(ts){
+          const s = Math.max(0, Math.floor((Date.now() - Number(ts||0)) / 1000));
+          if (s < 60) return '방금';
+          if (s < 3600) return Math.floor(s/60) + '분 전';
+          if (s < 86400) return Math.floor(s/3600) + '시간 전';
+          if (s < 86400*7) return Math.floor(s/86400) + '일 전';
+          try { return new Date(Number(ts)).toLocaleDateString('ko-KR'); } catch(e){ return ''; }
+        }
+
+        async function loadRealPosts(){
+          const c = document.getElementById('realPostsContainer');
+          if(!c) return;
+          try {
+            const r = await fetch(POSTS_API + '?limit=30');
+            const d = await r.json();
+            if (!d || !d.ok || !d.posts || !d.posts.length){ c.innerHTML = ''; return; }
+            c.innerHTML = '<div class="real-posts-divider">— 사용자 글 (' + d.posts.length + '개) —</div>' +
+              d.posts.map(function(p){
+                return '<div class="post-card">' +
+                  '<div class="post-meta">' +
+                    '<span class="post-category">' + esc(p.category||'') + '</span>' +
+                    '<span>👤 ' + esc(p.nickname||'') + ' · ' + esc(timeAgo(p.created_at)) + '</span>' +
+                    '<button class="post-report-btn" onclick="reportBoardPost(' + p.id + ', this)" title="신고">🚩</button>' +
+                  '</div>' +
+                  '<div class="post-title">' + esc(p.title||'') + '</div>' +
+                  '<div class="post-preview" style="white-space:pre-wrap;">' + esc(p.body||'') + '</div>' +
+                  '<div class="post-stats">' +
+                    '<span>👁 ' + (p.view_count||0) + '</span>' +
+                    '<span>💬 0</span>' +
+                    '<span>❤️ 0</span>' +
+                  '</div>' +
+                '</div>';
+              }).join('');
+          } catch(e){ c.innerHTML = ''; }
+        }
+
+        window.openWriteModal = function(){
+          const m = document.getElementById('writeModal');
+          if(m){ m.hidden = false; document.body.style.overflow = 'hidden'; }
+          setTimeout(function(){ const t = document.getElementById('writeTitle'); if(t) t.focus(); }, 80);
+        };
+        window.closeWriteModal = function(){
+          const m = document.getElementById('writeModal');
+          if(m){ m.hidden = true; document.body.style.overflow = ''; }
+        };
+        window.updateCharCount = function(){
+          const t = document.getElementById('writeTitle');
+          const b = document.getElementById('writeBody');
+          const tc = document.getElementById('titleCount');
+          const bc = document.getElementById('bodyCount');
+          if(tc) tc.textContent = (t && t.value || '').length;
+          if(bc) bc.textContent = (b && b.value || '').length;
+        };
+        window.submitPost = async function(){
+          const cat = document.getElementById('writeCategory').value;
+          const title = (document.getElementById('writeTitle').value || '').trim();
+          const body = (document.getElementById('writeBody').value || '').trim();
+          if(!title){ alert('제목을 입력하세요.'); return; }
+          if(!body){ alert('내용을 입력하세요.'); return; }
+          if(body.length < 10){ alert('내용을 좀 더 자세히 작성해주세요 (최소 10자).'); return; }
+          const btn = document.querySelector('.write-modal-submit');
+          if(btn){ btn.disabled = true; btn.textContent = '등록 중…'; }
+          try {
+            const r = await fetch(POSTS_API, {
+              method:'POST',
+              headers:{'content-type':'application/json'},
+              body: JSON.stringify({ category: cat, title: title, body: body }),
+            });
+            const d = await r.json();
+            if (r.status === 429){
+              const sec = Math.ceil((d.retry_in_ms || 30000) / 1000);
+              alert('너무 빠르게 글을 등록했어요. ' + sec + '초 후 다시 시도해주세요.');
+              return;
+            }
+            if (d && d.error === 'posts_table_not_initialized'){
+              alert('게시판 DB가 아직 준비 중입니다. 운영자에게 알려주세요. (Code: posts_table_not_initialized)');
+              return;
+            }
+            if (!d || !d.ok){
+              alert('등록 실패: ' + (d && d.error || '서버 응답 오류'));
+              return;
+            }
+            document.getElementById('writeTitle').value = '';
+            document.getElementById('writeBody').value = '';
+            window.updateCharCount();
+            window.closeWriteModal();
+            await loadRealPosts();
+            alert('✅ 글이 등록되었습니다.\n비방·허위사실은 신고 시 즉시 검토·삭제됩니다.');
+          } catch(e){
+            alert('네트워크 오류가 발생했어요. 잠시 후 다시 시도해주세요.');
+          } finally {
+            if(btn){ btn.disabled = false; btn.textContent = '등록'; }
+          }
+        };
+        window.reportBoardPost = async function(id, el){
+          if(!confirm('이 글을 신고할까요? (비방·허위사실·명예훼손 등)')) return;
+          try {
+            await fetch(API_BASE + '/report-post', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ id: id }) });
+            const c = el && el.closest('.post-card');
+            if(c){ c.style.opacity = '0.4'; el.textContent = '신고됨'; }
+          } catch(e){ alert('신고 처리 중 오류가 발생했어요.'); }
+        };
+
+        // ESC로 모달 닫기
+        document.addEventListener('keydown', function(e){
+          if(e.key === 'Escape'){
+            const m = document.getElementById('writeModal');
+            if(m && !m.hidden) window.closeWriteModal();
+          }
+        });
+
         refresh();
         setInterval(refresh, 20000); // 20초마다 채팅 갱신 (라이브 느낌)
         refreshTVStatus();
         setInterval(refreshTVStatus, 300000); // 5분마다 방송 상태 재확인
+        loadRealPosts();
+        setInterval(loadRealPosts, 60000); // 1분마다 새 글 폴링
       })();
     </script>
     
@@ -339,6 +455,9 @@
           </div>
         </div>
       </div>
+
+      <!-- 실제 사용자 글 (JS가 /posts에서 불러와 채움; 비어 있으면 아래 예시글만 표시) -->
+      <div id="realPostsContainer"></div>
 
       
         <div class="post-card">
@@ -414,7 +533,43 @@
       </div>
     </div>
 
-    <button class="write-btn-floating" onclick="alert('글쓰기 기능은 곧 추가됩니다.\n\n지금 의견을 남기시려면 우측 \'실시간 채팅\'을 이용해주세요.\n\n• 닉네임 자동 부여 (개인정보 미수집)\n• 비방·허위사실은 신고 즉시 검토·삭제\n• 등록된 채팅은 모든 방문자에게 공개됩니다')">✏️</button>
+    <button class="write-btn-floating" onclick="openWriteModal()">✏️</button>
+
+    <!-- 글쓰기 모달 -->
+    <div id="writeModal" class="write-modal" hidden>
+      <div class="write-modal-backdrop" onclick="closeWriteModal()"></div>
+      <div class="write-modal-card">
+        <div class="write-modal-head">
+          <span>✏️ 새 글 쓰기</span>
+          <button class="write-modal-close" onclick="closeWriteModal()" aria-label="닫기">✕</button>
+        </div>
+        <div class="write-modal-body">
+          <label for="writeCategory">카테고리</label>
+          <select id="writeCategory">
+            <option>정책토론</option>
+            <option>자유게시판</option>
+            <option>우리지역</option>
+            <option>Q&amp;A</option>
+          </select>
+          <label for="writeTitle">제목 <span style="color:var(--color-text-soft);font-weight:500;">(최대 80자)</span></label>
+          <input id="writeTitle" maxlength="80" placeholder="후킹되는 제목을 입력해보세요" oninput="updateCharCount()">
+          <div class="char-counter"><span id="titleCount">0</span> / 80</div>
+          <label for="writeBody">내용 <span style="color:var(--color-text-soft);font-weight:500;">(최대 1500자)</span></label>
+          <textarea id="writeBody" maxlength="1500" rows="8" placeholder="데이터·사실에 근거한 의견·질문을 남겨주세요.&#10;&#10;예) '제22대 본회의 출석률 1위는 누구인가요? 데이터로 확인해보고 싶습니다.'" oninput="updateCharCount()"></textarea>
+          <div class="char-counter"><span id="bodyCount">0</span> / 1500</div>
+          <div class="write-modal-notice">
+            ⚠️ <strong>등록 전 반드시 확인</strong><br>
+            • 닉네임은 자동 부여됩니다 (개인정보 미수집).<br>
+            • <strong>비방·허위사실·명예훼손성 글은 형사처벌 대상</strong>입니다 (위 공지 참조).<br>
+            • 신고 누적 시 자동 숨김 · IP 해시는 영장 요청 시 수사기관에 제공될 수 있습니다.
+          </div>
+          <div class="write-modal-actions">
+            <button class="write-modal-cancel" onclick="closeWriteModal()">취소</button>
+            <button class="write-modal-submit" onclick="submitPost()">등록</button>
+          </div>
+        </div>
+      </div>
+    </div>
     </main>
   <nav class="bottom-nav">
     <a href="/" class="">
