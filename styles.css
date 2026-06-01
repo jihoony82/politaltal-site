@@ -2262,6 +2262,84 @@ a.post-card .post-cta {
 }
 .bill-co-line span { color: var(--color-text); font-weight: 600; }
 
+/* ─── 의원 페이지 발의 법안 미니 카드 ─── */
+.bill-mini-summary {
+  display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 12px;
+}
+.bms-chip {
+  font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+  letter-spacing: .2px;
+}
+.bms-green { background: #dcfce7; color: #166534; }
+.bms-blue  { background: #dbeafe; color: #1e40af; }
+.bms-amber { background: #fef3c7; color: #92400e; }
+.bms-gray  { background: #f1f5f9; color: #475569; }
+
+.bill-filter-bar {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding: 8px 0; margin-bottom: 10px;
+  border-top: 1px dashed var(--color-border);
+  border-bottom: 1px dashed var(--color-border);
+}
+.bill-filter {
+  background: #fff; border: 1px solid var(--color-border);
+  color: var(--color-text-soft); font-size: 11.5px; font-weight: 700;
+  padding: 5px 11px; border-radius: 999px; cursor: pointer;
+  transition: all 0.12s;
+}
+.bill-filter:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.bill-filter.active {
+  background: var(--color-primary); color: #fff; border-color: var(--color-primary);
+}
+
+.bill-mini-list { display: grid; gap: 8px; margin-top: 8px; }
+.bill-mini-card {
+  display: block; background: #fafbfc; border: 1px solid var(--color-border);
+  border-radius: 10px; padding: 11px 13px; text-decoration: none;
+  color: var(--color-text); transition: all 0.12s;
+}
+.bill-mini-card:hover {
+  background: #fff; border-color: var(--color-accent);
+  transform: translateY(-1px); box-shadow: 0 2px 8px rgba(10,37,64,.06);
+  text-decoration: none;
+}
+.bmc-head {
+  display: flex; align-items: center; gap: 6px; margin-bottom: 5px;
+}
+.bmc-cat {
+  font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+  background: #eef2ff; color: #4338ca; letter-spacing: .2px;
+}
+.bmc-badge {
+  font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 999px;
+  letter-spacing: .2px;
+}
+.bmc-green { background: #dcfce7; color: #166534; }
+.bmc-amber { background: #fef3c7; color: #92400e; }
+.bmc-blue  { background: #dbeafe; color: #1e40af; }
+.bmc-red   { background: #fee2e2; color: #991b1b; }
+.bmc-gray  { background: #f1f5f9; color: #475569; }
+.bmc-title {
+  font-size: 13.5px; font-weight: 700; color: var(--color-primary);
+  line-height: 1.45; margin: 4px 0; word-break: keep-all;
+}
+.bmc-foot {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; color: var(--color-text-soft); margin-top: 6px;
+}
+.bmc-no { font-weight: 600; }
+.bmc-date { margin-left: auto; }
+.bmc-arrow { color: var(--color-accent); font-weight: 800; }
+
+.bill-more-btn {
+  display: block; width: 100%; margin-top: 12px; padding: 10px;
+  background: #fff; border: 1px dashed var(--color-border);
+  border-radius: 10px; font-size: 12.5px; font-weight: 700;
+  color: var(--color-primary); cursor: pointer; transition: all 0.12s;
+  font-family: inherit;
+}
+.bill-more-btn:hover { background: #f8fafc; border-color: var(--color-accent); }
+
 @media (max-width: 480px) {
   .bill-detail-card { padding: 18px; }
   .bill-title { font-size: 18px; }

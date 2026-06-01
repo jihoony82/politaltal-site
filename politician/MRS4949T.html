@@ -126,7 +126,7 @@
         <span class="bd-leg"><span class="bd-dot bd-dot-orange"></span>관심사</span>
       </div>
       <div class="bigdata-cloud">
-        <span class="bd-word bd-name bd-dark" style="transform:rotate(3deg);" data-tip="이소희 의원 (국민의힘)"><span class="bd-text">이소희</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(-3deg);" data-tip="소속 정당: 국민의힘"><span class="bd-text">국민의힘</span></span><span class="bd-word bd-tiny bd-gray" style="transform:rotate(3deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">종합점수</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(-6deg);" data-tip="성별: 여"><span class="bd-text">여 성별</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="출생: 1986-11-15"><span class="bd-text">40세 나이</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="22대 국회 초선"><span class="bd-text">초선 선수</span></span><span class="bd-word bd-medium bd-blue" style="transform:rotate(-6deg);" data-tip="학력: 이화여자대학교 법학과 (약력 자동 추출)"><span class="bd-text">이화여자대학교 학력</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(3deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">14</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(-3deg);" data-tip="본회의 표결 참여율 (0/0건)"><span class="bd-text">0% 출석</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(0deg);" data-tip="대표발의 0건 중 본회의 통과 0건"><span class="bd-text">0% 가결률</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(3deg);" data-tip="22대 국회 대표발의 0건 (가결 0건, 가결률 0%)"><span class="bd-text">0건 발의</span></span>
+        <span class="bd-word bd-name bd-dark" style="transform:rotate(-3deg);" data-tip="이소희 의원 (국민의힘)"><span class="bd-text">이소희</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(3deg);" data-tip="소속 정당: 국민의힘"><span class="bd-text">국민의힘</span></span><span class="bd-word bd-tiny bd-gray" style="transform:rotate(-3deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">종합점수</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(0deg);" data-tip="22대 국회 대표발의 0건 (가결 0건, 가결률 0%)"><span class="bd-text">0건 발의</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(6deg);" data-tip="성별: 여"><span class="bd-text">여 성별</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="출생: 1986-11-15"><span class="bd-text">40세 나이</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(0deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">14</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(0deg);" data-tip="대표발의 0건 중 본회의 통과 0건"><span class="bd-text">0% 가결률</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(-6deg);" data-tip="22대 국회 초선"><span class="bd-text">초선 선수</span></span><span class="bd-word bd-medium bd-blue" style="transform:rotate(-6deg);" data-tip="학력: 이화여자대학교 법학과 (약력 자동 추출)"><span class="bd-text">이화여자대학교 학력</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(-6deg);" data-tip="본회의 표결 참여율 (0/0건)"><span class="bd-text">0% 출석</span></span>
       </div>
       <div class="bd-hint">💡 단어 위에 마우스를 올리면 자세한 정보가 나옵니다</div>
     </div>
@@ -312,7 +312,9 @@
           </div>
 
           <div class="stat-card">
-            <h2>📜 최근 발의 법안 (0건 표시 / 총 0건)</h2>
+            <h2>📜 대표발의 법안 (0건)
+              <span class="data-info" data-tooltip="제22대 국회 임기 동안 이 의원이 대표발의한 모든 법안. 카드 클릭 시 상세 페이지로 이동.">ⓘ</span>
+            </h2>
             <div class="bill-meta">대표발의 법안이 없습니다.</div>
           </div>
 
@@ -355,6 +357,62 @@
     </div>
     
         </div>
+
+        <script>
+          // 발의 법안 카드 필터 + 더보기 (per-politician)
+          (function() {
+            const filterBar = document.getElementById('billFilter-MRS4949T');
+            if (!filterBar) return;
+            const list = document.getElementById('billList-MRS4949T');
+            const moreBtn = document.getElementById('billMore-MRS4949T');
+            if (!list) return;
+            let currentFilter = 'all';
+
+            function applyView() {
+              const cards = list.querySelectorAll('.bill-mini-card');
+              const shown = parseInt(list.dataset.shown || '20', 10);
+              let visible = 0, matching = 0;
+              cards.forEach(function(card) {
+                const match = currentFilter === 'all' || card.dataset.status === currentFilter;
+                if (match) {
+                  matching++;
+                  if (visible < shown) {
+                    card.style.display = '';
+                    visible++;
+                  } else {
+                    card.style.display = 'none';
+                  }
+                } else {
+                  card.style.display = 'none';
+                }
+              });
+              if (moreBtn) {
+                const remaining = matching - visible;
+                moreBtn.style.display = remaining > 0 ? '' : 'none';
+                moreBtn.textContent = '더 보기 (' + remaining + '건 더)';
+              }
+            }
+
+            filterBar.querySelectorAll('.bill-filter').forEach(function(btn) {
+              btn.addEventListener('click', function() {
+                filterBar.querySelectorAll('.bill-filter').forEach(function(b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                list.dataset.shown = '20';
+                applyView();
+              });
+            });
+
+            window.showMoreBills = function(mona) {
+              const l = document.getElementById('billList-' + mona);
+              if (!l) return;
+              l.dataset.shown = String(parseInt(l.dataset.shown || '20', 10) + 50);
+              applyView();
+            };
+
+            applyView();
+          })();
+        </script>
         </main>
   <nav class="bottom-nav">
     <a href="/" class="active">
