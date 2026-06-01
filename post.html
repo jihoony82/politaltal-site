@@ -87,10 +87,15 @@
     <script>
       (function(){
         const API_BASE = 'https://politaltal-comments.jihoony821209.workers.dev';
-        const POSTS_API = API_BASE + '/posts';
+        const POST_API = API_BASE + '/post';                  // GET ?id=N (단일 글 + 댓글 + 좋아요)
+        const POST_VIEW_API = API_BASE + '/post-view';        // POST {id}
+        const POST_LIKE_API = API_BASE + '/post-like';        // POST {id}
+        const POST_COMMENT_API = API_BASE + '/post-comment';  // POST {post_id, body}
         const REPORT_POST_API = API_BASE + '/report-post';
+        const REPORT_COMMENT_API = API_BASE + '/report-post-comment';
         const MEMBER_MARKER_RE = /\[member:([A-Za-z0-9]{6,12})\]/g;
         let MEMBERS_INDEX = null;
+        let CURRENT_POST_ID = null;
 
         function esc(s){ const d=document.createElement('div'); d.textContent=(s==null?'':s); return d.innerHTML; }
         function timeAgo(ts){
@@ -154,26 +159,47 @@
             '</div>';
         }
 
+        function renderComment(c){
+          return '<div class="comment-item" data-id="' + c.id + '">' +
+            '<div class="comment-head">' +
+              '<span class="comment-nick">' + esc(c.nickname||'') + '</span>' +
+              '<span class="comment-time">' + esc(timeAgo(c.created_at)) + '</span>' +
+              '<button class="comment-report" onclick="reportComment(' + c.id + ', this)" title="신고">🚩</button>' +
+            '</div>' +
+            '<div class="comment-body">' + esc(c.body||'') + '</div>' +
+          '</div>';
+        }
+
+        function renderComments(comments){
+          const list = document.getElementById('commentList');
+          if (!list) return;
+          if (!comments || !comments.length) {
+            list.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;font-size:12.5px;">첫 번째 댓글을 남겨보세요.</div>';
+            return;
+          }
+          list.innerHTML = comments.map(renderComment).join('');
+        }
+
         async function loadPost(){
           const c = document.getElementById('postDetailContainer');
           if (!c) return;
           const id = getPostId();
           if (!id) { renderNotFound(c, '잘못된 접근입니다.'); return; }
+          CURRENT_POST_ID = id;
           await loadMembersIndex();
           let d;
           try {
-            const r = await fetch(POSTS_API + '?limit=100&_=' + Date.now(), { cache: 'no-store' });
+            const r = await fetch(POST_API + '?id=' + id + '&_=' + Date.now(), { cache: 'no-store' });
+            if (r.status === 404) { renderNotFound(c, '삭제된 글이거나 존재하지 않는 글입니다.'); return; }
             if (!r.ok) throw new Error('HTTP ' + r.status);
             d = await r.json();
           } catch(err){
             c.innerHTML = '<div style="text-align:center;padding:30px;color:#dc2626;font-size:13px;">⚠️ 글 불러오기 실패: ' + esc(String(err.message||err)) + '</div>';
             return;
           }
-          if (!d || !d.ok || !d.posts) { renderNotFound(c, '서버 응답이 비정상입니다.'); return; }
-          const p = d.posts.find(function(x){ return x.id === id; });
-          if (!p) { renderNotFound(c, '삭제된 글이거나 존재하지 않는 글입니다.'); return; }
+          if (!d || !d.ok || !d.post) { renderNotFound(c, '서버 응답이 비정상입니다.'); return; }
+          const p = d.post;
 
-          // 페이지 타이틀 동적 설정
           try { document.title = p.title + ' — 정치탈탈 커뮤니티'; } catch(e){}
 
           c.innerHTML =
@@ -186,21 +212,37 @@
               '<h1 class="post-detail-title">' + esc(p.title||'') + '</h1>' +
               '<div class="post-detail-body">' + renderPostBody(p.body||'') + '</div>' +
               '<div class="post-detail-actions">' +
-                '<button class="like-btn" onclick="toggleLike(' + p.id + ', this)">' +
-                  '<span class="like-icon">🤍</span> <span class="like-count">0</span>' +
+                '<button class="like-btn ' + (d.liked ? 'liked' : '') + '" id="likeBtn" onclick="toggleLike(' + p.id + ')">' +
+                  '<span class="like-icon">' + (d.liked ? '❤️' : '🤍') + '</span> <span class="like-count">' + (d.like_count||0) + '</span>' +
                 '</button>' +
                 '<div class="post-stats" style="margin-top:0;">' +
-                  '<span>👁 ' + (p.view_count||0) + '</span>' +
-                  '<span>💬 0</span>' +
+                  '<span id="viewCount">👁 ' + (p.view_count||0) + '</span>' +
+                  '<span id="commentCount">💬 ' + (d.comments ? d.comments.length : 0) + '</span>' +
                 '</div>' +
               '</div>' +
             '</div>' +
             '<div class="post-detail-card" style="margin-top:14px;">' +
-              '<h2 style="font-size:14px;font-weight:800;color:var(--color-primary);margin-bottom:10px;">💬 댓글</h2>' +
-              '<div style="background:#f1f5f9;border-radius:8px;padding:16px;text-align:center;color:#64748b;font-size:12.5px;line-height:1.6;">' +
-                '댓글 기능은 곧 추가됩니다.<br>지금은 의견 공유는 커뮤니티 페이지의 <strong>실시간 채팅</strong>을 이용해주세요.' +
+              '<h2 style="font-size:14px;font-weight:800;color:var(--color-primary);margin-bottom:12px;">💬 댓글 <span id="commentCntInline" style="font-weight:600;color:var(--color-text-soft);">(' + (d.comments ? d.comments.length : 0) + ')</span></h2>' +
+              '<div id="commentList" class="comment-list"></div>' +
+              '<div class="comment-composer">' +
+                '<textarea id="commentInput" maxlength="800" rows="3" placeholder="댓글을 남겨보세요. 비방·허위사실은 신고 시 삭제될 수 있어요." style="width:100%;border:1px solid var(--color-border);border-radius:8px;padding:9px 11px;font-size:13.5px;font-family:inherit;resize:vertical;"></textarea>' +
+                '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">' +
+                  '<span style="font-size:11px;color:var(--color-text-soft);">닉네임 자동 부여 · 최대 800자</span>' +
+                  '<button class="comment-submit" onclick="submitComment()" style="background:var(--color-accent);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;">등록</button>' +
+                '</div>' +
               '</div>' +
             '</div>';
+
+          renderComments(d.comments || []);
+
+          // 조회수 증가 (fire-and-forget)
+          fetch(POST_VIEW_API, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ id: p.id }) })
+            .then(function(r){ return r.json(); })
+            .then(function(){
+              const v = document.getElementById('viewCount');
+              if (v) v.textContent = '👁 ' + ((p.view_count||0) + 1);
+            })
+            .catch(function(){});
         }
 
         window.reportPostDetail = async function(id, btn){
@@ -211,22 +253,80 @@
           } catch(e){ alert('신고 처리 중 오류가 발생했어요.'); }
         };
 
-        // 좋아요 (로컬 저장 기반 PoC — 향후 Worker 연동)
-        const LIKES_STORE = 'politaltal.likes';
-        function getLikes(){ try { return JSON.parse(localStorage.getItem(LIKES_STORE) || '{}'); } catch(e){ return {}; } }
-        function setLikes(o){ localStorage.setItem(LIKES_STORE, JSON.stringify(o)); }
-        window.toggleLike = function(id, btn){
-          const likes = getLikes();
-          const k = 'post_' + id;
-          const liked = !likes[k];
-          likes[k] = liked;
-          setLikes(likes);
-          if (btn) {
-            const icon = btn.querySelector('.like-icon');
-            const cnt = btn.querySelector('.like-count');
-            if (icon) icon.textContent = liked ? '❤️' : '🤍';
-            if (cnt) cnt.textContent = liked ? '1' : '0';
-            btn.classList.toggle('liked', liked);
+        window.reportComment = async function(id, btn){
+          if (!confirm('이 댓글을 신고할까요?')) return;
+          try {
+            await fetch(REPORT_COMMENT_API, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ id: id }) });
+            const item = btn && btn.closest('.comment-item');
+            if (item) { item.style.opacity = '0.4'; btn.textContent = '신고됨'; }
+          } catch(e){ alert('신고 처리 중 오류'); }
+        };
+
+        // 서버 좋아요 토글
+        window.toggleLike = async function(id){
+          const btn = document.getElementById('likeBtn');
+          if (btn) btn.disabled = true;
+          try {
+            const r = await fetch(POST_LIKE_API, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ id: id }) });
+            const d = await r.json();
+            if (!d || !d.ok) {
+              alert('좋아요 처리 실패: ' + (d && d.error || '서버 오류'));
+              return;
+            }
+            if (btn) {
+              const icon = btn.querySelector('.like-icon');
+              const cnt = btn.querySelector('.like-count');
+              if (icon) icon.textContent = d.liked ? '❤️' : '🤍';
+              if (cnt) cnt.textContent = d.like_count;
+              btn.classList.toggle('liked', d.liked);
+            }
+          } catch(e){
+            alert('네트워크 오류');
+          } finally {
+            if (btn) btn.disabled = false;
+          }
+        };
+
+        window.submitComment = async function(){
+          if (!CURRENT_POST_ID) return;
+          const ta = document.getElementById('commentInput');
+          const body = (ta && ta.value || '').trim();
+          if (!body) { ta && ta.focus(); return; }
+          const btn = document.querySelector('.comment-submit');
+          if (btn) { btn.disabled = true; btn.textContent = '등록 중…'; }
+          try {
+            const r = await fetch(POST_COMMENT_API, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ post_id: CURRENT_POST_ID, body: body }),
+            });
+            const d = await r.json();
+            if (r.status === 429) {
+              const sec = Math.ceil((d.retry_in_ms || 5000) / 1000);
+              alert(sec + '초 후 다시 시도해주세요.');
+              return;
+            }
+            if (d && d.error === 'post_comments_table_not_initialized') {
+              alert('댓글 DB가 아직 준비되지 않았습니다. 운영자에게 알려주세요.');
+              return;
+            }
+            if (!d || !d.ok) { alert('등록 실패: ' + (d && d.error || '서버 오류')); return; }
+            ta.value = '';
+            // 댓글 목록 다시 불러오기
+            const rr = await fetch(POST_API + '?id=' + CURRENT_POST_ID + '&_=' + Date.now(), { cache: 'no-store' });
+            const dd = await rr.json();
+            if (dd && dd.ok) {
+              renderComments(dd.comments || []);
+              const cnt = (dd.comments || []).length;
+              const inline = document.getElementById('commentCntInline');
+              const stat = document.getElementById('commentCount');
+              if (inline) inline.textContent = '(' + cnt + ')';
+              if (stat) stat.textContent = '💬 ' + cnt;
+            }
+          } catch(e){
+            alert('네트워크 오류');
+          } finally {
+            if (btn) { btn.disabled = false; btn.textContent = '등록'; }
           }
         };
 

@@ -484,8 +484,8 @@
                   '<div class="post-excerpt">' + esc(excerpt) + '</div>' +
                   '<div class="post-stats">' +
                     '<span>👁 ' + (p.view_count||0) + '</span>' +
-                    '<span>💬 0</span>' +
-                    '<span>❤️ 0</span>' +
+                    '<span>💬 ' + (p.comment_count||0) + '</span>' +
+                    '<span>❤️ ' + (p.like_count||0) + '</span>' +
                   '</div>' +
                   '<div class="post-cta">자세히 보기 →</div>' +
                 '</a>';

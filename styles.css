@@ -2186,6 +2186,24 @@ a.post-card .post-cta {
   .post-detail-body { font-size: 14px; }
 }
 
+/* 댓글 */
+.comment-list { margin-bottom: 14px; }
+.comment-item { padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+.comment-item:last-child { border-bottom: none; }
+.comment-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 11.5px; }
+.comment-nick { font-weight: 700; color: var(--color-primary); }
+.comment-time { color: var(--color-text-soft); }
+.comment-report {
+  margin-left: auto; background: transparent; border: none; cursor: pointer;
+  font-size: 12px; opacity: 0.5; color: var(--color-text-soft);
+}
+.comment-report:hover { opacity: 1; color: #dc2626; }
+.comment-body {
+  font-size: 13px; color: var(--color-text); line-height: 1.6;
+  white-space: pre-wrap; word-break: keep-all;
+}
+.comment-composer { padding-top: 8px; border-top: 1px dashed var(--color-border); }
+
 .write-btn-floating {
   position: fixed; bottom: 80px; right: 20px;
   width: 56px; height: 56px; border-radius: 50%;
