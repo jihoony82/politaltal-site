@@ -181,6 +181,10 @@
     </div>
 
     <script>
+      // 정치 용어 tooltip 사전 (서버에서 주입)
+      window.POLITERMS = {"대안 반영": "다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.", "대안반영폐기": "다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스.", "수정안반영폐기": "수정안 형태로 다른 법안에 반영돼 본 법안은 폐기. 부분적 반영.", "원안가결": "처음 발의된 그대로 본회의를 통과해 법률이 된 경우.", "수정가결": "심사 과정에서 일부 수정된 뒤 본회의를 통과한 경우.", "임기만료 폐기": "국회 임기가 끝나 자동으로 폐기. 다시 발의해야 합니다.", "임기만료폐기": "국회 임기가 끝나 자동으로 폐기. 다시 발의해야 합니다.", "철회": "발의자가 스스로 거두어들인 경우.", "부결": "본회의 표결에서 다수가 반대해 통과 못 한 경우 (드뭄).", "폐기": "심사 단계에서 폐기된 경우.", "가결": "본회의 표결을 통과한 경우. 법률로 확정됨.", "계류 중": "아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.", "대표발의": "법안을 처음 작성·제출하는 주된 의원 (보통 1명). 공동발의 10명 이상 필요.", "공동발의": "법안 발의에 동참한 의원들 (대표발의자 외에 10명 이상).", "가결률": "발의한 법안 중 본회의 통과한 비율. 22대 평균은 약 3-5%.", "본회의": "300명 의원이 모두 참석하는 국회 최종 의결 회의.", "상임위원회": "분야별 전문 심사 위원회 (17개). 법안은 여기서 먼저 심사됨.", "발의": "의원이 법안을 만들어 국회에 제출하는 행위.", "교섭단체": "20석 이상의 정당. 본회의 의사일정 협의 등 권한 보유.", "면책특권": "국회 안에서 직무상 행한 발언·표결은 국회 밖에서 책임지지 않음 (헌법 제45조).", "불체포특권": "회기 중 국회 동의 없이 체포·구금 불가 (헌법 제44조). 현행범 예외.", "위원회 회부": "법안이 발의된 뒤 소관 상임위원회로 넘겨지는 단계.", "본회의 부의": "위원회 심사를 마친 법안이 본회의 의결을 기다리는 단계."};
+    </script>
+    <script>
       (function() {
         let ALL = [];           // 전체 법안 인덱스
         let MEMBERS = null;     // 의원 mini
@@ -248,13 +252,19 @@
           }[color] || 'bmc-gray';
         }
 
+        function termTip(label) {
+          const tip = window.POLITERMS && window.POLITERMS[label];
+          if (!tip) return esc(label);
+          return '<span class="term-tip" data-tip="' + esc(tip) + '">' + esc(label) + '</span>';
+        }
+
         function renderCard(b) {
           const mem = MEMBERS && MEMBERS[b.m];
           const memLabel = mem ? (mem.name + (mem.party ? ' · ' + mem.party : '')) : (b.m || '발의자 정보 없음');
           return '<a class="bill-mini-card" href="/bills/' + esc(b.n) + '.html">' +
             '<div class="bmc-head">' +
               '<span class="bmc-cat">' + esc(b.k) + '</span>' +
-              '<span class="bmc-badge ' + badgeClass(b.s) + '">' + esc(b.sl) + '</span>' +
+              '<span class="bmc-badge ' + badgeClass(b.s) + '">' + termTip(b.sl) + '</span>' +
             '</div>' +
             '<div class="bmc-title">' + esc(b.t) + '</div>' +
             '<div class="bmc-foot">' +
@@ -339,5 +349,22 @@
       <span class="icon">📚</span>배움터
     </a>
   </nav>
+  <script>
+    // 정치 용어 tooltip — 모바일 tap-to-show, 다시 탭하면 닫기
+    document.addEventListener('click', function(e) {
+      const t = e.target.closest('.term-tip');
+      if (t) {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          if (x !== t) x.classList.remove('tt-active');
+        });
+        t.classList.toggle('tt-active');
+        e.stopPropagation();
+      } else {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          x.classList.remove('tt-active');
+        });
+      }
+    });
+  </script>
 </body>
 </html>

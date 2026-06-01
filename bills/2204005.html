@@ -123,7 +123,7 @@
             <div class="bill-head-row">
               <span class="bill-no">의안번호 2204005</span>
               <span class="bill-cat-tag">교육</span>
-              <span class="bill-badge bill-badge-amber">계류 중</span>
+              <span class="bill-badge bill-badge-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>
             </div>
             <h1 class="bill-title">학생인권 보장에 관한 법률안</h1>
 
@@ -174,5 +174,22 @@
       <span class="icon">📚</span>배움터
     </a>
   </nav>
+  <script>
+    // 정치 용어 tooltip — 모바일 tap-to-show, 다시 탭하면 닫기
+    document.addEventListener('click', function(e) {
+      const t = e.target.closest('.term-tip');
+      if (t) {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          if (x !== t) x.classList.remove('tt-active');
+        });
+        t.classList.toggle('tt-active');
+        e.stopPropagation();
+      } else {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          x.classList.remove('tt-active');
+        });
+      }
+    });
+  </script>
 </body>
 </html>
