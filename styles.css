@@ -2121,6 +2121,34 @@ a:hover { text-decoration: underline; }
   font-size: 11px; color: var(--color-text-soft);
 }
 
+/* 게시글 카드를 <details>로 — 처음엔 닫혀서 제목만 보임 */
+details.post-card {
+  background: var(--color-card); border: 1px solid var(--color-border);
+  border-radius: 12px; margin-bottom: 10px; padding: 0;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+details.post-card > summary {
+  list-style: none; cursor: pointer; padding: 14px 16px;
+  -webkit-tap-highlight-color: rgba(255,94,58,.06); border-radius: 12px;
+}
+details.post-card > summary::-webkit-details-marker { display: none; }
+details.post-card:not([open]) > summary:hover { background: rgba(255,94,58,.03); }
+details.post-card[open] {
+  border-color: var(--color-accent); box-shadow: 0 4px 14px rgba(255,94,58,.06);
+}
+details.post-card[open] > summary {
+  padding-bottom: 10px; border-radius: 12px 12px 0 0;
+}
+details.post-card .post-expand-hint {
+  font-size: 11px; color: var(--color-text-soft); margin-top: 4px;
+  display: flex; align-items: center; gap: 4px;
+}
+details.post-card[open] .post-expand-hint .hint-text::before { content: '접기 ▲'; }
+details.post-card:not([open]) .post-expand-hint .hint-text::before { content: '탭하여 펼치기 ▼'; }
+details.post-card > .post-body {
+  padding: 12px 16px 16px; border-top: 1px dashed var(--color-border);
+}
+
 .write-btn-floating {
   position: fixed; bottom: 80px; right: 20px;
   width: 56px; height: 56px; border-radius: 50%;

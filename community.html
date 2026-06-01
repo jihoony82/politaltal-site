@@ -455,21 +455,13 @@
         async function loadRealPosts(){
           const c = document.getElementById('realPostsContainer');
           if(!c) return;
-          // 디버그: 각 단계 화면에 표시
-          function debug(step, color){
-            c.innerHTML = '<div style="text-align:center;padding:14px 0;color:' + (color||'#94a3b8') + ';font-size:12px;letter-spacing:0;">' + step + '</div>';
-          }
-          debug('🔍 STEP 1: 함수 진입');
-          // members 인덱스는 백그라운드 로드 (게시글 렌더링을 막지 않음 - 카드 미리 fallback)
+          // members 인덱스는 백그라운드 로드
           if (!MEMBERS_INDEX) { loadMembersIndex().catch(function(){}); }
           let d;
           try {
-            debug('🔍 STEP 2: fetch 시작 ' + POSTS_API);
             const r = await fetch(POSTS_API + '?limit=30&_=' + Date.now(), { cache: 'no-store' });
-            debug('🔍 STEP 3: 응답 받음 HTTP ' + r.status);
             if (!r.ok) { throw new Error('HTTP ' + r.status); }
             d = await r.json();
-            debug('🔍 STEP 4: JSON 파싱 OK, posts=' + (d.posts ? d.posts.length : '없음'));
           } catch(err) {
             // 명시적 에러 표시 — 사용자가 원인 파악 가능
             c.innerHTML = '<div style="text-align:center;padding:30px 20px;color:#dc2626;font-size:13px;line-height:1.7;">' +
@@ -481,20 +473,25 @@
           if (!d || !d.ok || !d.posts || !d.posts.length){ c.innerHTML = POSTS_EMPTY_HTML; return; }
             c.innerHTML = '<div class="real-posts-divider">— 사용자 글 (' + d.posts.length + '개) —</div>' +
               d.posts.map(function(p){
-                return '<div class="post-card">' +
-                  '<div class="post-meta">' +
-                    '<span class="post-category">' + esc(p.category||'') + '</span>' +
-                    '<span>👤 ' + esc(p.nickname||'') + ' · ' + esc(timeAgo(p.created_at)) + '</span>' +
-                    '<button class="post-report-btn" onclick="reportBoardPost(' + p.id + ', this)" title="신고">🚩</button>' +
+                return '<details class="post-card">' +
+                  '<summary>' +
+                    '<div class="post-meta">' +
+                      '<span class="post-category">' + esc(p.category||'') + '</span>' +
+                      '<span>👤 ' + esc(p.nickname||'') + ' · ' + esc(timeAgo(p.created_at)) + '</span>' +
+                      '<button class="post-report-btn" onclick="event.stopPropagation(); event.preventDefault(); reportBoardPost(' + p.id + ', this);" title="신고">🚩</button>' +
+                    '</div>' +
+                    '<div class="post-title">' + esc(p.title||'') + '</div>' +
+                    '<div class="post-expand-hint"><span class="hint-text"></span></div>' +
+                  '</summary>' +
+                  '<div class="post-body">' +
+                    '<div class="post-preview">' + renderPostBody(p.body||'') + '</div>' +
+                    '<div class="post-stats">' +
+                      '<span>👁 ' + (p.view_count||0) + '</span>' +
+                      '<span>💬 0</span>' +
+                      '<span>❤️ 0</span>' +
+                    '</div>' +
                   '</div>' +
-                  '<div class="post-title">' + esc(p.title||'') + '</div>' +
-                  '<div class="post-preview" style="white-space:pre-wrap;">' + renderPostBody(p.body||'') + '</div>' +
-                  '<div class="post-stats">' +
-                    '<span>👁 ' + (p.view_count||0) + '</span>' +
-                    '<span>💬 0</span>' +
-                    '<span>❤️ 0</span>' +
-                  '</div>' +
-                '</div>';
+                '</details>';
               }).join('');
         }
 
@@ -669,7 +666,7 @@
 
       <!-- 실제 사용자 글 (JS가 /posts에서 불러와 채움) -->
       <div id="realPostsContainer">
-        <div id="postsLoading" style="text-align:center;padding:14px 0;color:#cbd5e1;font-size:14px;letter-spacing:8px;">··· <span style="font-size:10px;letter-spacing:0;color:#cbd5e1;">v2</span></div>
+        <div id="postsLoading" style="text-align:center;padding:14px 0;color:#cbd5e1;font-size:14px;letter-spacing:8px;">···</div>
       </div>
 
       <!-- 커뮤니티 차별점 소개 (하단) -->
