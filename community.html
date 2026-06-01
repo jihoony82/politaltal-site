@@ -455,14 +455,21 @@
         async function loadRealPosts(){
           const c = document.getElementById('realPostsContainer');
           if(!c) return;
+          // 디버그: 각 단계 화면에 표시
+          function debug(step, color){
+            c.innerHTML = '<div style="text-align:center;padding:14px 0;color:' + (color||'#94a3b8') + ';font-size:12px;letter-spacing:0;">' + step + '</div>';
+          }
+          debug('🔍 STEP 1: 함수 진입');
           // members 인덱스는 백그라운드 로드 (게시글 렌더링을 막지 않음 - 카드 미리 fallback)
           if (!MEMBERS_INDEX) { loadMembersIndex().catch(function(){}); }
           let d;
           try {
-            // 캐시 무력화 (브라우저·CDN 캐시 회피)
+            debug('🔍 STEP 2: fetch 시작 ' + POSTS_API);
             const r = await fetch(POSTS_API + '?limit=30&_=' + Date.now(), { cache: 'no-store' });
+            debug('🔍 STEP 3: 응답 받음 HTTP ' + r.status);
             if (!r.ok) { throw new Error('HTTP ' + r.status); }
             d = await r.json();
+            debug('🔍 STEP 4: JSON 파싱 OK, posts=' + (d.posts ? d.posts.length : '없음'));
           } catch(err) {
             // 명시적 에러 표시 — 사용자가 원인 파악 가능
             c.innerHTML = '<div style="text-align:center;padding:30px 20px;color:#dc2626;font-size:13px;line-height:1.7;">' +
