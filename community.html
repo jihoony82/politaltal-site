@@ -473,25 +473,22 @@
           if (!d || !d.ok || !d.posts || !d.posts.length){ c.innerHTML = POSTS_EMPTY_HTML; return; }
             c.innerHTML = '<div class="real-posts-divider">— 사용자 글 (' + d.posts.length + '개) —</div>' +
               d.posts.map(function(p){
-                return '<details class="post-card">' +
-                  '<summary>' +
-                    '<div class="post-meta">' +
-                      '<span class="post-category">' + esc(p.category||'') + '</span>' +
-                      '<span>👤 ' + esc(p.nickname||'') + ' · ' + esc(timeAgo(p.created_at)) + '</span>' +
-                      '<button class="post-report-btn" onclick="event.stopPropagation(); event.preventDefault(); reportBoardPost(' + p.id + ', this);" title="신고">🚩</button>' +
-                    '</div>' +
-                    '<div class="post-title">' + esc(p.title||'') + '</div>' +
-                    '<div class="post-expand-hint"><span class="hint-text"></span></div>' +
-                  '</summary>' +
-                  '<div class="post-body">' +
-                    '<div class="post-preview">' + renderPostBody(p.body||'') + '</div>' +
-                    '<div class="post-stats">' +
-                      '<span>👁 ' + (p.view_count||0) + '</span>' +
-                      '<span>💬 0</span>' +
-                      '<span>❤️ 0</span>' +
-                    '</div>' +
+                // 미리보기용 본문 — 마커 제거 후 첫 100자
+                const excerpt = (p.body || '').replace(MEMBER_MARKER_RE, '').replace(/\s+/g, ' ').trim();
+                return '<a class="post-card" href="/post.html?id=' + p.id + '">' +
+                  '<div class="post-meta">' +
+                    '<span class="post-category">' + esc(p.category||'') + '</span>' +
+                    '<span>👤 ' + esc(p.nickname||'') + ' · ' + esc(timeAgo(p.created_at)) + '</span>' +
                   '</div>' +
-                '</details>';
+                  '<div class="post-title">' + esc(p.title||'') + '</div>' +
+                  '<div class="post-excerpt">' + esc(excerpt) + '</div>' +
+                  '<div class="post-stats">' +
+                    '<span>👁 ' + (p.view_count||0) + '</span>' +
+                    '<span>💬 0</span>' +
+                    '<span>❤️ 0</span>' +
+                  '</div>' +
+                  '<div class="post-cta">자세히 보기 →</div>' +
+                '</a>';
               }).join('');
         }
 

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <title>게시글 - 정치탈탈 커뮤니티</title>
+  <meta name="description" content="정치탈탈 정책토론 게시판">
+  <!-- 링크 공유(Open Graph) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="정치탈탈">
+  <meta property="og:title" content="게시글 - 정치탈탈 커뮤니티">
+  <meta property="og:description" content="정치탈탈 정책토론 게시판">
+  <meta property="og:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://politaltal.com/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="게시글 - 정치탈탈 커뮤니티">
+  <meta name="twitter:description" content="정치탈탈 정책토론 게시판">
+  <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#0a2540">
+  <link rel="stylesheet" href="/styles.css">
+  <!-- Cloudflare Web Analytics -->
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "26dbbaa3ad4d4e4a95991d64553fa612"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+  <header class="app-header">
+    <div class="container">
+      <a href="/" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
+        <span>정치탈탈</span>
+      </a>
+      <div class="header-actions">
+        <a href="/donate.html" class="header-donate"
+           title="당신의 커피 한 잔이 정치 감시의 눈이 됩니다 👀 (월 1,000원~)">
+          <span class="hd-heart">♥</span><span class="hd-text">커피 한 잔</span>
+        </a>
+        <a href="/login.html" id="headerAuthBtn"
+           onclick="if(!location.pathname.startsWith('/login')){this.href='/login.html?return='+encodeURIComponent(location.pathname+location.search+location.hash);}"
+           style="font-size:12px;font-weight:700;padding:6px 12px;
+                                      background:var(--color-primary);color:white;
+                                      border-radius:6px;text-decoration:none;
+                                      display:flex;align-items:center;gap:6px;">
+          로그인
+        </a>
+      </div>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
+    </div>
+  </header>
+  <main>
+    <div class="container" style="max-width:680px;">
+      <a href="/community.html" class="back-link">← 게시판으로 돌아가기</a>
+
+      <div id="postDetailContainer">
+        <div style="text-align:center;padding:60px 20px;color:#cbd5e1;font-size:14px;letter-spacing:8px;">···</div>
+      </div>
+    </div>
+
+    <script>
+      (function(){
+        const API_BASE = 'https://politaltal-comments.jihoony821209.workers.dev';
+        const POSTS_API = API_BASE + '/posts';
+        const REPORT_POST_API = API_BASE + '/report-post';
+        const MEMBER_MARKER_RE = /\[member:([A-Za-z0-9]{6,12})\]/g;
+        let MEMBERS_INDEX = null;
+
+        function esc(s){ const d=document.createElement('div'); d.textContent=(s==null?'':s); return d.innerHTML; }
+        function timeAgo(ts){
+          const s = Math.max(0, Math.floor((Date.now() - Number(ts||0)) / 1000));
+          if (s < 60) return '방금';
+          if (s < 3600) return Math.floor(s/60) + '분 전';
+          if (s < 86400) return Math.floor(s/3600) + '시간 전';
+          if (s < 86400*7) return Math.floor(s/86400) + '일 전';
+          try { return new Date(Number(ts)).toLocaleString('ko-KR'); } catch(e){ return ''; }
+        }
+
+        async function loadMembersIndex(){
+          if (MEMBERS_INDEX) return MEMBERS_INDEX;
+          try {
+            const r = await fetch('/data/members-mini.json');
+            MEMBERS_INDEX = await r.json();
+          } catch(e){ MEMBERS_INDEX = {}; }
+          return MEMBERS_INDEX;
+        }
+        function renderMemberCard(monaCd){
+          const m = MEMBERS_INDEX && MEMBERS_INDEX[monaCd];
+          if (!m) {
+            return '<div class="embedded-member-card missing">📍 의원 카드: 정보를 찾을 수 없습니다 (' + esc(monaCd) + ')</div>';
+          }
+          const photo = m.photo
+            ? '<img class="emc-photo" src="' + esc(m.photo) + '" alt="' + esc(m.name) + '" loading="lazy">'
+            : '<div class="emc-photo-fallback">' + esc((m.name || '?').charAt(0)) + '</div>';
+          const partyChip = m.party ? '<span class="emc-party">' + esc(m.party) + '</span>' : '';
+          const meta = [m.district, m.term].filter(Boolean).join(' · ');
+          return '<a href="/politician/' + esc(monaCd) + '.html" class="embedded-member-card">' +
+            photo +
+            '<div class="emc-info">' +
+              '<div class="emc-name">' + esc(m.name || '') + ' ' + partyChip + '</div>' +
+              '<div class="emc-meta">' + esc(meta || '') + (meta ? ' · ' : '') + '데이터 보기</div>' +
+            '</div>' +
+            '<span class="emc-arrow">→</span>' +
+          '</a>';
+        }
+        function renderPostBody(text){
+          const src = text || '';
+          let html = '', last = 0, m;
+          MEMBER_MARKER_RE.lastIndex = 0;
+          while ((m = MEMBER_MARKER_RE.exec(src)) !== null) {
+            if (m.index > last) html += esc(src.slice(last, m.index));
+            html += renderMemberCard(m[1]);
+            last = m.index + m[0].length;
+          }
+          if (last < src.length) html += esc(src.slice(last));
+          return html;
+        }
+
+        function getPostId(){
+          const id = parseInt(new URLSearchParams(location.search).get('id') || '', 10);
+          return id > 0 ? id : null;
+        }
+
+        function renderNotFound(c, msg){
+          c.innerHTML = '<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:20px;margin:20px 0;color:#991b1b;font-size:13px;line-height:1.7;text-align:center;">' +
+            '⚠️ <strong>' + esc(msg || '게시글을 찾을 수 없어요.') + '</strong><br>' +
+            '<a href="/community.html" style="color:#dc2626;font-weight:700;margin-top:10px;display:inline-block;">← 게시판으로 돌아가기</a>' +
+            '</div>';
+        }
+
+        async function loadPost(){
+          const c = document.getElementById('postDetailContainer');
+          if (!c) return;
+          const id = getPostId();
+          if (!id) { renderNotFound(c, '잘못된 접근입니다.'); return; }
+          await loadMembersIndex();
+          let d;
+          try {
+            const r = await fetch(POSTS_API + '?limit=100&_=' + Date.now(), { cache: 'no-store' });
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            d = await r.json();
+          } catch(err){
+            c.innerHTML = '<div style="text-align:center;padding:30px;color:#dc2626;font-size:13px;">⚠️ 글 불러오기 실패: ' + esc(String(err.message||err)) + '</div>';
+            return;
+          }
+          if (!d || !d.ok || !d.posts) { renderNotFound(c, '서버 응답이 비정상입니다.'); return; }
+          const p = d.posts.find(function(x){ return x.id === id; });
+          if (!p) { renderNotFound(c, '삭제된 글이거나 존재하지 않는 글입니다.'); return; }
+
+          // 페이지 타이틀 동적 설정
+          try { document.title = p.title + ' — 정치탈탈 커뮤니티'; } catch(e){}
+
+          c.innerHTML =
+            '<div class="post-detail-card">' +
+              '<div class="post-meta" style="margin-bottom:12px;">' +
+                '<span class="post-category">' + esc(p.category||'') + '</span>' +
+                '<span>👤 ' + esc(p.nickname||'') + ' · ' + esc(timeAgo(p.created_at)) + '</span>' +
+                '<button class="post-report-btn" onclick="reportPostDetail(' + p.id + ', this)" title="신고">🚩 신고</button>' +
+              '</div>' +
+              '<h1 class="post-detail-title">' + esc(p.title||'') + '</h1>' +
+              '<div class="post-detail-body">' + renderPostBody(p.body||'') + '</div>' +
+              '<div class="post-detail-actions">' +
+                '<button class="like-btn" onclick="toggleLike(' + p.id + ', this)">' +
+                  '<span class="like-icon">🤍</span> <span class="like-count">0</span>' +
+                '</button>' +
+                '<div class="post-stats" style="margin-top:0;">' +
+                  '<span>👁 ' + (p.view_count||0) + '</span>' +
+                  '<span>💬 0</span>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="post-detail-card" style="margin-top:14px;">' +
+              '<h2 style="font-size:14px;font-weight:800;color:var(--color-primary);margin-bottom:10px;">💬 댓글</h2>' +
+              '<div style="background:#f1f5f9;border-radius:8px;padding:16px;text-align:center;color:#64748b;font-size:12.5px;line-height:1.6;">' +
+                '댓글 기능은 곧 추가됩니다.<br>지금은 의견 공유는 커뮤니티 페이지의 <strong>실시간 채팅</strong>을 이용해주세요.' +
+              '</div>' +
+            '</div>';
+        }
+
+        window.reportPostDetail = async function(id, btn){
+          if (!confirm('이 글을 신고할까요? (비방·허위사실·명예훼손 등)')) return;
+          try {
+            await fetch(REPORT_POST_API, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ id: id }) });
+            if (btn) { btn.disabled = true; btn.textContent = '신고됨'; btn.style.opacity = '0.5'; }
+          } catch(e){ alert('신고 처리 중 오류가 발생했어요.'); }
+        };
+
+        // 좋아요 (로컬 저장 기반 PoC — 향후 Worker 연동)
+        const LIKES_STORE = 'politaltal.likes';
+        function getLikes(){ try { return JSON.parse(localStorage.getItem(LIKES_STORE) || '{}'); } catch(e){ return {}; } }
+        function setLikes(o){ localStorage.setItem(LIKES_STORE, JSON.stringify(o)); }
+        window.toggleLike = function(id, btn){
+          const likes = getLikes();
+          const k = 'post_' + id;
+          const liked = !likes[k];
+          likes[k] = liked;
+          setLikes(likes);
+          if (btn) {
+            const icon = btn.querySelector('.like-icon');
+            const cnt = btn.querySelector('.like-count');
+            if (icon) icon.textContent = liked ? '❤️' : '🤍';
+            if (cnt) cnt.textContent = liked ? '1' : '0';
+            btn.classList.toggle('liked', liked);
+          }
+        };
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', loadPost);
+        } else {
+          loadPost();
+        }
+      })();
+    </script>
+    </main>
+  <nav class="bottom-nav">
+    <a href="/" class="">
+      <span class="icon">🏠</span>홈
+    </a>
+    <a href="/list.html" class="">
+      <span class="icon">📋</span>의원
+    </a>
+    <a href="/stories.html" class="">
+      <span class="icon">🎙</span>의원실
+    </a>
+    <a href="/community.html" class="active">
+      <span class="icon">💬</span>커뮤니티
+    </a>
+    <a href="/learn.html" class="">
+      <span class="icon">📚</span>배움터
+    </a>
+  </nav>
+</body>
+</html>
