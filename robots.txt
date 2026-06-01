@@ -1,6 +1,38 @@
+# 정치탈탈 robots.txt
+# 모든 검색엔진 크롤링 허용
+
 User-agent: *
 Allow: /
 Disallow: /_headers
 Disallow: /_redirects
+Disallow: /admin.html
+Disallow: /admin-favicon.svg
+
+# 네이버 검색 봇 (Yeti)
+User-agent: Yeti
+Allow: /
+Disallow: /_headers
+Disallow: /_redirects
+Disallow: /admin.html
+
+# 네이버 보조 봇
+User-agent: NaverBot
+Allow: /
+
+# 다음 검색 봇
+User-agent: Daumoa
+Allow: /
+
+# 구글 봇
+User-agent: Googlebot
+Allow: /
+
+# 구글 이미지 봇 (의원 사진 검색 노출용)
+User-agent: Googlebot-Image
+Allow: /images/
+
+# Bing 봇
+User-agent: bingbot
+Allow: /
 
 Sitemap: https://politaltal.com/sitemap.xml
