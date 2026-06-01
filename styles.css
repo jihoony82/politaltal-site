@@ -2450,6 +2450,61 @@ a.post-card .post-cta {
 .rbc-author { font-weight: 600; }
 .rbc-date { white-space: nowrap; }
 
+/* 위원회 트리맵 */
+.treemap-section { margin: 24px 0 16px; padding: 0 4px; }
+.treemap {
+  display: flex; flex-direction: column;
+  width: 100%; aspect-ratio: 16/9;
+  max-height: 480px;
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--color-border);
+  gap: 2px; background: var(--color-border);
+}
+.tm-row {
+  display: flex; gap: 2px;
+  min-height: 60px;
+}
+.tm-cell {
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 6px;
+  text-decoration: none; min-width: 0;
+  transition: filter 0.15s, transform 0.15s;
+  cursor: pointer;
+  overflow: hidden;
+}
+.tm-cell:hover { filter: brightness(1.1); transform: scale(0.98); text-decoration: none; }
+.tm-cell-inner {
+  max-width: 100%; max-height: 100%;
+  overflow: hidden; line-height: 1.25;
+}
+.tm-name {
+  font-size: clamp(11px, 1.3vw, 15px);
+  font-weight: 800;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  letter-spacing: -.2px;
+}
+.tm-meta {
+  font-size: clamp(9px, 1vw, 11.5px);
+  font-weight: 600;
+  opacity: 0.92; margin-top: 2px;
+}
+.tm-legend {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  margin-top: 10px; padding: 8px 12px;
+  background: #f8fafc; border-radius: 8px;
+  font-size: 11px; color: var(--color-text-soft); font-weight: 600;
+}
+.tm-legend-item { display: flex; align-items: center; gap: 5px; }
+.tm-swatch {
+  display: inline-block; width: 12px; height: 12px; border-radius: 3px;
+}
+@media (max-width: 600px) {
+  .treemap { aspect-ratio: 4/3; max-height: 360px; }
+  .tm-row { min-height: 48px; }
+  .tm-cell { padding: 4px; }
+  .tm-legend { font-size: 10.5px; gap: 8px; }
+}
+
 /* 본회의 표결 위젯 */
 .vote-widget-section { margin: 24px 0 16px; padding: 0 4px; }
 .vote-card {
