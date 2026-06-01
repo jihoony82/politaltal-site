@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <title>법안 검색 - 정치탈탈</title>
+  <meta name="description" content="제22대 국회 법안 17,311건 검색·필터·분류. 위원회·결과·분야별 탐색.">
+  <meta name="keywords" content="정치탈탈,국회의원,의정활동,출석률,발의 법안,표결,재산공개,지역구,공공데이터,22대 국회,국회의원 검색,내 지역구 의원">
+  <meta name="author" content="정치탈탈">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://politaltal.com/">
+
+  <!-- 검색엔진 사이트 소유 확인 (서치어드바이저/서치콘솔 등록 후 content 값 채우기) -->
+  <meta name="naver-site-verification" content="9e3ca58898c588a94375445bf3e90634c27da43d">
+  <meta name="google-site-verification" content="">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="정치탈탈">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="법안 검색 - 정치탈탈">
+  <meta property="og:description" content="제22대 국회 법안 17,311건 검색·필터·분류. 위원회·결과·분야별 탐색.">
+  <meta property="og:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="정치탈탈 - 국회의원 의정활동 대시보드">
+  <meta property="og:url" content="https://politaltal.com/">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="법안 검색 - 정치탈탈">
+  <meta name="twitter:description" content="제22대 국회 법안 17,311건 검색·필터·분류. 위원회·결과·분야별 탐색.">
+  <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#0a2540">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "정치탈탈",
+    "alternateName": ["정치 탈탈", "politaltal"],
+    "url": "https://politaltal.com/",
+    "description": "공공데이터로 검증하는 제22대 국회의원 286명의 의정활동 대시보드",
+    "inLanguage": "ko-KR",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://politaltal.com/list.html?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "정치탈탈",
+      "url": "https://politaltal.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://politaltal.com/images/og-bigdata.png"
+      }
+    }
+  }
+  </script>
+
+  <!-- Cloudflare Web Analytics -->
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "26dbbaa3ad4d4e4a95991d64553fa612"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+  <header class="app-header">
+    <div class="container">
+      <a href="/" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
+        <span>정치탈탈</span>
+      </a>
+      <div class="header-actions">
+        <a href="/donate.html" class="header-donate"
+           title="당신의 커피 한 잔이 정치 감시의 눈이 됩니다 👀 (월 1,000원~)">
+          <span class="hd-heart">♥</span><span class="hd-text">커피 한 잔</span>
+        </a>
+        <a href="/login.html" id="headerAuthBtn"
+           onclick="if(!location.pathname.startsWith('/login')){this.href='/login.html?return='+encodeURIComponent(location.pathname+location.search+location.hash);}"
+           style="font-size:12px;font-weight:700;padding:6px 12px;
+                                      background:var(--color-primary);color:white;
+                                      border-radius:6px;text-decoration:none;
+                                      display:flex;align-items:center;gap:6px;">
+          로그인
+        </a>
+      </div>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
+    </div>
+  </header>
+  <main>
+    <div class="container" style="max-width:880px;">
+      <a href="/" class="back-link">← 홈으로</a>
+      <div class="section-title">📜 법안 검색</div>
+      <div class="section-sub">제22대 국회에서 발의된 17,311건의 법안을 검색·필터링하세요</div>
+
+      <div class="bills-search-card">
+        <input type="text" id="billSearchInput" class="bills-search-input"
+               placeholder="법안명이나 발의자 이름으로 검색…" autocomplete="off">
+        <div class="bills-quick-stats" id="billsQuickStats">
+          전체 17,311건 중 <strong>전체</strong> 표시 중
+        </div>
+      </div>
+
+      <details class="bills-filter-card">
+        <summary>
+          <span>🎛 필터 · 정렬</span>
+          <span class="bills-filter-toggle"><span class="legal-toggle-closed">펼치기 ▼</span><span class="legal-toggle-open">접기 ▲</span></span>
+        </summary>
+        <div class="bills-filter-body">
+          <div class="bf-section">
+            <div class="bf-title">결과</div>
+            <div class="bf-chips" id="bfResult">
+              <button class="bill-chip bill-chip-on" data-group="result" data-val="">전체</button>
+              <button class="bill-chip" data-group="result" data-val="passed">🟢 가결</button>
+              <button class="bill-chip" data-group="result" data-val="reflected">🔵 대안반영</button>
+              <button class="bill-chip" data-group="result" data-val="pending">🟡 계류</button>
+              <button class="bill-chip" data-group="result" data-val="other">⚫ 기타(폐기·철회 등)</button>
+            </div>
+          </div>
+          <div class="bf-section">
+            <div class="bf-title">분야</div>
+            <div class="bf-chips">
+              <button class="bill-chip bill-chip-on" data-group="category" data-val="">전체</button>
+              <button class="bill-chip" data-group="category" data-val="환경">환경</button><button class="bill-chip" data-group="category" data-val="노동">노동</button><button class="bill-chip" data-group="category" data-val="주거·부동산">주거·부동산</button><button class="bill-chip" data-group="category" data-val="세제">세제</button><button class="bill-chip" data-group="category" data-val="교육">교육</button><button class="bill-chip" data-group="category" data-val="복지">복지</button><button class="bill-chip" data-group="category" data-val="교통">교통</button><button class="bill-chip" data-group="category" data-val="의료·보건">의료·보건</button><button class="bill-chip" data-group="category" data-val="디지털·통신">디지털·통신</button><button class="bill-chip" data-group="category" data-val="농업·수산">농업·수산</button><button class="bill-chip" data-group="category" data-val="안전">안전</button><button class="bill-chip" data-group="category" data-val="국방·외교">국방·외교</button><button class="bill-chip" data-group="category" data-val="기타">기타</button>
+            </div>
+          </div>
+          <div class="bf-section">
+            <div class="bf-title">위원회</div>
+            <div class="bf-chips" style="max-height:160px;overflow-y:auto;">
+              <button class="bill-chip bill-chip-on" data-group="committee" data-val="">전체</button>
+              <button class="bill-chip" data-group="committee" data-val="행정안전위원회">행정안전위원회</button><button class="bill-chip" data-group="committee" data-val="법제사법위원회">법제사법위원회</button><button class="bill-chip" data-group="committee" data-val="기후에너지환경노동위원회">기후에너지환경노동위원회</button><button class="bill-chip" data-group="committee" data-val="보건복지위원회">보건복지위원회</button><button class="bill-chip" data-group="committee" data-val="국토교통위원회">국토교통위원회</button><button class="bill-chip" data-group="committee" data-val="정무위원회">정무위원회</button><button class="bill-chip" data-group="committee" data-val="재정경제기획위원회">재정경제기획위원회</button><button class="bill-chip" data-group="committee" data-val="농림축산식품해양수산위원회">농림축산식품해양수산위원회</button><button class="bill-chip" data-group="committee" data-val="산업통상자원중소벤처기업위원회">산업통상자원중소벤처기업위원회</button><button class="bill-chip" data-group="committee" data-val="교육위원회">교육위원회</button><button class="bill-chip" data-group="committee" data-val="과학기술정보방송통신위원회">과학기술정보방송통신위원회</button><button class="bill-chip" data-group="committee" data-val="문화체육관광위원회">문화체육관광위원회</button><button class="bill-chip" data-group="committee" data-val="국방위원회">국방위원회</button><button class="bill-chip" data-group="committee" data-val="기획재정위원회">기획재정위원회</button><button class="bill-chip" data-group="committee" data-val="국회운영위원회">국회운영위원회</button><button class="bill-chip" data-group="committee" data-val="외교통일위원회">외교통일위원회</button><button class="bill-chip" data-group="committee" data-val="성평등가족위원회">성평등가족위원회</button><button class="bill-chip" data-group="committee" data-val="환경노동위원회">환경노동위원회</button><button class="bill-chip" data-group="committee" data-val="정치개혁특별위원회">정치개혁특별위원회</button><button class="bill-chip" data-group="committee" data-val="여성가족위원회">여성가족위원회</button><button class="bill-chip" data-group="committee" data-val="기후위기 특별위원회">기후위기 특별위원회</button><button class="bill-chip" data-group="committee" data-val="정보위원회">정보위원회</button><button class="bill-chip" data-group="committee" data-val="대미투자특별법 처리를 위한 특별위원회">대미투자특별법 처리를 위한 특별위원회</button><button class="bill-chip" data-group="committee" data-val="12.29여객기참사진상규명과피해자및유가족의피해구제를위한특별위원회">12.29여객기참사진상규명과피해자및유가족의피해구제를위한특별위원회</button><button class="bill-chip" data-group="committee" data-val="산불피해지원대책 특별위원회">산불피해지원대책 특별위원회</button>
+            </div>
+          </div>
+          <div class="bf-section">
+            <div class="bf-title">정렬</div>
+            <div class="bf-chips">
+              <button class="bill-chip bill-chip-on" data-group="sort" data-val="latest">🆕 최신순</button>
+              <button class="bill-chip" data-group="sort" data-val="oldest">📜 오래된순</button>
+              <button class="bill-chip" data-group="sort" data-val="title">🔤 가나다순</button>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <div id="billsResults" class="bill-mini-list" style="margin-top:14px;">
+        <div style="text-align:center;padding:40px 20px;color:#cbd5e1;font-size:14px;letter-spacing:8px;">···</div>
+      </div>
+      <button class="bill-more-btn" id="billsLoadMore" style="display:none;" onclick="window.billsLoadMore()">더 보기</button>
+
+      <div class="source-note" style="text-align:center;margin-top:18px;">
+        출처: 열린국회정보 OpenAPI · 데이터 갱신: 빌드 시점 기준
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        let ALL = [];           // 전체 법안 인덱스
+        let MEMBERS = null;     // 의원 mini
+        const STATE = {
+          q: '',
+          result: '',
+          category: '',
+          committee: '',
+          sort: 'latest',
+          shown: 50,
+        };
+
+        const $ = (id) => document.getElementById(id);
+        const esc = (s) => { const d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; };
+
+        async function loadData() {
+          try {
+            const [bRes, mRes] = await Promise.all([
+              fetch('/data/bills-index.json'),
+              fetch('/data/members-mini.json'),
+            ]);
+            ALL = await bRes.json();
+            MEMBERS = await mRes.json();
+            render();
+          } catch(e) {
+            $('billsResults').innerHTML = '<div style="text-align:center;padding:30px;color:#dc2626;">⚠️ 데이터 로드 실패: ' + esc(String(e.message || e)) + '</div>';
+          }
+        }
+
+        function resultKey(r) {
+          if (r === '원안가결' || r === '수정가결') return 'passed';
+          if (r === '대안반영폐기' || r === '수정안반영폐기') return 'reflected';
+          if (!r || !r.trim()) return 'pending';
+          return 'other';
+        }
+
+        function filter() {
+          let arr = ALL;
+          if (STATE.result) arr = arr.filter(b => resultKey(b.r) === STATE.result);
+          if (STATE.category) arr = arr.filter(b => b.k === STATE.category);
+          if (STATE.committee) arr = arr.filter(b => b.c === STATE.committee);
+          if (STATE.q) {
+            const ql = STATE.q.toLowerCase();
+            arr = arr.filter(b => {
+              if (b.t && b.t.toLowerCase().includes(ql)) return true;
+              const mem = MEMBERS && MEMBERS[b.m];
+              if (mem && mem.name && mem.name.toLowerCase().includes(ql)) return true;
+              return false;
+            });
+          }
+          // 정렬
+          if (STATE.sort === 'oldest') {
+            arr = arr.slice().sort((a, b) => (a.d || '').localeCompare(b.d || ''));
+          } else if (STATE.sort === 'title') {
+            arr = arr.slice().sort((a, b) => (a.t || '').localeCompare(b.t || '', 'ko'));
+          }
+          // latest는 이미 ALL이 propose_date DESC로 정렬되어 있음
+          return arr;
+        }
+
+        function badgeClass(color) {
+          return {
+            green: 'bmc-green', amber: 'bmc-amber', blue: 'bmc-blue',
+            red: 'bmc-red', gray: 'bmc-gray'
+          }[color] || 'bmc-gray';
+        }
+
+        function renderCard(b) {
+          const mem = MEMBERS && MEMBERS[b.m];
+          const memLabel = mem ? (mem.name + (mem.party ? ' · ' + mem.party : '')) : (b.m || '발의자 정보 없음');
+          return '<a class="bill-mini-card" href="/bills/' + esc(b.n) + '.html">' +
+            '<div class="bmc-head">' +
+              '<span class="bmc-cat">' + esc(b.k) + '</span>' +
+              '<span class="bmc-badge ' + badgeClass(b.s) + '">' + esc(b.sl) + '</span>' +
+            '</div>' +
+            '<div class="bmc-title">' + esc(b.t) + '</div>' +
+            '<div class="bmc-foot">' +
+              '<span class="bmc-no">의안 ' + esc(b.n) + '</span>' +
+              '<span class="bmc-author" style="margin-left:8px;">📷 ' + esc(memLabel) + '</span>' +
+              '<span class="bmc-date">' + esc(b.d) + '</span>' +
+              '<span class="bmc-arrow">→</span>' +
+            '</div>' +
+          '</a>';
+        }
+
+        function render() {
+          const filtered = filter();
+          const total = filtered.length;
+          const slice = filtered.slice(0, STATE.shown);
+          const stats = $('billsQuickStats');
+          if (stats) {
+            stats.innerHTML = '전체 ' + ALL.length.toLocaleString() + '건 중 <strong>' + total.toLocaleString() + '건</strong> 표시 중';
+          }
+          const html = slice.map(renderCard).join('');
+          $('billsResults').innerHTML = html || '<div style="text-align:center;padding:40px 20px;color:var(--color-text-soft);font-size:13px;">🔍 조건에 맞는 법안이 없어요.<br>필터를 조정해보세요.</div>';
+          const moreBtn = $('billsLoadMore');
+          const remaining = total - slice.length;
+          if (moreBtn) {
+            moreBtn.style.display = remaining > 0 ? '' : 'none';
+            moreBtn.textContent = '더 보기 (' + remaining.toLocaleString() + '건 더)';
+          }
+        }
+
+        window.billsLoadMore = function() {
+          STATE.shown += 50;
+          render();
+        };
+
+        // 검색 입력 디바운스
+        let timer;
+        $('billSearchInput').addEventListener('input', (e) => {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            STATE.q = e.target.value.trim();
+            STATE.shown = 50;
+            render();
+          }, 200);
+        });
+
+        // 칩 클릭 핸들러 (그룹별 single-select)
+        document.body.addEventListener('click', (e) => {
+          const btn = e.target.closest('.bill-chip');
+          if (!btn) return;
+          const group = btn.dataset.group;
+          const val = btn.dataset.val || '';
+          // 같은 그룹의 다른 칩 끄기
+          document.querySelectorAll('.bill-chip[data-group="' + group + '"]').forEach(b => b.classList.remove('bill-chip-on'));
+          btn.classList.add('bill-chip-on');
+          STATE[group] = val;
+          STATE.shown = 50;
+          render();
+        });
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', loadData);
+        } else {
+          loadData();
+        }
+      })();
+    </script>
+    </main>
+  <nav class="bottom-nav">
+    <a href="/" class="">
+      <span class="icon">🏠</span>홈
+    </a>
+    <a href="/list.html" class="active">
+      <span class="icon">📋</span>의원
+    </a>
+    <a href="/stories.html" class="">
+      <span class="icon">🎙</span>의원실
+    </a>
+    <a href="/community.html" class="">
+      <span class="icon">💬</span>커뮤니티
+    </a>
+    <a href="/learn.html" class="">
+      <span class="icon">📚</span>배움터
+    </a>
+  </nav>
+</body>
+</html>
