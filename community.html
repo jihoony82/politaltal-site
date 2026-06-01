@@ -298,6 +298,7 @@
         const MEMBER_MARKER_RE = /\[member:([A-Za-z0-9]{6,12})\]/g;
         let MEMBERS_INDEX = null;   // { MONA_CD: {name, party, district, term, photo} }
         let attachedSet = new Set(); // 현재 모달에서 첨부한 MONA_CD들
+        let CURRENT_CATEGORY = ''; // '' = 전체, 또는 정책토론/자유게시판/우리지역/Q&A
 
         async function loadMembersIndex(){
           if (MEMBERS_INDEX) return MEMBERS_INDEX;
@@ -450,7 +451,10 @@
           try { return new Date(Number(ts)).toLocaleDateString('ko-KR'); } catch(e){ return ''; }
         }
 
-        const POSTS_EMPTY_HTML = '<div id="postsEmptyState" style="text-align:center;padding:40px 20px;color:var(--color-text-soft);font-size:13px;line-height:1.7;">📝 아직 등록된 글이 없어요.<br>첫 번째 글을 남겨보세요! 우측 하단 <strong>✏️ 버튼</strong>을 눌러 글을 작성할 수 있습니다.<br><br><button onclick="window.loadRealPosts && window.loadRealPosts()" style="background:#0a2540;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;">🔄 다시 불러오기</button></div>';
+        function postsEmptyHTML(){
+          const catLabel = CURRENT_CATEGORY ? '\'' + CURRENT_CATEGORY + '\' 카테고리에' : '';
+          return '<div id="postsEmptyState" style="text-align:center;padding:40px 20px;color:var(--color-text-soft);font-size:13px;line-height:1.7;">📝 ' + catLabel + ' 아직 등록된 글이 없어요.<br>첫 번째 글을 남겨보세요! 우측 하단 <strong>✏️ 버튼</strong>을 눌러 글을 작성할 수 있습니다.<br><br><button onclick="window.loadRealPosts && window.loadRealPosts()" style="background:#0a2540;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;">🔄 다시 불러오기</button></div>';
+        }
 
         async function loadRealPosts(){
           const c = document.getElementById('realPostsContainer');
@@ -459,7 +463,8 @@
           if (!MEMBERS_INDEX) { loadMembersIndex().catch(function(){}); }
           let d;
           try {
-            const r = await fetch(POSTS_API + '?limit=30&_=' + Date.now(), { cache: 'no-store' });
+            const catParam = CURRENT_CATEGORY ? '&category=' + encodeURIComponent(CURRENT_CATEGORY) : '';
+            const r = await fetch(POSTS_API + '?limit=30' + catParam + '&_=' + Date.now(), { cache: 'no-store' });
             if (!r.ok) { throw new Error('HTTP ' + r.status); }
             d = await r.json();
           } catch(err) {
@@ -470,7 +475,7 @@
               '<button onclick="window.loadRealPosts && window.loadRealPosts()" style="background:#0a2540;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;">🔄 다시 시도</button></div>';
             return;
           }
-          if (!d || !d.ok || !d.posts || !d.posts.length){ c.innerHTML = POSTS_EMPTY_HTML; return; }
+          if (!d || !d.ok || !d.posts || !d.posts.length){ c.innerHTML = postsEmptyHTML(); return; }
             c.innerHTML = '<div class="real-posts-divider">— 사용자 글 (' + d.posts.length + '개) —</div>' +
               d.posts.map(function(p){
                 // 미리보기용 본문 — 마커 제거 후 첫 100자
@@ -577,9 +582,26 @@
         // 새로고침 버튼에서 호출할 수 있도록 노출
         window.loadRealPosts = loadRealPosts;
 
+        // 카테고리 탭 클릭 → 필터링
+        function bindCategoryTabs(){
+          const tabs = document.querySelectorAll('#postCategoryTabs .sub-tab');
+          tabs.forEach(function(t){
+            t.addEventListener('click', function(){
+              tabs.forEach(function(x){ x.classList.remove('active'); });
+              t.classList.add('active');
+              CURRENT_CATEGORY = t.getAttribute('data-cat') || '';
+              // 로딩 표시 후 새로 불러오기
+              const c = document.getElementById('realPostsContainer');
+              if (c) c.innerHTML = '<div style="text-align:center;padding:14px 0;color:#cbd5e1;font-size:14px;letter-spacing:8px;">···</div>';
+              loadRealPosts();
+            });
+          });
+        }
+
         // ⚠️ 이 script가 #realPostsContainer 보다 HTML에서 앞에 있어서
         // DOM이 다 만들어진 뒤에 실행해야 element를 찾을 수 있음
         function initAll(){
+          bindCategoryTabs();
           refresh();
           setInterval(refresh, 20000); // 20초마다 채팅 갱신
           refreshTVStatus();
@@ -603,12 +625,12 @@
         비방·허위사실·명예훼손성 글은 신고 시 즉시 검토·삭제됩니다.
       </div>
 
-      <div class="sub-tabs">
-        <span class="sub-tab active">🌐 전체</span>
-        <span class="sub-tab">📜 정책토론</span>
-        <span class="sub-tab">💭 자유게시판</span>
-        <span class="sub-tab">📍 우리지역</span>
-        <span class="sub-tab">❓ Q&A</span>
+      <div class="sub-tabs" id="postCategoryTabs">
+        <span class="sub-tab active" data-cat="">🌐 전체</span>
+        <span class="sub-tab" data-cat="정책토론">📜 정책토론</span>
+        <span class="sub-tab" data-cat="자유게시판">💭 자유게시판</span>
+        <span class="sub-tab" data-cat="우리지역">📍 우리지역</span>
+        <span class="sub-tab" data-cat="Q&A">❓ Q&A</span>
       </div>
 
       <!-- 운영자 법적 공지 (최상단 고정, 처음엔 접힘) -->
