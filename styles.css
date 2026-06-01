@@ -2450,6 +2450,89 @@ a.post-card .post-cta {
 .rbc-author { font-weight: 600; }
 .rbc-date { white-space: nowrap; }
 
+/* 본회의 표결 위젯 */
+.vote-widget-section { margin: 24px 0 16px; padding: 0 4px; }
+.vote-card {
+  display: block; background: var(--color-card);
+  border: 1px solid var(--color-border); border-radius: 12px;
+  padding: 14px 16px; text-decoration: none; color: var(--color-text);
+  margin-bottom: 10px; transition: all 0.15s;
+}
+.vote-card:hover {
+  border-color: var(--color-accent); transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(10,37,64,.06); text-decoration: none;
+}
+.vc-head { margin-bottom: 10px; }
+.vc-title {
+  font-size: 14.5px; font-weight: 800; color: var(--color-primary);
+  line-height: 1.45; word-break: keep-all; margin-bottom: 4px;
+}
+.vc-meta {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  font-size: 11.5px; color: var(--color-text-soft); font-weight: 600;
+}
+.vw-gap {
+  font-weight: 800; padding: 2px 8px; border-radius: 999px;
+  font-size: 10.5px; margin-left: auto;
+}
+.vw-gap-high { background: #fee2e2; color: #991b1b; }
+.vw-gap-mid  { background: #fef3c7; color: #92400e; }
+.vw-gap-low  { background: #dcfce7; color: #166534; }
+
+.vc-total-bar {
+  display: flex; height: 14px; background: #e5e7eb;
+  border-radius: 999px; overflow: hidden; margin: 6px 0;
+}
+.vc-total-legend {
+  display: flex; gap: 10px; flex-wrap: wrap; font-size: 11px;
+  margin-bottom: 12px; color: var(--color-text-soft); font-weight: 600;
+}
+.vw-v-agree { color: #16a34a; }
+.vw-v-oppose { color: #dc2626; }
+.vw-v-abstain { color: #f59e0b; }
+.vw-v-absent { color: #94a3b8; }
+
+.vw-seg { height: 100%; transition: width 0.3s; }
+.vw-agree   { background: #22c55e; }
+.vw-oppose  { background: #ef4444; }
+.vw-abstain { background: #f59e0b; }
+.vw-absent  { background: #cbd5e1; }
+
+.vc-party-block {
+  padding-top: 10px; border-top: 1px dashed var(--color-border);
+}
+.vw-party-row {
+  display: grid; grid-template-columns: 60px 1fr 90px;
+  align-items: center; gap: 8px; margin-bottom: 5px;
+  font-size: 11px;
+}
+.vw-party-name {
+  font-weight: 700; white-space: nowrap; overflow: hidden;
+}
+.vw-party-name.party-min { color: #002664; }
+.vw-party-name.party-ph { color: #e51c1c; }
+.vw-party-name.party-cho { color: #00aeef; }
+.vw-party-name.party-jin { color: #d31146; }
+.vw-party-name.party-other { color: var(--color-text-soft); }
+.vw-party-n {
+  color: var(--color-text-soft); font-weight: 600; font-size: 10px;
+}
+.vw-party-bar {
+  display: flex; height: 8px; background: #e5e7eb;
+  border-radius: 999px; overflow: hidden;
+}
+.vw-party-vals {
+  display: flex; gap: 6px; font-size: 10.5px; font-weight: 700;
+  white-space: nowrap; justify-content: flex-end;
+}
+@media (max-width: 480px) {
+  .vw-party-row { grid-template-columns: 56px 1fr 70px; gap: 6px; }
+  .vw-party-name { font-size: 10.5px; }
+  .vw-party-vals { font-size: 10px; }
+  .vc-total-legend { font-size: 10.5px; gap: 8px; }
+  .vw-gap { margin-left: 0; }
+}
+
 /* list.html → 법안 검색 진입 CTA */
 .bills-entry-cta {
   display: flex; align-items: center; gap: 14px;
