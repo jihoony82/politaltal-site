@@ -55,9 +55,10 @@
     .status-hidden { background:#fee2e2; color:#991b1b; }
     .reports-badge { background:#fecaca; color:#7f1d1d; padding:2px 7px; border-radius:999px; font-weight:800; }
     .item-title { font-weight:700; font-size:14px; color:var(--navy); margin-bottom:4px; word-break:keep-all; }
-    .item-body { font-size:12.5px; color:#475569; line-height:1.55; white-space:pre-wrap; word-break:keep-all; max-height:120px; overflow:hidden; position:relative; }
-    .item-body.expanded { max-height:none; }
-    .item-body-toggle { font-size:11px; color:var(--primary); cursor:pointer; margin-top:4px; font-weight:600; }
+    .item-body { font-size:12.5px; color:#475569; line-height:1.55; white-space:pre-wrap; word-break:keep-all; overflow:hidden; max-height:0; transition:max-height 0.2s; }
+    .item-body.expanded { max-height:none; margin-top:6px; padding-top:8px; border-top:1px dashed var(--border); }
+    .item-body-toggle { font-size:11px; color:var(--primary); cursor:pointer; margin-top:6px; font-weight:600; display:inline-block; padding:3px 8px; border:1px solid var(--border); border-radius:6px; background:#fff; }
+    .item-body-toggle:hover { border-color:var(--primary); }
     .item-actions { display:flex; gap:6px; margin-top:10px; }
     .item-actions button {
       flex:1; padding:7px 10px; font-size:12px; font-weight:700; border-radius:7px;
@@ -202,7 +203,7 @@
           '<span>' + esc(timeAgo(it.created_at)) + '</span>' + statusBadge + reports + '</div>' +
           title +
           '<div class="item-body" id="' + bodyId + '">' + esc(it.body||'') + '</div>' +
-          '<div class="item-body-toggle" onclick="toggleBody(\'' + bodyId + '\')">전체 보기 ▼</div>' +
+          '<div class="item-body-toggle" onclick="toggleBody(\'' + bodyId + '\')">본문 보기 ▼</div>' +
           '<div class="item-actions">' +
             (isHidden
               ? '<button class="unhide" onclick="modAction(' + it.id + ',\'unhide\')">↩ 공개로 복원</button>'
@@ -219,7 +220,7 @@
       el.classList.toggle('expanded');
       const tog = el.nextElementSibling;
       if (tog && tog.classList.contains('item-body-toggle')) {
-        tog.textContent = el.classList.contains('expanded') ? '접기 ▲' : '전체 보기 ▼';
+        tog.textContent = el.classList.contains('expanded') ? '접기 ▲' : '본문 보기 ▼';
       }
     };
 
