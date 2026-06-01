@@ -583,12 +583,21 @@
         // 새로고침 버튼에서 호출할 수 있도록 노출
         window.loadRealPosts = loadRealPosts;
 
-        refresh();
-        setInterval(refresh, 20000); // 20초마다 채팅 갱신 (라이브 느낌)
-        refreshTVStatus();
-        setInterval(refreshTVStatus, 300000); // 5분마다 방송 상태 재확인
-        loadRealPosts();
-        setInterval(loadRealPosts, 60000); // 1분마다 새 글 폴링
+        // ⚠️ 이 script가 #realPostsContainer 보다 HTML에서 앞에 있어서
+        // DOM이 다 만들어진 뒤에 실행해야 element를 찾을 수 있음
+        function initAll(){
+          refresh();
+          setInterval(refresh, 20000); // 20초마다 채팅 갱신
+          refreshTVStatus();
+          setInterval(refreshTVStatus, 300000); // 5분마다 방송 상태 재확인
+          loadRealPosts();
+          setInterval(loadRealPosts, 60000); // 1분마다 새 글 폴링
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initAll);
+        } else {
+          initAll();
+        }
       })();
     </script>
     
