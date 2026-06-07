@@ -1,6 +1,19 @@
 {
   "updates": [
     {
+      "timestamp": "2026-06-08T05:10:09",
+      "deltas": {
+        "politicians": 14,
+        "bills": 22,
+        "passed": 0,
+        "votes": 0
+      },
+      "narrative": [
+        "👥 현직 의원: 286 → 300 (+14명)",
+        "📜 발의 의안: 17,311 → 17,333 (+22건)"
+      ]
+    },
+    {
       "timestamp": "2026-06-01T05:00:31",
       "deltas": {
         "politicians": 0,
