@@ -43,65 +43,47 @@ img, video { height: auto; }
 .container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
 
 /* ─── 헤더 ───────────────────────────────────────── */
-/* ── Cinema hero (영상 배경 visual 배너) ── */
+/* ── Hero 배너 (정적 배경 이미지) ── */
 .cinema-hero {
-  position: relative; width: 100%;
-  height: 180px;
+  position: relative;
+  width: 100%;
+  height: 140px;
+  max-height: 140px;
   overflow: hidden;
-  background: #0a2540;
-  isolation: isolate;
-}
-.cinema-video {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  z-index: 0;
-  pointer-events: none;
-  /* 약한 블러로 영상 속 텍스트 가독성 차단 + 아트한 분위기 */
-  filter: blur(2px) saturate(1.1);
-  transform: scale(1.04); /* blur 가장자리 검은 띠 방지 */
+  background-image: url('/videos/hero-city.jpg');
+  background-size: cover;
+  background-position: center;
+  background-color: #0a2540;
 }
 .cinema-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(10,37,64,.45) 0%, rgba(10,37,64,.8) 100%);
-  z-index: 1;
+  background: linear-gradient(180deg, rgba(10,37,64,.55) 0%, rgba(10,37,64,.78) 100%);
 }
 .cinema-text {
-  position: relative; z-index: 2;
+  position: relative;
   height: 100%;
   display: flex; flex-direction: column; justify-content: center; align-items: center;
   text-align: center; color: #fff;
-  padding: 20px;
-}
-.cinema-kicker {
-  font-size: 10.5px; font-weight: 800; letter-spacing: 3px;
-  text-transform: uppercase; color: #ffd9cf;
-  margin-bottom: 10px; opacity: 0.95;
+  padding: 16px 20px;
 }
 .cinema-headline {
-  font-size: 24px; font-weight: 900; line-height: 1.25;
-  letter-spacing: -.8px; margin-bottom: 8px;
-  text-shadow: 0 2px 12px rgba(0,0,0,.3);
+  font-size: 22px; font-weight: 900; line-height: 1.25;
+  letter-spacing: -.5px; margin-bottom: 6px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.4);
 }
 .cinema-sub {
-  font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.85);
+  font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.92);
   letter-spacing: .2px;
 }
 @media (max-width: 640px) {
-  .cinema-hero { height: 140px; }
+  .cinema-hero { height: 110px; max-height: 110px; }
   .cinema-headline { font-size: 18px; }
-  .cinema-sub { font-size: 11px; }
-  .cinema-kicker { font-size: 9.5px; letter-spacing: 2px; margin-bottom: 6px; }
+  .cinema-sub { font-size: 11.5px; }
 }
 @media (max-width: 380px) {
-  .cinema-hero { height: 120px; }
+  .cinema-hero { height: 95px; max-height: 95px; }
   .cinema-headline { font-size: 16px; }
   .cinema-sub { font-size: 10.5px; }
-}
-/* 모션 감소 선호 — 정지 이미지로 */
-@media (prefers-reduced-motion: reduce) {
-  .cinema-video { display: none; }
-  .cinema-hero { background: url('/videos/hero-city.jpg') center/cover; }
 }
 
 /* ── 후원 진행 배너 (사이트 최상단) ── */
