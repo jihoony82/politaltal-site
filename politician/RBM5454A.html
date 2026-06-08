@@ -77,12 +77,14 @@
   <!-- End Cloudflare Web Analytics -->
 </head>
 <body>
-  <!-- 후원 진행 배너 (사이트 최상단) -->
+  <!-- 후원 진행 배너 (사이트 최상단) — 매일 다른 감정 카피 -->
   <div class="fundraiser-bar">
     <div class="container fb-inner">
       <div class="fb-copy">
         <span class="fb-kicker">정치탈탈 후원</span>
-        <span class="fb-line"><strong>정치를 감시하려면 돈이 필요합니다.</strong> 작은 후원이 286명 추적 데이터를 유지합니다.</span>
+        <span class="fb-line" id="fbLine">
+          <strong>정치인은 4년에 한 번 옵니다.</strong> 그들의 매일은 우리가 봅니다.
+        </span>
       </div>
       <div class="fb-progress-wrap">
         <div class="fb-progress-track">
@@ -90,13 +92,35 @@
           <span class="fb-progress-text">시작 단계</span>
         </div>
         <div class="fb-progress-stats">
-          <span class="fb-raised">목표 100만원</span>
-          <span class="fb-pct">서버·도메인 유지비</span>
+          <span class="fb-raised">목표 100만원 · 서버·도메인 유지비</span>
+          <span class="fb-pct" id="fbPledge">후원금 30% 시민단체 기부</span>
         </div>
       </div>
       <a href="/donate.html" class="fb-donate-btn">☕ 후원하기</a>
     </div>
   </div>
+  <script>
+    // 후원 카피 매일 회전 (날짜 기준 → 모든 사용자에게 같은 메시지)
+    (function() {
+      const COPIES = [
+        ['정치인은 4년에 한 번 옵니다.', '그들의 매일은 우리가 봅니다.'],
+        ['투표한 의원, 그 다음은', '잊고 계셨나요?'],
+        ['선거 다음 날부터,', '우리는 추적을 시작합니다.'],
+        ['286명의 발의·표결·재산.', '잊지 않고 기록합니다.'],
+        ['이 데이터가 멈추면,', '정치는 다시 보이지 않습니다.'],
+        ['당신의 커피값이', '286명의 의정활동을 매주 추적합니다.'],
+        ['발의 17,311건, 통과 567건.', '우리는 그 차이를 봅니다.'],
+      ];
+      try {
+        const day = Math.floor(Date.now() / 86400000);
+        const c = COPIES[day % COPIES.length];
+        const el = document.getElementById('fbLine');
+        if (el && c) {
+          el.innerHTML = '<strong>' + c[0] + '</strong> ' + c[1];
+        }
+      } catch (e) {}
+    })();
+  </script>
 
   <header class="app-header">
     <div class="container">
@@ -161,7 +185,7 @@
         <span class="bd-leg"><span class="bd-dot bd-dot-orange"></span>관심사</span>
       </div>
       <div class="bigdata-cloud">
-        <span class="bd-word bd-name bd-dark" style="transform:rotate(6deg);" data-tip="이주희 의원 (더불어민주당)"><span class="bd-text">이주희</span></span><span class="bd-word bd-major bd-blue" style="transform:rotate(-6deg);" data-tip="소속 정당: 더불어민주당"><span class="bd-text">더불어민주당</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(6deg);" data-tip="성별: 여"><span class="bd-text">여 성별</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(6deg);" data-tip="출생: 1978-06-13"><span class="bd-text">48세 나이</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(6deg);" data-tip="발의 키워드: 방송법"><span class="bd-text">방송법 관심사</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(-3deg);" data-tip="대표발의 33건 중 본회의 통과 0건"><span class="bd-text">0% 가결률</span></span><span class="bd-word bd-tiny bd-gray" style="transform:rotate(0deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">종합점수</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="22대 국회 초선"><span class="bd-text">초선 선수</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(-6deg);" data-tip="발의 키워드: 정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법"><span class="bd-text">정보통신망법 관심사</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(-6deg);" data-tip="본회의 표결 참여율 (292/295건)"><span class="bd-text">99% 출석</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(-3deg);" data-tip="22대 국회 대표발의 33건 (가결 0건, 가결률 0%)"><span class="bd-text">33건 발의</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 전기통신사업법"><span class="bd-text">전기통신사업법 관심사</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(-6deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">36</span></span><span class="bd-word bd-medium bd-blue" style="transform:rotate(-6deg);" data-tip="학력: 한양대학교 법학전문대학 (약력 자동 추출)"><span class="bd-text">한양대학교 학력</span></span>
+        <span class="bd-word bd-name bd-dark" style="transform:rotate(-3deg);" data-tip="이주희 의원 (더불어민주당)"><span class="bd-text">이주희</span></span><span class="bd-word bd-major bd-blue" style="transform:rotate(0deg);" data-tip="소속 정당: 더불어민주당"><span class="bd-text">더불어민주당</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(-6deg);" data-tip="22대 국회 대표발의 33건 (가결 0건, 가결률 0%)"><span class="bd-text">33건 발의</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(0deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">36</span></span><span class="bd-word bd-tiny bd-gray" style="transform:rotate(3deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">종합점수</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(3deg);" data-tip="대표발의 33건 중 본회의 통과 0건"><span class="bd-text">0% 가결률</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="출생: 1978-06-13"><span class="bd-text">48세 나이</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="성별: 여"><span class="bd-text">여 성별</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(0deg);" data-tip="본회의 표결 참여율 (292/295건)"><span class="bd-text">99% 출석</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="22대 국회 초선"><span class="bd-text">초선 선수</span></span><span class="bd-word bd-medium bd-blue" style="transform:rotate(-3deg);" data-tip="학력: 한양대학교 법학전문대학 (약력 자동 추출)"><span class="bd-text">한양대학교 학력</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(-3deg);" data-tip="발의 키워드: 방송법"><span class="bd-text">방송법 관심사</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(-3deg);" data-tip="발의 키워드: 정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법"><span class="bd-text">정보통신망법 관심사</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(-3deg);" data-tip="발의 키워드: 전기통신사업법"><span class="bd-text">전기통신사업법 관심사</span></span>
       </div>
       <div class="bd-hint">💡 단어 위에 마우스를 올리면 자세한 정보가 나옵니다</div>
     </div>
