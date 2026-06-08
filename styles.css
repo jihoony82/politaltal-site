@@ -134,8 +134,9 @@ img, video { height: auto; }
 .fb-line strong { font-weight: 800; }
 .fb-progress-wrap { flex: 1 1 220px; min-width: 0; }
 .fb-progress-track {
-  position: relative; height: 14px; background: #efe9d8;
+  position: relative; height: 14px; background: #0a2540;
   border-radius: 999px; overflow: hidden;
+  border: 1px solid #8a6914;
 }
 .fb-progress-fill {
   height: 100%; background: linear-gradient(90deg, #c8102e 0%, #ff5e3a 100%);
@@ -147,7 +148,7 @@ img, video { height: auto; }
   transform: translate(-50%, -50%);
   font-size: 9.5px; font-weight: 800; color: #fff;
   letter-spacing: .3px;
-  text-shadow: 0 1px 2px rgba(0,0,0,.25);
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
 }
 .fb-progress-stats {
   display: flex; justify-content: space-between;
@@ -702,8 +703,8 @@ img, video { height: auto; }
 /* ─── 히어로 ───────────────────────────────────────── */
 .hero {
   background:
-    linear-gradient(180deg, rgba(10,37,64,.78) 0%, rgba(10,37,64,.92) 100%),
-    url('/videos/hero-city.jpg') center 35% / cover no-repeat;
+    linear-gradient(180deg, rgba(10,37,64,.55) 0%, rgba(10,37,64,.82) 100%),
+    url('/videos/hero-city.jpg') center 50% / cover no-repeat;
   background-color: #0a2540;
   color: white;
   padding: 48px 0 56px;
