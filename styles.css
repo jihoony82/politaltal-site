@@ -46,7 +46,7 @@ img, video { height: auto; }
 /* ── Cinema hero (영상 배경 visual 배너) ── */
 .cinema-hero {
   position: relative; width: 100%;
-  height: 280px;
+  height: 180px;
   overflow: hidden;
   background: #0a2540;
   isolation: isolate;
@@ -57,10 +57,13 @@ img, video { height: auto; }
   object-fit: cover;
   z-index: 0;
   pointer-events: none;
+  /* 약한 블러로 영상 속 텍스트 가독성 차단 + 아트한 분위기 */
+  filter: blur(2px) saturate(1.1);
+  transform: scale(1.04); /* blur 가장자리 검은 띠 방지 */
 }
 .cinema-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(10,37,64,.35) 0%, rgba(10,37,64,.75) 100%);
+  background: linear-gradient(180deg, rgba(10,37,64,.45) 0%, rgba(10,37,64,.8) 100%);
   z-index: 1;
 }
 .cinema-text {
@@ -68,36 +71,37 @@ img, video { height: auto; }
   height: 100%;
   display: flex; flex-direction: column; justify-content: center; align-items: center;
   text-align: center; color: #fff;
-  padding: 32px 20px;
+  padding: 20px;
 }
 .cinema-kicker {
-  font-size: 11px; font-weight: 800; letter-spacing: 3px;
+  font-size: 10.5px; font-weight: 800; letter-spacing: 3px;
   text-transform: uppercase; color: #ffd9cf;
-  margin-bottom: 14px; opacity: 0.95;
+  margin-bottom: 10px; opacity: 0.95;
 }
 .cinema-headline {
-  font-size: 32px; font-weight: 900; line-height: 1.25;
-  letter-spacing: -1px; margin-bottom: 10px;
-  text-shadow: 0 2px 12px rgba(0,0,0,.25);
+  font-size: 24px; font-weight: 900; line-height: 1.25;
+  letter-spacing: -.8px; margin-bottom: 8px;
+  text-shadow: 0 2px 12px rgba(0,0,0,.3);
 }
 .cinema-sub {
-  font-size: 13px; font-weight: 600; color: rgba(255,255,255,.85);
-  letter-spacing: .3px;
+  font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.85);
+  letter-spacing: .2px;
 }
 @media (max-width: 640px) {
-  .cinema-hero { height: 220px; }
-  .cinema-headline { font-size: 24px; }
-  .cinema-sub { font-size: 12px; }
-  .cinema-kicker { font-size: 9.5px; letter-spacing: 2px; }
+  .cinema-hero { height: 140px; }
+  .cinema-headline { font-size: 18px; }
+  .cinema-sub { font-size: 11px; }
+  .cinema-kicker { font-size: 9.5px; letter-spacing: 2px; margin-bottom: 6px; }
 }
 @media (max-width: 380px) {
-  .cinema-hero { height: 200px; }
-  .cinema-headline { font-size: 20px; }
+  .cinema-hero { height: 120px; }
+  .cinema-headline { font-size: 16px; }
+  .cinema-sub { font-size: 10.5px; }
 }
-/* 모바일 데이터 절약 — 모션 감소 선호 사용자엔 정지 이미지로 */
+/* 모션 감소 선호 — 정지 이미지로 */
 @media (prefers-reduced-motion: reduce) {
   .cinema-video { display: none; }
-  .cinema-hero { background: url('/videos/hero-statue.jpg') center/cover; }
+  .cinema-hero { background: url('/videos/hero-city.jpg') center/cover; }
 }
 
 /* ── 후원 진행 배너 (사이트 최상단) ── */
