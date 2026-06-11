@@ -2,7 +2,7 @@
   "name": "정치탈탈",
   "short_name": "정치탈탈",
   "description": "내가 뽑은 국회의원, 진짜 일하고 있나요?",
-  "start_url": "/?utm_source=pwa&v=202606111458",
+  "start_url": "/?utm_source=pwa&v=202606120159",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
@@ -27,5 +27,5 @@
       "purpose": "any maskable"
     }
   ],
-  "build_id": "202606111458"
+  "build_id": "202606120159"
 }
