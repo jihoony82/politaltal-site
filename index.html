@@ -40,14 +40,14 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202606091119">
+  <link rel="stylesheet" href="/styles.css?v=202606111458">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202606091119">
+  <link rel="manifest" href="/manifest.json?v=202606111458">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202606091119">
+  <meta name="build-id" content="202606111458">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -192,11 +192,11 @@
           </div>
           <div id="heroSearchResults" class="search-results hero-results"></div>
           <div class="hero-search-hints">
-            <span onclick="quickSearch('서울')">서울</span>
-            <span onclick="quickSearch('경기')">경기</span>
-            <span onclick="quickSearch('부산')">부산</span>
-            <span onclick="quickSearch('더불어민주당')">민주당</span>
-            <span onclick="quickSearch('국민의힘')">국민의힘</span>
+            <a href="/list.html?sido=서울">서울</a>
+            <a href="/list.html?sido=경기">경기</a>
+            <a href="/list.html?sido=부산">부산</a>
+            <a href="/list.html?party=더불어민주당">민주당</a>
+            <a href="/list.html?party=국민의힘">국민의힘</a>
           </div>
         </div>
 
@@ -1107,7 +1107,7 @@
       <strong>본 서비스는 정부·국회·선관위 공식 서비스가 아닙니다.</strong><br>
       공공데이터(열린국회정보 OpenAPI)를 시각화한 민간 정보 플랫폼입니다.
       편향 없는 객관적 수치만 제공하며, 평가·해석은 이용자에게 위임합니다.<br>
-      데이터 기준일: 2026년 06월 09일 · 출처: open.assembly.go.kr (공공누리 제1유형)
+      데이터 기준일: 2026년 06월 11일 · 출처: open.assembly.go.kr (공공누리 제1유형)
     </div>
     
 
@@ -1148,17 +1148,27 @@
         const q = e.target.value.trim().toLowerCase();
         const box = document.getElementById('searchResults');
         if (!q) { box.innerHTML = ''; box.className = 'search-results'; return; }
-        const hits = SEARCH_DATA.filter(m =>
+        const all = SEARCH_DATA.filter(m =>
           m.name.toLowerCase().includes(q) ||
           m.district.toLowerCase().includes(q) ||
           m.party.toLowerCase().includes(q)
-        ).slice(0, 10);
+        );
+        const hits = all.slice(0, 10);
         if (hits.length === 0) {
           box.innerHTML = '<div style="padding:12px;color:#64748b;font-size:13px;">검색 결과가 없습니다.</div>';
           box.className = 'search-results has-results';
           return;
         }
-        box.innerHTML = hits.map(renderHit).join('');
+        let html = hits.map(renderHit).join('');
+        if (all.length > hits.length) {
+          const more = all.length - hits.length;
+          html += `<a href="/list.html?search=${encodeURIComponent(e.target.value.trim())}" class="search-result search-result-more">
+            <div class="search-result-info" style="text-align:center;width:100%;">
+              <div class="name" style="color:var(--color-accent);">전체 ${all.length}명 보기 → (+${more}명 더)</div>
+            </div>
+          </a>`;
+        }
+        box.innerHTML = html;
         box.className = 'search-results has-results';
       }
 
@@ -1167,17 +1177,27 @@
         const q = e.target.value.trim().toLowerCase();
         const box = document.getElementById('heroSearchResults');
         if (!q) { box.innerHTML = ''; box.className = 'search-results hero-results'; return; }
-        const hits = SEARCH_DATA.filter(m =>
+        const all = SEARCH_DATA.filter(m =>
           m.name.toLowerCase().includes(q) ||
           m.district.toLowerCase().includes(q) ||
           m.party.toLowerCase().includes(q)
-        ).slice(0, 10);
+        );
+        const hits = all.slice(0, 10);
         if (hits.length === 0) {
           box.innerHTML = '<div style="padding:12px;color:#64748b;font-size:13px;">검색 결과가 없습니다.</div>';
           box.className = 'search-results hero-results has-results';
           return;
         }
-        box.innerHTML = hits.map(renderHit).join('');
+        let html = hits.map(renderHit).join('');
+        if (all.length > hits.length) {
+          const more = all.length - hits.length;
+          html += `<a href="/list.html?search=${encodeURIComponent(e.target.value.trim())}" class="search-result search-result-more">
+            <div class="search-result-info" style="text-align:center;width:100%;">
+              <div class="name" style="color:var(--color-accent);">전체 ${all.length}명 보기 → (+${more}명 더)</div>
+            </div>
+          </a>`;
+        }
+        box.innerHTML = html;
         box.className = 'search-results hero-results has-results';
       }
       function quickSearch(term) {

@@ -253,12 +253,15 @@ img, video { height: auto; }
 .hero-search-hints {
   display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 12px;
 }
-.hero-search-hints span {
+.hero-search-hints span, .hero-search-hints a {
   font-size: 12px; color: rgba(255,255,255,0.9);
   background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22);
   padding: 4px 12px; border-radius: 20px; cursor: pointer; transition: background 0.15s;
+  text-decoration: none;
 }
-.hero-search-hints span:hover { background: rgba(255,255,255,0.28); }
+.hero-search-hints span:hover, .hero-search-hints a:hover {
+  background: rgba(255,255,255,0.28); text-decoration: none; color: rgba(255,255,255,0.95);
+}
 
 /* ── 국회 생중계 배너 ── */
 .live-tv-banner {
