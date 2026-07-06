@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <title>데이터 활용 — 기자·연구자·NGO용 의정 데이터 | 정치탈탈</title>
+  <meta name="description" content="정치탈탈의 국회 의정활동 데이터를 기사·연구·리포트에 활용하세요. 개인 이용은 무료, 대량·상업 목적은 문의.">
+  <meta name="keywords" content="국회 데이터,의정활동 데이터,정치 데이터 API,데이터 저널리즘,국회의원 데이터셋">
+  <meta name="author" content="정치탈탈">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://politaltal.com/data.html">
+
+  <!-- 검색엔진 사이트 소유 확인 (각 사이트에서 등록 후 content 값 채우기) -->
+  <meta name="naver-site-verification" content="9e3ca58898c588a94375445bf3e90634c27da43d">
+  <meta name="google-site-verification" content="3T1zR-6vdABc-R7XTfG9TFbnljB_3DYZQroa1B6pbiE">
+  <meta name="msvalidate.01" content="50D545291AE8CB679E6A71ED05D18AC4">
+  <!-- ↑ 빙(Bing) 웹마스터: https://www.bing.com/webmasters 등록 후 받은 코드 -->
+  <!-- ↑ 다음(Daum)은 verification 메타 없음. https://register.search.daum.net 사이트 URL만 등록 -->
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="정치탈탈">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="데이터 활용 — 기자·연구자·NGO용 의정 데이터 | 정치탈탈">
+  <meta property="og:description" content="정치탈탈의 국회 의정활동 데이터를 기사·연구·리포트에 활용하세요. 개인 이용은 무료, 대량·상업 목적은 문의.">
+  <meta property="og:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="정치탈탈 - 국회의원 의정활동 대시보드">
+  <meta property="og:url" content="https://politaltal.com/data.html">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="데이터 활용 — 기자·연구자·NGO용 의정 데이터 | 정치탈탈">
+  <meta name="twitter:description" content="정치탈탈의 국회 의정활동 데이터를 기사·연구·리포트에 활용하세요. 개인 이용은 무료, 대량·상업 목적은 문의.">
+  <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#0a2540">
+  <link rel="stylesheet" href="/styles.css?v=202607070050">
+  <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
+  <link rel="manifest" href="/manifest.json?v=202607070050">
+  <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="build-id" content="202607070050">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="정치탈탈">
+
+  <!-- Cloudflare Web Analytics -->
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "26dbbaa3ad4d4e4a95991d64553fa612"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+  <!-- 후원 진행 배너 (사이트 최상단) — 매일 다른 감정 카피 -->
+  <div class="fundraiser-bar">
+    <div class="container fb-inner">
+      <div class="fb-copy">
+        <span class="fb-kicker">정치탈탈 후원</span>
+        <span class="fb-line" id="fbLine">
+          <strong>정치인은 4년에 한 번 옵니다.</strong> 그들의 매일은 우리가 봅니다.
+        </span>
+      </div>
+      <div class="fb-progress-wrap">
+        <div class="fb-progress-track">
+          <div class="fb-progress-fill" style="width: 8%;"></div>
+          <span class="fb-progress-text">시작 단계</span>
+        </div>
+        <div class="fb-progress-stats">
+          <span class="fb-raised">목표 100만원 · 서버·도메인 유지비</span>
+          <span class="fb-pct" id="fbPledge">후원금 30% 시민단체 기부</span>
+        </div>
+      </div>
+      <a href="/donate.html" class="fb-donate-btn">☕ 후원하기</a>
+    </div>
+  </div>
+  <script>
+    // 후원 카피 매일 회전 (날짜 기준 → 모든 사용자에게 같은 메시지)
+    (function() {
+      const COPIES = [
+        ['정치인은 4년에 한 번 옵니다.', '그들의 매일은 우리가 봅니다.'],
+        ['투표한 의원, 그 다음은', '잊고 계셨나요?'],
+        ['선거 다음 날부터,', '우리는 추적을 시작합니다.'],
+        ['286명의 발의·표결·재산.', '잊지 않고 기록합니다.'],
+        ['그들의 무기는 잊혀짐.', '우리의 무기는 기록입니다.'],
+        ['당신의 커피값이', '286명의 의정활동을 매주 추적합니다.'],
+        ['발의 17,311건, 통과 567건.', '우리는 그 차이를 봅니다.'],
+      ];
+      try {
+        const day = Math.floor(Date.now() / 86400000);
+        const c = COPIES[day % COPIES.length];
+        const el = document.getElementById('fbLine');
+        if (el && c) {
+          el.innerHTML = '<strong>' + c[0] + '</strong> ' + c[1];
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <header class="app-header">
+    <div class="container">
+      <a href="/" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
+        <span>정치탈탈</span>
+      </a>
+      <div class="header-actions">
+        <a href="/donate.html" class="header-donate"
+           title="당신의 커피 한 잔이 정치 감시의 눈이 됩니다 👀 (월 1,000원~)">
+          <span class="hd-heart">♥</span><span class="hd-text">커피 한 잔</span>
+        </a>
+        <a href="/login.html" id="headerAuthBtn"
+           onclick="if(!location.pathname.startsWith('/login')){this.href='/login.html?return='+encodeURIComponent(location.pathname+location.search+location.hash);}"
+           style="font-size:12px;font-weight:700;padding:6px 12px;
+                                      background:var(--color-primary);color:white;
+                                      border-radius:6px;text-decoration:none;
+                                      display:flex;align-items:center;gap:6px;">
+          로그인
+        </a>
+      </div>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
+    </div>
+  </header>
+  <main>
+    <div class="container" style="max-width:680px;">
+      <a href="/" class="back-link">← 홈으로</a>
+      <div class="db-hero">
+        <div class="db-hero-kicker">📊 데이터 활용</div>
+        <h1 class="db-hero-title">기사·보고서·연구에<br>정치탈탈 데이터를 쓰세요</h1>
+        <p class="db-hero-sub">286명 의원의 발의·표결·재산·지역구 데이터를 정제된 형태로 제공합니다.
+        일반 이용은 지금처럼 <strong>100% 무료</strong>입니다. 아래는 대량·상업·연구 목적을 위한 안내입니다.</p>
+      </div>
+
+      <div class="db-cards">
+        <div class="db-card">
+          <div class="db-card-ico">🆓</div>
+          <div class="db-card-tt">개인·비상업</div>
+          <div class="db-card-ds">웹에서 열람·검색·페이지별 CSV 내려받기. 출처 표기만 하면 자유롭게.</div>
+          <div class="db-card-price">무료</div>
+        </div>
+        <div class="db-card highlight">
+          <div class="db-card-ico">📰</div>
+          <div class="db-card-tt">기자·연구자·NGO</div>
+          <div class="db-card-ds">전체 데이터셋(CSV) · 맞춤 추출 · 기간별 변화 · 지역구/위원회 단위 집계.</div>
+          <div class="db-card-price">문의</div>
+        </div>
+        <div class="db-card">
+          <div class="db-card-ico">🔌</div>
+          <div class="db-card-tt">서비스·API</div>
+          <div class="db-card-ds">정기 갱신 데이터 피드 · API 연동. 서비스에 의정 데이터를 얹고 싶다면.</div>
+          <div class="db-card-price">문의</div>
+        </div>
+      </div>
+
+      <div class="db-use">
+        <div class="db-use-tt">이렇게 쓸 수 있어요</div>
+        <ul class="db-use-list">
+          <li>📈 <strong>데이터 저널리즘</strong> — "○○위원회 법안 통과율" 기사용 원자료</li>
+          <li>📋 <strong>시민단체 리포트</strong> — 의정활동 모니터링·정례 보고서</li>
+          <li>🎓 <strong>정치학 연구</strong> — 발의·표결 패턴 분석용 정제 데이터셋</li>
+          <li>🗺 <strong>지역 분석</strong> — 지역구 단위 의정활동 비교</li>
+        </ul>
+      </div>
+
+      <div class="db-contact">
+        <div class="db-contact-tt">📩 데이터 문의</div>
+        <p class="db-contact-ds">아래 이메일로 <strong>용도·필요 항목·기간</strong>을 알려주시면 회신드립니다.
+        정치탈탈은 특정 정파를 지원하지 않으며, 선거운동 목적의 데이터 제공은 하지 않습니다.</p>
+        <a href="mailto:jihoony8282@naver.com?subject=%5B%EC%A0%95%EC%B9%98%ED%83%88%ED%83%88%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EB%AC%B8%EC%9D%98%5D&body=%EC%9A%A9%EB%8F%84%3A%0A%ED%95%84%EC%9A%94%20%ED%95%AD%EB%AA%A9%3A%0A%EA%B8%B0%EA%B0%84%3A%0A%EC%86%8C%EC%86%8D%2F%EC%97%B0%EB%9D%BD%EC%B2%98%3A"
+           class="db-contact-btn" onclick="try{fetch('https://politaltal-comments.jihoony821209.workers.dev/track',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:'b2b_inquiry'})});}catch(e){}">
+          ✉️ 데이터 문의 메일 보내기
+        </a>
+        <div class="db-contact-note">jihoony8282@naver.com</div>
+      </div>
+
+      
+    <div class="mini-cta">
+      <div class="mini-cta-text">
+        <strong>이 페이지가 도움이 됐다면</strong>
+        <span>286명의 추적을 멈추지 않게 해주세요.</span>
+      </div>
+      <a href="/donate.html" class="mini-cta-btn">☕ 후원</a>
+    </div>
+    
+      
+    <div class="disclaimer">
+      <strong>본 서비스는 정부·국회·선관위 공식 서비스가 아닙니다.</strong><br>
+      공공데이터(열린국회정보 OpenAPI)를 시각화한 민간 정보 플랫폼입니다.
+      편향 없는 객관적 수치만 제공하며, 평가·해석은 이용자에게 위임합니다.<br>
+      데이터 기준일: 2026년 07월 07일 · 출처: open.assembly.go.kr (공공누리 제1유형)
+    </div>
+    
+    </div>
+    </main>
+  <nav class="bottom-nav">
+    <a href="/" class="active">
+      <span class="icon">🏠</span>홈
+    </a>
+    <a href="/list.html" class="">
+      <span class="icon">📋</span>의원
+    </a>
+    <a href="/stories.html" class="">
+      <span class="icon">🎙</span>의원실
+    </a>
+    <a href="/community.html" class="">
+      <span class="icon">💬</span>커뮤니티
+    </a>
+    <a href="/learn.html" class="">
+      <span class="icon">📚</span>배움터
+    </a>
+  </nav>
+  <script>
+    // 정치 용어 tooltip — 모바일 tap-to-show, 다시 탭하면 닫기
+    document.addEventListener('click', function(e) {
+      const t = e.target.closest('.term-tip');
+      if (t) {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          if (x !== t) x.classList.remove('tt-active');
+        });
+        t.classList.toggle('tt-active');
+        e.stopPropagation();
+      } else {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          x.classList.remove('tt-active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

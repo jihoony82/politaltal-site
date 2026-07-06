@@ -1,5 +1,10 @@
 # macOS
 .DS_Store
+# AppleDouble metadata sidecars (외장 드라이브 exFAT에서 생성됨)
+._*
+.AppleDouble
+.Spotlight-V100
+.Trashes
 
 # Editor
 .vscode/

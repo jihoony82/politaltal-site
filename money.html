@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <title>국회의원 재산공개 280명 — 정당별·순위 시각화 | 정치탈탈</title>
+  <meta name="description" content="제22대 국회의원 280명의 2025년 신고 재산을 정당별 평균·순위로. 공공데이터 기반 중립 시각화.">
+  <meta name="keywords" content="국회의원 재산,재산공개,정치인 재산,국회의원 재산 순위,정당별 재산,공직자 재산공개">
+  <meta name="author" content="정치탈탈">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://politaltal.com/money.html">
+
+  <!-- 검색엔진 사이트 소유 확인 (각 사이트에서 등록 후 content 값 채우기) -->
+  <meta name="naver-site-verification" content="9e3ca58898c588a94375445bf3e90634c27da43d">
+  <meta name="google-site-verification" content="3T1zR-6vdABc-R7XTfG9TFbnljB_3DYZQroa1B6pbiE">
+  <meta name="msvalidate.01" content="50D545291AE8CB679E6A71ED05D18AC4">
+  <!-- ↑ 빙(Bing) 웹마스터: https://www.bing.com/webmasters 등록 후 받은 코드 -->
+  <!-- ↑ 다음(Daum)은 verification 메타 없음. https://register.search.daum.net 사이트 URL만 등록 -->
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="정치탈탈">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="국회의원 재산공개 280명 — 정당별·순위 시각화 | 정치탈탈">
+  <meta property="og:description" content="제22대 국회의원 280명의 2025년 신고 재산을 정당별 평균·순위로. 공공데이터 기반 중립 시각화.">
+  <meta property="og:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="정치탈탈 - 국회의원 의정활동 대시보드">
+  <meta property="og:url" content="https://politaltal.com/money.html">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="국회의원 재산공개 280명 — 정당별·순위 시각화 | 정치탈탈">
+  <meta name="twitter:description" content="제22대 국회의원 280명의 2025년 신고 재산을 정당별 평균·순위로. 공공데이터 기반 중립 시각화.">
+  <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#0a2540">
+  <link rel="stylesheet" href="/styles.css?v=202607070050">
+  <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
+  <link rel="manifest" href="/manifest.json?v=202607070050">
+  <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="build-id" content="202607070050">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="정치탈탈">
+
+  <!-- Cloudflare Web Analytics -->
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "26dbbaa3ad4d4e4a95991d64553fa612"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+  <!-- 후원 진행 배너 (사이트 최상단) — 매일 다른 감정 카피 -->
+  <div class="fundraiser-bar">
+    <div class="container fb-inner">
+      <div class="fb-copy">
+        <span class="fb-kicker">정치탈탈 후원</span>
+        <span class="fb-line" id="fbLine">
+          <strong>정치인은 4년에 한 번 옵니다.</strong> 그들의 매일은 우리가 봅니다.
+        </span>
+      </div>
+      <div class="fb-progress-wrap">
+        <div class="fb-progress-track">
+          <div class="fb-progress-fill" style="width: 8%;"></div>
+          <span class="fb-progress-text">시작 단계</span>
+        </div>
+        <div class="fb-progress-stats">
+          <span class="fb-raised">목표 100만원 · 서버·도메인 유지비</span>
+          <span class="fb-pct" id="fbPledge">후원금 30% 시민단체 기부</span>
+        </div>
+      </div>
+      <a href="/donate.html" class="fb-donate-btn">☕ 후원하기</a>
+    </div>
+  </div>
+  <script>
+    // 후원 카피 매일 회전 (날짜 기준 → 모든 사용자에게 같은 메시지)
+    (function() {
+      const COPIES = [
+        ['정치인은 4년에 한 번 옵니다.', '그들의 매일은 우리가 봅니다.'],
+        ['투표한 의원, 그 다음은', '잊고 계셨나요?'],
+        ['선거 다음 날부터,', '우리는 추적을 시작합니다.'],
+        ['286명의 발의·표결·재산.', '잊지 않고 기록합니다.'],
+        ['그들의 무기는 잊혀짐.', '우리의 무기는 기록입니다.'],
+        ['당신의 커피값이', '286명의 의정활동을 매주 추적합니다.'],
+        ['발의 17,311건, 통과 567건.', '우리는 그 차이를 봅니다.'],
+      ];
+      try {
+        const day = Math.floor(Date.now() / 86400000);
+        const c = COPIES[day % COPIES.length];
+        const el = document.getElementById('fbLine');
+        if (el && c) {
+          el.innerHTML = '<strong>' + c[0] + '</strong> ' + c[1];
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <header class="app-header">
+    <div class="container">
+      <a href="/" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
+        <span>정치탈탈</span>
+      </a>
+      <div class="header-actions">
+        <a href="/donate.html" class="header-donate"
+           title="당신의 커피 한 잔이 정치 감시의 눈이 됩니다 👀 (월 1,000원~)">
+          <span class="hd-heart">♥</span><span class="hd-text">커피 한 잔</span>
+        </a>
+        <a href="/login.html" id="headerAuthBtn"
+           onclick="if(!location.pathname.startsWith('/login')){this.href='/login.html?return='+encodeURIComponent(location.pathname+location.search+location.hash);}"
+           style="font-size:12px;font-weight:700;padding:6px 12px;
+                                      background:var(--color-primary);color:white;
+                                      border-radius:6px;text-decoration:none;
+                                      display:flex;align-items:center;gap:6px;">
+          로그인
+        </a>
+      </div>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
+    </div>
+  </header>
+  <main><section class="page-hero" style="background-image: linear-gradient(180deg, rgba(10,37,64,.72) 0%, rgba(10,37,64,.88) 100%), url('/videos/hero-list.jpg'); background-size: cover; background-position: center 45%;">  <div class="container">    <span class="ph-icon">📋</span>    <div class="ph-title">제22대 국회의원</div>    <div class="ph-sub">286명 의원 검색·필터·랭킹</div>  </div></section>
+    <div class="container" style="max-width:680px;">
+      <a href="/" class="back-link">← 홈으로</a>
+      <div class="mn-hero">
+        <div class="mn-hero-kicker">💰 정치자금 추적 · 재산공개</div>
+        <h1 class="mn-hero-title">국회의원 280명, 신고 재산</h1>
+        <p class="mn-hero-sub">2025년 정기 재산공개 기준. 편 안 듭니다. 숫자만 보여드립니다.
+        재산의 많고 적음은 평가가 아니며, 판단은 이용자에게 맡깁니다.</p>
+      </div>
+
+      <div class="mn-summary">
+        <div class="mn-sum-item"><div class="mn-sum-num">34억</div><div class="mn-sum-lab">평균 재산</div></div>
+        <div class="mn-sum-item"><div class="mn-sum-num">16억</div><div class="mn-sum-lab">중앙값</div></div>
+        <div class="mn-sum-item"><div class="mn-sum-num">1,368억</div><div class="mn-sum-lab">최고</div></div>
+        <div class="mn-sum-item"><div class="mn-sum-num">-11억</div><div class="mn-sum-lab">최저</div></div>
+      </div>
+      <p class="mn-note">💡 평균(34억)이 중앙값(16억)보다 크게 높습니다 — 소수 고액 자산가가 평균을 끌어올린다는 뜻입니다.</p>
+
+      <div class="section-title" style="margin-top:22px;">🏛 정당별 평균 신고재산</div>
+      <div class="mn-bars">
+        <div class="mn-bar-row">
+          <div class="mn-bar-name party-국힘">국민의힘</div>
+          <div class="mn-bar-track"><div class="mn-bar-fill" style="width:100.0%;"></div></div>
+          <div class="mn-bar-val">57억</div>
+        </div>
+        <div class="mn-bar-row">
+          <div class="mn-bar-name party-개혁">개혁신당</div>
+          <div class="mn-bar-track"><div class="mn-bar-fill" style="width:49.4%;"></div></div>
+          <div class="mn-bar-val">28억</div>
+        </div>
+        <div class="mn-bar-row">
+          <div class="mn-bar-name party-민주">더불어민주당</div>
+          <div class="mn-bar-track"><div class="mn-bar-fill" style="width:35.3%;"></div></div>
+          <div class="mn-bar-val">20억</div>
+        </div>
+        <div class="mn-bar-row">
+          <div class="mn-bar-name party-조국">조국혁신당</div>
+          <div class="mn-bar-track"><div class="mn-bar-fill" style="width:30.7%;"></div></div>
+          <div class="mn-bar-val">18억</div>
+        </div>
+        <div class="mn-bar-row">
+          <div class="mn-bar-name party-무">무소속</div>
+          <div class="mn-bar-track"><div class="mn-bar-fill" style="width:24.0%;"></div></div>
+          <div class="mn-bar-val">14억</div>
+        </div>
+        <div class="mn-bar-row">
+          <div class="mn-bar-name party-기본">기본소득당</div>
+          <div class="mn-bar-track"><div class="mn-bar-fill" style="width:7.8%;"></div></div>
+          <div class="mn-bar-val">4억</div>
+        </div>
+        <div class="mn-bar-row">
+          <div class="mn-bar-name party-진보">진보당</div>
+          <div class="mn-bar-track"><div class="mn-bar-fill" style="width:7.0%;"></div></div>
+          <div class="mn-bar-val">4억</div>
+        </div>
+        <div class="mn-bar-row">
+          <div class="mn-bar-name party-민주">사회민주당</div>
+          <div class="mn-bar-track"><div class="mn-bar-fill" style="width:1.4%;"></div></div>
+          <div class="mn-bar-val">7,790만</div>
+        </div></div>
+      <p class="mn-caption">※ 정당별 인원수·구성이 달라 단순 비교는 주의가 필요합니다. 소속 의원 수가 적은 정당은 개인 편차의 영향을 크게 받습니다.</p>
+
+      <div class="section-title" style="margin-top:22px;">📈 신고재산 상위 10</div>
+      <div class="mn-rank-list">
+        <a href="/politician/YOG1280B.html" class="mn-rank-row">
+          <span class="mn-rank-no">1</span>
+          <span class="mn-rank-name">안철수
+            <span class="party-tag party-국힘">국민의힘</span>
+          </span>
+          <span class="mn-rank-amt">1,368억</span>
+        </a>
+        <a href="/politician/N4R2421C.html" class="mn-rank-row">
+          <span class="mn-rank-no">2</span>
+          <span class="mn-rank-name">박덕흠
+            <span class="party-tag party-국힘">국민의힘</span>
+          </span>
+          <span class="mn-rank-amt">535억</span>
+        </a>
+        <a href="/politician/4019850M.html" class="mn-rank-row">
+          <span class="mn-rank-no">3</span>
+          <span class="mn-rank-name">박정
+            <span class="party-tag party-민주">더불어민주당</span>
+          </span>
+          <span class="mn-rank-amt">360억</span>
+        </a>
+        <a href="/politician/CAA7713A.html" class="mn-rank-row">
+          <span class="mn-rank-no">4</span>
+          <span class="mn-rank-name">백종헌
+            <span class="party-tag party-국힘">국민의힘</span>
+          </span>
+          <span class="mn-rank-amt">324억</span>
+        </a>
+        <a href="/politician/HS39431V.html" class="mn-rank-row">
+          <span class="mn-rank-no">5</span>
+          <span class="mn-rank-name">고동진
+            <span class="party-tag party-국힘">국민의힘</span>
+          </span>
+          <span class="mn-rank-amt">317억</span>
+        </a>
+        <a href="/politician/L5P27909.html" class="mn-rank-row">
+          <span class="mn-rank-no">6</span>
+          <span class="mn-rank-name">김은혜
+            <span class="party-tag party-국힘">국민의힘</span>
+          </span>
+          <span class="mn-rank-amt">274억</span>
+        </a>
+        <a href="/politician/QQ429063.html" class="mn-rank-row">
+          <span class="mn-rank-no">7</span>
+          <span class="mn-rank-name">서명옥
+            <span class="party-tag party-국힘">국민의힘</span>
+          </span>
+          <span class="mn-rank-amt">255억</span>
+        </a>
+        <a href="/politician/MSY7784L.html" class="mn-rank-row">
+          <span class="mn-rank-no">8</span>
+          <span class="mn-rank-name">윤상현
+            <span class="party-tag party-국힘">국민의힘</span>
+          </span>
+          <span class="mn-rank-amt">177억</span>
+        </a>
+        <a href="/politician/UF53617M.html" class="mn-rank-row">
+          <span class="mn-rank-no">9</span>
+          <span class="mn-rank-name">최은석
+            <span class="party-tag party-국힘">국민의힘</span>
+          </span>
+          <span class="mn-rank-amt">116억</span>
+        </a>
+        <a href="/politician/LJK4960Z.html" class="mn-rank-row">
+          <span class="mn-rank-no">10</span>
+          <span class="mn-rank-name">정점식
+            <span class="party-tag party-국힘">국민의힘</span>
+          </span>
+          <span class="mn-rank-amt">99억</span>
+        </a></div>
+
+      <div class="section-title" style="margin-top:22px;">📉 신고재산 하위 10</div>
+      <div class="mn-rank-list">
+        <a href="/politician/IC499858.html" class="mn-rank-row">
+          <span class="mn-rank-no">271</span>
+          <span class="mn-rank-name">정준호
+            <span class="party-tag party-민주">더불어민주당</span>
+          </span>
+          <span class="mn-rank-amt">-11억</span>
+        </a>
+        <a href="/politician/68P7228G.html" class="mn-rank-row">
+          <span class="mn-rank-no">272</span>
+          <span class="mn-rank-name">진선미
+            <span class="party-tag party-민주">더불어민주당</span>
+          </span>
+          <span class="mn-rank-amt">-9억</span>
+        </a>
+        <a href="/politician/J1G57517.html" class="mn-rank-row">
+          <span class="mn-rank-no">273</span>
+          <span class="mn-rank-name">모경종
+            <span class="party-tag party-민주">더불어민주당</span>
+          </span>
+          <span class="mn-rank-amt">1,953만</span>
+        </a>
+        <a href="/politician/RC885085.html" class="mn-rank-row">
+          <span class="mn-rank-no">274</span>
+          <span class="mn-rank-name">차지호
+            <span class="party-tag party-민주">더불어민주당</span>
+          </span>
+          <span class="mn-rank-amt">3,818만</span>
+        </a>
+        <a href="/politician/GP21946O.html" class="mn-rank-row">
+          <span class="mn-rank-no">275</span>
+          <span class="mn-rank-name">박충권
+            <span class="party-tag party-국힘">국민의힘</span>
+          </span>
+          <span class="mn-rank-amt">5,550만</span>
+        </a>
+        <a href="/politician/T4I4862D.html" class="mn-rank-row">
+          <span class="mn-rank-no">276</span>
+          <span class="mn-rank-name">한창민
+            <span class="party-tag party-민주">사회민주당</span>
+          </span>
+          <span class="mn-rank-amt">7,790만</span>
+        </a>
+        <a href="/politician/MLH1404S.html" class="mn-rank-row">
+          <span class="mn-rank-no">277</span>
+          <span class="mn-rank-name">김민석
+            <span class="party-tag party-민주">더불어민주당</span>
+          </span>
+          <span class="mn-rank-amt">2억</span>
+        </a>
+        <a href="/politician/BNV6535N.html" class="mn-rank-row">
+          <span class="mn-rank-no">278</span>
+          <span class="mn-rank-name">정혜경
+            <span class="party-tag party-진보">진보당</span>
+          </span>
+          <span class="mn-rank-amt">2억</span>
+        </a>
+        <a href="/politician/6I88973D.html" class="mn-rank-row">
+          <span class="mn-rank-no">279</span>
+          <span class="mn-rank-name">부승찬
+            <span class="party-tag party-민주">더불어민주당</span>
+          </span>
+          <span class="mn-rank-amt">2억</span>
+        </a>
+        <a href="/politician/9901388T.html" class="mn-rank-row">
+          <span class="mn-rank-no">280</span>
+          <span class="mn-rank-name">강명구
+            <span class="party-tag party-국힘">국민의힘</span>
+          </span>
+          <span class="mn-rank-amt">2억</span>
+        </a></div>
+
+      <div class="mn-export">
+        <button type="button" class="mn-export-btn" onclick="downloadAssetsCSV()">⬇️ 전체 280명 재산 데이터 CSV 내려받기</button>
+        <a href="/data.html" class="mn-export-b2b">📊 기자·연구자용 데이터가 필요하세요? →</a>
+      </div>
+
+      <div class="share-row">
+    <button type="button" class="share-btn" onclick="ptShare(this)">
+      <span class="share-ico">🔗</span> 이 재산 데이터 공유
+    </button>
+    <script>
+      if (!window.ptShare) window.ptShare = function(btn){
+        var url = location.href;
+        var title = document.title.replace(' | 정치탈탈','').replace(' - 정치탈탈','');
+        var text = title + ' — 정치탈탈에서 확인';
+        if (navigator.share){
+          navigator.share({title: title, text: text, url: url}).catch(function(){});
+        } else if (navigator.clipboard){
+          navigator.clipboard.writeText(url).then(function(){
+            var o = btn.innerHTML; btn.innerHTML = '✅ 링크 복사됨';
+            setTimeout(function(){ btn.innerHTML = o; }, 1600);
+          });
+        } else {
+          prompt('이 링크를 복사하세요', url);
+        }
+      };
+    </script></div>
+      
+    <div class="mini-cta">
+      <div class="mini-cta-text">
+        <strong>이 페이지가 도움이 됐다면</strong>
+        <span>286명의 추적을 멈추지 않게 해주세요.</span>
+      </div>
+      <a href="/donate.html" class="mini-cta-btn">☕ 후원</a>
+    </div>
+    
+
+      <div class="mn-src">
+        출처: 공직자윤리위원회 정기재산변동신고 (2025년 3월, 국회공보 제2025-51호) · 기준연도 2025 · 데이터 기준일은 사이트 빌드 시점입니다.<br>
+        일부 의원은 공개 자료 매칭이 어려워 제외될 수 있으며, 신고 재산은 본인·배우자·직계존비속 합산 기준입니다.
+      </div>
+      
+    <div class="disclaimer">
+      <strong>본 서비스는 정부·국회·선관위 공식 서비스가 아닙니다.</strong><br>
+      공공데이터(열린국회정보 OpenAPI)를 시각화한 민간 정보 플랫폼입니다.
+      편향 없는 객관적 수치만 제공하며, 평가·해석은 이용자에게 위임합니다.<br>
+      데이터 기준일: 2026년 07월 07일 · 출처: open.assembly.go.kr (공공누리 제1유형)
+    </div>
+    
+    </div>
+
+    <script>
+      var ASSETS_CSV = [["순위", "이름", "정당", "신고재산(원)"], ["1", "안철수", "국민의힘", "136789820000"], ["2", "박덕흠", "국민의힘", "53503206000"], ["3", "박정", "더불어민주당", "36035714000"], ["4", "백종헌", "국민의힘", "32355140000"], ["5", "고동진", "국민의힘", "31674120000"], ["6", "김은혜", "국민의힘", "27392391000"], ["7", "서명옥", "국민의힘", "25517014000"], ["8", "윤상현", "국민의힘", "17721055000"], ["9", "최은석", "국민의힘", "11643933000"], ["10", "정점식", "국민의힘", "9916186000"], ["11", "양부남", "더불어민주당", "8537828000"], ["12", "오세희", "더불어민주당", "8259654000"], ["13", "안상훈", "국민의힘", "7044069000"], ["14", "주진우", "국민의힘", "7019536000"], ["15", "이인선", "국민의힘", "6988070000"], ["16", "김기현", "국민의힘", "6909308000"], ["17", "안규백", "더불어민주당", "6868853000"], ["18", "이언주", "더불어민주당", "6668072000"], ["19", "성일종", "국민의힘", "6657049000"], ["20", "이상식", "더불어민주당", "6618332000"], ["21", "송언석", "국민의힘", "6485892000"], ["22", "한지아", "국민의힘", "6277701000"], ["23", "이주영", "개혁신당", "6229894000"], ["24", "최수진", "국민의힘", "6228506000"], ["25", "나경원", "국민의힘", "5953678000"], ["26", "김한규", "더불어민주당", "5840809000"], ["27", "이헌승", "국민의힘", "5718294000"], ["28", "이해민", "조국혁신당", "5685539000"], ["29", "배준영", "국민의힘", "5465774000"], ["30", "권성동", "국민의힘", "5175213000"], ["31", "김도읍", "국민의힘", "5069713000"], ["32", "박성훈", "국민의힘", "5003323000"], ["33", "유용원", "국민의힘", "4940883000"], ["34", "이건태", "더불어민주당", "4848721000"], ["35", "김희정", "국민의힘", "4788792000"], ["36", "김남근", "더불어민주당", "4614657000"], ["37", "정성호", "더불어민주당", "4602341000"], ["38", "조은희", "국민의힘", "4586018000"], ["39", "권영세", "국민의힘", "4577924000"], ["40", "이철규", "국민의힘", "4321894000"], ["41", "주호영", "국민의힘", "4201851000"], ["42", "유동수", "더불어민주당", "4139621000"], ["43", "한기호", "국민의힘", "4031749000"], ["44", "김종양", "국민의힘", "3985452000"], ["45", "안도걸", "더불어민주당", "3829124000"], ["46", "유상범", "국민의힘", "3809005000"], ["47", "김윤", "더불어민주당", "3694945000"], ["48", "박정훈", "국민의힘", "3665575000"], ["49", "박수영", "국민의힘", "3600545000"], ["50", "정태호", "더불어민주당", "3593949000"], ["51", "김주영", "더불어민주당", "3557386000"], ["52", "서범수", "국민의힘", "3555614000"], ["53", "김대식", "국민의힘", "3545747000"], ["54", "김병기", "무소속", "3544029000"], ["55", "주철현", "더불어민주당", "3506682000"], ["56", "김장겸", "국민의힘", "3482126000"], ["57", "윤후덕", "더불어민주당", "3366687000"], ["58", "손명수", "더불어민주당", "3331444000"], ["59", "신동욱", "국민의힘", "3263132000"], ["60", "김현정", "더불어민주당", "3245377000"], ["61", "이종배", "국민의힘", "3208175000"], ["62", "서영교", "더불어민주당", "3189160000"], ["63", "박은정", "조국혁신당", "3181086000"], ["64", "박희승", "더불어민주당", "3141404000"], ["65", "이개호", "더불어민주당", "3138919000"], ["66", "박성준", "더불어민주당", "3134250000"], ["67", "조배숙", "국민의힘", "3121952000"], ["68", "소병훈", "더불어민주당", "3069420000"], ["69", "이만희", "국민의힘", "3041621000"], ["70", "진종오", "국민의힘", "3014958000"], ["71", "박지원", "더불어민주당", "3002150000"], ["72", "김기표", "더불어민주당", "2967847000"], ["73", "이종욱", "국민의힘", "2949316000"], ["74", "장동혁", "국민의힘", "2934918000"], ["75", "임호선", "더불어민주당", "2824129000"], ["76", "허성무", "더불어민주당", "2765729000"], ["77", "윤재옥", "국민의힘", "2740972000"], ["78", "윤한홍", "국민의힘", "2728077000"], ["79", "정일영", "더불어민주당", "2667672000"], ["80", "박민규", "더불어민주당", "2665175000"], ["81", "황정아", "더불어민주당", "2644794000"], ["82", "우원식", "무소속", "2632394000"], ["83", "전현희", "더불어민주당", "2604975000"], ["84", "김남희", "더불어민주당", "2604640000"], ["85", "박균택", "더불어민주당", "2602902000"], ["86", "이강일", "더불어민주당", "2599420000"], ["87", "김건", "국민의힘", "2593901000"], ["88", "김미애", "국민의힘", "2576424000"], ["89", "민홍철", "더불어민주당", "2565100000"], ["90", "정동영", "더불어민주당", "2544260000"], ["91", "유영하", "국민의힘", "2542672000"], ["92", "우재준", "국민의힘", "2515564000"], ["93", "홍기원", "더불어민주당", "2507094000"], ["94", "박상혁", "더불어민주당", "2497032000"], ["95", "이해식", "더불어민주당", "2438177000"], ["96", "강경숙", "조국혁신당", "2415937000"], ["97", "문진석", "더불어민주당", "2400886000"], ["98", "노종면", "더불어민주당", "2344084000"], ["99", "박준태", "국민의힘", "2315349000"], ["100", "박형수", "국민의힘", "2263669000"], ["101", "박지혜", "더불어민주당", "2256036000"], ["102", "서일준", "국민의힘", "2201507000"], ["103", "박해철", "더불어민주당", "2165771000"], ["104", "윤호중", "더불어민주당", "2161113000"], ["105", "염태영", "더불어민주당", "2143396000"], ["106", "김승수", "국민의힘", "2136799000"], ["107", "복기왕", "더불어민주당", "2136145000"], ["108", "권영진", "국민의힘", "2132960000"], ["109", "최기상", "더불어민주당", "2070282000"], ["110", "서천호", "국민의힘", "2043795000"], ["111", "강승규", "국민의힘", "2007688000"], ["112", "조인철", "더불어민주당", "2003151000"], ["113", "박주민", "더불어민주당", "2002622000"], ["114", "박홍배", "더불어민주당", "1989667000"], ["115", "정연욱", "국민의힘", "1979950000"], ["116", "최형두", "국민의힘", "1955753000"], ["117", "문정복", "더불어민주당", "1937945000"], ["118", "맹성규", "더불어민주당", "1914616000"], ["119", "박대출", "국민의힘", "1899080000"], ["120", "백혜련", "더불어민주당", "1891174000"], ["121", "오기형", "더불어민주당", "1885618000"], ["122", "이양수", "국민의힘", "1866464000"], ["123", "김위상", "국민의힘", "1835585000"], ["124", "윤준병", "더불어민주당", "1825362000"], ["125", "김용태", "국민의힘", "1809255000"], ["126", "조경태", "국민의힘", "1804750000"], ["127", "최보윤", "국민의힘", "1804390000"], ["128", "김석기", "국민의힘", "1788429000"], ["129", "곽상언", "더불어민주당", "1781778000"], ["130", "강민국", "국민의힘", "1772335000"], ["131", "정동만", "국민의힘", "1739284000"], ["132", "서지영", "국민의힘", "1732519000"], ["133", "서미화", "더불어민주당", "1725577000"], ["134", "허영", "더불어민주당", "1713265000"], ["135", "정청래", "더불어민주당", "1711036000"], ["136", "이학영", "더불어민주당", "1700736000"], ["137", "서삼석", "더불어민주당", "1692911000"], ["138", "김영환", "더불어민주당", "1676685000"], ["139", "이상휘", "국민의힘", "1665155000"], ["140", "김태호", "국민의힘", "1639650000"], ["141", "강준현", "더불어민주당", "1637569000"], ["142", "김민전", "국민의힘", "1619318000"], ["143", "송석준", "국민의힘", "1613832000"], ["144", "김기웅", "국민의힘", "1605719000"], ["145", "임미애", "더불어민주당", "1566222000"], ["146", "김선민", "조국혁신당", "1562912000"], ["147", "이용우", "더불어민주당", "1562889000"], ["148", "문대림", "더불어민주당", "1549835000"], ["149", "김동아", "더불어민주당", "1543836000"], ["150", "문금주", "더불어민주당", "1530694000"], ["151", "김형동", "국민의힘", "1527407000"], ["152", "정진욱", "더불어민주당", "1514119000"], ["153", "박수민", "국민의힘", "1510556000"], ["154", "김원이", "더불어민주당", "1503320000"], ["155", "조정식", "더불어민주당", "1497794000"], ["156", "김준혁", "더불어민주당", "1487085000"], ["157", "윤영석", "국민의힘", "1476852000"], ["158", "이준석", "개혁신당", "1470897000"], ["159", "김윤덕", "더불어민주당", "1459574000"], ["160", "최민희", "더불어민주당", "1414509000"], ["161", "한병도", "더불어민주당", "1408966000"], ["162", "한정애", "더불어민주당", "1395732000"], ["163", "황운하", "조국혁신당", "1375039000"], ["164", "천준호", "더불어민주당", "1368845000"], ["165", "조정훈", "국민의힘", "1367629000"], ["166", "이정헌", "더불어민주당", "1364683000"], ["167", "강득구", "더불어민주당", "1364369000"], ["168", "윤건영", "더불어민주당", "1356295000"], ["169", "신성범", "국민의힘", "1342557000"], ["170", "이인영", "더불어민주당", "1330271000"], ["171", "차규근", "조국혁신당", "1326406000"], ["172", "이성윤", "더불어민주당", "1317376000"], ["173", "김영호", "더불어민주당", "1314194000"], ["174", "한민수", "더불어민주당", "1303309000"], ["175", "박성민", "국민의힘", "1299987000"], ["176", "박정하", "국민의힘", "1292162000"], ["177", "이성권", "국민의힘", "1265459000"], ["178", "김상훈", "국민의힘", "1260991000"], ["179", "박용갑", "더불어민주당", "1256373000"], ["180", "정희용", "국민의힘", "1247781000"], ["181", "김병주", "더불어민주당", "1244340000"], ["182", "임이자", "국민의힘", "1210860000"], ["183", "김영진", "더불어민주당", "1182853000"], ["184", "김소희", "국민의힘", "1170565000"], ["185", "박범계", "더불어민주당", "1150313000"], ["186", "이용선", "더불어민주당", "1147179000"], ["187", "엄태영", "국민의힘", "1131413000"], ["188", "김영배", "더불어민주당", "1122751000"], ["189", "이수진", "더불어민주당", "1120928000"], ["190", "진성준", "더불어민주당", "1114026000"], ["191", "김태년", "더불어민주당", "1103383000"], ["192", "이달희", "국민의힘", "1103281000"], ["193", "임오경", "더불어민주당", "1103058000"], ["194", "김성환", "더불어민주당", "1095421000"], ["195", "강선영", "국민의힘", "1082175000"], ["196", "곽규택", "국민의힘", "1081528000"], ["197", "조승래", "더불어민주당", "1066830000"], ["198", "정춘생", "조국혁신당", "1054059000"], ["199", "김교흥", "더불어민주당", "1051585000"], ["200", "이소영", "더불어민주당", "1043602000"], ["201", "이재관", "더불어민주당", "1026103000"], ["202", "김정재", "국민의힘", "1009962000"], ["203", "고민정", "더불어민주당", "978008000"], ["204", "김성원", "국민의힘", "969243000"], ["205", "김용민", "더불어민주당", "961446000"], ["206", "안호영", "더불어민주당", "958988000"], ["207", "김예지", "국민의힘", "950788000"], ["208", "장철민", "더불어민주당", "932861000"], ["209", "허종식", "더불어민주당", "915020000"], ["210", "강대식", "국민의힘", "911163000"], ["211", "이훈기", "더불어민주당", "907582000"], ["212", "송옥주", "더불어민주당", "890542000"], ["213", "조계원", "더불어민주당", "876348000"], ["214", "장경태", "무소속", "850795000"], ["215", "김정호", "더불어민주당", "849943000"], ["216", "박선원", "더불어민주당", "833848000"], ["217", "어기구", "더불어민주당", "833471000"], ["218", "천하람", "개혁신당", "793284000"], ["219", "임종득", "국민의힘", "791716000"], ["220", "이재정", "더불어민주당", "782689000"], ["221", "신장식", "조국혁신당", "780753000"], ["222", "김준형", "조국혁신당", "772119000"], ["223", "김현", "더불어민주당", "768313000"], ["224", "안태준", "더불어민주당", "762946000"], ["225", "이연희", "더불어민주당", "762088000"], ["226", "권칠승", "더불어민주당", "753533000"], ["227", "장종태", "더불어민주당", "749304000"], ["228", "구자근", "국민의힘", "745153000"], ["229", "황희", "더불어민주당", "735633000"], ["230", "서왕진", "조국혁신당", "713409000"], ["231", "김선교", "국민의힘", "709423000"], ["232", "민병덕", "더불어민주당", "692673000"], ["233", "전용기", "더불어민주당", "687538000"], ["234", "조승환", "국민의힘", "685583000"], ["235", "이기헌", "더불어민주당", "677834000"], ["236", "배현진", "국민의힘", "661575000"], ["237", "남인순", "더불어민주당", "608914000"], ["238", "박홍근", "더불어민주당", "603045000"], ["239", "한준호", "더불어민주당", "596829000"], ["240", "서영석", "더불어민주당", "577362000"], ["241", "김태선", "더불어민주당", "567431000"], ["242", "백승아", "더불어민주당", "545751000"], ["243", "박상웅", "국민의힘", "531837000"], ["244", "전종덕", "진보당", "530758000"], ["245", "김승원", "더불어민주당", "521861000"], ["246", "김재섭", "국민의힘", "516333000"], ["247", "황명선", "더불어민주당", "512928000"], ["248", "윤종오", "진보당", "505394000"], ["249", "김성회", "더불어민주당", "501471000"], ["250", "윤종군", "더불어민주당", "497653000"], ["251", "김재원", "조국혁신당", "486339000"], ["252", "전진숙", "더불어민주당", "479875000"], ["253", "이정문", "더불어민주당", "479196000"], ["254", "이춘석", "무소속", "474272000"], ["255", "김종민", "무소속", "446633000"], ["256", "용혜인", "기본소득당", "446123000"], ["257", "송재봉", "더불어민주당", "438064000"], ["258", "박정현", "더불어민주당", "429497000"], ["259", "채현일", "더불어민주당", "398284000"], ["260", "김우영", "더불어민주당", "356942000"], ["261", "신정훈", "더불어민주당", "332651000"], ["262", "송기헌", "더불어민주당", "331881000"], ["263", "이재강", "더불어민주당", "314839000"], ["264", "김용만", "더불어민주당", "300015000"], ["265", "김문수", "더불어민주당", "289175000"], ["266", "강선우", "무소속", "285236000"], ["267", "이광희", "더불어민주당", "281953000"], ["268", "권향엽", "더불어민주당", "275596000"], ["269", "조지연", "국민의힘", "211491000"], ["270", "정성국", "국민의힘", "209460000"], ["271", "강명구", "국민의힘", "196079000"], ["272", "부승찬", "더불어민주당", "183490000"], ["273", "정혜경", "진보당", "174158000"], ["274", "김민석", "더불어민주당", "154929000"], ["275", "한창민", "사회민주당", "77896000"], ["276", "박충권", "국민의힘", "55503000"], ["277", "차지호", "더불어민주당", "38176000"], ["278", "모경종", "더불어민주당", "19527000"], ["279", "진선미", "더불어민주당", "-860684000"], ["280", "정준호", "더불어민주당", "-1128334000"]];
+      function downloadAssetsCSV(){
+        var lines = ASSETS_CSV.map(function(row){
+          return row.map(function(c){
+            c = String(c);
+            if (c.indexOf(',')>=0 || c.indexOf('"')>=0) c = '"'+c.replace(/"/g,'""')+'"';
+            return c;
+          }).join(',');
+        }).join('\n');
+        var blob = new Blob(['\ufeff'+lines], {type:'text/csv;charset=utf-8;'});
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = 'politaltal_재산공개_2025.csv';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+    </script>
+    </main>
+  <nav class="bottom-nav">
+    <a href="/" class="">
+      <span class="icon">🏠</span>홈
+    </a>
+    <a href="/list.html" class="active">
+      <span class="icon">📋</span>의원
+    </a>
+    <a href="/stories.html" class="">
+      <span class="icon">🎙</span>의원실
+    </a>
+    <a href="/community.html" class="">
+      <span class="icon">💬</span>커뮤니티
+    </a>
+    <a href="/learn.html" class="">
+      <span class="icon">📚</span>배움터
+    </a>
+  </nav>
+  <script>
+    // 정치 용어 tooltip — 모바일 tap-to-show, 다시 탭하면 닫기
+    document.addEventListener('click', function(e) {
+      const t = e.target.closest('.term-tip');
+      if (t) {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          if (x !== t) x.classList.remove('tt-active');
+        });
+        t.classList.toggle('tt-active');
+        e.stopPropagation();
+      } else {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          x.classList.remove('tt-active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

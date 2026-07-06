@@ -40,14 +40,14 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202606120214">
+  <link rel="stylesheet" href="/styles.css?v=202607070050">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202606120214">
+  <link rel="manifest" href="/manifest.json?v=202607070050">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202606120214">
+  <meta name="build-id" content="202607070050">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -273,6 +273,42 @@
     </section>
 
     <div class="container">
+      <!-- 숫자갭 위젯: 발의 vs 통과 (바이럴 후킹 #1) -->
+      <div class="gap-widget">
+        <div class="gap-kicker">📊 22대 국회, 지금까지</div>
+        <div class="gap-numbers">
+          <div class="gap-box">
+            <div class="gap-n">17,333</div>
+            <div class="gap-l">발의된 법안</div>
+          </div>
+          <div class="gap-arrow">→</div>
+          <div class="gap-box pass">
+            <div class="gap-n">567</div>
+            <div class="gap-l">그대로 통과</div>
+          </div>
+        </div>
+        <div class="gap-bar-wrap">
+          <div class="gap-bar"><div style="width:3.3%;"></div></div>
+          <div class="gap-bar-label">원안·수정가결 3.3%</div>
+        </div>
+        <p class="gap-caption">
+          발의는 17,333건, 실제로 <strong>그대로 통과한 건 567건</strong>.
+          내 지역구 의원의 발의–통과 갭은 얼마일까요?
+        </p>
+        <a href="/region.html" class="gap-cta">우리 동네 의원 확인 →</a>
+        <div class="gap-disclaimer">
+          ※ 별도로 3,676건은 '대안반영폐기'로 다른 법안에 흡수·반영됐습니다. 발의 건수 자체는 의정활동의 한 지표일 뿐, 많고 적음이 우열을 뜻하지 않습니다.
+        </div>
+      </div>
+
+      <!-- 빠른 이동: 지역 허브 · 재산 · 데이터 -->
+      <div class="home-quicknav">
+        <a href="/region.html" class="hqn-item"><span class="hqn-ico">🗺</span><span class="hqn-tt">우리 동네 의원</span><span class="hqn-sub">지역별 허브</span></a>
+        <a href="/money.html" class="hqn-item"><span class="hqn-ico">💰</span><span class="hqn-tt">재산 공개</span><span class="hqn-sub">정당별·순위</span></a>
+        <a href="/bills.html" class="hqn-item"><span class="hqn-ico">📜</span><span class="hqn-tt">법안 검색</span><span class="hqn-sub">17,311건</span></a>
+        <a href="/data.html" class="hqn-item"><span class="hqn-ico">📊</span><span class="hqn-tt">데이터 활용</span><span class="hqn-sub">기자·연구자</span></a>
+      </div>
+
       <!-- 두 축: 의원 검증 + 실시간 커뮤니티 (정체성 한눈에) -->
       <div class="home-pillars">
         <a href="/list.html" class="pillar pillar-verify">
@@ -1107,14 +1143,22 @@
       <strong>본 서비스는 정부·국회·선관위 공식 서비스가 아닙니다.</strong><br>
       공공데이터(열린국회정보 OpenAPI)를 시각화한 민간 정보 플랫폼입니다.
       편향 없는 객관적 수치만 제공하며, 평가·해석은 이용자에게 위임합니다.<br>
-      데이터 기준일: 2026년 06월 12일 · 출처: open.assembly.go.kr (공공누리 제1유형)
+      데이터 기준일: 2026년 07월 07일 · 출처: open.assembly.go.kr (공공누리 제1유형)
     </div>
     
 
       <div class="footer-info">
+        <div class="footer-links">
+          <a href="/region.html">지역별 의원</a> ·
+          <a href="/money.html">재산공개</a> ·
+          <a href="/bills.html">법안검색</a> ·
+          <a href="/data.html">데이터 활용</a> ·
+          <a href="/about.html">운영자</a> ·
+          <a href="/transparency.html">후원 투명성</a> ·
+          <a href="/changelog.html">업데이트 기록</a>
+        </div>
         © 2026 정치탈탈 · 본 서비스는 비영리 데이터 시각화 플랫폼입니다<br>
-        정보 정정 요청: jihoony8282@naver.com ·
-        <a href="/changelog.html" style="color:inherit;text-decoration:underline;">🔄 업데이트 기록</a>
+        정보 정정 요청: jihoony8282@naver.com
       </div>
     </div>
 
