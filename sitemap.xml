@@ -14,6 +14,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://politaltal.com/people.html</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://politaltal.com/region.html</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
