@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "title": "지자체 공약 데이터 개방 현황",
+  "collected_at": "2026-07-21",
+  "source": "공공데이터포털(data.go.kr) '공약' 키워드 검색 결과 전수 확인",
+  "source_url": "https://www.data.go.kr/tcs/dss/selectDataSetList.do?keyword=%EA%B3%B5%EC%95%BD",
+  "method": "공공데이터포털에서 '공약'으로 검색된 전체 데이터셋(파일 24 + API 3)을 페이지별로 확인해, 실제 지방자치단체의 공약 관련 데이터만 선별. 키워드만 걸린 무관 데이터(뉴스 메타데이터, 의회 의원정보, 성과지표 등)는 제외.",
+  "caveat": "이 수치는 '공공데이터로 개방했는가'만을 뜻한다. 각 지자체 홈페이지에 공약 이행 현황을 게시하는 곳은 이보다 훨씬 많다(한국매니페스토실천본부도 홈페이지 게시자료를 근거로 평가한다). 따라서 '공약을 공개하지 않는다'가 아니라 '기계가 읽을 수 있는 공공데이터 형태로는 개방하지 않았다'로 읽어야 정확하다.",
+  "total_local_governments": 243,
+  "note_total": "광역 17 + 기초 226",
+  "open_orgs": [
+    { "org": "대구광역시", "tier": "광역", "datasets": ["공약이행사업", "민선7기 공약지표"], "api": false },
+    { "org": "서울특별시 광진구", "tier": "기초", "datasets": ["공약사업현황"], "api": false },
+    { "org": "대전광역시 서구", "tier": "기초", "datasets": ["공약 정책 제안"], "api": false },
+    { "org": "경기도 하남시", "tier": "기초", "datasets": ["민선8기 공약사업 추진목록"], "api": false },
+    { "org": "경기도 양평군", "tier": "기초", "datasets": ["공약사업 추진상황"], "api": false },
+    { "org": "충청북도 증평군", "tier": "기초", "datasets": ["공약 총괄"], "api": false },
+    { "org": "충청남도 계룡시", "tier": "기초", "datasets": ["공약"], "api": true, "api_name": "시장 공약사업(사업별 공약추진현황) API" },
+    { "org": "충청남도 홍성군", "tier": "기초", "datasets": ["군수공약상세", "군수공약구분"], "api": false }
+  ],
+  "central_election_commission": [
+    { "org": "중앙선거관리위원회", "datasets": ["선거공약 정보", "정당정책 정보"], "api": true }
+  ]
+}
