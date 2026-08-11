@@ -2,7 +2,7 @@
   "name": "정치탈탈",
   "short_name": "정치탈탈",
   "description": "내가 뽑은 국회의원, 진짜 일하고 있나요?",
-  "start_url": "/?utm_source=pwa&v=202607212255",
+  "start_url": "/?utm_source=pwa&v=202608120200",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
@@ -23,9 +23,26 @@
     {
       "src": "/images/apple-touch-icon.png",
       "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/icon-192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "build_id": "202607212255"
+  "build_id": "202608120200"
 }
