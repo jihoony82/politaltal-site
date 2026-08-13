@@ -3385,6 +3385,51 @@ a.post-card .post-cta {
 .pg-src { font-size:10.5px; color:var(--color-text-soft); line-height:1.65; margin-top:14px; padding-top:12px; border-top:1px dashed var(--color-border); }
 @media (max-width:480px){ .pg-hero-title{font-size:19px;} .pg-stat-big{font-size:34px;} }
 
+/* ─── OTT 홈: 카테고리 칩 + 가로 레일 ─── */
+.ott-cats { display:flex; gap:8px; overflow-x:auto; padding:2px 0 4px; margin:0 0 4px; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+.ott-cats::-webkit-scrollbar { display:none; }
+.ott-cat { flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:5px; width:64px; text-decoration:none; }
+.ott-cat .ic { width:52px; height:52px; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:23px; background:#fff; border:1px solid var(--color-border); transition:all .12s; }
+.ott-cat:hover .ic { border-color:var(--color-accent); transform:translateY(-2px); }
+.ott-cat span:last-child { font-size:11px; font-weight:700; color:var(--color-text); }
+
+.rail-block { margin:2px 0 4px; }
+.rail-head { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:11px; }
+.rail-title { margin:0; font-size:17.5px; font-weight:900; letter-spacing:-.02em; color:var(--color-primary); }
+.rail-sub { font-size:12px; color:var(--color-text-soft); margin-top:2px; }
+.rail-more { font-size:12.5px; color:var(--color-accent); text-decoration:none; font-weight:700; white-space:nowrap; padding-top:3px; }
+.ott-rail { display:flex; gap:12px; overflow-x:auto; padding:2px 2px 10px; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+.ott-rail::-webkit-scrollbar { display:none; }
+
+/* 의원 포스터 카드 */
+.pcard { flex:0 0 auto; width:150px; scroll-snap-align:start; background:#fff; border:1px solid var(--color-border); border-radius:16px; overflow:hidden; box-shadow:0 4px 14px rgba(10,37,64,.06); text-decoration:none; transition:transform .16s ease, box-shadow .16s ease; }
+.pcard:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(10,37,64,.13); text-decoration:none; }
+.pcard .por { height:120px; position:relative; display:flex; align-items:flex-end; justify-content:center; background:#e2e8f0; }
+.pcard .por .ini { font-size:44px; font-weight:900; color:#fff; opacity:.92; padding-bottom:12px; }
+.pcard .info { padding:10px 12px 13px; }
+.pcard .nm { font-size:14.5px; font-weight:800; letter-spacing:-.01em; color:var(--color-primary); }
+.pcard .meta { font-size:11px; color:var(--color-text-soft); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.chip-p { display:inline-block; font-size:10px; font-weight:800; padding:2px 7px; border-radius:999px; color:#fff; margin-left:5px; vertical-align:1px; }
+.pcard-more { display:flex; align-items:center; justify-content:center; background:var(--color-surface,#f5f8fc); border-style:dashed; }
+.pcard-more .more-in { text-align:center; color:var(--color-accent); font-weight:800; font-size:13px; line-height:1.4; }
+.pcard-more .more-arrow { display:block; font-size:26px; margin-bottom:6px; }
+
+/* 단체장·대통령 landscape 카드 */
+.lcard { flex:0 0 auto; width:236px; scroll-snap-align:start; background:#fff; border:1px solid var(--color-border); border-radius:15px; padding:13px 14px; box-shadow:0 4px 14px rgba(10,37,64,.06); display:flex; gap:11px; align-items:center; text-decoration:none; transition:transform .16s; }
+.lcard:hover { transform:translateY(-2px); text-decoration:none; }
+.lcard .av { width:44px; height:44px; border-radius:12px; flex:0 0 auto; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:17px; }
+.lcard .lb { min-width:0; }
+.lcard .lb .r { font-size:11px; color:var(--color-text-soft); font-weight:700; }
+.lcard .lb .n { font-size:14.5px; font-weight:800; color:var(--color-primary); }
+.lcard .lb .p { font-size:11px; color:var(--color-text-soft); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.lcard .rate { margin-left:auto; text-align:right; flex:0 0 auto; }
+.lcard .rate b { font-size:16px; font-weight:900; color:var(--color-primary); }
+.lcard .rate span { display:block; font-size:9.5px; color:var(--color-text-soft); }
+.lcard-more { justify-content:center; background:var(--color-surface,#f5f8fc); border-style:dashed; width:180px; }
+.lcard-more .more-in { text-align:center; color:var(--color-accent); font-weight:800; font-size:13px; display:flex; align-items:center; gap:8px; }
+.lcard-more .more-arrow { font-size:20px; }
+@media (max-width:400px){ .pcard{width:140px;} .pcard .por{height:110px;} }
+
 /* ─── 홈 빠른 이동 스트립 ─── */
 .home-quicknav {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 0 0 16px;

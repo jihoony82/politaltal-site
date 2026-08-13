@@ -35,19 +35,19 @@
   <meta name="twitter:description" content="공공데이터로 검증하는 제22대 국회 300명의 진짜 의정활동. 내가 뽑은 의원, 진짜 일하고 있나요?">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202608131301">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202608131301">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202608131301">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202608131301">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202608131324">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202608131324">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202608131324">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202608131324">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202608131301">
+  <link rel="stylesheet" href="/styles.css?v=202608131324">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202608131301">
+  <link rel="manifest" href="/manifest.json?v=202608131324">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202608131301">
+  <meta name="build-id" content="202608131324">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -301,12 +301,219 @@
         </div>
       </div>
 
-      <!-- 빠른 이동: 지역 허브 · 재산 · 데이터 -->
-      <div class="home-quicknav">
-        <a href="/region.html" class="hqn-item"><span class="hqn-ico">🗺</span><span class="hqn-tt">우리 동네 의원</span><span class="hqn-sub">지역별 허브</span></a>
-        <a href="/pledges.html" class="hqn-item"><span class="hqn-ico">📜</span><span class="hqn-tt">공약 기록</span><span class="hqn-sub">약속 아카이브</span></a>
-        <a href="/bills.html" class="hqn-item"><span class="hqn-ico">📜</span><span class="hqn-tt">법안 검색</span><span class="hqn-sub">17,311건</span></a>
-        <a href="/presidents.html" class="hqn-item"><span class="hqn-ico">🏛</span><span class="hqn-tt">역대 대통령</span><span class="hqn-sub">득표율·공약</span></a>
+      <!-- 카테고리 칩 (OTT 진입점) -->
+      <div class="ott-cats">
+        <a href="/region.html" class="ott-cat"><span class="ic">🗺</span><span>우리 동네</span></a>
+        <a href="/money.html" class="ott-cat"><span class="ic">💰</span><span>재산</span></a>
+        <a href="/pledges.html" class="ott-cat"><span class="ic">📜</span><span>공약</span></a>
+        <a href="/bills.html" class="ott-cat"><span class="ic">⚖️</span><span>법안</span></a>
+        <a href="/match.html" class="ott-cat"><span class="ic">🎯</span><span>성향매칭</span></a>
+      </div>
+
+      <!-- 레일 1: 최근 법안을 발의한 의원 -->
+      <div class="rail-block">
+        <div class="rail-head">
+          <div><h2 class="rail-title">최근 법안을 발의한 의원</h2><div class="rail-sub">가장 최근 발의 순 · 편 안 듭니다</div></div>
+          <a href="/list.html" class="rail-more">전체 &rsaquo;</a>
+        </div>
+        <div class="ott-rail">
+        <a href="/politician/LCZ1711I.html" class="pcard">
+          <div class="por" style="background-image:url('/images/politicians/LCZ1711I.jpg');background-size:cover;background-position:center 20%;"></div>
+          <div class="info">
+            <div class="nm">김위상<span class="chip-p" style="background:#e2231a">국힘</span></div>
+            <div class="meta">비례대표</div>
+          </div>
+        </a>
+        <a href="/politician/86R9476S.html" class="pcard">
+          <div class="por" style="background-image:url('/images/politicians/86R9476S.jpg');background-size:cover;background-position:center 20%;"></div>
+          <div class="info">
+            <div class="nm">김문수<span class="chip-p" style="background:#0a4ea2">민주</span></div>
+            <div class="meta">전남광주통합특별시 순천시광양시곡성군구례군갑</div>
+          </div>
+        </a>
+        <a href="/politician/D6U6678O.html" class="pcard">
+          <div class="por" style="background-image:url('/images/politicians/D6U6678O.jpg');background-size:cover;background-position:center 20%;"></div>
+          <div class="info">
+            <div class="nm">김주영<span class="chip-p" style="background:#0a4ea2">민주</span></div>
+            <div class="meta">경기 김포시갑</div>
+          </div>
+        </a>
+        <a href="/politician/51A45980.html" class="pcard">
+          <div class="por" style="background-image:url('/images/politicians/51A45980.jpg');background-size:cover;background-position:center 20%;"></div>
+          <div class="info">
+            <div class="nm">서미화<span class="chip-p" style="background:#0a4ea2">민주</span></div>
+            <div class="meta">비례대표</div>
+          </div>
+        </a>
+        <a href="/politician/O0I2045I.html" class="pcard">
+          <div class="por" style="background-image:url('/images/politicians/O0I2045I.jpg');background-size:cover;background-position:center 20%;"></div>
+          <div class="info">
+            <div class="nm">이정문<span class="chip-p" style="background:#0a4ea2">민주</span></div>
+            <div class="meta">충남 천안시병</div>
+          </div>
+        </a>
+        <a href="/politician/T6A6557F.html" class="pcard">
+          <div class="por" style="background-image:url('/images/politicians/T6A6557F.jpg');background-size:cover;background-position:center 20%;"></div>
+          <div class="info">
+            <div class="nm">황정아<span class="chip-p" style="background:#0a4ea2">민주</span></div>
+            <div class="meta">대전 유성구을</div>
+          </div>
+        </a>
+        <a href="/politician/TJW93720.html" class="pcard">
+          <div class="por" style="background-image:url('/images/politicians/TJW93720.jpg');background-size:cover;background-position:center 20%;"></div>
+          <div class="info">
+            <div class="nm">전용기<span class="chip-p" style="background:#0a4ea2">민주</span></div>
+            <div class="meta">경기 화성시정</div>
+          </div>
+        </a>
+        <a href="/politician/IWR8966I.html" class="pcard">
+          <div class="por" style="background-image:url('/images/politicians/IWR8966I.jpg');background-size:cover;background-position:center 20%;"></div>
+          <div class="info">
+            <div class="nm">박균택<span class="chip-p" style="background:#0a4ea2">민주</span></div>
+            <div class="meta">전남광주통합특별시 광산구갑</div>
+          </div>
+        </a>
+        <a href="/politician/CIZ8557P.html" class="pcard">
+          <div class="por" style="background-image:url('/images/politicians/CIZ8557P.jpg');background-size:cover;background-position:center 20%;"></div>
+          <div class="info">
+            <div class="nm">장종태<span class="chip-p" style="background:#0a4ea2">민주</span></div>
+            <div class="meta">대전 서구갑</div>
+          </div>
+        </a>
+        <a href="/politician/2S73768V.html" class="pcard">
+          <div class="por" style="background-image:url('/images/politicians/2S73768V.jpg');background-size:cover;background-position:center 20%;"></div>
+          <div class="info">
+            <div class="nm">이훈기<span class="chip-p" style="background:#0a4ea2">민주</span></div>
+            <div class="meta">인천 남동구을</div>
+          </div>
+        </a>
+        <a href="/politician/95J3282H.html" class="pcard">
+          <div class="por" style="background-image:url('/images/politicians/95J3282H.jpg');background-size:cover;background-position:center 20%;"></div>
+          <div class="info">
+            <div class="nm">이광희<span class="chip-p" style="background:#0a4ea2">민주</span></div>
+            <div class="meta">충북 청주시서원구</div>
+          </div>
+        </a>
+        <a href="/politician/YN160848.html" class="pcard">
+          <div class="por" style="background-image:url('/images/politicians/YN160848.jpg');background-size:cover;background-position:center 20%;"></div>
+          <div class="info">
+            <div class="nm">백선희<span class="chip-p" style="background:#0b8f8a">조국</span></div>
+            <div class="meta">비례대표</div>
+          </div>
+        </a>
+        <a href="/list.html" class="pcard pcard-more">
+          <div class="more-in"><span class="more-arrow">→</span><span>전체 300명<br>보기</span></div>
+        </a></div>
+      </div>
+
+      <!-- 레일 2: 우리 동네 단체장 -->
+      <div class="rail-block">
+        <div class="rail-head">
+          <div><h2 class="rail-title">우리 동네 단체장</h2><div class="rail-sub">민선 9기 · 시·도지사</div></div>
+          <a href="/local.html" class="rail-more">전체 &rsaquo;</a>
+        </div>
+        <div class="ott-rail">
+        <a href="/local/100162984.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#5eead4,#e2231a);">오</div>
+          <div class="lb"><div class="r">서울시장 · 광역</div><div class="n">오세훈</div><div class="p">국민의힘</div></div>
+          <div class="rate"><b class="tnum">49%</b><span>득표율</span></div>
+        </a>
+        <a href="/local/100163192.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#5eead4,#0a4ea2);">전</div>
+          <div class="lb"><div class="r">부산시장 · 광역</div><div class="n">전재수</div><div class="p">더불어민주당</div></div>
+          <div class="rate"><b class="tnum">51%</b><span>득표율</span></div>
+        </a>
+        <a href="/local/100163199.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#5eead4,#e2231a);">추</div>
+          <div class="lb"><div class="r">대구시장 · 광역</div><div class="n">추경호</div><div class="p">국민의힘</div></div>
+          <div class="rate"><b class="tnum">54%</b><span>득표율</span></div>
+        </a>
+        <a href="/local/100163128.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#5eead4,#0a4ea2);">박</div>
+          <div class="lb"><div class="r">인천시장 · 광역</div><div class="n">박찬대</div><div class="p">더불어민주당</div></div>
+          <div class="rate"><b class="tnum">53%</b><span>득표율</span></div>
+        </a>
+        <a href="/local/100163198.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#5eead4,#0a4ea2);">민</div>
+          <div class="lb"><div class="r">전남광주통합시장 · 광역</div><div class="n">민형배</div><div class="p">더불어민주당</div></div>
+          <div class="rate"><b class="tnum">79%</b><span>득표율</span></div>
+        </a>
+        <a href="/local/100153736.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#5eead4,#0a4ea2);">허</div>
+          <div class="lb"><div class="r">대전시장 · 광역</div><div class="n">허태정</div><div class="p">더불어민주당</div></div>
+          <div class="rate"><b class="tnum">53%</b><span>득표율</span></div>
+        </a>
+        <a href="/local/100162996.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#5eead4,#0a4ea2);">김</div>
+          <div class="lb"><div class="r">울산시장 · 광역</div><div class="n">김상욱</div><div class="p">더불어민주당</div></div>
+          <div class="rate"><b class="tnum">49%</b><span>득표율</span></div>
+        </a>
+        <a href="/local/100163148.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#5eead4,#0a4ea2);">추</div>
+          <div class="lb"><div class="r">경기지사 · 광역</div><div class="n">추미애</div><div class="p">더불어민주당</div></div>
+          <div class="rate"><b class="tnum">55%</b><span>득표율</span></div>
+        </a>
+        <a href="/local/100153742.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#5eead4,#0a4ea2);">신</div>
+          <div class="lb"><div class="r">충청북지사 · 광역</div><div class="n">신용한</div><div class="p">더불어민주당</div></div>
+          <div class="rate"><b class="tnum">55%</b><span>득표율</span></div>
+        </a>
+        <a href="/local/100163153.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#5eead4,#0a4ea2);">박</div>
+          <div class="lb"><div class="r">충청남지사 · 광역</div><div class="n">박수현</div><div class="p">더불어민주당</div></div>
+          <div class="rate"><b class="tnum">53%</b><span>득표율</span></div>
+        </a>
+        <a href="/local/100159249.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#5eead4,#e2231a);">이</div>
+          <div class="lb"><div class="r">경상북지사 · 광역</div><div class="n">이철우</div><div class="p">국민의힘</div></div>
+          <div class="rate"><b class="tnum">67%</b><span>득표율</span></div>
+        </a>
+        <a href="/local/100162958.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#5eead4,#e2231a);">박</div>
+          <div class="lb"><div class="r">경상남지사 · 광역</div><div class="n">박완수</div><div class="p">국민의힘</div></div>
+          <div class="rate"><b class="tnum">51%</b><span>득표율</span></div>
+        </a>
+        <a href="/local.html" class="lcard lcard-more"><div class="more-in"><span class="more-arrow">→</span><span>전체 243명 보기</span></div></a></div>
+      </div>
+
+      <!-- 레일 3: 역대 대통령 -->
+      <div class="rail-block">
+        <div class="rail-head">
+          <div><h2 class="rail-title">역대 대통령 기록</h2><div class="rail-sub">제13대~제21대 · 공약 원문</div></div>
+          <a href="/presidents.html" class="rail-more">전체 &rsaquo;</a>
+        </div>
+        <div class="ott-rail">
+        <a href="/presidents.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#a5b4fc,#4338ca);">25</div>
+          <div class="lb"><div class="r">제21대 · 2025</div><div class="n">이재명</div><div class="p">더불어민주당</div></div>
+          <div class="rate"><b class="tnum">49%</b><span>득표율</span></div>
+        </a>
+        <a href="/presidents.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#a5b4fc,#4338ca);">22</div>
+          <div class="lb"><div class="r">제20대 · 2022</div><div class="n">윤석열</div><div class="p">국민의힘</div></div>
+          <div class="rate"><b class="tnum">49%</b><span>득표율</span></div>
+        </a>
+        <a href="/presidents.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#a5b4fc,#4338ca);">17</div>
+          <div class="lb"><div class="r">제19대 · 2017</div><div class="n">문재인</div><div class="p">더불어민주당</div></div>
+          <div class="rate"><b class="tnum">41%</b><span>득표율</span></div>
+        </a>
+        <a href="/presidents.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#a5b4fc,#4338ca);">12</div>
+          <div class="lb"><div class="r">제18대 · 2012</div><div class="n">박근혜</div><div class="p">새누리당</div></div>
+          <div class="rate"><b class="tnum">52%</b><span>득표율</span></div>
+        </a>
+        <a href="/presidents.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#a5b4fc,#4338ca);">07</div>
+          <div class="lb"><div class="r">제17대 · 2007</div><div class="n">이명박</div><div class="p">한나라당</div></div>
+          <div class="rate"><b class="tnum">49%</b><span>득표율</span></div>
+        </a>
+        <a href="/presidents.html" class="lcard">
+          <div class="av" style="background:linear-gradient(135deg,#a5b4fc,#4338ca);">02</div>
+          <div class="lb"><div class="r">제16대 · 2002</div><div class="n">노무현</div><div class="p">새천년민주당</div></div>
+          <div class="rate"><b class="tnum">49%</b><span>득표율</span></div>
+        </a>
+        <a href="/presidents.html" class="lcard lcard-more"><div class="more-in"><span class="more-arrow">→</span><span>제13대~제21대 전체</span></div></a></div>
       </div>
 
       <!-- 두 축: 의원 검증 + 실시간 커뮤니티 (정체성 한눈에) -->
