@@ -35,19 +35,19 @@
   <meta name="twitter:description" content="공공데이터로 검증하는 제22대 국회 300명의 진짜 의정활동. 내가 뽑은 의원, 진짜 일하고 있나요?">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202608131324">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202608131324">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202608131324">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202608131324">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202608131352">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202608131352">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202608131352">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202608131352">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202608131324">
+  <link rel="stylesheet" href="/styles.css?v=202608131352">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202608131324">
+  <link rel="manifest" href="/manifest.json?v=202608131352">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202608131324">
+  <meta name="build-id" content="202608131352">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -273,34 +273,6 @@
     </section>
 
     <div class="container">
-      <!-- 숫자갭 위젯: 발의 vs 통과 (바이럴 후킹 #1) -->
-      <div class="gap-widget">
-        <div class="gap-kicker">📊 22대 국회, 지금까지</div>
-        <div class="gap-numbers">
-          <div class="gap-box">
-            <div class="gap-n">17,333</div>
-            <div class="gap-l">발의된 법안</div>
-          </div>
-          <div class="gap-arrow">→</div>
-          <div class="gap-box pass">
-            <div class="gap-n">567</div>
-            <div class="gap-l">그대로 통과</div>
-          </div>
-        </div>
-        <div class="gap-bar-wrap">
-          <div class="gap-bar"><div style="width:3.3%;"></div></div>
-          <div class="gap-bar-label">원안·수정가결 3.3%</div>
-        </div>
-        <p class="gap-caption">
-          발의는 17,333건, 실제로 <strong>그대로 통과한 건 567건</strong>.
-          내 지역구 의원의 발의–통과 갭은 얼마일까요?
-        </p>
-        <a href="/region.html" class="gap-cta">우리 동네 의원 확인 →</a>
-        <div class="gap-disclaimer">
-          ※ 별도로 3,676건은 '대안반영폐기'로 다른 법안에 흡수·반영됐습니다. 발의 건수 자체는 의정활동의 한 지표일 뿐, 많고 적음이 우열을 뜻하지 않습니다.
-        </div>
-      </div>
-
       <!-- 카테고리 칩 (OTT 진입점) -->
       <div class="ott-cats">
         <a href="/region.html" class="ott-cat"><span class="ic">🗺</span><span>우리 동네</span></a>
@@ -800,65 +772,50 @@
             <div class="insight-body">새로운 세대의 정치 — 가장 어린 의원 5명입니다.</div>
             <ul class="insight-rank">
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">1.</span>
+              <a href="/politician/2KM3589W.html" class="mrc">
+                <span class="mrc-rank">1</span>
                 <img class="rank-thumb" src="/images/politicians/2KM3589W.jpg" alt="손솔" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/2KM3589W.html" class="rank-name">손솔</a>
-                  <div class="rank-meta">진보당 · 비례대표</div>
-                </div>
-              </div>
-              <span class="rank-value">만 31세</span>
+                <div class="mrc-nm">손솔</div>
+                <div class="mrc-mt">진보당</div>
+                <div class="mrc-val">만 31세</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">2.</span>
+              <a href="/politician/TJW93720.html" class="mrc">
+                <span class="mrc-rank">2</span>
                 <img class="rank-thumb" src="/images/politicians/TJW93720.jpg" alt="전용기" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/TJW93720.html" class="rank-name">전용기</a>
-                  <div class="rank-meta">더불어민주당 · 경기 화성시정</div>
-                </div>
-              </div>
-              <span class="rank-value">만 35세</span>
+                <div class="mrc-nm">전용기</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">만 35세</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">3.</span>
+              <a href="/politician/EPI69383.html" class="mrc">
+                <span class="mrc-rank">3</span>
                 <img class="rank-thumb" src="/images/politicians/EPI69383.jpg" alt="김용태" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/EPI69383.html" class="rank-name">김용태</a>
-                  <div class="rank-meta">국민의힘 · 경기 포천시가평군</div>
-                </div>
-              </div>
-              <span class="rank-value">만 36세</span>
+                <div class="mrc-nm">김용태</div>
+                <div class="mrc-mt">국민의힘</div>
+                <div class="mrc-val">만 36세</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">4.</span>
+              <a href="/politician/GE71932C.html" class="mrc">
+                <span class="mrc-rank">4</span>
                 <img class="rank-thumb" src="/images/politicians/GE71932C.jpg" alt="용혜인" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/GE71932C.html" class="rank-name">용혜인</a>
-                  <div class="rank-meta">기본소득당 · 비례대표</div>
-                </div>
-              </div>
-              <span class="rank-value">만 36세</span>
+                <div class="mrc-nm">용혜인</div>
+                <div class="mrc-mt">기본소득당</div>
+                <div class="mrc-val">만 36세</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">5.</span>
+              <a href="/politician/J1G57517.html" class="mrc">
+                <span class="mrc-rank">5</span>
                 <img class="rank-thumb" src="/images/politicians/J1G57517.jpg" alt="모경종" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/J1G57517.html" class="rank-name">모경종</a>
-                  <div class="rank-meta">더불어민주당 · 인천 서구병</div>
-                </div>
-              </div>
-              <span class="rank-value">만 37세</span>
-            </li>
-            </ul>
+                <div class="mrc-nm">모경종</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">만 37세</div>
+              </a>
+            </li></ul>
           </div>
 
           <div class="insight-card">
@@ -867,65 +824,50 @@
             <div class="insight-body">국회 경험이 가장 풍부한 다선 의원 5명입니다.</div>
             <ul class="insight-rank">
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">1.</span>
+              <a href="/politician/5KV82250.html" class="mrc">
+                <span class="mrc-rank">1</span>
                 <img class="rank-thumb" src="/images/politicians/5KV82250.jpg" alt="조경태" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/5KV82250.html" class="rank-name">조경태</a>
-                  <div class="rank-meta">국민의힘 · 부산 사하구을</div>
-                </div>
-              </div>
-              <span class="rank-value">6선</span>
+                <div class="mrc-nm">조경태</div>
+                <div class="mrc-mt">국민의힘</div>
+                <div class="mrc-val">6선</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">2.</span>
+              <a href="/politician/8SV6917G.html" class="mrc">
+                <span class="mrc-rank">2</span>
                 <img class="rank-thumb" src="/images/politicians/8SV6917G.jpg" alt="주호영" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/8SV6917G.html" class="rank-name">주호영</a>
-                  <div class="rank-meta">국민의힘 · 대구 수성구갑</div>
-                </div>
-              </div>
-              <span class="rank-value">6선</span>
+                <div class="mrc-nm">주호영</div>
+                <div class="mrc-mt">국민의힘</div>
+                <div class="mrc-val">6선</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">3.</span>
+              <a href="/politician/IN328264.html" class="mrc">
+                <span class="mrc-rank">3</span>
                 <img class="rank-thumb" src="/images/politicians/IN328264.jpg" alt="조정식" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/IN328264.html" class="rank-name">조정식</a>
-                  <div class="rank-meta">무소속 · 경기 시흥시을</div>
-                </div>
-              </div>
-              <span class="rank-value">6선</span>
+                <div class="mrc-nm">조정식</div>
+                <div class="mrc-mt">무소속</div>
+                <div class="mrc-val">6선</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">4.</span>
+              <a href="/politician/PAO22428.html" class="mrc">
+                <span class="mrc-rank">4</span>
                 <span class="rank-thumb" style="display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;background:linear-gradient(135deg,#cbd5e1,#94a3b8);">송</span>
-                <div style="min-width:0;">
-                  <a href="/politician/PAO22428.html" class="rank-name">송영길</a>
-                  <div class="rank-meta">더불어민주당 · 인천 연수구갑</div>
-                </div>
-              </div>
-              <span class="rank-value">6선</span>
+                <div class="mrc-nm">송영길</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">6선</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">5.</span>
+              <a href="/politician/1WE5693J.html" class="mrc">
+                <span class="mrc-rank">5</span>
                 <img class="rank-thumb" src="/images/politicians/1WE5693J.jpg" alt="김태년" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/1WE5693J.html" class="rank-name">김태년</a>
-                  <div class="rank-meta">더불어민주당 · 경기 성남시수정구</div>
-                </div>
-              </div>
-              <span class="rank-value">5선</span>
-            </li>
-            </ul>
+                <div class="mrc-nm">김태년</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">5선</div>
+              </a>
+            </li></ul>
           </div>
 
           <div class="insight-card">
@@ -934,65 +876,50 @@
             <div class="insight-body">대표발의가 가장 많은 여성 의원 5명입니다.</div>
             <ul class="insight-rank">
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">1.</span>
+              <a href="/politician/0R68099X.html" class="mrc">
+                <span class="mrc-rank">1</span>
                 <img class="rank-thumb" src="/images/politicians/0R68099X.jpg" alt="이수진" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/0R68099X.html" class="rank-name">이수진</a>
-                  <div class="rank-meta">더불어민주당 · 경기 성남시중원구</div>
-                </div>
-              </div>
-              <span class="rank-value">213건</span>
+                <div class="mrc-nm">이수진</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">213건</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">2.</span>
+              <a href="/politician/XPP2564T.html" class="mrc">
+                <span class="mrc-rank">2</span>
                 <img class="rank-thumb" src="/images/politicians/XPP2564T.jpg" alt="한정애" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/XPP2564T.html" class="rank-name">한정애</a>
-                  <div class="rank-meta">더불어민주당 · 서울 강서구병</div>
-                </div>
-              </div>
-              <span class="rank-value">151건</span>
+                <div class="mrc-nm">한정애</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">151건</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">3.</span>
+              <a href="/politician/CNZ51556.html" class="mrc">
+                <span class="mrc-rank">3</span>
                 <img class="rank-thumb" src="/images/politicians/CNZ51556.jpg" alt="김예지" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/CNZ51556.html" class="rank-name">김예지</a>
-                  <div class="rank-meta">국민의힘 · 비례대표</div>
-                </div>
-              </div>
-              <span class="rank-value">133건</span>
+                <div class="mrc-nm">김예지</div>
+                <div class="mrc-mt">국민의힘</div>
+                <div class="mrc-val">133건</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">4.</span>
+              <a href="/politician/TKJ4800F.html" class="mrc">
+                <span class="mrc-rank">4</span>
                 <img class="rank-thumb" src="/images/politicians/TKJ4800F.jpg" alt="서영교" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/TKJ4800F.html" class="rank-name">서영교</a>
-                  <div class="rank-meta">더불어민주당 · 서울 중랑구갑</div>
-                </div>
-              </div>
-              <span class="rank-value">131건</span>
+                <div class="mrc-nm">서영교</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">131건</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">5.</span>
+              <a href="/politician/3BC6890E.html" class="mrc">
+                <span class="mrc-rank">5</span>
                 <img class="rank-thumb" src="/images/politicians/3BC6890E.jpg" alt="김미애" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/3BC6890E.html" class="rank-name">김미애</a>
-                  <div class="rank-meta">국민의힘 · 부산 해운대구을</div>
-                </div>
-              </div>
-              <span class="rank-value">121건</span>
-            </li>
-            </ul>
+                <div class="mrc-nm">김미애</div>
+                <div class="mrc-mt">국민의힘</div>
+                <div class="mrc-val">121건</div>
+              </a>
+            </li></ul>
           </div>
         </div>
 
@@ -1006,65 +933,50 @@
             </div>
             <ul class="insight-rank">
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">1.</span>
+              <a href="/politician/YOG1280B.html" class="mrc">
+                <span class="mrc-rank">1</span>
                 <img class="rank-thumb" src="/images/politicians/YOG1280B.jpg" alt="안철수" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/YOG1280B.html" class="rank-name">안철수</a>
-                  <div class="rank-meta">국민의힘 · 경기 성남시분당구갑</div>
-                </div>
-              </div>
-              <span class="rank-value">1,367억 8,982만원</span>
+                <div class="mrc-nm">안철수</div>
+                <div class="mrc-mt">국민의힘</div>
+                <div class="mrc-val">1,367억 8,982만원</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">2.</span>
+              <a href="/politician/N4R2421C.html" class="mrc">
+                <span class="mrc-rank">2</span>
                 <img class="rank-thumb" src="/images/politicians/N4R2421C.jpg" alt="박덕흠" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/N4R2421C.html" class="rank-name">박덕흠</a>
-                  <div class="rank-meta">국민의힘 · 충북 보은군옥천군영동군괴산군</div>
-                </div>
-              </div>
-              <span class="rank-value">535억 320만원</span>
+                <div class="mrc-nm">박덕흠</div>
+                <div class="mrc-mt">국민의힘</div>
+                <div class="mrc-val">535억 320만원</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">3.</span>
+              <a href="/politician/4019850M.html" class="mrc">
+                <span class="mrc-rank">3</span>
                 <img class="rank-thumb" src="/images/politicians/4019850M.jpg" alt="박정" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/4019850M.html" class="rank-name">박정</a>
-                  <div class="rank-meta">더불어민주당 · 경기 파주시을</div>
-                </div>
-              </div>
-              <span class="rank-value">360억 3,571만원</span>
+                <div class="mrc-nm">박정</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">360억 3,571만원</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">4.</span>
+              <a href="/politician/CAA7713A.html" class="mrc">
+                <span class="mrc-rank">4</span>
                 <img class="rank-thumb" src="/images/politicians/CAA7713A.jpg" alt="백종헌" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/CAA7713A.html" class="rank-name">백종헌</a>
-                  <div class="rank-meta">국민의힘 · 부산 금정구</div>
-                </div>
-              </div>
-              <span class="rank-value">323억 5,514만원</span>
+                <div class="mrc-nm">백종헌</div>
+                <div class="mrc-mt">국민의힘</div>
+                <div class="mrc-val">323억 5,514만원</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">5.</span>
+              <a href="/politician/HS39431V.html" class="mrc">
+                <span class="mrc-rank">5</span>
                 <img class="rank-thumb" src="/images/politicians/HS39431V.jpg" alt="고동진" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/HS39431V.html" class="rank-name">고동진</a>
-                  <div class="rank-meta">국민의힘 · 서울 강남구병</div>
-                </div>
-              </div>
-              <span class="rank-value">316억 7,412만원</span>
-            </li>
-            </ul>
+                <div class="mrc-nm">고동진</div>
+                <div class="mrc-mt">국민의힘</div>
+                <div class="mrc-val">316억 7,412만원</div>
+              </a>
+            </li></ul>
           </div>
 
           <div class="insight-card">
@@ -1076,65 +988,50 @@
             </div>
             <ul class="insight-rank">
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">1.</span>
+              <a href="/politician/IC499858.html" class="mrc">
+                <span class="mrc-rank">1</span>
                 <img class="rank-thumb" src="/images/politicians/IC499858.jpg" alt="정준호" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/IC499858.html" class="rank-name">정준호</a>
-                  <div class="rank-meta">더불어민주당 · 전남광주통합특별시 북구갑</div>
-                </div>
-              </div>
-              <span class="rank-value">-11억 2,833만원</span>
+                <div class="mrc-nm">정준호</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">-11억 2,833만원</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">2.</span>
+              <a href="/politician/68P7228G.html" class="mrc">
+                <span class="mrc-rank">2</span>
                 <img class="rank-thumb" src="/images/politicians/68P7228G.jpg" alt="진선미" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/68P7228G.html" class="rank-name">진선미</a>
-                  <div class="rank-meta">더불어민주당 · 서울 강동구갑</div>
-                </div>
-              </div>
-              <span class="rank-value">-8억 6,068만원</span>
+                <div class="mrc-nm">진선미</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">-8억 6,068만원</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">3.</span>
+              <a href="/politician/J1G57517.html" class="mrc">
+                <span class="mrc-rank">3</span>
                 <img class="rank-thumb" src="/images/politicians/J1G57517.jpg" alt="모경종" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/J1G57517.html" class="rank-name">모경종</a>
-                  <div class="rank-meta">더불어민주당 · 인천 서구병</div>
-                </div>
-              </div>
-              <span class="rank-value">1,952만원</span>
+                <div class="mrc-nm">모경종</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">1,952만원</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">4.</span>
+              <a href="/politician/RC885085.html" class="mrc">
+                <span class="mrc-rank">4</span>
                 <img class="rank-thumb" src="/images/politicians/RC885085.jpg" alt="차지호" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/RC885085.html" class="rank-name">차지호</a>
-                  <div class="rank-meta">더불어민주당 · 경기 오산시</div>
-                </div>
-              </div>
-              <span class="rank-value">3,817만원</span>
+                <div class="mrc-nm">차지호</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">3,817만원</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">5.</span>
+              <a href="/politician/GP21946O.html" class="mrc">
+                <span class="mrc-rank">5</span>
                 <img class="rank-thumb" src="/images/politicians/GP21946O.jpg" alt="박충권" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/GP21946O.html" class="rank-name">박충권</a>
-                  <div class="rank-meta">국민의힘 · 비례대표</div>
-                </div>
-              </div>
-              <span class="rank-value">5,550만원</span>
-            </li>
-            </ul>
+                <div class="mrc-nm">박충권</div>
+                <div class="mrc-mt">국민의힘</div>
+                <div class="mrc-val">5,550만원</div>
+              </a>
+            </li></ul>
             
             <div class="source-note" style="margin-top:8px;">
               출처: 공직자윤리위원회 정기공개 (2025.3) · 언론보도 종합
@@ -1161,65 +1058,50 @@
             <div class="insight-body">초선이지만 발의 활동이 다선 의원 못지않은 신예 5명입니다.</div>
             <ul class="insight-rank">
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">1.</span>
+              <a href="/politician/6K79158C.html" class="mrc">
+                <span class="mrc-rank">1</span>
                 <img class="rank-thumb" src="/images/politicians/6K79158C.jpg" alt="이용우" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/6K79158C.html" class="rank-name">이용우</a>
-                  <div class="rank-meta">더불어민주당 · 인천 서구을</div>
-                </div>
-              </div>
-              <span class="rank-value">162건</span>
+                <div class="mrc-nm">이용우</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">162건</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">2.</span>
+              <a href="/politician/6WK3815W.html" class="mrc">
+                <span class="mrc-rank">2</span>
                 <img class="rank-thumb" src="/images/politicians/6WK3815W.jpg" alt="김태선" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/6WK3815W.html" class="rank-name">김태선</a>
-                  <div class="rank-meta">더불어민주당 · 울산 동구</div>
-                </div>
-              </div>
-              <span class="rank-value">134건</span>
+                <div class="mrc-nm">김태선</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">134건</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">3.</span>
+              <a href="/politician/ZW43496R.html" class="mrc">
+                <span class="mrc-rank">3</span>
                 <img class="rank-thumb" src="/images/politicians/ZW43496R.jpg" alt="박홍배" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/ZW43496R.html" class="rank-name">박홍배</a>
-                  <div class="rank-meta">더불어민주당 · 비례대표</div>
-                </div>
-              </div>
-              <span class="rank-value">131건</span>
+                <div class="mrc-nm">박홍배</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">131건</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">4.</span>
+              <a href="/politician/E2B3753X.html" class="mrc">
+                <span class="mrc-rank">4</span>
                 <img class="rank-thumb" src="/images/politicians/E2B3753X.jpg" alt="박해철" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/E2B3753X.html" class="rank-name">박해철</a>
-                  <div class="rank-meta">더불어민주당 · 경기 안산시병</div>
-                </div>
-              </div>
-              <span class="rank-value">122건</span>
+                <div class="mrc-nm">박해철</div>
+                <div class="mrc-mt">더불어민주당</div>
+                <div class="mrc-val">122건</div>
+              </a>
             </li>
-            
             <li>
-              <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                <span class="rank-num">5.</span>
+              <a href="/politician/NX534083.html" class="mrc">
+                <span class="mrc-rank">5</span>
                 <img class="rank-thumb" src="/images/politicians/NX534083.jpg" alt="박성훈" loading="lazy">
-                <div style="min-width:0;">
-                  <a href="/politician/NX534083.html" class="rank-name">박성훈</a>
-                  <div class="rank-meta">국민의힘 · 부산 북구을</div>
-                </div>
-              </div>
-              <span class="rank-value">117건</span>
-            </li>
-            </ul>
+                <div class="mrc-nm">박성훈</div>
+                <div class="mrc-mt">국민의힘</div>
+                <div class="mrc-val">117건</div>
+              </a>
+            </li></ul>
           </div>
 
           <div class="insight-card">
@@ -1290,7 +1172,22 @@
         </script>
       </section>
 
-      <section class="recent-bills-section"><div class="rbs-head"><div><div class="section-title">📜 최근 본회의 통과 법안</div><div class="section-sub">가결·대안반영 기준 처리일 순</div></div><a href="/bills.html" class="rbs-more">전체 검색 →</a></div><div class="recent-bills-grid"><a class="recent-bill-card" href="/bills/2218639.html">  <div class="rbc-head">    <span class="rbc-cat">기타</span>    <span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="rbc-title">소송촉진 등에 관한 특례법 일부개정법률안</div>  <div class="rbc-foot">    <span class="rbc-author">👤 윤상현 · 국힘</span>    <span class="rbc-date">📅 2026-05-07</span>  </div></a><a class="recent-bill-card" href="/bills/2218215.html">  <div class="rbc-head">    <span class="rbc-cat">안전</span>    <span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="rbc-title">항공안전법 일부개정법률안</div>  <div class="rbc-foot">    <span class="rbc-author">👤 복기왕 · 민주</span>    <span class="rbc-date">📅 2026-05-07</span>  </div></a><a class="recent-bill-card" href="/bills/2218069.html">  <div class="rbc-head">    <span class="rbc-cat">기타</span>    <span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="rbc-title">농지법 일부개정법률안</div>  <div class="rbc-foot">    <span class="rbc-author">👤 윤준병 · 민주</span>    <span class="rbc-date">📅 2026-05-07</span>  </div></a><a class="recent-bill-card" href="/bills/2217813.html">  <div class="rbc-head">    <span class="rbc-cat">노동</span>    <span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="rbc-title">근로기준법 일부개정법률안</div>  <div class="rbc-foot">    <span class="rbc-author">👤 김태선 · 민주</span>    <span class="rbc-date">📅 2026-05-07</span>  </div></a><a class="recent-bill-card" href="/bills/2217785.html">  <div class="rbc-head">    <span class="rbc-cat">교통</span>    <span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="rbc-title">여객자동차 운수사업법 일부개정법률안</div>  <div class="rbc-foot">    <span class="rbc-author">👤 발의자 정보 없음</span>    <span class="rbc-date">📅 2026-05-07</span>  </div></a><a class="recent-bill-card" href="/bills/2217702.html">  <div class="rbc-head">    <span class="rbc-cat">기타</span>    <span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="rbc-title">저출산·고령사회기본법 전부개정법률안</div>  <div class="rbc-foot">    <span class="rbc-author">👤 백혜련 · 민주</span>    <span class="rbc-date">📅 2026-05-07</span>  </div></a></div></section>
+      
+      <div class="gap-widget">
+        <div class="gap-kicker">📊 22대 국회, 지금까지</div>
+        <div class="gap-numbers">
+          <div class="gap-box"><div class="gap-n">17,333</div><div class="gap-l">발의된 법안</div></div>
+          <div class="gap-arrow">→</div>
+          <div class="gap-box pass"><div class="gap-n">567</div><div class="gap-l">그대로 통과</div></div>
+        </div>
+        <div class="gap-bar-wrap">
+          <div class="gap-bar"><div style="width:3.3%;"></div></div>
+          <div class="gap-bar-label">원안·수정가결 3.3%</div>
+        </div>
+        <p class="gap-caption">발의는 17,333건, 실제로 <strong>그대로 통과한 건 567건</strong>. 내 지역구 의원의 발의–통과 갭은 얼마일까요?</p>
+        <a href="/region.html" class="gap-cta">우리 동네 의원 확인 →</a>
+        <div class="gap-disclaimer">※ 별도로 3,676건은 '대안반영폐기'로 다른 법안에 흡수·반영됐습니다. 발의 건수 자체는 의정활동의 한 지표일 뿐, 많고 적음이 우열을 뜻하지 않습니다.</div>
+      </div>
 
       <section class="vote-widget-section"><div class="rbs-head"><div><div class="section-title">🗳 이번 주 본회의 표결</div><div class="section-sub">정당별 입장 한눈에 — 카드 클릭 시 상세</div></div></div><a class="vote-card" href="/bills/2204617.html">  <div class="vc-head">    <div class="vc-title">지방자치법 일부개정법률안</div>    <div class="vc-meta">      <span>📅 2026-05-07</span>      <span>· 285명 표결</span>      <span class="vw-gap vw-gap-high">🔥 정당 간 격차 51%p</span>    </div>  </div>  <div class="vc-total-bar">    <div class="vw-seg vw-agree" style="width:66.0%"></div>    <div class="vw-seg vw-abstain" style="width:1.4%"></div>    <div class="vw-seg vw-oppose" style="width:0.4%"></div>    <div class="vw-seg vw-absent" style="width:32.3%"></div>  </div>  <div class="vc-total-legend">    <span class="vw-v-agree">✅ 찬성 188</span>    <span class="vw-v-oppose">❌ 반대 1</span>    <span class="vw-v-abstain">⚪ 기권 4</span>    <span class="vw-v-absent">⬜ 불참 92</span>  </div>  <div class="vc-party-block"><div class="vw-party-row">  <div class="vw-party-name party-민주">민주 <span class="vw-party-n">152</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:80.9%" title="찬성 123"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 123</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-국힘">국힘 <span class="vw-party-n">105</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:41.0%" title="찬성 43"></div>    <div class="vw-seg vw-abstain" style="width:3.8%" title="기권 4"></div>    <div class="vw-seg vw-oppose" style="width:1.0%" title="반대 1"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 43</span>    <span class=vw-v-oppose>반 1</span>  </div></div><div class="vw-party-row">  <div class="vw-party-name party-조국">조혁 <span class="vw-party-n">12</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:91.7%" title="찬성 11"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 11</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-무">무소속 <span class="vw-party-n">7</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:57.1%" title="찬성 4"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 4</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-진보">진보당 <span class="vw-party-n">4</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:100.0%" title="찬성 4"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 4</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-개혁">개혁 <span class="vw-party-n">3</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:33.3%" title="찬성 1"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 1</span>      </div></div></div></a><a class="vote-card" href="/bills/2208605.html">  <div class="vc-head">    <div class="vc-title">국세징수법 일부개정법률안</div>    <div class="vc-meta">      <span>📅 2026-05-07</span>      <span>· 285명 표결</span>      <span class="vw-gap vw-gap-high">🔥 정당 간 격차 57%p</span>    </div>  </div>  <div class="vc-total-bar">    <div class="vw-seg vw-agree" style="width:74.4%"></div>    <div class="vw-seg vw-abstain" style="width:0.0%"></div>    <div class="vw-seg vw-oppose" style="width:0.0%"></div>    <div class="vw-seg vw-absent" style="width:25.6%"></div>  </div>  <div class="vc-total-legend">    <span class="vw-v-agree">✅ 찬성 212</span>    <span class="vw-v-oppose">❌ 반대 0</span>    <span class="vw-v-abstain">⚪ 기권 0</span>    <span class="vw-v-absent">⬜ 불참 73</span>  </div>  <div class="vc-party-block"><div class="vw-party-row">  <div class="vw-party-name party-민주">민주 <span class="vw-party-n">152</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:81.6%" title="찬성 124"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 124</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-국힘">국힘 <span class="vw-party-n">105</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:61.9%" title="찬성 65"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 65</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-조국">조혁 <span class="vw-party-n">12</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:100.0%" title="찬성 12"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 12</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-무">무소속 <span class="vw-party-n">7</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:42.9%" title="찬성 3"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 3</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-진보">진보당 <span class="vw-party-n">4</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:100.0%" title="찬성 4"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 4</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-개혁">개혁 <span class="vw-party-n">3</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:66.7%" title="찬성 2"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 2</span>      </div></div></div></a><a class="vote-card" href="/bills/2215017.html">  <div class="vc-head">    <div class="vc-title">보조금 관리에 관한 법률 일부개정법률안</div>    <div class="vc-meta">      <span>📅 2026-05-07</span>      <span>· 285명 표결</span>      <span class="vw-gap vw-gap-mid">⚖️ 정당 간 격차 49%p</span>    </div>  </div>  <div class="vc-total-bar">    <div class="vw-seg vw-agree" style="width:73.3%"></div>    <div class="vw-seg vw-abstain" style="width:0.0%"></div>    <div class="vw-seg vw-oppose" style="width:0.0%"></div>    <div class="vw-seg vw-absent" style="width:26.7%"></div>  </div>  <div class="vc-total-legend">    <span class="vw-v-agree">✅ 찬성 209</span>    <span class="vw-v-oppose">❌ 반대 0</span>    <span class="vw-v-abstain">⚪ 기권 0</span>    <span class="vw-v-absent">⬜ 불참 76</span>  </div>  <div class="vc-party-block"><div class="vw-party-row">  <div class="vw-party-name party-민주">민주 <span class="vw-party-n">152</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:80.9%" title="찬성 123"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 123</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-국힘">국힘 <span class="vw-party-n">105</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:61.0%" title="찬성 64"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 64</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-조국">조혁 <span class="vw-party-n">12</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:91.7%" title="찬성 11"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 11</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-무">무소속 <span class="vw-party-n">7</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:42.9%" title="찬성 3"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 3</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-진보">진보당 <span class="vw-party-n">4</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:100.0%" title="찬성 4"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 4</span>      </div></div><div class="vw-party-row">  <div class="vw-party-name party-개혁">개혁 <span class="vw-party-n">3</span></div>  <div class="vw-party-bar">    <div class="vw-seg vw-agree" style="width:66.7%" title="찬성 2"></div>    <div class="vw-seg vw-abstain" style="width:0.0%" title="기권 0"></div>    <div class="vw-seg vw-oppose" style="width:0.0%" title="반대 0"></div>  </div>  <div class="vw-party-vals">    <span class="vw-v-agree">찬 2</span>      </div></div></div></a></section>
 
