@@ -1,0 +1,16 @@
+{
+  // 정치탈탈 배포 설정 — Cloudflare Workers + Static Assets
+  // main(worker.js)은 /bills/* 만 처리하고, 나머지는 정적 자산으로 직행한다.
+  // (이 파일이 있으면 wrangler가 자동생성 대신 이 설정을 사용)
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "politaltal",
+  "main": "worker.js",
+  "compatibility_date": "2026-08-01",
+  "observability": { "enabled": true },
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    // /bills/* 요청만 Worker를 먼저 실행(동적 렌더링). 그 외는 Worker를 거치지 않음.
+    "run_worker_first": ["/bills/*"]
+  }
+}
