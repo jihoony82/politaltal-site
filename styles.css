@@ -3213,6 +3213,40 @@ a.post-card .post-cta {
 }
 
 
+
+/* ─── 지자체장 (local.html / local/*) ─── */
+.lh-hero { background: linear-gradient(135deg,#0f766e 0%,#115e59 100%); color:#fff; border-radius:16px; padding:20px; margin:6px 0 14px; }
+.lh-hero-top { display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
+.lh-tier { font-size:11px; font-weight:800; padding:3px 10px; border-radius:20px; }
+.lh-tier.metro { background:rgba(255,255,255,.22); color:#fff; }
+.lh-tier.local { background:rgba(255,255,255,.12); color:#d1fae5; }
+.lh-region { font-size:12.5px; color:#d1fae5; font-weight:600; }
+.lh-name { font-size:23px; font-weight:900; margin:0; letter-spacing:-.5px; }
+.lh-party { font-size:12px; font-weight:700; background:rgba(255,255,255,.18); padding:3px 10px; border-radius:20px; vertical-align:middle; margin-left:4px; }
+.lh-term { font-size:11.5px; color:#a7f3d0; margin-top:6px; }
+.lh-rate { display:flex; align-items:center; gap:9px; margin-bottom:6px; }
+.lh-rate-track { flex:1; height:14px; background:#eef2f7; border-radius:7px; overflow:hidden; }
+.lh-rate-fill { height:100%; background:linear-gradient(90deg,#14b8a6,#0f766e); border-radius:7px; }
+.lh-rate-num { font-size:14px; font-weight:900; color:#0f766e; width:58px; text-align:right; }
+.lh-meta { font-size:11.5px; color:var(--color-text-soft); margin-bottom:10px; }
+.lh-index-hero { background: linear-gradient(135deg,#0f766e 0%,#115e59 100%); color:#fff; border-radius:16px; padding:22px 20px; margin:6px 0 14px; }
+.lh-ih-kicker { font-size:12px; font-weight:700; color:#a7f3d0; margin-bottom:6px; }
+.lh-ih-title { font-size:24px; font-weight:900; margin:0 0 8px; letter-spacing:-.5px; }
+.lh-ih-sub { font-size:12.5px; line-height:1.7; color:rgba(255,255,255,.9); margin:0; }
+.lh-filter { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-bottom:8px; }
+.lh-filter input { grid-column:1 / -1; }
+.lh-filter input, .lh-filter select { padding:9px 11px; border:1px solid var(--color-border); border-radius:9px; font-size:13px; background:#fff; }
+.lh-count { font-size:12px; color:var(--color-text-soft); font-weight:700; margin-bottom:8px; }
+.lh-list { display:flex; flex-direction:column; gap:6px; }
+.lh-card { display:flex; align-items:center; gap:11px; padding:10px 12px; background:#fff; border:1px solid var(--color-border); border-radius:11px; text-decoration:none; transition:all .12s; }
+.lh-card:hover { border-color:#14b8a6; transform:translateY(-1px); text-decoration:none; }
+.lh-card-avatar { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,#5eead4,#0f766e); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16px; flex-shrink:0; }
+.lh-card-body { flex:1; min-width:0; }
+.lh-card-name { font-size:14px; font-weight:800; color:var(--color-primary); }
+.lh-card-region { font-size:11.5px; color:var(--color-text-soft); margin-top:2px; }
+.lh-card-rate { font-size:15px; font-weight:900; color:#0f766e; flex-shrink:0; }
+@media (max-width:480px){ .lh-name{font-size:20px;} .lh-ih-title{font-size:20px;} }
+
 /* ─── 현직 명단 제외 상태 배지 ─── */
 .member-status-off {
   background:#fef3c7; border:1px solid #fcd34d; border-left:4px solid #f59e0b;
