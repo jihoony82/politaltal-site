@@ -197,9 +197,10 @@ img, video { height: auto; }
 .app-header {
   background: var(--color-card);
   border-bottom: 1px solid var(--color-border);
-  /* sticky로 상단 고정 시 다이나믹 아일랜드/시계에 로고가 가리지 않게 상단 안전여백 */
-  padding: calc(14px + env(safe-area-inset-top)) 0 14px;
-  position: sticky; top: 0; z-index: 50;
+  padding: 14px 0;
+  /* 위 후원배너가 이미 아일랜드를 벗어나게 하므로 헤더엔 상단 여백을 주지 않는다(공백 방지).
+     대신 스크롤로 배너가 사라져 헤더가 고정될 때만 top 오프셋으로 아일랜드/시계 아래에 붙는다. */
+  position: sticky; top: env(safe-area-inset-top); z-index: 50;
   backdrop-filter: blur(12px);
   background-color: rgba(255, 255, 255, 0.95);
 }
