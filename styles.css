@@ -40,7 +40,7 @@ body {
 img, video, iframe, svg { max-width: 100%; }
 img, video { height: auto; }
 
-.container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+.container { max-width: 720px; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-right)) 0 max(20px, env(safe-area-inset-left)); }
 
 /* ─── 헤더 ───────────────────────────────────────── */
 /* ── Hero 상단 카피 (홈 .hero 내부) ── */
@@ -113,7 +113,8 @@ img, video { height: auto; }
 .fundraiser-bar {
   background: linear-gradient(135deg, #faf8f3 0%, #fdf6e3 100%);
   border-bottom: 1px solid #d8d4c6;
-  padding: 10px 0;
+  /* iOS 안전영역: 다이나믹 아일랜드/노치에 가리지 않게 상단 여백, 라운드 모서리용 좌우 여백 */
+  padding: calc(10px + env(safe-area-inset-top)) 0 10px;
   font-family: inherit;
 }
 .fb-inner {
@@ -196,7 +197,8 @@ img, video { height: auto; }
 .app-header {
   background: var(--color-card);
   border-bottom: 1px solid var(--color-border);
-  padding: 14px 0;
+  /* sticky로 상단 고정 시 다이나믹 아일랜드/시계에 로고가 가리지 않게 상단 안전여백 */
+  padding: calc(14px + env(safe-area-inset-top)) 0 14px;
   position: sticky; top: 0; z-index: 50;
   backdrop-filter: blur(12px);
   background-color: rgba(255, 255, 255, 0.95);
