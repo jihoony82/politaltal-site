@@ -715,7 +715,7 @@ img, video { height: auto; }
     url('/videos/hero-city.jpg') center 50% / cover no-repeat;
   background-color: #0a2540;
   color: white;
-  padding: 48px 0 56px;
+  padding: 38px 0 34px;
   position: relative;
   overflow: hidden;
 }
@@ -754,6 +754,8 @@ img, video { height: auto; }
     width: 160px; height: 160px;
     opacity: 0.32;
   }
+  /* 모바일: 배경(네이비+도시)이 위아래로 과하게 남지 않게 히어로 높이 축소 */
+  .hero { padding: 24px 0 20px; }
 }
 @media (max-width: 400px) {
   .hero-illustration {
@@ -3415,7 +3417,7 @@ img.lh-card-avatar { object-fit:cover; object-position:center 20%; }
 .hl-cta:hover { background: #1d4ed8; text-decoration: none; }
 
 /* ─── OTT 홈: 카테고리 칩 + 가로 레일 ─── */
-.ott-cats { display:flex; gap:8px; overflow-x:auto; padding:2px 0 4px; margin:0 0 4px; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+.ott-cats { display:flex; gap:8px; overflow-x:auto; padding:2px 0 4px; margin:18px 0 6px; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
 .ott-cats::-webkit-scrollbar { display:none; }
 .ott-cat { flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:5px; width:64px; text-decoration:none; }
 .ott-cat .ic { width:52px; height:52px; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:23px; background:#fff; border:1px solid var(--color-border); transition:all .12s; }
