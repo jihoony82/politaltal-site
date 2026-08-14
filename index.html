@@ -35,19 +35,19 @@
   <meta name="twitter:description" content="공공데이터로 검증하는 제22대 국회 300명의 진짜 의정활동. 내가 뽑은 의원, 진짜 일하고 있나요?">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202608142321">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202608142321">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202608142321">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202608142321">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202608142336">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202608142336">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202608142336">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202608142336">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202608142321">
+  <link rel="stylesheet" href="/styles.css?v=202608142336">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202608142321">
+  <link rel="manifest" href="/manifest.json?v=202608142336">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202608142321">
+  <meta name="build-id" content="202608142336">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -214,101 +214,80 @@
         <a href="/match.html" class="ott-cat"><span class="ic">🎯</span><span>성향매칭</span></a>
       </div>
 
-      <!-- 레일 1: 최근 법안을 발의한 의원 -->
+      <!-- 레일 1: 로테이션 주제 (새로고침/당겨서새로고침마다 다른 주제) -->
+      <div class="ptr-ind" id="ptrIndicator"></div>
       <div class="rail-block">
         <div class="rail-head">
-          <div><h2 class="rail-title">최근 법안을 발의한 의원</h2><div class="rail-sub">가장 최근 발의 순 · 편 안 듭니다</div></div>
-          <a href="/list.html" class="rail-more">전체 &rsaquo;</a>
+          <div><h2 class="rail-title" id="railTitle">최근 법안을 발의한 의원</h2><div class="rail-sub" id="railSub">가장 최근 발의 순 · 편 안 듭니다</div></div>
+          <div class="rail-head-actions">
+            <button class="rail-shuffle" id="railShuffle" type="button" aria-label="다른 주제 보기" title="다른 주제 보기">🔄</button>
+            <a href="/list.html" class="rail-more">전체 &rsaquo;</a>
+          </div>
         </div>
-        <div class="ott-rail">
-        <a href="/politician/LCZ1711I.html" class="pcard">
-          <div class="por" style="background-image:url('/images/politicians/LCZ1711I.jpg');background-size:cover;background-position:center 20%;"></div>
-          <div class="info">
-            <div class="nm">김위상<span class="chip-p" style="background:#e2231a">국힘</span></div>
-            <div class="meta">비례대표</div>
-          </div>
-        </a>
-        <a href="/politician/86R9476S.html" class="pcard">
-          <div class="por" style="background-image:url('/images/politicians/86R9476S.jpg');background-size:cover;background-position:center 20%;"></div>
-          <div class="info">
-            <div class="nm">김문수<span class="chip-p" style="background:#0a4ea2">민주</span></div>
-            <div class="meta">전남광주통합특별시 순천시광양시곡성군구례군갑</div>
-          </div>
-        </a>
-        <a href="/politician/D6U6678O.html" class="pcard">
-          <div class="por" style="background-image:url('/images/politicians/D6U6678O.jpg');background-size:cover;background-position:center 20%;"></div>
-          <div class="info">
-            <div class="nm">김주영<span class="chip-p" style="background:#0a4ea2">민주</span></div>
-            <div class="meta">경기 김포시갑</div>
-          </div>
-        </a>
-        <a href="/politician/51A45980.html" class="pcard">
-          <div class="por" style="background-image:url('/images/politicians/51A45980.jpg');background-size:cover;background-position:center 20%;"></div>
-          <div class="info">
-            <div class="nm">서미화<span class="chip-p" style="background:#0a4ea2">민주</span></div>
-            <div class="meta">비례대표</div>
-          </div>
-        </a>
-        <a href="/politician/O0I2045I.html" class="pcard">
-          <div class="por" style="background-image:url('/images/politicians/O0I2045I.jpg');background-size:cover;background-position:center 20%;"></div>
-          <div class="info">
-            <div class="nm">이정문<span class="chip-p" style="background:#0a4ea2">민주</span></div>
-            <div class="meta">충남 천안시병</div>
-          </div>
-        </a>
-        <a href="/politician/T6A6557F.html" class="pcard">
-          <div class="por" style="background-image:url('/images/politicians/T6A6557F.jpg');background-size:cover;background-position:center 20%;"></div>
-          <div class="info">
-            <div class="nm">황정아<span class="chip-p" style="background:#0a4ea2">민주</span></div>
-            <div class="meta">대전 유성구을</div>
-          </div>
-        </a>
-        <a href="/politician/TJW93720.html" class="pcard">
-          <div class="por" style="background-image:url('/images/politicians/TJW93720.jpg');background-size:cover;background-position:center 20%;"></div>
-          <div class="info">
-            <div class="nm">전용기<span class="chip-p" style="background:#0a4ea2">민주</span></div>
-            <div class="meta">경기 화성시정</div>
-          </div>
-        </a>
-        <a href="/politician/IWR8966I.html" class="pcard">
-          <div class="por" style="background-image:url('/images/politicians/IWR8966I.jpg');background-size:cover;background-position:center 20%;"></div>
-          <div class="info">
-            <div class="nm">박균택<span class="chip-p" style="background:#0a4ea2">민주</span></div>
-            <div class="meta">전남광주통합특별시 광산구갑</div>
-          </div>
-        </a>
-        <a href="/politician/CIZ8557P.html" class="pcard">
-          <div class="por" style="background-image:url('/images/politicians/CIZ8557P.jpg');background-size:cover;background-position:center 20%;"></div>
-          <div class="info">
-            <div class="nm">장종태<span class="chip-p" style="background:#0a4ea2">민주</span></div>
-            <div class="meta">대전 서구갑</div>
-          </div>
-        </a>
-        <a href="/politician/2S73768V.html" class="pcard">
-          <div class="por" style="background-image:url('/images/politicians/2S73768V.jpg');background-size:cover;background-position:center 20%;"></div>
-          <div class="info">
-            <div class="nm">이훈기<span class="chip-p" style="background:#0a4ea2">민주</span></div>
-            <div class="meta">인천 남동구을</div>
-          </div>
-        </a>
-        <a href="/politician/95J3282H.html" class="pcard">
-          <div class="por" style="background-image:url('/images/politicians/95J3282H.jpg');background-size:cover;background-position:center 20%;"></div>
-          <div class="info">
-            <div class="nm">이광희<span class="chip-p" style="background:#0a4ea2">민주</span></div>
-            <div class="meta">충북 청주시서원구</div>
-          </div>
-        </a>
-        <a href="/politician/YN160848.html" class="pcard">
-          <div class="por" style="background-image:url('/images/politicians/YN160848.jpg');background-size:cover;background-position:center 20%;"></div>
-          <div class="info">
-            <div class="nm">백선희<span class="chip-p" style="background:#0b8f8a">조국</span></div>
-            <div class="meta">비례대표</div>
-          </div>
-        </a>
-        <a href="/list.html" class="pcard pcard-more">
-          <div class="more-in"><span class="more-arrow">→</span><span>전체 300명<br>보기</span></div>
-        </a></div>
+        <div class="ott-rail" id="mainRail"><a href="/politician/LCZ1711I.html" class="pcard"><div class="por" style="background-image:url('/images/politicians/LCZ1711I.jpg');background-size:cover;background-position:center 20%;"></div><div class="info"><div class="nm">김위상<span class="chip-p" style="background:#e2231a">국힘</span></div><div class="meta">비례대표</div></div></a><a href="/politician/86R9476S.html" class="pcard"><div class="por" style="background-image:url('/images/politicians/86R9476S.jpg');background-size:cover;background-position:center 20%;"></div><div class="info"><div class="nm">김문수<span class="chip-p" style="background:#0a4ea2">민주</span></div><div class="meta">전남광주통합특별시 순천시광양시곡성군구례군갑</div></div></a><a href="/politician/D6U6678O.html" class="pcard"><div class="por" style="background-image:url('/images/politicians/D6U6678O.jpg');background-size:cover;background-position:center 20%;"></div><div class="info"><div class="nm">김주영<span class="chip-p" style="background:#0a4ea2">민주</span></div><div class="meta">경기 김포시갑</div></div></a><a href="/politician/51A45980.html" class="pcard"><div class="por" style="background-image:url('/images/politicians/51A45980.jpg');background-size:cover;background-position:center 20%;"></div><div class="info"><div class="nm">서미화<span class="chip-p" style="background:#0a4ea2">민주</span></div><div class="meta">비례대표</div></div></a><a href="/politician/O0I2045I.html" class="pcard"><div class="por" style="background-image:url('/images/politicians/O0I2045I.jpg');background-size:cover;background-position:center 20%;"></div><div class="info"><div class="nm">이정문<span class="chip-p" style="background:#0a4ea2">민주</span></div><div class="meta">충남 천안시병</div></div></a><a href="/politician/T6A6557F.html" class="pcard"><div class="por" style="background-image:url('/images/politicians/T6A6557F.jpg');background-size:cover;background-position:center 20%;"></div><div class="info"><div class="nm">황정아<span class="chip-p" style="background:#0a4ea2">민주</span></div><div class="meta">대전 유성구을</div></div></a><a href="/politician/TJW93720.html" class="pcard"><div class="por" style="background-image:url('/images/politicians/TJW93720.jpg');background-size:cover;background-position:center 20%;"></div><div class="info"><div class="nm">전용기<span class="chip-p" style="background:#0a4ea2">민주</span></div><div class="meta">경기 화성시정</div></div></a><a href="/politician/IWR8966I.html" class="pcard"><div class="por" style="background-image:url('/images/politicians/IWR8966I.jpg');background-size:cover;background-position:center 20%;"></div><div class="info"><div class="nm">박균택<span class="chip-p" style="background:#0a4ea2">민주</span></div><div class="meta">전남광주통합특별시 광산구갑</div></div></a><a href="/politician/CIZ8557P.html" class="pcard"><div class="por" style="background-image:url('/images/politicians/CIZ8557P.jpg');background-size:cover;background-position:center 20%;"></div><div class="info"><div class="nm">장종태<span class="chip-p" style="background:#0a4ea2">민주</span></div><div class="meta">대전 서구갑</div></div></a><a href="/politician/2S73768V.html" class="pcard"><div class="por" style="background-image:url('/images/politicians/2S73768V.jpg');background-size:cover;background-position:center 20%;"></div><div class="info"><div class="nm">이훈기<span class="chip-p" style="background:#0a4ea2">민주</span></div><div class="meta">인천 남동구을</div></div></a><a href="/politician/95J3282H.html" class="pcard"><div class="por" style="background-image:url('/images/politicians/95J3282H.jpg');background-size:cover;background-position:center 20%;"></div><div class="info"><div class="nm">이광희<span class="chip-p" style="background:#0a4ea2">민주</span></div><div class="meta">충북 청주시서원구</div></div></a><a href="/politician/YN160848.html" class="pcard"><div class="por" style="background-image:url('/images/politicians/YN160848.jpg');background-size:cover;background-position:center 20%;"></div><div class="info"><div class="nm">백선희<span class="chip-p" style="background:#0b8f8a">조국</span></div><div class="meta">비례대표</div></div></a><a href="/list.html" class="pcard pcard-more"><div class="more-in"><span class="more-arrow">→</span><span>전체 300명<br>보기</span></div></a></div>
       </div>
+      <script>window.__RAIL_THEMES = [{"t": "최근 법안을 발의한 의원", "s": "가장 최근 발의 순 · 편 안 듭니다", "mem": [{"m": "LCZ1711I", "n": "김위상", "p": "국힘", "c": "#e2231a", "d": "비례대표", "ph": "/images/politicians/LCZ1711I.jpg"}, {"m": "86R9476S", "n": "김문수", "p": "민주", "c": "#0a4ea2", "d": "전남광주통합특별시 순천시광양시곡성군구례군갑", "ph": "/images/politicians/86R9476S.jpg"}, {"m": "D6U6678O", "n": "김주영", "p": "민주", "c": "#0a4ea2", "d": "경기 김포시갑", "ph": "/images/politicians/D6U6678O.jpg"}, {"m": "51A45980", "n": "서미화", "p": "민주", "c": "#0a4ea2", "d": "비례대표", "ph": "/images/politicians/51A45980.jpg"}, {"m": "O0I2045I", "n": "이정문", "p": "민주", "c": "#0a4ea2", "d": "충남 천안시병", "ph": "/images/politicians/O0I2045I.jpg"}, {"m": "T6A6557F", "n": "황정아", "p": "민주", "c": "#0a4ea2", "d": "대전 유성구을", "ph": "/images/politicians/T6A6557F.jpg"}, {"m": "TJW93720", "n": "전용기", "p": "민주", "c": "#0a4ea2", "d": "경기 화성시정", "ph": "/images/politicians/TJW93720.jpg"}, {"m": "IWR8966I", "n": "박균택", "p": "민주", "c": "#0a4ea2", "d": "전남광주통합특별시 광산구갑", "ph": "/images/politicians/IWR8966I.jpg"}, {"m": "CIZ8557P", "n": "장종태", "p": "민주", "c": "#0a4ea2", "d": "대전 서구갑", "ph": "/images/politicians/CIZ8557P.jpg"}, {"m": "2S73768V", "n": "이훈기", "p": "민주", "c": "#0a4ea2", "d": "인천 남동구을", "ph": "/images/politicians/2S73768V.jpg"}, {"m": "95J3282H", "n": "이광희", "p": "민주", "c": "#0a4ea2", "d": "충북 청주시서원구", "ph": "/images/politicians/95J3282H.jpg"}, {"m": "YN160848", "n": "백선희", "p": "조국", "c": "#0b8f8a", "d": "비례대표", "ph": "/images/politicians/YN160848.jpg"}]}, {"t": "대표발의가 많은 의원", "s": "22대 대표발의 건수 순 · 편 안 듭니다", "mem": [{"m": "JC14718Q", "n": "윤준병", "p": "민주", "c": "#0a4ea2", "d": "전북 정읍시고창군", "ph": "/images/politicians/JC14718Q.jpg"}, {"m": "0R68099X", "n": "이수진", "p": "민주", "c": "#0a4ea2", "d": "경기 성남시중원구", "ph": "/images/politicians/0R68099X.jpg"}, {"m": "6K79158C", "n": "이용우", "p": "민주", "c": "#0a4ea2", "d": "인천 서구을", "ph": "/images/politicians/6K79158C.jpg"}, {"m": "XPP2564T", "n": "한정애", "p": "민주", "c": "#0a4ea2", "d": "서울 강서구병", "ph": "/images/politicians/XPP2564T.jpg"}, {"m": "JNL7001A", "n": "김선교", "p": "국힘", "c": "#e2231a", "d": "경기 여주시양평군", "ph": "/images/politicians/JNL7001A.jpg"}, {"m": "6WK3815W", "n": "김태선", "p": "민주", "c": "#0a4ea2", "d": "울산 동구", "ph": "/images/politicians/6WK3815W.jpg"}, {"m": "CNZ51556", "n": "김예지", "p": "국힘", "c": "#e2231a", "d": "비례대표", "ph": "/images/politicians/CNZ51556.jpg"}, {"m": "TKJ4800F", "n": "서영교", "p": "민주", "c": "#0a4ea2", "d": "서울 중랑구갑", "ph": "/images/politicians/TKJ4800F.jpg"}, {"m": "ZW43496R", "n": "박홍배", "p": "민주", "c": "#0a4ea2", "d": "비례대표", "ph": "/images/politicians/ZW43496R.jpg"}, {"m": "4U29186R", "n": "문진석", "p": "민주", "c": "#0a4ea2", "d": "충남 천안시갑", "ph": "/images/politicians/4U29186R.jpg"}, {"m": "OSV9142K", "n": "이만희", "p": "국힘", "c": "#e2231a", "d": "경북 영천시청도군", "ph": "/images/politicians/OSV9142K.jpg"}, {"m": "E2B3753X", "n": "박해철", "p": "민주", "c": "#0a4ea2", "d": "경기 안산시병", "ph": "/images/politicians/E2B3753X.jpg"}]}, {"t": "다선 의원", "s": "당선 횟수가 많은 순 · 편 안 듭니다", "mem": [{"m": "PAO22428", "n": "송영길", "p": "민주", "c": "#0a4ea2", "d": "인천 연수구갑", "ph": ""}, {"m": "5KV82250", "n": "조경태", "p": "국힘", "c": "#e2231a", "d": "부산 사하구을", "ph": "/images/politicians/5KV82250.jpg"}, {"m": "IN328264", "n": "조정식", "p": "무소속", "c": "#64748b", "d": "경기 시흥시을", "ph": "/images/politicians/IN328264.jpg"}, {"m": "8SV6917G", "n": "주호영", "p": "국힘", "c": "#e2231a", "d": "대구 수성구갑", "ph": "/images/politicians/8SV6917G.jpg"}, {"m": "LG63087O", "n": "권영세", "p": "국힘", "c": "#e2231a", "d": "서울 용산구", "ph": "/images/politicians/LG63087O.jpg"}, {"m": "X7I4680R", "n": "김기현", "p": "국힘", "c": "#e2231a", "d": "울산 남구을", "ph": "/images/politicians/X7I4680R.jpg"}, {"m": "1WE5693J", "n": "김태년", "p": "민주", "c": "#0a4ea2", "d": "경기 성남시수정구", "ph": "/images/politicians/1WE5693J.jpg"}, {"m": "SLW27496", "n": "나경원", "p": "국힘", "c": "#e2231a", "d": "서울 동작구을", "ph": "/images/politicians/SLW27496.jpg"}, {"m": "8BF5855P", "n": "박지원", "p": "민주", "c": "#0a4ea2", "d": "전남광주통합특별시 해남군완도군진도군", "ph": "/images/politicians/8BF5855P.jpg"}, {"m": "TST4507I", "n": "안규백", "p": "민주", "c": "#0a4ea2", "d": "서울 동대문구갑", "ph": "/images/politicians/TST4507I.jpg"}, {"m": "XBT9550Q", "n": "우원식", "p": "민주", "c": "#0a4ea2", "d": "서울 노원구갑", "ph": "/images/politicians/XBT9550Q.jpg"}, {"m": "MSY7784L", "n": "윤상현", "p": "국힘", "c": "#e2231a", "d": "인천 동구미추홀구을", "ph": "/images/politicians/MSY7784L.jpg"}]}, {"t": "최연소 의원", "s": "만 나이가 어린 순 · 편 안 듭니다", "mem": [{"m": "2KM3589W", "n": "손솔", "p": "진보", "c": "#d6001c", "d": "비례대표", "ph": "/images/politicians/2KM3589W.jpg"}, {"m": "TJW93720", "n": "전용기", "p": "민주", "c": "#0a4ea2", "d": "경기 화성시정", "ph": "/images/politicians/TJW93720.jpg"}, {"m": "EPI69383", "n": "김용태", "p": "국힘", "c": "#e2231a", "d": "경기 포천시가평군", "ph": "/images/politicians/EPI69383.jpg"}, {"m": "GE71932C", "n": "용혜인", "p": "기소", "c": "#00d2c3", "d": "비례대표", "ph": "/images/politicians/GE71932C.jpg"}, {"m": "J1G57517", "n": "모경종", "p": "민주", "c": "#0a4ea2", "d": "인천 서구병", "ph": "/images/politicians/J1G57517.jpg"}, {"m": "8UC4779G", "n": "우재준", "p": "국힘", "c": "#e2231a", "d": "대구 북구갑", "ph": "/images/politicians/8UC4779G.jpg"}, {"m": "MIS62075", "n": "김동아", "p": "민주", "c": "#0a4ea2", "d": "서울 서대문구갑", "ph": "/images/politicians/MIS62075.jpg"}, {"m": "H7X3372O", "n": "박지원", "p": "민주", "c": "#0a4ea2", "d": "전북 군산시김제시부안군을", "ph": ""}, {"m": "57B28032", "n": "김재섭", "p": "국힘", "c": "#e2231a", "d": "서울 도봉구갑", "ph": "/images/politicians/57B28032.jpg"}, {"m": "3NI5978A", "n": "조지연", "p": "국힘", "c": "#e2231a", "d": "경북 경산시", "ph": "/images/politicians/3NI5978A.jpg"}, {"m": "MRS4949T", "n": "이소희", "p": "국힘", "c": "#e2231a", "d": "비례대표", "ph": "/images/politicians/MRS4949T.jpg"}, {"m": "NB64509Z", "n": "김용만", "p": "민주", "c": "#0a4ea2", "d": "경기 하남시을", "ph": "/images/politicians/NB64509Z.jpg"}]}, {"t": "여성 의원", "s": "대표발의 건수 순 · 편 안 듭니다", "mem": [{"m": "0R68099X", "n": "이수진", "p": "민주", "c": "#0a4ea2", "d": "경기 성남시중원구", "ph": "/images/politicians/0R68099X.jpg"}, {"m": "XPP2564T", "n": "한정애", "p": "민주", "c": "#0a4ea2", "d": "서울 강서구병", "ph": "/images/politicians/XPP2564T.jpg"}, {"m": "CNZ51556", "n": "김예지", "p": "국힘", "c": "#e2231a", "d": "비례대표", "ph": "/images/politicians/CNZ51556.jpg"}, {"m": "TKJ4800F", "n": "서영교", "p": "민주", "c": "#0a4ea2", "d": "서울 중랑구갑", "ph": "/images/politicians/TKJ4800F.jpg"}, {"m": "3BC6890E", "n": "김미애", "p": "국힘", "c": "#e2231a", "d": "부산 해운대구을", "ph": "/images/politicians/3BC6890E.jpg"}, {"m": "1SR94244", "n": "김소희", "p": "국힘", "c": "#e2231a", "d": "비례대표", "ph": "/images/politicians/1SR94244.jpg"}, {"m": "3249208I", "n": "송옥주", "p": "민주", "c": "#0a4ea2", "d": "경기 화성시갑", "ph": "/images/politicians/3249208I.jpg"}, {"m": "HSS7466Y", "n": "백혜련", "p": "민주", "c": "#0a4ea2", "d": "경기 수원시을", "ph": "/images/politicians/HSS7466Y.jpg"}, {"m": "4T026790", "n": "임오경", "p": "민주", "c": "#0a4ea2", "d": "경기 광명시갑", "ph": "/images/politicians/4T026790.jpg"}, {"m": "QUR40502", "n": "전진숙", "p": "민주", "c": "#0a4ea2", "d": "전남광주통합특별시 북구을", "ph": "/images/politicians/QUR40502.jpg"}, {"m": "XG348314", "n": "정춘생", "p": "조국", "c": "#0b8f8a", "d": "비례대표", "ph": "/images/politicians/XG348314.jpg"}, {"m": "X639721U", "n": "임미애", "p": "민주", "c": "#0a4ea2", "d": "비례대표", "ph": "/images/politicians/X639721U.jpg"}]}];</script>
+      <script>
+(function(){
+  var T = window.__RAIL_THEMES || [];
+  if(!T.length) return;
+  var rail = document.getElementById("mainRail");
+  var tt = document.getElementById("railTitle"), ss = document.getElementById("railSub");
+  if(!rail) return;
+  function esc(s){ s=(s==null?"":""+s); return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+  function card(x){
+    var por = x.ph
+      ? '<div class="por" style="background-image:url('+x.ph+');background-size:cover;background-position:center 20%;"></div>'
+      : '<div class="por" style="background:linear-gradient(150deg,'+x.c+',#0a2540);"><span class="ini">'+esc((x.n||"").slice(0,1))+'</span></div>';
+    return '<a href="/politician/'+x.m+'.html" class="pcard">'+por+'<div class="info"><div class="nm">'+esc(x.n)+'<span class="chip-p" style="background:'+x.c+'">'+esc(x.p)+'</span></div><div class="meta">'+esc(x.d)+'</div></div></a>';
+  }
+  var MORE = '<a href="/list.html" class="pcard pcard-more"><div class="more-in"><span class="more-arrow">→</span><span>전체 300명<br>보기</span></div></a>';
+  function render(i, animate){
+    var th = T[((i%T.length)+T.length)%T.length];
+    if(tt) tt.textContent = th.t;
+    if(ss) ss.textContent = th.s;
+    var html = th.mem.map(card).join("") + MORE;
+    if(animate){
+      rail.style.transition = "opacity .18s";
+      rail.style.opacity = "0";
+      setTimeout(function(){ rail.innerHTML = html; rail.scrollLeft = 0; rail.style.opacity = "1"; }, 170);
+    } else { rail.innerHTML = html; }
+  }
+  var idx = 0;
+  try { idx = (parseInt(localStorage.getItem("railIdx")||"0",10)+1) % T.length; localStorage.setItem("railIdx", idx); }
+  catch(e){ idx = Math.floor(Math.random()*T.length); }
+  render(idx, idx !== 0);
+  window.__railIdx = idx;
+  window.__rotateRail = function(dir){
+    window.__railIdx = (window.__railIdx||0) + (dir||1);
+    try { localStorage.setItem("railIdx", ((window.__railIdx%T.length)+T.length)%T.length); } catch(e){}
+    render(window.__railIdx, true);
+  };
+  var sh = document.getElementById("railShuffle");
+  if(sh) sh.addEventListener("click", function(){ window.__rotateRail(1); });
+
+  // 당겨서 새로고침: 페이지 최상단에서 아래로 당기면 레일이 새 주제로
+  var ptr = document.getElementById("ptrIndicator");
+  var startY=0, pulling=false, dist=0, TH=70;
+  window.addEventListener("touchstart", function(e){ if((window.scrollY||0)<=0){ startY=e.touches[0].clientY; pulling=true; dist=0; } }, {passive:true});
+  window.addEventListener("touchmove", function(e){
+    if(!pulling) return;
+    dist = e.touches[0].clientY - startY;
+    if(dist>0 && (window.scrollY||0)<=0 && ptr){
+      ptr.style.height = Math.min(dist*0.5, 56)+"px";
+      ptr.style.opacity = Math.min(dist/TH, 1);
+      ptr.classList.toggle("ready", dist>TH);
+      ptr.textContent = dist>TH ? "↓ 놓으면 새 주제" : "↓ 당겨서 새 주제";
+    }
+  }, {passive:true});
+  window.addEventListener("touchend", function(){
+    if(!pulling) return; pulling=false;
+    if(dist>TH){ window.__rotateRail(1); }
+    if(ptr){ ptr.style.height="0"; ptr.style.opacity="0"; ptr.classList.remove("ready"); }
+    dist=0;
+  }, {passive:true});
+})();
+</script>
 
       <!-- 레일 2: 우리 동네 단체장 -->
       <div class="rail-block">
