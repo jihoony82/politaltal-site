@@ -3420,7 +3420,14 @@ img.lh-card-avatar { object-fit:cover; object-position:center 20%; }
 .ott-cat { flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:5px; width:64px; text-decoration:none; }
 .ott-cat .ic { width:52px; height:52px; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:23px; background:#fff; border:1px solid var(--color-border); transition:all .12s; }
 .ott-cat:hover .ic { border-color:var(--color-accent); transform:translateY(-2px); }
-.ott-cat span:last-child { font-size:11px; font-weight:700; color:var(--color-text); }
+.ott-cat span:last-child { font-size:11px; font-weight:700; color:var(--color-text); white-space:nowrap; }
+/* 모바일: 5개 카테고리 카드가 잘리지 않고 한 줄에 다 들어오게(예전엔 '성향매칭'이 잘림) */
+@media (max-width:430px){
+  .ott-cats{ gap:4px; justify-content:space-between; }
+  .ott-cat{ width:60px; }
+  .ott-cat .ic{ width:46px; height:46px; font-size:20px; border-radius:14px; }
+  .ott-cat span:last-child{ font-size:10.5px; }
+}
 
 .rail-block { margin:2px 0 4px; }
 .rail-head { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:11px; }
