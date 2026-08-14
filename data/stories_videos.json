@@ -1,0 +1,152 @@
+{
+  "docu": [
+    {
+      "id": "k9GbOC3-Uk0",
+      "title": "새벽 여섯 시, 의원실의 하루"
+    },
+    {
+      "id": "q3WxFpzuXHQ",
+      "title": "법안 하나가 통과되던 날"
+    },
+    {
+      "id": "7TktOfqCn_g",
+      "title": "민원 전화가 울리면"
+    },
+    {
+      "id": "PbX7O5zJK1A",
+      "title": "국정감사, 가장 긴 밤"
+    },
+    {
+      "id": "6Cch9GuUlg8",
+      "title": "인턴의 첫 출근"
+    },
+    {
+      "id": "wcCerdLZaqY",
+      "title": "선거의 밤"
+    }
+  ],
+  "shorts": [
+    {
+      "id": "SkFxYAGjK00",
+      "title": "[정치 배우기] 게리맨더링 1분 정리"
+    },
+    {
+      "id": "Nxe11nHpUdg",
+      "title": "청문회 vs 대정부질문, 뭐가 다를까?"
+    },
+    {
+      "id": "9tG_bDCuMuo",
+      "title": "감사원은 뭐하는 곳?"
+    },
+    {
+      "id": "37ErOYZm54w",
+      "title": "윤준병 의원 성적표"
+    },
+    {
+      "id": "cq7dma5iHeA",
+      "title": "지지율은 왜 반짝 올랐다 내릴까?"
+    },
+    {
+      "id": "7ZqWbvXzbvo",
+      "title": "추경·준예산, 뭐가 다를까?"
+    },
+    {
+      "id": "aMSzQP2lRac",
+      "title": "재보궐선거가 뭐길래?"
+    },
+    {
+      "id": "yqthWeIVJKY",
+      "title": "비례대표 vs 지역구, 뭐가 다를까?"
+    },
+    {
+      "id": "rHTUqOmCpio",
+      "title": "개헌은 왜 이렇게 어려울까?"
+    },
+    {
+      "id": "IG1qskWJ9vs",
+      "title": "헌법재판소가 하는 일 5가지"
+    },
+    {
+      "id": "u8ROSQJsBCE",
+      "title": "여소야대 vs 여대야소, 뭐가 달라?"
+    },
+    {
+      "id": "8bd9to8RGs0",
+      "title": "필리버스터, 뭐길래? 무제한 토론"
+    },
+    {
+      "id": "4G6vpZqeRkU",
+      "title": "대통령 자리가 비면 누가? 권한대행"
+    },
+    {
+      "id": "wT7M5U6Iotk",
+      "title": "대통령 거부권이 뭐길래? 재의요구권"
+    },
+    {
+      "id": "fOgXh6JPaGY",
+      "title": "특검이 뭐길래? 검찰이랑 차이"
+    },
+    {
+      "id": "rvydstWGBZs",
+      "title": "탄핵 vs 하야, 뭐가 다를까?"
+    },
+    {
+      "id": "O_SZijB1mko",
+      "title": "레임덕이 무슨 뜻이지? 1분 정리"
+    },
+    {
+      "id": "2Qe4f-_wLao",
+      "title": "국회의원 특권, 진짜 뭐가 있나? 오해 vs 진실"
+    },
+    {
+      "id": "CQ-Q7HHDfn8",
+      "title": "국회의원이 진짜 하는 일 5가지"
+    },
+    {
+      "id": "Txryq4-MzEY",
+      "title": "국대 이기면 지지율 오른다?"
+    },
+    {
+      "id": "9rAeydtTXLA",
+      "title": "월드컵 볼 때, 국회는 뭘 할까?"
+    },
+    {
+      "id": "uVuTyvV7Eh4",
+      "title": "월드컵 = 정치, 소름돋게 닮은 5가지"
+    },
+    {
+      "id": "qnkXJpVIjWE",
+      "title": "여당 야당, 운전으로 1분 정리 (여당=운전석, 야당=브레이크)"
+    },
+    {
+      "id": "YvZfmgIH7BI",
+      "title": "정치 뉴스, 이렇게 속아요"
+    },
+    {
+      "id": "jJnJb0TD56E",
+      "title": "내 지역구 의원 성적표, 1분 만에 보는 법"
+    },
+    {
+      "id": "uCt_1SOKDUw",
+      "title": "국회의원 검증, 이 5가지만 보면 끝납니다"
+    },
+    {
+      "id": "eDW_yS67gwg",
+      "title": "발의 300건인데 통과율은 단 1.3%?"
+    },
+    {
+      "id": "-c7vFQmioRE",
+      "title": "내 지역구 국회의원, 진짜 일하는지 1분 만에 확인하는 법"
+    },
+    {
+      "id": "9i8P27HTGGk",
+      "title": "월급 300인데 통장 250… 사라진 50만원 어디갔지?"
+    },
+    {
+      "id": "vEiVRxuhqH8",
+      "title": "진보 vs 보수, 10명 중 8명은 설명 못 합니다 (30초 정리)"
+    }
+  ],
+  "channel": "https://www.youtube.com/@politaltal",
+  "note": "collect_youtube_stories.py 가 매일 갱신 — 삭제/재업로드 자동 반영"
+}
