@@ -2591,6 +2591,92 @@ a.post-card .post-cta {
   .bmc-author { max-width: 130px; }
 }
 
+/* ─── 국회 속보 (실시간 의정) — 홈 배너 + /live.html ─── */
+.live-banner {
+  display: flex; align-items: center; gap: 12px;
+  margin: 18px 0 6px; padding: 14px 16px;
+  background: linear-gradient(135deg, #0a2540 0%, #143d63 100%);
+  border-radius: 16px; color: #fff; text-decoration: none;
+  box-shadow: 0 6px 18px rgba(10,37,64,.22);
+}
+.live-banner .lb-dot {
+  width: 9px; height: 9px; border-radius: 50%; background: #ff4d4f; flex-shrink: 0;
+  box-shadow: 0 0 0 0 rgba(255,77,79,.7); animation: livePulse 1.8s infinite;
+}
+@keyframes livePulse {
+  0% { box-shadow: 0 0 0 0 rgba(255,77,79,.6); }
+  70% { box-shadow: 0 0 0 8px rgba(255,77,79,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,77,79,0); }
+}
+.live-banner .lb-main { flex: 1; min-width: 0; }
+.live-banner .lb-title { font-size: 14px; font-weight: 800; letter-spacing: -.2px; }
+.live-banner .lb-sub {
+  font-size: 12px; color: #cfe0f2; margin-top: 3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.live-banner .lb-arrow { font-size: 18px; color: #9fc0e6; flex-shrink: 0; }
+
+.live-wrap { max-width: 720px; margin: 0 auto; }
+.live-tabs { display: flex; gap: 8px; margin: 4px 0 18px; }
+.live-tab {
+  flex: 1; padding: 9px 6px; border-radius: 999px; border: 1px solid var(--color-border);
+  background: var(--color-card); color: var(--color-text-soft); font-size: 13px; font-weight: 700;
+  cursor: pointer; text-align: center;
+}
+.live-tab.on { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+.live-note {
+  font-size: 12px; color: var(--color-text-soft); background: var(--color-card);
+  border: 1px solid var(--color-border); border-radius: 10px; padding: 9px 12px; margin-bottom: 16px;
+  line-height: 1.6;
+}
+.live-day { font-size: 12px; font-weight: 800; color: var(--color-text-soft);
+  margin: 20px 0 8px; padding-left: 2px; }
+.live-item {
+  background: var(--color-card); border: 1px solid var(--color-border); border-radius: 14px;
+  padding: 13px 14px; margin-bottom: 10px;
+}
+.li-top { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; flex-wrap: wrap; }
+.li-badge {
+  font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; flex-shrink: 0;
+}
+.li-badge.green { background: #dcfce7; color: #166534; }
+.li-badge.red   { background: #fee2e2; color: #991b1b; }
+.li-badge.blue  { background: #dbeafe; color: #1e40af; }
+.li-badge.gray  { background: #e5e7eb; color: #374151; }
+.li-badge.new   { background: #fef3c7; color: #92400e; }
+.li-cmt { font-size: 11px; color: var(--color-text-soft); }
+.li-title { font-size: 14px; font-weight: 600; line-height: 1.5; color: var(--color-text); margin-bottom: 8px; }
+.li-vote { display: flex; align-items: center; gap: 10px; margin: 8px 0; font-size: 12px; }
+.li-votebar { flex: 1; height: 8px; border-radius: 4px; overflow: hidden; display: flex; background: #e5e7eb; }
+.li-votebar .vb-yes { background: #22c55e; }
+.li-votebar .vb-no  { background: #ef4444; }
+.li-votebar .vb-abs { background: #cbd5e1; }
+.li-votenums { font-size: 12px; color: var(--color-text-soft); white-space: nowrap; }
+.li-votenums b { color: var(--color-text); }
+.li-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
+.li-proposer {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12px;
+  color: var(--color-text-soft); text-decoration: none; min-width: 0;
+}
+.li-party-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.li-proposer b { color: var(--color-text); }
+.li-links { display: flex; gap: 10px; flex-shrink: 0; }
+.li-links a { font-size: 12px; color: var(--color-accent); text-decoration: none; font-weight: 700; }
+.live-session {
+  display: flex; align-items: center; gap: 12px; background: var(--color-card);
+  border: 1px solid var(--color-border); border-radius: 14px; padding: 13px 14px; margin-bottom: 10px;
+  text-decoration: none; color: var(--color-text);
+}
+.live-session.today { border-color: var(--color-accent); box-shadow: 0 0 0 2px rgba(37,99,235,.12); }
+.ls-date { text-align: center; flex-shrink: 0; min-width: 46px; }
+.ls-date .d { font-size: 20px; font-weight: 800; line-height: 1; }
+.ls-date .m { font-size: 11px; color: var(--color-text-soft); }
+.ls-body { flex: 1; min-width: 0; }
+.ls-body .t { font-size: 14px; font-weight: 700; }
+.ls-body .s { font-size: 12px; color: var(--color-text-soft); margin-top: 2px; }
+.ls-today-tag { font-size: 11px; font-weight: 800; color: #fff; background: #ef4444; border-radius: 999px; padding: 2px 8px; }
+.live-empty { text-align: center; color: var(--color-text-soft); font-size: 13px; padding: 30px 0; }
+
 /* 홈 — 최근 본회의 통과 법안 위젯 */
 .recent-bills-section { margin: 24px 0 16px; padding: 0 4px; }
 .rbs-head {
