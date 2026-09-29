@@ -2677,6 +2677,14 @@ a.post-card .post-cta {
 .ls-today-tag { font-size: 11px; font-weight: 800; color: #fff; background: #ef4444; border-radius: 999px; padding: 2px 8px; }
 .live-empty { text-align: center; color: var(--color-text-soft); font-size: 13px; padding: 30px 0; }
 
+/* 학력 허브 */
+.edu-list { background: var(--color-card); border: 1px solid var(--color-border); border-radius: 14px; overflow: hidden; }
+.edu-row { display: block; padding: 10px 13px; border-bottom: 1px solid var(--color-border); text-decoration: none; color: var(--color-text); }
+.edu-row:last-child { border-bottom: none; }
+.edu-row .er-name { font-weight: 700; font-size: 14px; }
+.edu-row .er-dist { font-weight: 500; font-size: 12px; color: var(--color-text-soft); }
+.edu-row .er-edu { font-size: 12.5px; color: var(--color-text-soft); margin-top: 3px; line-height: 1.5; }
+
 /* 홈 — 최근 본회의 통과 법안 위젯 */
 .recent-bills-section { margin: 24px 0 16px; padding: 0 4px; }
 .rbs-head {

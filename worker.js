@@ -136,7 +136,7 @@ function renderBill(no, C) {
     .split("@@B_TITLE@@").join(title)
     .split("@@B_DESC@@").join(desc)
     .split("@@B_KEYWORDS@@").join(kw)
-    .split("@@B_PATH@@").join(`/bills/${no}.html`)
+    .split("@@B_PATH@@").join(`/bills/${no}`)  // 확장자 없는 최종 URL(canonical·og)
     .split("@@B_JSONLD@@").join(jsonld)
     .split("@@B_BODY@@").join(body);
 }
