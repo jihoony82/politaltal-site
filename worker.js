@@ -141,9 +141,77 @@ function renderBill(no, C) {
     .split("@@B_BODY@@").join(body);
 }
 
+// ── 앱 푸시 토큰 저장소 (/push/*) ─────────────────────────────────────────
+// D1(PUSH_DB)에 기기 토큰만 저장한다. 발송은 CI(poc/send_push.py)가 한다.
+// 목록 조회·정리는 발송기가 ES256 JWT로 인증 — 공개키만 여기 있고 워커에는 비밀값이 없다.
+const PUSH_ADMIN_JWK = { kty: "EC", crv: "P-256",
+  x: "6nDP_wZjxYIQbEP3Cr-q4LNKV_I2EnxBSDp4xBoQeNw", y: "nM6MRRhBQZ8GAbMmXZ4uteltV00wIxsQmvaJtjllDhE" };
+let PUSH_READY = false;
+const pj = (o, status = 200) => new Response(JSON.stringify(o), {
+  status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" } });
+const b64u = (t) => Uint8Array.from(atob(t.replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0));
+
+async function pushAdminOk(request) {
+  const tok = (request.headers.get("authorization") || "").replace(/^Bearer /, "");
+  const [h, p, sig] = tok.split(".");
+  if (!h || !p || !sig) return false;
+  const key = await crypto.subtle.importKey("jwk", PUSH_ADMIN_JWK, { name: "ECDSA", namedCurve: "P-256" }, false, ["verify"]);
+  const ok = await crypto.subtle.verify({ name: "ECDSA", hash: "SHA-256" }, key, b64u(sig), new TextEncoder().encode(h + "." + p));
+  if (!ok) return false;
+  const claims = JSON.parse(new TextDecoder().decode(b64u(p)));
+  return claims.aud === "politaltal-push" && claims.exp > Date.now() / 1000;   // 발송기는 수명 2분짜리만 발급
+}
+
+async function handlePush(request, env, url) {
+  if (!env.PUSH_DB) return pj({ ok: false, error: "push store not provisioned" }, 503);
+  if (!PUSH_READY) {
+    await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS push_tokens (token TEXT PRIMARY KEY, platform TEXT NOT NULL, updated_at INTEGER NOT NULL)");
+    PUSH_READY = true;
+  }
+  const path = url.pathname.replace(/\/+$/, "");
+  if (request.method !== "POST") return pj({ ok: false, error: "method" }, 405);
+  const body = await request.json().catch(() => ({}));
+
+  if (path === "/push/register" || path === "/push/unregister") {
+    // 앱 웹뷰는 사이트와 같은 오리진에서 호출한다 — 다른 사이트발 요청은 받지 않음
+    if (request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
+    const token = String(body.token || "").trim();
+    const platform = String(body.platform || "").toLowerCase();
+    if (token.length < 20 || token.length > 4096 || !["ios", "android"].includes(platform))
+      return pj({ ok: false, error: "invalid" }, 400);
+    if (path === "/push/unregister") {
+      await env.PUSH_DB.prepare("DELETE FROM push_tokens WHERE token = ?").bind(token).run();
+    } else {
+      await env.PUSH_DB.prepare(
+        "INSERT INTO push_tokens (token, platform, updated_at) VALUES (?, ?, ?) " +
+        "ON CONFLICT(token) DO UPDATE SET platform = excluded.platform, updated_at = excluded.updated_at"
+      ).bind(token, platform, Date.now()).run();
+    }
+    return pj({ ok: true });
+  }
+
+  if (path === "/push/admin") {
+    if (!(await pushAdminOk(request))) return pj({ ok: false, error: "unauthorized" }, 401);
+    if (body.op === "list") {
+      const { results } = await env.PUSH_DB.prepare("SELECT token, platform FROM push_tokens").all();
+      return pj({ ok: true, tokens: results });
+    }
+    if (body.op === "prune" && Array.isArray(body.tokens)) {      // 무효(삭제된 앱) 토큰 정리
+      for (const t of body.tokens.slice(0, 500))
+        await env.PUSH_DB.prepare("DELETE FROM push_tokens WHERE token = ?").bind(String(t)).run();
+      return pj({ ok: true, pruned: Math.min(body.tokens.length, 500) });
+    }
+  }
+  return pj({ ok: false, error: "not found" }, 404);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname.startsWith("/push/")) {
+      try { return await handlePush(request, env, url); }
+      catch (e) { return pj({ ok: false, error: "server" }, 500); }
+    }
     const mt = url.pathname.match(/^\/bills\/([^\/]+?)(?:\.html)?\/?$/);
     if (mt) {
       try {
