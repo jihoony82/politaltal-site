@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <script>if(/PolitaltalApp/.test(navigator.userAgent)){document.documentElement.classList.add('in-app');if(/^\/(community|post|login)/.test(location.pathname))location.replace('/');}</script>
   <title>후원하기 - 정치탈탈</title>
-  <meta name="description" content="정치탈탈은 광고와 후원만으로 운영되는 비영리 데이터 플랫폼입니다. 커피 한 잔의 후원으로 응원해주세요.">
+  <meta name="description" content="정치탈탈은 광고 없이 시민 후원으로 운영되는 정치 데이터 플랫폼입니다. 커피 한 잔의 후원으로 응원해주세요.">
   <meta name="keywords" content="정치탈탈,국회의원,의정활동,출석률,발의 법안,표결,재산공개,지역구,공공데이터,22대 국회,국회의원 검색,내 지역구 의원">
   <meta name="author" content="정치탈탈">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -22,7 +23,7 @@
   <meta property="og:site_name" content="정치탈탈">
   <meta property="og:locale" content="ko_KR">
   <meta property="og:title" content="후원하기 - 정치탈탈">
-  <meta property="og:description" content="정치탈탈은 광고와 후원만으로 운영되는 비영리 데이터 플랫폼입니다. 커피 한 잔의 후원으로 응원해주세요.">
+  <meta property="og:description" content="정치탈탈은 광고 없이 시민 후원으로 운영되는 정치 데이터 플랫폼입니다. 커피 한 잔의 후원으로 응원해주세요.">
   <meta property="og:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -32,22 +33,22 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="후원하기 - 정치탈탈">
-  <meta name="twitter:description" content="정치탈탈은 광고와 후원만으로 운영되는 비영리 데이터 플랫폼입니다. 커피 한 잔의 후원으로 응원해주세요.">
+  <meta name="twitter:description" content="정치탈탈은 광고 없이 시민 후원으로 운영되는 정치 데이터 플랫폼입니다. 커피 한 잔의 후원으로 응원해주세요.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202609291127">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202609291127">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202609291127">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202609291127">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610112338">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610112338">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610112338">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610112338">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202609291127">
+  <link rel="stylesheet" href="/styles.css?v=202610112338">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202609291127">
+  <link rel="manifest" href="/manifest.json?v=202610112338">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202609291127">
+  <meta name="build-id" content="202610112338">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -114,7 +115,7 @@
         ['300명의 발의·표결·재산.', '잊지 않고 기록합니다.'],
         ['그들의 무기는 잊혀짐.', '우리의 무기는 기록입니다.'],
         ['당신의 커피값이', '300명의 의정활동을 매주 추적합니다.'],
-        ['발의 17,333건, 통과 567건.', '우리는 그 차이를 봅니다.'],
+        ['발의 19,876건, 통과 726건.', '우리는 그 차이를 봅니다.'],
       ];
       try {
         const day = Math.floor(Date.now() / 86400000);
@@ -177,21 +178,40 @@
     <div class="container">
       <a href="/" class="back-link">← 홈으로</a>
       <div class="section-title">☕ 정치탈탈을 응원해주세요</div>
-      <div class="section-sub">유권자의 알권리를 위한 비영리 데이터 플랫폼입니다</div>
+      <div class="section-sub">유권자의 알권리를 위해, 광고 없이 시민의 응원으로 운영합니다</div>
 
       <div class="stat-card">
         <h2>💌 왜 후원이 필요한가요?</h2>
         <p style="font-size:14px;line-height:1.8;color:var(--color-text);">
-          정치탈탈은 <strong>광고와 후원만으로 운영</strong>되는 시민 데이터 플랫폼입니다.<br><br>
+          정치탈탈은 <strong>광고 없이 후원으로 운영</strong>되는 시민 데이터 플랫폼입니다.<br><br>
           • 공공데이터 시각화와 분석 비용<br>
-          • 서버·도메인 운영비 (월 약 6만원)<br>
+          • 서버·도메인·데이터 처리 운영비 (내역은 <a href="/transparency.html">사용 내역</a>에 공개)<br>
           • 기능 개선과 신규 콘텐츠 제작<br>
           • 정치 콘텐츠 변호사 자문 비용<br><br>
           <strong>커피 한 잔(5,000원)부터 가능</strong>합니다. 여러분의 후원이 더 좋은 정보 환경을 만듭니다.
         </p>
       </div>
 
-      <div class="stat-card">
+      <div class="stat-card app-only">
+        <h2>☕ 앱에서 바로 응원하기</h2>
+        <div class="donate-options">
+          <button type="button" class="donate-card iap-btn" data-pid="com.politaltal.support.small">
+            <div class="donate-icon">☕</div><h4>커피 한 잔</h4><p class="iap-price">&nbsp;</p>
+          </button>
+          <button type="button" class="donate-card iap-btn" data-pid="com.politaltal.support.medium">
+            <div class="donate-icon">🍱</div><h4>든든한 한 끼</h4><p class="iap-price">&nbsp;</p>
+          </button>
+          <button type="button" class="donate-card iap-btn" data-pid="com.politaltal.support.large">
+            <div class="donate-icon">🖥</div><h4>한 달 서버비 보태기</h4><p class="iap-price">&nbsp;</p>
+          </button>
+        </div>
+        <div class="source-note" id="iapNote" style="margin-top:12px;">
+          결제는 스토어(App Store·Google Play)를 통해 안전하게 처리됩니다. 응원은 정치탈탈 서비스 운영에만 쓰이며,
+          특정 정당·후보·정치인에 대한 정치자금이 아닙니다. 기부금 영수증 발급 대상이 아닙니다.
+        </div>
+      </div>
+
+      <div class="stat-card web-only">
         <h2>💳 간편 후원 (지금 바로 가능)</h2>
         <div class="donate-options">
           <a href="https://qr.kakaopay.com/Ej9JMVIgN" class="donate-card" target="_blank" rel="noopener">
@@ -213,7 +233,7 @@
           </div>
         </div>
         <div class="source-note" style="margin-top:12px;">
-          후원금은 수수료 0%로 운영자에게 직접 전달됩니다. 카카오페이는 앱 자동 실행, 계좌이체는 카드 탭 시 복사됩니다.
+          후원금은 수수료 0%로 운영자에게 직접 전달됩니다. 카카오페이는 앱 자동 실행, 계좌이체는 카드 탭 시 복사됩니다.<br>※ 후원금은 기부금 영수증 발급(세액공제) 대상이 아닙니다.
         </div>
       </div>
 
@@ -239,26 +259,59 @@
             showToast();
           }
         }
-        function showToast() {
+        function showToast(msg) {
           const t = document.getElementById('toast');
+          if (msg) t.textContent = msg;
           t.style.opacity = '1';
           setTimeout(() => { t.style.opacity = '0'; }, 2000);
         }
       </script>
 
-      <div class="stat-card">
+      <script>
+        /* 앱 전용: 스토어 인앱결제(소모성) — @capgo/native-purchases 브리지. 웹에서는 아무것도 안 함 */
+        (function() {
+          if (!document.documentElement.classList.contains('in-app')) return;
+          var Cap = window.Capacitor, NP = Cap && Cap.Plugins && Cap.Plugins.NativePurchases;
+          var btns = [].slice.call(document.querySelectorAll('.iap-btn'));
+          var note = document.getElementById('iapNote');
+          function off(msg) { btns.forEach(function(b) { b.style.display = 'none'; }); note.textContent = msg; }
+          if (!NP) { off('앱을 최신 버전으로 업데이트하면 응원 결제를 이용할 수 있어요.'); return; }
+          NP.getProducts({ productIdentifiers: btns.map(function(b) { return b.dataset.pid; }), productType: 'inapp' })
+            .then(function(r) {
+              (r.products || []).forEach(function(pr) {
+                var b = document.querySelector('.iap-btn[data-pid="' + pr.identifier + '"]');
+                if (b) { b.querySelector('.iap-price').textContent = pr.priceString; b.dataset.ready = '1'; }
+              });
+              if (!btns.some(function(b) { return b.dataset.ready; })) { off('응원 결제를 준비 중입니다. 곧 열려요.'); return; }
+              btns.forEach(function(b) { if (!b.dataset.ready) b.style.display = 'none'; });
+            })
+            .catch(function() { off('스토어에 연결하지 못했어요. 잠시 후 다시 시도해 주세요.'); });
+          btns.forEach(function(b) {
+            b.addEventListener('click', function() {
+              if (b.dataset.busy || !b.dataset.ready) return;
+              b.dataset.busy = '1';
+              NP.purchaseProduct({ productIdentifier: b.dataset.pid, productType: 'inapp', quantity: 1, isConsumable: true })
+                .then(function() { showToast('고맙습니다! 응원이 전달됐어요 🙏'); })
+                .catch(function() {})          /* 취소·실패는 조용히 */
+                .then(function() { delete b.dataset.busy; });
+            });
+          });
+        })();
+      </script>
+
+      <div class="stat-card web-only">
         <h2>🎨 정기·콘텐츠 후원 (준비 중)</h2>
         <div class="donate-options">
-          <a href="#" class="donate-card" target="_blank" rel="noopener">
+          <div class="donate-card soon">
             <div class="donate-icon">🎁</div>
             <h4>포스타입 정기 후원</h4>
             <p>매월 자동 후원 + 멤버십 콘텐츠<br>(준비 중)</p>
-          </a>
-          <a href="#" class="donate-card" target="_blank" rel="noopener">
+          </div>
+          <div class="donate-card soon">
             <div class="donate-icon">💳</div>
             <h4>토스 페이먼츠 카드결제</h4>
             <p>코코요 사업자 PG 정식 도입<br>(준비 중)</p>
-          </a>
+          </div>
         </div>
         <div class="source-note" style="margin-top:12px;">
           ⚠️ 본 후원은 <strong>정치탈탈 서비스 운영</strong>을 위한 것이며,
@@ -271,7 +324,7 @@
         <h2>🎯 후원금 사용처 (투명 공개 예정)</h2>
         <p style="font-size:13px;line-height:1.8;color:var(--color-text-soft);">
           모든 후원금 사용 내역은 <strong>분기별로 본 페이지에 공개</strong>됩니다.<br>
-          비영리 운영 원칙을 지키며, 운영자 인건비는 사용처에 포함되지 않습니다.
+          후원금은 서버·데이터·콘텐츠 제작 등 서비스 운영비로만 쓰며, 운영자 인건비는 사용처에 포함되지 않습니다.
         </p>
       </div>
     </div>
@@ -319,7 +372,7 @@
     if (!inApp || !Cap || !Cap.Plugins || !Cap.Plugins.PushNotifications) return;
     var PN = Cap.Plugins.PushNotifications;
     var platform = (Cap.getPlatform && Cap.getPlatform()) || "unknown";
-    var PUSH_API = "https://push.politaltal.com";   // 푸시 워커 주소(배포 후 유지)
+    var PUSH_API = "";   // 같은 오리진 /push/* (site/worker.js)
 
     function postToken(value) {
       try {

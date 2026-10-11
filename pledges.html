@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <script>if(/PolitaltalApp/.test(navigator.userAgent)){document.documentElement.classList.add('in-app');if(/^\/(community|post|login)/.test(location.pathname))location.replace('/');}</script>
   <title>공약 기록 — 약속은 기록되어야 물을 수 있습니다 | 정치탈탈</title>
   <meta name="description" content="정치탈탈은 공약 이행률을 평가하지 않습니다. 선거공약 원문을 보존하고, 전국 243개 지자체 중 공약 데이터를 개방한 8곳을 기록합니다.">
   <meta name="keywords" content="공약 이행,선거공약,공약 기록,지자체 공약,공약 공개,매니페스토,공약이행률">
@@ -35,19 +36,19 @@
   <meta name="twitter:description" content="정치탈탈은 공약 이행률을 평가하지 않습니다. 선거공약 원문을 보존하고, 전국 243개 지자체 중 공약 데이터를 개방한 8곳을 기록합니다.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202609291127">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202609291127">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202609291127">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202609291127">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610112338">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610112338">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610112338">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610112338">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202609291127">
+  <link rel="stylesheet" href="/styles.css?v=202610112338">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202609291127">
+  <link rel="manifest" href="/manifest.json?v=202610112338">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202609291127">
+  <meta name="build-id" content="202610112338">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -89,7 +90,7 @@
         ['300명의 발의·표결·재산.', '잊지 않고 기록합니다.'],
         ['그들의 무기는 잊혀짐.', '우리의 무기는 기록입니다.'],
         ['당신의 커피값이', '300명의 의정활동을 매주 추적합니다.'],
-        ['발의 17,333건, 통과 567건.', '우리는 그 차이를 봅니다.'],
+        ['발의 19,876건, 통과 726건.', '우리는 그 차이를 봅니다.'],
       ];
       try {
         const day = Math.floor(Date.now() / 86400000);
@@ -195,13 +196,13 @@
       <a href="/bills.html" class="pg-track-card">
         <div class="pg-tc-ico">📜</div>
         <div class="pg-tc-body">
-          <div class="pg-tc-t">발의 법안 17,333건</div>
+          <div class="pg-tc-t">발의 법안 19,876건</div>
           <div class="pg-tc-d">약속이 실제 법으로 이어졌는지 — 위원회·처리결과·분야별 검색</div>
         </div>
         <div class="pg-tc-arrow">→</div>
       </a>
 
-      <section class="recent-bills-section" style="margin-top:22px;"><div class="rbs-head"><div><div class="section-title">📜 최근 본회의 통과 법안</div><div class="section-sub">가결·대안반영 기준 처리일 순</div></div><a href="/bills.html" class="rbs-more">전체 검색 →</a></div><div class="recent-bills-grid"><a class="recent-bill-card" href="/bills/2218639.html"><div class="rbc-head"><span class="rbc-cat">기타</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">소송촉진 등에 관한 특례법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 윤상현 · 국힘</span><span class="rbc-date">📅 2026-05-07</span></div></a><a class="recent-bill-card" href="/bills/2218215.html"><div class="rbc-head"><span class="rbc-cat">안전</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">항공안전법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 복기왕 · 민주</span><span class="rbc-date">📅 2026-05-07</span></div></a><a class="recent-bill-card" href="/bills/2218069.html"><div class="rbc-head"><span class="rbc-cat">기타</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">농지법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 윤준병 · 민주</span><span class="rbc-date">📅 2026-05-07</span></div></a><a class="recent-bill-card" href="/bills/2217813.html"><div class="rbc-head"><span class="rbc-cat">노동</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">근로기준법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 김태선 · 민주</span><span class="rbc-date">📅 2026-05-07</span></div></a><a class="recent-bill-card" href="/bills/2217785.html"><div class="rbc-head"><span class="rbc-cat">교통</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">여객자동차 운수사업법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 발의자 정보 없음</span><span class="rbc-date">📅 2026-05-07</span></div></a><a class="recent-bill-card" href="/bills/2217702.html"><div class="rbc-head"><span class="rbc-cat">기타</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">저출산·고령사회기본법 전부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 백혜련 · 민주</span><span class="rbc-date">📅 2026-05-07</span></div></a><a class="recent-bill-card" href="/bills/2217667.html"><div class="rbc-head"><span class="rbc-cat">기타</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">특정건축물 정리에 관한 특별조치법안</div><div class="rbc-foot"><span class="rbc-author">👤 발의자 정보 없음</span><span class="rbc-date">📅 2026-05-07</span></div></a><a class="recent-bill-card" href="/bills/2217663.html"><div class="rbc-head"><span class="rbc-cat">노동</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">근로기준법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 이용우 · 민주</span><span class="rbc-date">📅 2026-05-07</span></div></a></div></section>
+      <section class="recent-bills-section" style="margin-top:22px;"><div class="rbs-head"><div><div class="section-title">📜 최근 본회의 통과 법안</div><div class="section-sub">가결·대안반영 기준 처리일 순</div></div><a href="/bills.html" class="rbs-more">전체 검색 →</a></div><div class="recent-bills-grid"><a class="recent-bill-card" href="/bills/2221250.html"><div class="rbc-head"><span class="rbc-cat">기타</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">국민연금법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 김교흥 · 민주</span><span class="rbc-date">📅 2026-10-01</span></div></a><a class="recent-bill-card" href="/bills/2221242.html"><div class="rbc-head"><span class="rbc-cat">기타</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">국민연금법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 이달희 · 국힘</span><span class="rbc-date">📅 2026-10-01</span></div></a><a class="recent-bill-card" href="/bills/2221145.html"><div class="rbc-head"><span class="rbc-cat">기타</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">국민연금법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 이만희 · 국힘</span><span class="rbc-date">📅 2026-10-01</span></div></a><a class="recent-bill-card" href="/bills/2221130.html"><div class="rbc-head"><span class="rbc-cat">기타</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">국민연금법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 김미애 · 국힘</span><span class="rbc-date">📅 2026-10-01</span></div></a><a class="recent-bill-card" href="/bills/2221112.html"><div class="rbc-head"><span class="rbc-cat">기타</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">국민연금법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 서영석 · 민주</span><span class="rbc-date">📅 2026-10-01</span></div></a><a class="recent-bill-card" href="/bills/2220902.html"><div class="rbc-head"><span class="rbc-cat">기타</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">국민연금법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 주호영 · 국힘</span><span class="rbc-date">📅 2026-10-01</span></div></a><a class="recent-bill-card" href="/bills/2220898.html"><div class="rbc-head"><span class="rbc-cat">복지</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">아동수당법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 이수진 · 민주</span><span class="rbc-date">📅 2026-10-01</span></div></a><a class="recent-bill-card" href="/bills/2220860.html"><div class="rbc-head"><span class="rbc-cat">기타</span><span class="rbc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span></div><div class="rbc-title">농어촌정비법 일부개정법률안</div><div class="rbc-foot"><span class="rbc-author">👤 문대림 · 민주</span><span class="rbc-date">📅 2026-10-01</span></div></a></div></section>
 
       <div class="section-title" style="margin-top:24px;">🔍 공약 데이터, 어디가 열어놨나</div>
       <div class="section-sub">전국 243개 지자체 중 공공데이터로 개방한 곳</div>
@@ -323,7 +324,7 @@
       <strong>본 서비스는 정부·국회·선관위 공식 서비스가 아닙니다.</strong><br>
       공공데이터(열린국회정보 OpenAPI)를 시각화한 민간 정보 플랫폼입니다.
       편향 없는 객관적 수치만 제공하며, 평가·해석은 이용자에게 위임합니다.<br>
-      데이터 기준일: 2026년 09월 29일 · 출처: open.assembly.go.kr (공공누리 제1유형)
+      데이터 기준일: 2026년 10월 11일 · 출처: open.assembly.go.kr (공공누리 제1유형)
     </div>
     
     </div>
@@ -371,7 +372,7 @@
     if (!inApp || !Cap || !Cap.Plugins || !Cap.Plugins.PushNotifications) return;
     var PN = Cap.Plugins.PushNotifications;
     var platform = (Cap.getPlatform && Cap.getPlatform()) || "unknown";
-    var PUSH_API = "https://push.politaltal.com";   // 푸시 워커 주소(배포 후 유지)
+    var PUSH_API = "";   // 같은 오리진 /push/* (site/worker.js)
 
     function postToken(value) {
       try {
