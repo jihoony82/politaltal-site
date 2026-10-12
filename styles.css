@@ -2685,6 +2685,8 @@ a.post-card .post-cta {
 /* 인앱결제가 아직 안 켜진 앱: 후원 진입점 전부 숨김('준비 중' 화면을 보여주지 않는다) */
 .no-iap a[href^="/donate"], .no-iap a[href^="/transparency"], .no-iap .donate-banner, .no-iap .cost-cta,
 .no-iap .mini-cta, .no-iap .fundraiser-bar { display: none !important; }
+/* 후원 띠가 맡던 노치(상태바) 여백을 본문이 대신 확보 — 없으면 sticky 헤더가 첫 화면을 덮는다 */
+.no-iap body { padding-top: env(safe-area-inset-top); }
 .iap-btn { border: 1px solid var(--color-border); font: inherit; cursor: pointer; width: 100%; }
 .iap-btn .iap-price { font-weight: 800; color: var(--color-primary); font-size: 15px; }
 .donate-card.soon { opacity: .55; cursor: default; }
