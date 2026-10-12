@@ -205,11 +205,80 @@ async function handlePush(request, env, url) {
   return pj({ ok: false, error: "not found" }, 404);
 }
 
+// ── 후원·지출 장부 (/ledger/*) ───────────────────────────────────────────
+// 관리자(admin.html)가 들어온 후원·나간 지출을 적는다. 공개되는 것은 /ledger/summary 의
+// '지난 달까지' 월 합계·기부 영수증 링크뿐 — 메모(입금자명 등)는 관리자에게만 나간다.
+// 인증: 긴 무작위 키의 SHA-256만 둔다(공개 저장소라 키는 못 둠). 원본 = 운영자 맥 ~/.config/politaltal/ledger-admin.key
+const LEDGER_KEY_SHA256 = "6ebe63593c6e5e84afff3590aabb6bfa81172eee8ba17798da13ecace4c052e0";
+const LEDGER_CH = { in: ["kakaopay", "bank", "appstore", "play", "etc"], out: ["server", "domain", "charity", "etc"] };
+let LEDGER_READY = false;
+
+async function ledgerAdminOk(request) {
+  const key = (request.headers.get("authorization") || "").replace(/^Bearer /, "");
+  if (key.length < 32) return false;
+  const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(key));
+  return [...new Uint8Array(d)].map((b) => b.toString(16).padStart(2, "0")).join("") === LEDGER_KEY_SHA256;
+}
+
+// 입력 검증 — 통과하면 저장할 행, 아니면 null
+function ledgerRow(b) {
+  const kind = String(b.kind || ""), day = String(b.day || ""), channel = String(b.channel || "");
+  const amount = Number(b.amount), memo = String(b.memo || "").trim(), link = String(b.link || "").trim();
+  if (!LEDGER_CH[kind] || !LEDGER_CH[kind].includes(channel)) return null;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day) || isNaN(Date.parse(day))) return null;
+  if (!Number.isInteger(amount) || amount < 1 || amount > 1e9) return null;
+  if (memo.length > 200 || link.length > 300) return null;
+  if (link && (kind !== "out" || !/^https:\/\/[^\s"'<>]+$/.test(link))) return null;   // 공개 페이지에 href로 나감
+  return { kind, day, amount, channel, memo, link };
+}
+
+async function handleLedger(request, env, url) {
+  if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
+  if (!LEDGER_READY) {
+    await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS ledger (id INTEGER PRIMARY KEY AUTOINCREMENT, kind TEXT NOT NULL, day TEXT NOT NULL, amount INTEGER NOT NULL, channel TEXT NOT NULL, memo TEXT NOT NULL DEFAULT '', link TEXT NOT NULL DEFAULT '', created_at INTEGER NOT NULL)");
+    LEDGER_READY = true;
+  }
+  const path = url.pathname.replace(/\/+$/, "");
+
+  if (path === "/ledger/summary" && request.method === "GET") {
+    const month = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 7);   // 한국 시각 기준 이번 달 — 끝난 달만 공개
+    const { results: rows } = await env.PUSH_DB.prepare(
+      "SELECT substr(day, 1, 7) AS month, kind, channel, SUM(amount) AS total FROM ledger " +
+      "WHERE substr(day, 1, 7) < ? GROUP BY month, kind, channel ORDER BY month").bind(month).all();
+    const { results: charity } = await env.PUSH_DB.prepare(
+      "SELECT day, amount, link FROM ledger WHERE kind = 'out' AND channel = 'charity' AND substr(day, 1, 7) < ? ORDER BY day DESC").bind(month).all();
+    return pj({ ok: true, rows, charity });
+  }
+
+  if (path === "/ledger/admin" && request.method === "POST") {
+    if (!(await ledgerAdminOk(request))) return pj({ ok: false, error: "unauthorized" }, 401);
+    const body = await request.json().catch(() => ({}));
+    if (body.op === "list") {
+      // ponytail: 최근 2000건 상한 — 넘어가면 월 단위 조회로
+      const { results } = await env.PUSH_DB.prepare("SELECT id, kind, day, amount, channel, memo, link FROM ledger ORDER BY day DESC, id DESC LIMIT 2000").all();
+      return pj({ ok: true, rows: results });
+    }
+    if (body.op === "add") {
+      const r = ledgerRow(body);
+      if (!r) return pj({ ok: false, error: "invalid" }, 400);
+      await env.PUSH_DB.prepare("INSERT INTO ledger (kind, day, amount, channel, memo, link, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)")
+        .bind(r.kind, r.day, r.amount, r.channel, r.memo, r.link, Date.now()).run();
+      return pj({ ok: true });
+    }
+    if (body.op === "delete" && Number.isInteger(body.id)) {
+      await env.PUSH_DB.prepare("DELETE FROM ledger WHERE id = ?").bind(body.id).run();
+      return pj({ ok: true });
+    }
+  }
+  return pj({ ok: false, error: "not found" }, 404);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.pathname.startsWith("/push/")) {
-      try { return await handlePush(request, env, url); }
+    const api = url.pathname.startsWith("/push/") ? handlePush : url.pathname.startsWith("/ledger/") ? handleLedger : null;
+    if (api) {
+      try { return await api(request, env, url); }
       catch (e) { return pj({ ok: false, error: "server" }, 500); }
     }
     const mt = url.pathname.match(/^\/bills\/([^\/]+?)(?:\.html)?\/?$/);

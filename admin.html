@@ -69,12 +69,75 @@
     .item-actions .delete { color:#991b1b; border-color:#fecaca; background:#fef2f2; }
     .item-actions button:hover { transform:translateY(-1px); }
     .empty { text-align:center; padding:30px 10px; color:var(--soft); font-size:13px; }
+
+    /* 후원·지출 장부 */
+    .lg-stats { display:flex; gap:22px; flex-wrap:wrap; }
+    .lg-stats .big { font-size:24px; }
+    .lg-form { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:16px 0 8px; }
+    .lg-form input, .lg-form select { border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-size:16px; min-width:0; background:#fff; color:var(--navy); }
+    .lg-form #lgMemo, .lg-form #lgLink, .lg-form button { grid-column:1 / -1; }
+    .lg-form button { background:var(--navy); color:#fff; border:none; border-radius:8px; padding:12px; font-size:14px; font-weight:700; cursor:pointer; }
+    .lg-month { display:flex; justify-content:space-between; gap:8px; font-size:12px; font-weight:800; color:var(--soft); margin:16px 0 2px; padding-bottom:4px; border-bottom:2px solid var(--border); }
+    .lg-row { display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid #f1f5f9; font-size:13px; }
+    .lg-row .d { color:var(--soft); white-space:nowrap; }
+    .lg-row .ch { white-space:nowrap; font-weight:600; }
+    .lg-row .m { color:var(--soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; flex:1; }
+    .lg-row .a { font-weight:800; white-space:nowrap; }
+    .lg-row .in { color:#166534; } .lg-row .out { color:#991b1b; }
+    .lg-row .m:empty { display:none; }
+    @media (max-width:480px) {   /* 좁은 화면: 메모(입금자명)를 잘리지 않게 아랫줄로 */
+      .lg-row { flex-wrap:wrap; }
+      .lg-row .m { order:9; flex-basis:100%; white-space:normal; }
+      .lg-row .a { margin-left:auto; }
+    }
+    .lg-row button { border:1px solid var(--border); background:#fff; color:var(--soft); border-radius:6px; font-size:11px; padding:4px 8px; cursor:pointer; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>🛡 정치탈탈 관리자 <span class="admin-badge">관</span></h1>
-    <div class="sub">통계 + 게시글 관리 (개인정보 미수집)</div>
+    <div class="sub">후원 장부 + 통계 + 게시글 관리</div>
+
+    <!-- 후원·지출 장부 — 사이트 워커 /ledger (아래 관리자 키와 별개의 긴 키) -->
+    <div class="card">
+      <h2>💰 후원·지출 관리</h2>
+      <div id="lgKey" style="display:none;">
+        <div class="keybox">
+          <input type="password" id="lgKeyInput" placeholder="후원 관리 키" autocomplete="off">
+          <button onclick="lgSaveKey()">확인</button>
+        </div>
+        <div id="lgKeyErr" class="err" style="margin-top:8px;"></div>
+        <div class="note">※ 게시글 관리용 '관리자 키'와 다른, 후원 장부 전용 긴 키입니다. 기기마다 한 번만 넣으면 됩니다.</div>
+      </div>
+      <div id="lgBody" style="display:none;">
+        <div class="lg-stats">
+          <div><div class="big" id="lgIn" style="color:#166534;">–</div><div class="label">이번 달 후원</div></div>
+          <div><div class="big" id="lgOut" style="color:#991b1b;">–</div><div class="label">이번 달 지출</div></div>
+          <div><div class="big" id="lgBal" style="color:var(--navy);">–</div><div class="label">누적 잔액</div></div>
+        </div>
+        <div id="lgPledge" class="note"></div>
+        <form class="lg-form" onsubmit="lgAdd(event)">
+          <select id="lgKind" onchange="lgKindChanged()" aria-label="구분"><option value="in">후원 들어옴</option><option value="out">지출 나감</option></select>
+          <input type="date" id="lgDay" aria-label="날짜" required>
+          <input type="number" id="lgAmount" placeholder="금액(원)" min="1" max="1000000000" step="1" inputmode="numeric" aria-label="금액" required>
+          <select id="lgChannel" aria-label="경로·항목"></select>
+          <input type="text" id="lgMemo" placeholder="메모 (비공개 · 입금자명 등)" maxlength="200">
+          <input type="url" id="lgLink" placeholder="영수증 링크 (공개 · https://)" maxlength="300" pattern="https://.+" style="display:none;">
+          <button type="submit" id="lgSubmit">기록하기</button>
+        </form>
+        <div id="lgErr" class="err"></div>
+        <div id="lgList" class="empty">로딩 중…</div>
+        <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+          <button class="reset" onclick="lgCsv()">엑셀(CSV) 내려받기</button>
+          <button class="reset" onclick="lgResetKey()">후원 키 변경</button>
+        </div>
+        <div class="note">
+          ※ 후원은 <strong>실제 받은 금액</strong>으로 적습니다(앱 안 응원은 스토어 수수료를 뺀 정산액).<br>
+          ※ 메모는 이 화면에서만 보입니다. <a href="/transparency.html" target="_blank">투명성 페이지</a>에는 <strong>지난 달까지의</strong> 월 합계·항목별 지출·기부 영수증 링크만 매월 1일 자동으로 공개됩니다.<br>
+          ※ 잘못 적었으면 지우고 다시 기록하세요.
+        </div>
+      </div>
+    </div>
 
     <div id="keyCard" class="card" style="display:none;">
       <div class="label" style="margin-bottom:8px;">관리자 키 입력</div>
@@ -290,6 +353,106 @@
     }
 
     function resetKey() { localStorage.removeItem(KEY_STORE); document.getElementById('keyInput').value=''; showKeyForm(''); }
+
+    // ── 후원·지출 장부 ──────────────────────────────────────────
+    const LG_KEY = 'politaltal.ledgerKey';
+    const LG_CH = { in:  { kakaopay:'카카오페이', bank:'계좌이체', appstore:'앱스토어', play:'구글플레이', etc:'기타' },
+                    out: { server:'서버·운영', domain:'도메인', charity:'시민단체 기부', etc:'기타' } };
+    let LG_ROWS = [];
+    const $ = id => document.getElementById(id);
+    const won = n => n.toLocaleString('ko-KR') + '원';
+    const kstToday = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+
+    async function lgApi(body, key) {
+      try {
+        const r = await fetch('/ledger/admin', { method:'POST', body: JSON.stringify(body),
+          headers:{ 'content-type':'application/json', authorization:'Bearer ' + (key || localStorage.getItem(LG_KEY) || '') } });
+        return await r.json();
+      } catch (e) { return { ok:false, error:'network' }; }
+    }
+    function lgKindChanged() {
+      const k = $('lgKind').value;
+      $('lgChannel').innerHTML = Object.entries(LG_CH[k]).map(([v, t]) => `<option value="${v}">${t}</option>`).join('');
+      $('lgLink').style.display = k === 'out' ? '' : 'none';
+    }
+    function lgShowKey(msg) { $('lgBody').style.display = 'none'; $('lgKey').style.display = ''; $('lgKeyErr').textContent = msg || ''; }
+    async function lgLoad(key) {
+      const d = await lgApi({ op:'list' }, key);
+      if (!d.ok) return d;
+      LG_ROWS = d.rows;
+      $('lgKey').style.display = 'none'; $('lgBody').style.display = '';
+      lgRender();
+      return d;
+    }
+    function lgRender() {
+      const month = kstToday().slice(0, 7);
+      const sum = f => LG_ROWS.filter(f).reduce((t, r) => t + r.amount, 0);
+      const tin = sum(r => r.kind === 'in'), tout = sum(r => r.kind === 'out');
+      const pledge = Math.floor(tin * 0.3), given = sum(r => r.kind === 'out' && r.channel === 'charity');
+      $('lgIn').textContent = won(sum(r => r.kind === 'in' && r.day.startsWith(month)));
+      $('lgOut').textContent = won(sum(r => r.kind === 'out' && r.day.startsWith(month)));
+      $('lgBal').textContent = won(tin - tout);
+      $('lgPledge').textContent = `누적 후원 ${won(tin)} · 기부 약속(30%) ${won(pledge)} · 기부한 금액 ${won(given)} → 앞으로 기부할 금액 ${won(Math.max(0, pledge - given))}`;
+      const el = $('lgList');
+      if (!LG_ROWS.length) { el.className = 'empty'; el.textContent = '아직 기록이 없습니다. 후원이 들어오면 위에서 기록하세요.'; return; }
+      el.className = '';
+      let html = '', cur = '';
+      for (const r of LG_ROWS) {
+        const m = r.day.slice(0, 7);
+        if (m !== cur) {
+          cur = m;
+          html += `<div class="lg-month"><span>${m.replace('-', '년 ')}월</span><span>후원 ${won(sum(x => x.kind === 'in' && x.day.startsWith(m)))} · 지출 ${won(sum(x => x.kind === 'out' && x.day.startsWith(m)))}</span></div>`;
+        }
+        html += `<div class="lg-row"><span class="d">${r.day.slice(5)}</span><span class="ch">${LG_CH[r.kind][r.channel] || esc(r.channel)}</span>`
+              + `<span class="m">${esc(r.memo)}${r.link ? ' 🔗' : ''}</span><span class="a ${r.kind}">${r.kind === 'in' ? '+' : '−'}${won(r.amount)}</span>`
+              + `<button onclick="lgDel(${r.id})">삭제</button></div>`;
+      }
+      el.innerHTML = html;
+    }
+    async function lgAdd(ev) {
+      ev.preventDefault();
+      const kind = $('lgKind').value;
+      $('lgSubmit').disabled = true; $('lgErr').textContent = '';
+      const d = await lgApi({ op:'add', kind, day: $('lgDay').value, amount: Number($('lgAmount').value),
+        channel: $('lgChannel').value, memo: $('lgMemo').value, link: kind === 'out' ? $('lgLink').value : '' });
+      $('lgSubmit').disabled = false;
+      if (!d.ok) { $('lgErr').textContent = d.error === 'invalid' ? '입력값을 확인하세요(금액은 원 단위 정수, 링크는 https://).' : '저장하지 못했습니다. 다시 시도하세요.'; return; }
+      $('lgAmount').value = $('lgMemo').value = $('lgLink').value = '';
+      lgLoad();
+    }
+    async function lgDel(id) {
+      const r = LG_ROWS.find(x => x.id === id);
+      if (!r || !confirm(`${r.day} ${LG_CH[r.kind][r.channel]} ${won(r.amount)} 기록을 지울까요?`)) return;
+      const d = await lgApi({ op:'delete', id });
+      if (!d.ok) $('lgErr').textContent = '지우지 못했습니다. 다시 시도하세요.';
+      lgLoad();
+    }
+    function lgCsv() {
+      const q = v => '"' + String(v).replace(/"/g, '""') + '"';
+      const csv = '\ufeff날짜,구분,경로·항목,금액,메모,링크\n' + LG_ROWS.map(r =>
+        [r.day, r.kind === 'in' ? '후원' : '지출', LG_CH[r.kind][r.channel] || r.channel, r.amount, q(r.memo), q(r.link)].join(',')).join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv], { type:'text/csv' }));
+      a.download = `정치탈탈_후원장부_${kstToday()}.csv`;
+      a.click();
+    }
+    async function lgSaveKey() {
+      const k = $('lgKeyInput').value.trim();
+      if (!k) return;
+      const d = await lgLoad(k);
+      if (d.ok) { localStorage.setItem(LG_KEY, k); $('lgKeyInput').value = ''; }
+      else lgShowKey(d.error === 'unauthorized' ? '키가 맞지 않습니다.' : '연결 확인이 필요합니다.');
+    }
+    function lgResetKey() { localStorage.removeItem(LG_KEY); LG_ROWS = []; lgShowKey(''); }
+    (async function lgInit() {
+      $('lgDay').value = kstToday();
+      lgKindChanged();
+      if (!localStorage.getItem(LG_KEY)) return lgShowKey('');
+      const d = await lgLoad();
+      if (d.ok) return;
+      if (d.error === 'unauthorized') localStorage.removeItem(LG_KEY);
+      lgShowKey(d.error === 'unauthorized' ? '' : '연결 확인이 필요합니다.');
+    })();
 
     (async function init() {
       const saved = localStorage.getItem(KEY_STORE);

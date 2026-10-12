@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="정치탈탈 후원금 사용 내역과 운영 약속을 투명하게 공개합니다.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610121300">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610121300">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610121300">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610121300">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610121310">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610121310">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610121310">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610121310">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610121300">
+  <link rel="stylesheet" href="/styles.css?v=202610121310">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610121300">
+  <link rel="manifest" href="/manifest.json?v=202610121310">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610121300">
+  <meta name="build-id" content="202610121310">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -200,7 +200,7 @@
           <div class="ap-desc">
             • Cloudflare 서버·D1 데이터베이스·CDN 비용<br>
             • politaltal.com 도메인 갱신 (연 ~3만원)<br>
-            • 데이터 자동 갱신 launchd·텔레그램 봇 호스팅<br>
+            • 데이터 매일 자동 갱신·텔레그램 봇 운영<br>
             • 보안 인증서·이메일 호스팅
           </div>
         </div>
@@ -222,7 +222,7 @@
           <p style="padding-left:12px;">• Cloudflare Workers + D1 + Pages: <strong>무료</strong> (Free tier)</p>
           <p style="padding-left:12px;">• 도메인 politaltal.com: <strong>월 ~2,500원</strong> (연 갱신)</p>
           <p style="padding-left:12px;">• 사진·이미지·video storage: <strong>무료</strong> (CF Pages 내)</p>
-          <p style="padding-left:12px;">• 텔레그램 봇·launchd 자동화: <strong>무료</strong> (운영자 PC)</p>
+          <p style="padding-left:12px;">• 데이터 매일 자동 갱신(GitHub Actions)·텔레그램 봇: <strong>무료</strong></p>
           <p style="padding-left:12px;color:var(--color-text-soft);">합계: 월 ~2,500원 (시작 단계)</p>
 
           <p style="margin-top:14px;"><strong>방문자 증가 시 변동 비용 (예상):</strong></p>
@@ -233,7 +233,8 @@
       </div>
 
       <h2 class="about-section-title">📋 월별 보고 (시작 후 갱신)</h2>
-      <div class="stat-card" style="text-align:center;color:var(--color-text-soft);padding:30px 20px;">
+      <div id="ledgerReport"></div>
+      <div id="ledgerEmpty" class="stat-card" style="text-align:center;color:var(--color-text-soft);padding:30px 20px;">
         <p style="font-size:14px;font-weight:700;margin-bottom:6px;">아직 보고할 후원금이 없습니다.</p>
         <p style="font-size:12.5px;line-height:1.65;">
           첫 후원이 들어오는 달부터<br>
@@ -269,6 +270,43 @@
         문의 · 영수증 확인: jihoony8282@naver.com
       </div>
     </div>
+    <script>
+    // 월별 보고 — 관리자 장부의 '지난 달까지' 합계를 그대로 보여 준다(개별 후원자·메모는 내려오지 않음)
+    fetch('/ledger/summary').then(function (r) { return r.json(); }).then(function (d) {
+      if (!d.ok || !d.rows.length) return;
+      var NAME = {kakaopay:'카카오페이', bank:'계좌이체', appstore:'앱스토어', play:'구글플레이', server:'서버·운영', domain:'도메인', charity:'시민단체 기부', etc:'기타'};
+      var won = function (n) { return n.toLocaleString('ko-KR') + '원'; };
+      var el = function (tag, text, css) { var e = document.createElement(tag); e.textContent = text; if (css) e.style.cssText = css; return e; };
+      var months = {}, order = [];
+      d.rows.forEach(function (r) {
+        if (!months[r.month]) { months[r.month] = {in: 0, out: 0, items: []}; order.push(r.month); }
+        months[r.month][r.kind] += r.total;
+        if (r.kind === 'out') months[r.month].items.push((NAME[r.channel] || '기타') + ' ' + won(r.total));
+      });
+      var box = document.getElementById('ledgerReport'), bal = 0, cards = [];
+      order.forEach(function (m) {            // 오래된 달부터 잔액을 쌓고, 화면에는 최근 달이 위로
+        var x = months[m]; bal += x.in - x.out;
+        var c = el('div', '', ''); c.className = 'stat-card';
+        c.appendChild(el('p', m.replace('-', '년 ') + '월', 'font-weight:800;font-size:14px;margin-bottom:6px;'));
+        c.appendChild(el('p', '받은 후원 ' + won(x.in), 'font-size:13px;line-height:1.8;'));
+        c.appendChild(el('p', '지출 ' + won(x.out) + (x.items.length ? ' (' + x.items.join(' · ') + ')' : ''), 'font-size:13px;line-height:1.8;'));
+        c.appendChild(el('p', '잔액 ' + won(bal), 'font-size:13px;line-height:1.8;font-weight:700;'));
+        cards.unshift(c);
+      });
+      cards.forEach(function (c) { box.appendChild(c); });
+      if (d.charity.length) {
+        var g = el('div', '', ''); g.className = 'stat-card';
+        g.appendChild(el('p', '🤝 기부 내역', 'font-weight:800;font-size:14px;margin-bottom:6px;'));
+        d.charity.forEach(function (r) {
+          var p = el('p', r.day + ' · ' + won(r.amount) + ' ', 'font-size:13px;line-height:1.8;');
+          if (/^https:[/][/]/.test(r.link)) { var a = el('a', '영수증 보기', 'text-decoration:underline;'); a.href = r.link; a.target = '_blank'; a.rel = 'noopener nofollow'; p.appendChild(a); }
+          g.appendChild(p);
+        });
+        box.appendChild(g);
+      }
+      document.getElementById('ledgerEmpty').style.display = 'none';
+    }).catch(function () {});
+    </script>
     </main>
   <nav class="bottom-nav">
     <a href="/" class="active">
