@@ -2041,16 +2041,11 @@ a:hover { text-decoration: underline; }
 .ad-thumb-svg {
   width: 100%; height: 100%;
 }
-/* 코코요 광고는 분홍 톤으로 차별화 */
-.cocoyo-thumb {
-  background: white;
-  box-shadow: 0 4px 12px rgba(255, 122, 138, 0.25);
-}
-.cocoyo-ad .ad-content {
-  background: linear-gradient(135deg, #fff5f6 0%, #fff 60%);
-}
-.cocoyo-ad .ad-brand { color: #ff7a8a; }
-.cocoyo-ad .ad-cta { color: #ff7a8a; }
+/* 올댓라이브 자사 광고 — 로고의 검정+빨강. 앱에서는 숨김(스토어에 '광고 없음'으로 신고) */
+.atl-ad .ad-content { background: linear-gradient(135deg, #f6f6f7 0%, #fff 60%); }
+.atl-ad .ad-brand { color: #e11d48; }
+.atl-ad .ad-cta { color: #e11d48; }
+.in-app .ad-slot { display: none !important; }
 .ad-text { flex: 1; min-width: 0; }
 .ad-brand {
   font-size: 11px; font-weight: 700; color: var(--color-accent);
