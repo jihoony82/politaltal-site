@@ -2682,6 +2682,9 @@ a.post-card .post-cta {
 .in-app .app-only { display: block; }
 .in-app .web-only { display: none !important; }
 .in-app a[href^="/community"], .in-app a[href^="/post.html"], .in-app a[href^="/login"] { display: none !important; }
+/* 인앱결제가 아직 안 켜진 앱: 후원 진입점 전부 숨김('준비 중' 화면을 보여주지 않는다) */
+.no-iap a[href^="/donate"], .no-iap a[href^="/transparency"], .no-iap .donate-banner, .no-iap .cost-cta,
+.no-iap .mini-cta, .no-iap .fundraiser-bar { display: none !important; }
 .iap-btn { border: 1px solid var(--color-border); font: inherit; cursor: pointer; width: 100%; }
 .iap-btn .iap-price { font-weight: 800; color: var(--color-primary); font-size: 15px; }
 .donate-card.soon { opacity: .55; cursor: default; }
