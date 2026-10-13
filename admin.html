@@ -70,6 +70,26 @@
     .item-actions button:hover { transform:translateY(-1px); }
     .empty { text-align:center; padding:30px 10px; color:var(--soft); font-size:13px; }
 
+    /* 방문 통계·사이트 상태 */
+    .st-tiles { display:grid; grid-template-columns:repeat(4, 1fr); gap:14px 10px; }
+    .st-tiles .big { font-size:26px; }
+    .st-sub { font-size:11px; color:var(--soft); margin-top:2px; }
+    .st-chart { display:flex; align-items:flex-end; gap:2px; height:96px; margin-top:8px; border-bottom:1px solid var(--border); }
+    .st-chart div { flex:1; min-height:2px; background:var(--primary); border-radius:2px 2px 0 0; }
+    .st-chart div.today { background:#fdba9b; }
+    .st-axis { display:flex; justify-content:space-between; font-size:10px; color:var(--soft); margin-top:3px; }
+    .st-cols { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:18px; }
+    .st-list { margin-top:4px; }
+    .st-row { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid #f1f5f9; font-size:13px; }
+    .st-row:last-child { border-bottom:none; }
+    .st-row .k { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .st-row .k a { color:var(--navy); text-decoration:none; }
+    .st-row .v { font-weight:800; white-space:nowrap; }
+    @media (max-width:480px) {
+      .st-tiles { grid-template-columns:1fr 1fr; }
+      .st-cols { grid-template-columns:1fr; }
+    }
+
     /* 후원·지출 장부 */
     .lg-stats { display:flex; gap:22px; flex-wrap:wrap; }
     .lg-stats .big { font-size:24px; }
@@ -96,20 +116,51 @@
 <body>
   <div class="wrap">
     <h1>🛡 정치탈탈 관리자 <span class="admin-badge">관</span></h1>
-    <div class="sub">후원 장부 + 통계 + 게시글 관리</div>
+    <div class="sub">방문 통계 · 사이트 상태 · 후원 장부 · 게시글 관리</div>
 
-    <!-- 후원·지출 장부 — 사이트 워커 /ledger (아래 관리자 키와 별개의 긴 키) -->
-    <div class="card">
-      <h2>💰 후원·지출 관리</h2>
-      <div id="lgKey" style="display:none;">
-        <div class="keybox">
-          <input type="password" id="lgKeyInput" placeholder="후원 관리 키" autocomplete="off">
-          <button onclick="lgSaveKey()">확인</button>
-        </div>
-        <div id="lgKeyErr" class="err" style="margin-top:8px;"></div>
-        <div class="note">※ 게시글 관리용 '관리자 키'와 다른, 후원 장부 전용 긴 키입니다. 기기마다 한 번만 넣으면 됩니다.</div>
+    <!-- 사이트 워커(/ledger/admin) 쪽: 방문 통계·사이트 상태·후원 장부 — 아래 게시글 관리 키와 별개의 긴 키 -->
+    <div id="lgKey" class="card" style="display:none;">
+      <div class="label" style="margin:0 0 8px;">사이트 관리자 키 입력 (방문 통계·후원 장부)</div>
+      <div class="keybox">
+        <input type="password" id="lgKeyInput" placeholder="사이트 관리자 키" autocomplete="off">
+        <button onclick="lgSaveKey()">확인</button>
       </div>
-      <div id="lgBody" style="display:none;">
+      <div id="lgKeyErr" class="err" style="margin-top:8px;"></div>
+      <div class="note">※ 게시글 관리용 키와 다른 긴 키입니다. 기기마다 한 번만 넣으면 됩니다.</div>
+    </div>
+    <div id="lgBody" style="display:none;">
+      <div class="card">
+        <h2>📈 방문 통계 <button class="reset" style="margin-left:auto;" onclick="stLoad()">새로고침</button></h2>
+        <div class="st-tiles">
+          <div><div class="big" id="stD0">–</div><div class="label">오늘 방문</div><div class="st-sub" id="stD0pv"></div></div>
+          <div><div class="big" id="stD1">–</div><div class="label">어제</div><div class="st-sub" id="stD1pv"></div></div>
+          <div><div class="big" id="stD7">–</div><div class="label">최근 7일</div><div class="st-sub" id="stD7pv"></div></div>
+          <div><div class="big" id="stD30">–</div><div class="label">최근 30일</div><div class="st-sub" id="stD30pv"></div></div>
+        </div>
+        <div class="label" style="margin-top:18px;">일별 방문 (최근 30일)</div>
+        <div id="stChart" class="st-chart"></div>
+        <div class="st-axis"><span id="stAx0"></span><span id="stAx1"></span></div>
+        <div class="st-cols">
+          <div><div class="label">유입 경로 (최근 7일 방문)</div><div id="stRefs" class="st-list"></div></div>
+          <div><div class="label">인기 페이지 (최근 7일 조회)</div><div id="stPaths" class="st-list"></div></div>
+        </div>
+        <div id="stPlat" class="note"></div>
+        <div class="note">
+          ※ 열 때마다 실시간으로 읽어 옵니다. 하루는 <strong>한국 시각 자정</strong>에 넘어갑니다.<br>
+          ※ 방문 = 다른 사이트·직접 접속으로 들어온 횟수, 조회 = 본 페이지 수(봇 제외).
+          유입 경로·인기 페이지는 10월 14일부터 집계하고, 그 전 날짜의 일별 합계는 Cloudflare 수치입니다.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🩺 사이트 상태</h2>
+        <div class="st-row"><span class="k">데이터 마지막 갱신</span><span class="v" id="ssData">–</span></div>
+        <div class="st-row"><span class="k">앱 알림 받는 기기</span><span class="v" id="ssPush">–</span></div>
+        <div id="ssWarn" class="err" style="margin-top:8px;"></div>
+      </div>
+
+      <div class="card">
+        <h2>💰 후원·지출 관리</h2>
         <div class="lg-stats">
           <div><div class="big" id="lgIn" style="color:#166534;">–</div><div class="label">이번 달 후원</div></div>
           <div><div class="big" id="lgOut" style="color:#991b1b;">–</div><div class="label">이번 달 지출</div></div>
@@ -129,7 +180,7 @@
         <div id="lgList" class="empty">로딩 중…</div>
         <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
           <button class="reset" onclick="lgCsv()">엑셀(CSV) 내려받기</button>
-          <button class="reset" onclick="lgResetKey()">후원 키 변경</button>
+          <button class="reset" onclick="lgResetKey()">사이트 키 변경</button>
         </div>
         <div class="note">
           ※ 후원은 <strong>실제 받은 금액</strong>으로 적습니다(앱 안 응원은 스토어 수수료를 뺀 정산액).<br>
@@ -140,23 +191,15 @@
     </div>
 
     <div id="keyCard" class="card" style="display:none;">
-      <div class="label" style="margin-bottom:8px;">관리자 키 입력</div>
+      <div class="label" style="margin-bottom:8px;">게시글 관리 키 입력 (로그인 수·게시글 관리)</div>
       <div class="keybox">
-        <input type="password" id="keyInput" placeholder="관리자 키" autocomplete="off">
+        <input type="password" id="keyInput" placeholder="게시글 관리 키" autocomplete="off">
         <button onclick="saveKey()">확인</button>
       </div>
       <div id="keyErr" class="err" style="margin-top:8px;"></div>
     </div>
 
     <div id="dash" style="display:none;">
-      <div class="card">
-        <div style="display:flex; gap:32px;">
-          <div><div class="big" style="font-size:32px;" id="tvVisits">–</div><div class="label">방문 (최근 30일)</div></div>
-          <div><div class="big" style="font-size:32px; color:var(--navy);" id="tvViews">–</div><div class="label">페이지뷰 (최근 30일)</div></div>
-        </div>
-        <div id="tvNote" class="note"></div>
-      </div>
-
       <div class="card">
         <div class="big" id="total">–</div>
         <div class="label">누적 로그인 수</div>
@@ -184,7 +227,6 @@
       <button class="reset" onclick="resetKey()">키 변경 / 로그아웃</button>
       <div class="note">
         ※ 이 수치는 로그인 "이벤트" 횟수입니다(같은 사람 재로그인 포함). 닉네임·프로필 등 개인정보는 저장하지 않습니다.<br>
-        ※ 일반 방문자·페이지뷰 통계는 Cloudflare 대시보드 → Web Analytics에서 볼 수 있어요.
       </div>
     </div>
   </div>
@@ -192,7 +234,6 @@
   <script>
     const API_BASE = 'https://politaltal-comments.jihoony821209.workers.dev';
     const API = API_BASE + '/stats';
-    const TRAFFIC_API = API_BASE + '/traffic';
     const ADMIN_POSTS_API = API_BASE + '/admin/posts';
     const ADMIN_ACTION_API = API_BASE + '/admin/action';
     const KEY_STORE = 'politaltal.adminKey';
@@ -200,24 +241,6 @@
     let MOD_TAB = 'posts';
 
     function getKey(){ return localStorage.getItem(KEY_STORE) || ''; }
-
-    async function loadTraffic() {
-      const key = getKey();
-      const note = document.getElementById('tvNote');
-      try {
-        const r = await fetch(TRAFFIC_API + '?key=' + encodeURIComponent(key) + '&_=' + Date.now());
-        const d = await r.json();
-        if (d.ok) {
-          document.getElementById('tvVisits').textContent = (d.total_visits || 0).toLocaleString();
-          document.getElementById('tvViews').textContent = (d.total_pageviews || 0).toLocaleString();
-          note.textContent = 'Cloudflare Web Analytics 실데이터 · 쿠키리스 (개인정보 미수집)';
-        } else if (d.error === 'cf_not_configured' || d.error === 'no_site_tag') {
-          note.innerHTML = '⚙️ Cloudflare 트래픽 연동 전 — Worker에 <b>CF_API_TOKEN</b>·<b>CF_ACCOUNT_ID</b> 설정 필요';
-        } else {
-          note.textContent = '트래픽 조회 오류: ' + (d.error || '');
-        }
-      } catch (e) { note.textContent = '트래픽 조회 실패'; }
-    }
 
     async function loadModeration(){
       const key = getKey();
@@ -324,7 +347,6 @@
       document.getElementById('keyCard').style.display = 'none';
       document.getElementById('dash').style.display = 'block';
       document.getElementById('total').textContent = (d.total_logins || 0).toLocaleString();
-      loadTraffic();
       loadModeration();
       const daily = (d.daily || []).slice().reverse(); // 오래된→최신
       const max = Math.max(1, ...daily.map(x => x.logins));
@@ -382,7 +404,65 @@
       LG_ROWS = d.rows;
       $('lgKey').style.display = 'none'; $('lgBody').style.display = '';
       lgRender();
+      stLoad(key); ssLoad();
       return d;
+    }
+
+    // ── 방문 통계 ──
+    const REF_NAME = [[/naver\./, '네이버 검색'], [/google\./, '구글 검색'], [/youtube\.|youtu\.be/, '유튜브'], [/daum\.|kakao/, '다음·카카오'],
+                      [/bing\./, '빙'], [/instagram\./, '인스타그램'], [/facebook\.|fb\./, '페이스북'], [/^t\.co$|twitter\.|x\.com$/, 'X(트위터)'],
+                      [/^\(직접\)$/, '직접 접속·앱·메신저(출처 없음)']];
+    const dayAdd = (day, k) => new Date(Date.parse(day) + k * 86400e3).toISOString().slice(0, 10);
+    function stRows(el, items, link) {
+      el.textContent = '';
+      if (!items.length) { el.innerHTML = '<div class="st-sub" style="padding:8px 0;">아직 집계가 없습니다.</div>'; return; }
+      for (const [name, n] of items) {
+        const row = document.createElement('div'); row.className = 'st-row';
+        const k = document.createElement('span'); k.className = 'k'; k.title = name;
+        if (link && name.startsWith('/')) { const a = document.createElement('a'); a.href = encodeURI(name); a.target = '_blank'; a.textContent = name; k.appendChild(a); }
+        else k.textContent = name;
+        const v = document.createElement('span'); v.className = 'v'; v.textContent = n.toLocaleString('ko-KR');
+        row.append(k, v); el.appendChild(row);
+      }
+    }
+    async function stLoad(key) {
+      const d = await lgApi({ op:'stats' }, key);
+      if (!d.ok) return;
+      const by = {};
+      for (const r of d.daily) (by[r.day] = by[r.day] || { pv:0, visit:0 })[r.kind] = r.n;
+      const days = Array.from({ length:30 }, (_, i) => dayAdd(d.today, i - 29));
+      const sum = (n, k) => days.slice(-n).reduce((t, x) => t + ((by[x] || {})[k] || 0), 0);
+      const put = (id, v, pv) => { $(id).textContent = v.toLocaleString('ko-KR'); $(id + 'pv').textContent = '조회 ' + pv.toLocaleString('ko-KR'); };
+      const y = by[days[28]] || { pv:0, visit:0 };
+      put('stD0', sum(1, 'visit'), sum(1, 'pv')); put('stD1', y.visit, y.pv);
+      put('stD7', sum(7, 'visit'), sum(7, 'pv')); put('stD30', sum(30, 'visit'), sum(30, 'pv'));
+      const max = Math.max(1, ...days.map(x => (by[x] || {}).visit || 0));
+      const chart = $('stChart'); chart.textContent = '';
+      for (const x of days) {
+        const v = by[x] || { pv:0, visit:0 }, bar = document.createElement('div');
+        bar.style.height = Math.round(v.visit / max * 100) + '%';
+        bar.title = `${x.slice(5)} · 방문 ${v.visit} · 조회 ${v.pv}`;
+        if (x === d.today) bar.className = 'today';
+        chart.appendChild(bar);
+      }
+      $('stAx0').textContent = days[0].slice(5); $('stAx1').textContent = '오늘 ' + d.today.slice(5);
+      const refs = {};
+      for (const r of d.refs) { const hit = REF_NAME.find(([re]) => re.test(r.key)); const name = hit ? hit[1] : r.key; refs[name] = (refs[name] || 0) + r.n; }
+      stRows($('stRefs'), Object.entries(refs).sort((a, b) => b[1] - a[1]));
+      stRows($('stPaths'), d.paths.map(r => [r.key, r.n]), true);
+      const pl = Object.fromEntries(d.plats.map(r => [r.key, r.n]));
+      $('stPlat').textContent = `최근 7일 조회 — 웹 ${(pl.web || 0).toLocaleString('ko-KR')} · 아이폰 앱 ${(pl.ios || 0).toLocaleString('ko-KR')} · 안드로이드 앱 ${(pl.android || 0).toLocaleString('ko-KR')}`;
+      const pu = Object.fromEntries(d.push.map(r => [r.key, r.n]));
+      $('ssPush').textContent = `아이폰 ${pu.ios || 0}대 · 안드로이드 ${pu.android || 0}대`;
+    }
+    // ── 사이트 상태: 데이터 갱신이 멈추면 바로 보이게(6~10월 넉 달 멈춘 걸 아무도 몰랐음) ──
+    async function ssLoad() {
+      try {
+        const g = (await (await fetch('/data/bill_feed.json?_=' + Date.now())).json()).generated_at;   // 갱신 작업이 한국 시각으로 적는다
+        const hours = Math.floor((Date.now() - Date.parse(g + '+09:00')) / 3600e3);
+        $('ssData').textContent = `${g.slice(5, 16).replace('T', ' ')} (${hours < 1 ? '방금' : hours + '시간 전'})`;
+        $('ssWarn').textContent = hours > 36 ? '⚠ 36시간 넘게 갱신되지 않았습니다 — 자동 갱신이 멈췄을 수 있습니다.' : '';
+      } catch (e) { $('ssData').textContent = '확인 실패'; }
     }
     function lgRender() {
       const month = kstToday().slice(0, 7);

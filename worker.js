@@ -196,6 +196,7 @@ async function handlePush(request, env, url) {
       const { results } = await env.PUSH_DB.prepare("SELECT token, platform FROM push_tokens").all();
       return pj({ ok: true, tokens: results });
     }
+    if (body.op === "stats") return pj(await statsSummary(env));      // 자정 요약(poc/daily_digest.py)
     if (body.op === "prune" && Array.isArray(body.tokens)) {      // 무효(삭제된 앱) 토큰 정리
       for (const t of body.tokens.slice(0, 500))
         await env.PUSH_DB.prepare("DELETE FROM push_tokens WHERE token = ?").bind(String(t)).run();
@@ -203,6 +204,56 @@ async function handlePush(request, env, url) {
     }
   }
   return pj({ ok: false, error: "not found" }, 404);
+}
+
+// ── 방문 집계 (/t) ──────────────────────────────────────────────────────
+// 페이지마다 한 번 sendBeacon → 날짜(한국 시각)별 카운터만 올린다. 쿠키·IP·기기 식별값은 저장하지 않는다.
+// 방문 = 다른 사이트에서(또는 주소를 직접 쳐서) 들어온 조회 — Cloudflare Web Analytics 와 같은 정의.
+// ponytail: 조회 1건 = D1 쓰기 3~5행. 하루 1.5만 뷰쯤에서 무료 한도(쓰기 10만/일)에 닿는다 → 그때는 표본 집계나 Analytics Engine 으로.
+let STATS_READY = false;
+const NO_CONTENT = () => new Response(null, { status: 204 });
+const kstDay = (ago = 0) => new Date(Date.now() + 9 * 3600e3 - ago * 86400e3).toISOString().slice(0, 10);
+async function statsReady(env) {
+  if (STATS_READY) return;
+  await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS stats (day TEXT NOT NULL, kind TEXT NOT NULL, key TEXT NOT NULL, n INTEGER NOT NULL, PRIMARY KEY (day, kind, key))");
+  STATS_READY = true;
+}
+
+async function handleHit(request, env, url) {
+  const ua = request.headers.get("user-agent") || "";
+  if (request.method !== "POST" || !env.PUSH_DB || request.headers.get("origin") !== url.origin
+      || /bot|crawl|spider|headless|lighthouse|preview/i.test(ua)) return NO_CONTENT();
+  let b = {};
+  try { b = JSON.parse(await request.text()); } catch (e) { return NO_CONTENT(); }
+  let path = String(b.p || "");
+  try { path = decodeURIComponent(path); } catch (e) {}
+  path = path.split("?")[0].replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+  if (!path.startsWith("/") || path.length > 120 || /[\s<>"']/.test(path)) return NO_CONTENT();
+  let ref = String(b.r || "").toLowerCase();
+  if (ref.length > 60 || !/^[a-z0-9.:-]*$/.test(ref)) ref = "";
+  const plat = /PolitaltalApp/.test(ua) ? (/iPhone|iPad|iPod/.test(ua) ? "ios" : "android") : "web";
+  await statsReady(env);
+  const day = kstDay();
+  const up = (kind, key) => env.PUSH_DB.prepare(
+    "INSERT INTO stats (day, kind, key, n) VALUES (?, ?, ?, 1) ON CONFLICT(day, kind, key) DO UPDATE SET n = n + 1").bind(day, kind, key);
+  const rows = [up("pv", ""), up("path", path), up("plat", plat)];
+  if (ref !== url.host) rows.push(up("visit", ""), up("ref", ref || "(직접)"));
+  await env.PUSH_DB.batch(rows);
+  return NO_CONTENT();
+}
+
+// 관리자 화면·자정 요약용: 최근 30일 일별 합계 + 최근 7일 인기 페이지·유입 경로·앱/웹 + 푸시 구독 기기 수
+async function statsSummary(env) {
+  await statsReady(env);
+  const q = (sql, ...a) => env.PUSH_DB.prepare(sql).bind(...a).all().then((r) => r.results, () => []);
+  const [daily, paths, refs, plats, push] = await Promise.all([
+    q("SELECT day, kind, n FROM stats WHERE kind IN ('pv', 'visit') AND day >= ? ORDER BY day", kstDay(29)),
+    q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'path' AND day >= ? GROUP BY key ORDER BY n DESC LIMIT 15", kstDay(6)),
+    q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'ref' AND day >= ? GROUP BY key ORDER BY n DESC LIMIT 10", kstDay(6)),
+    q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'plat' AND day >= ? GROUP BY key", kstDay(6)),
+    q("SELECT platform AS key, COUNT(*) AS n FROM push_tokens GROUP BY platform"),
+  ]);
+  return { ok: true, today: kstDay(), daily, paths, refs, plats, push };
 }
 
 // ── 후원·지출 장부 (/ledger/*) ───────────────────────────────────────────
@@ -269,6 +320,15 @@ async function handleLedger(request, env, url) {
       await env.PUSH_DB.prepare("DELETE FROM ledger WHERE id = ?").bind(body.id).run();
       return pj({ ok: true });
     }
+    if (body.op === "stats") return pj(await statsSummary(env));
+    // 집계를 시작하기 전 날짜를 Cloudflare 수치로 채울 때만 쓴다 — 지난 날짜, 그리고 비어 있는 날만
+    if (body.op === "stats_set" && /^\d{4}-\d{2}-\d{2}$/.test(String(body.day)) && body.day < kstDay()
+        && Number.isInteger(body.pv) && Number.isInteger(body.visit) && body.pv >= 0 && body.visit >= 0) {
+      await statsReady(env);
+      await env.PUSH_DB.batch(["pv", "visit"].map((k) => env.PUSH_DB.prepare(
+        "INSERT OR IGNORE INTO stats (day, kind, key, n) VALUES (?, ?, '', ?)").bind(body.day, k, body[k])));
+      return pj({ ok: true });
+    }
   }
   return pj({ ok: false, error: "not found" }, 404);
 }
@@ -276,6 +336,7 @@ async function handleLedger(request, env, url) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === "/t") return handleHit(request, env, url).catch(NO_CONTENT);
     const api = url.pathname.startsWith("/push/") ? handlePush : url.pathname.startsWith("/ledger/") ? handleLedger : null;
     if (api) {
       try { return await api(request, env, url); }
