@@ -2041,6 +2041,17 @@ a:hover { text-decoration: underline; }
 .ad-thumb-svg {
   width: 100%; height: 100%;
 }
+/* 후원 페이지 — 후원자의 벽 이름 남기기 */
+.sign-form { display: grid; gap: 12px; }
+.sign-form label { display: grid; gap: 6px; font-size: 13px; font-weight: 700; color: var(--color-text); }
+.sign-form .opt { font-weight: 500; color: var(--color-text-soft); font-size: 11.5px; }
+.sign-form input { border: 1px solid var(--color-border, #e2e8f0); border-radius: 10px; padding: 12px 14px; font-size: 16px; font-family: inherit; background: #fff; min-width: 0; }
+.sign-form input:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+.sign-form button { background: var(--color-primary); color: #fff; border: 0; border-radius: 10px; padding: 14px; font-size: 15px; font-weight: 800; cursor: pointer; font-family: inherit; }
+.sign-form button:disabled { opacity: .55; }
+.sign-form .sign-hp { position: absolute; left: -9999px; width: 1px; height: 1px; }
+.sign-msg { font-size: 13.5px; font-weight: 700; color: var(--color-primary); margin-top: 12px; line-height: 1.6; }
+.sign-msg:empty { display: none; }
 /* 올댓라이브 자사 광고 — 로고의 검정+빨강. 앱에서는 숨김(스토어에 '광고 없음'으로 신고) */
 .atl-ad .ad-content { background: linear-gradient(135deg, #f6f6f7 0%, #fff 60%); }
 .atl-ad .ad-brand { color: #e11d48; }
@@ -2678,7 +2689,7 @@ a.post-card .post-cta {
 .in-app .web-only { display: none !important; }
 .in-app a[href^="/community"], .in-app a[href^="/post.html"], .in-app a[href^="/login"] { display: none !important; }
 /* 인앱결제가 아직 안 켜진 앱: 후원 진입점 전부 숨김('준비 중' 화면을 보여주지 않는다) */
-.no-iap a[href^="/donate"], .no-iap a[href^="/transparency"], .no-iap .donate-banner, .no-iap .cost-cta,
+.no-iap a[href^="/donate"], .no-iap a[href^="/transparency"], .no-iap a[href^="/supporters"], .no-iap .donate-banner, .no-iap .cost-cta,
 .no-iap .mini-cta, .no-iap .fundraiser-bar { display: none !important; }
 /* 후원 띠가 맡던 노치(상태바) 여백을 본문이 대신 확보 — 없으면 sticky 헤더가 첫 화면을 덮는다 */
 .no-iap body { padding-top: env(safe-area-inset-top); }

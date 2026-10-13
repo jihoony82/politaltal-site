@@ -10,8 +10,8 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
-    // /bills/*(동적 렌더링)·/push/*(앱 푸시 토큰)·/ledger/*(후원 장부·관리자 통계)·/t(방문 집계)만 Worker를 먼저 실행. 그 외는 Worker를 거치지 않음.
-    "run_worker_first": ["/bills/*", "/push/*", "/ledger/*", "/t"]
+    // /bills/*(동적 렌더링)·/push/*(앱 푸시 토큰)·/ledger/*(후원 장부·관리자 통계)·/wall/*(후원자의 벽)·/t(방문 집계)만 Worker를 먼저 실행. 그 외는 Worker를 거치지 않음.
+    "run_worker_first": ["/bills/*", "/push/*", "/ledger/*", "/wall/*", "/t"]
   },
   // 앱 푸시 토큰 + 후원 장부(ledger 테이블) 저장소. database_id 를 비워 두면 배포 때 wrangler가 자동 생성·연결한다.
   "d1_databases": [{ "binding": "PUSH_DB", "database_name": "politaltal-push" }]

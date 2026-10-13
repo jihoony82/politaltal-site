@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:false,android:false},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(/^[/](community|post|login)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency|supporters)/.test(location.pathname)))location.replace('/');}</script>
+  <title>후원자의 벽 - 정치탈탈</title>
+  <meta name="description" content="정치탈탈을 후원한 시민들의 이름과 한마디. 후원자 한 명이 자리 하나에 불을 켭니다.">
+  <meta name="keywords" content="정치탈탈,국회의원,의정활동,출석률,발의 법안,표결,재산공개,지역구,공공데이터,22대 국회,국회의원 검색,내 지역구 의원">
+  <meta name="author" content="정치탈탈">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://politaltal.com/supporters">
+
+  <!-- 검색엔진 사이트 소유 확인 (각 사이트에서 등록 후 content 값 채우기) -->
+  <meta name="naver-site-verification" content="9e3ca58898c588a94375445bf3e90634c27da43d">
+  <meta name="google-site-verification" content="3T1zR-6vdABc-R7XTfG9TFbnljB_3DYZQroa1B6pbiE">
+  <meta name="msvalidate.01" content="50D545291AE8CB679E6A71ED05D18AC4">
+  <!-- ↑ 빙(Bing) 웹마스터: https://www.bing.com/webmasters 등록 후 받은 코드 -->
+  <!-- ↑ 다음(Daum)은 verification 메타 없음. https://register.search.daum.net 사이트 URL만 등록 -->
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="정치탈탈">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="후원자의 벽 - 정치탈탈">
+  <meta property="og:description" content="정치탈탈을 후원한 시민들의 이름과 한마디. 후원자 한 명이 자리 하나에 불을 켭니다.">
+  <meta property="og:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="정치탈탈 - 국회의원 의정활동 대시보드">
+  <meta property="og:url" content="https://politaltal.com/supporters">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="후원자의 벽 - 정치탈탈">
+  <meta name="twitter:description" content="정치탈탈을 후원한 시민들의 이름과 한마디. 후원자 한 명이 자리 하나에 불을 켭니다.">
+  <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610140210">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610140210">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610140210">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610140210">
+  <meta name="theme-color" content="#0a2540">
+  <link rel="stylesheet" href="/styles.css?v=202610140210">
+  <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
+  <link rel="manifest" href="/manifest.json?v=202610140210">
+  <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="build-id" content="202610140210">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="정치탈탈">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+  .wall-page { max-width: 760px; --lamp: #e9c46a; --board: #0a2540; --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .wb { background: radial-gradient(120% 80% at 50% 0%, #12365a 0%, var(--board) 55%, #061a2e 100%); color: #fff;
+        border-radius: 20px; padding: 28px 22px 24px; margin: 10px 0 30px; }
+  .wb-eyebrow { font: 600 11px/1 var(--mono); letter-spacing: .14em; color: var(--lamp); margin: 0; }
+  .wb-title { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(27px, 7.6vw, 42px); line-height: 1.3;
+              letter-spacing: -.02em; color: #fff; margin: 14px 0 24px; word-break: keep-all; }
+  .wb-lamps { display: grid; grid-template-columns: repeat(10, 1fr); gap: clamp(5px, 1.7vw, 9px); max-width: 380px; }
+  .wb-lamps span { aspect-ratio: 5 / 4; border-radius: 3px; background: #17385a; box-shadow: inset 0 0 0 1px rgba(255,255,255,.05); }
+  .wb-lamps span.on { background: var(--lamp); box-shadow: 0 0 12px rgba(233,196,106,.6); animation: lampOn .45s both; }
+  .wb-lamps span.new { animation: lampOn .45s both, lampGlow 2.6s 1.2s ease-in-out infinite; }
+  @keyframes lampOn { from { background: #17385a; box-shadow: none; } }
+  @keyframes lampGlow { 50% { box-shadow: 0 0 20px 3px rgba(233,196,106,.9); } }
+  .wb-tally { display: flex; align-items: flex-end; gap: 16px; margin: 22px 0 20px; }
+  .wb-num { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 52px; line-height: .9; color: var(--lamp); }
+  .wb-lab { font: 600 12px/1 var(--mono); letter-spacing: .12em; color: #9fb3c8; margin-left: 8px; }
+  .wb-seats { margin: 0 0 4px auto; font-size: 12.5px; color: #c7d5e3; text-align: right; line-height: 1.5; }
+  .wb-cta { display: block; text-align: center; background: var(--lamp); color: var(--board); font-weight: 800; font-size: 16px;
+            padding: 15px; border-radius: 12px; text-decoration: none; }
+  .wb-cta:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+  .wb-fine { font-size: 12px; color: #9fb3c8; text-align: center; margin: 12px 0 0; }
+  #wallPlates, #wallBook { padding: 0; }
+  .wall-h { font-size: 13px; font-weight: 800; letter-spacing: .06em; color: var(--color-text-soft); margin: 0 0 12px; }
+  .plates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 32px; }
+  .plate { background: var(--board); border-radius: 6px; padding: 13px 14px 15px; border-bottom: 3px solid var(--lamp); min-width: 0; }
+  .p-no { font: 600 10.5px/1 var(--mono); letter-spacing: .08em; color: #9fb3c8; display: flex; gap: 6px; align-items: center; }
+  .p-no em { font-style: normal; color: var(--lamp); border: 1px solid rgba(233,196,106,.55); border-radius: 3px; padding: 2px 4px; }
+  .p-name { font-family: 'Noto Serif KR', serif; font-weight: 700; font-size: 18px; line-height: 1.35; color: #fff; margin-top: 9px;
+            word-break: keep-all; overflow-wrap: anywhere; }
+  .p-name.long { font-size: 14.5px; }
+  .book { background: #fff; border: 1px solid var(--color-border, #e2e8f0); border-radius: 14px; padding: 4px 18px; margin-bottom: 32px; }
+  .bk { margin: 0; padding: 16px 0; border-bottom: 1px solid #eef2f7; }
+  .bk:last-child { border-bottom: 0; }
+  .bk p { margin: 0; font-size: 15px; line-height: 1.65; color: var(--color-text); word-break: keep-all; overflow-wrap: anywhere; }
+  .bk footer { font-size: 12px; color: var(--color-text-soft); margin-top: 6px; }
+  .wall-empty { text-align: center; padding: 6px 8px 30px; color: var(--color-text-soft); font-size: 13.5px; line-height: 1.7; }
+  .we-title { font-family: 'Noto Serif KR', serif; font-weight: 700; font-size: 19px; color: var(--color-text); margin: 0 0 6px; }
+  .wall-how ol { margin: 8px 0 12px; padding-left: 20px; font-size: 13.5px; line-height: 1.9; }
+  .wall-how p { font-size: 12.5px; color: var(--color-text-soft); line-height: 1.7; margin: 0; }
+  @media (min-width: 640px) { .wb { padding: 40px 40px 34px; } .plates { grid-template-columns: repeat(3, 1fr); } }
+  @media (prefers-reduced-motion: reduce) { .wb-lamps span.on, .wb-lamps span.new { animation: none; } }
+  </style>
+  <!-- Cloudflare Web Analytics -->
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "26dbbaa3ad4d4e4a95991d64553fa612"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+  <!-- 후원 진행 배너 (사이트 최상단) — 매일 다른 감정 카피 -->
+  <div class="fundraiser-bar">
+    <div class="container fb-inner">
+      <div class="fb-copy">
+        <span class="fb-kicker">정치탈탈 후원</span>
+        <span class="fb-line" id="fbLine">
+          <strong>정치인은 4년에 한 번 옵니다.</strong> 그들의 매일은 우리가 봅니다.
+        </span>
+      </div>
+      <div class="fb-progress-wrap">
+        <div class="fb-progress-track">
+          <div class="fb-progress-fill" style="width: 8%;"></div>
+          <span class="fb-progress-text">시작 단계</span>
+        </div>
+        <div class="fb-progress-stats">
+          <span class="fb-raised">목표 100만원 · 서버·도메인 유지비</span>
+          <span class="fb-pct" id="fbPledge">후원금 30% 시민단체 기부</span>
+        </div>
+      </div>
+      <a href="/donate.html" class="fb-donate-btn">☕ 후원하기</a>
+    </div>
+  </div>
+  <script>
+    // 후원 카피 매일 회전 (날짜 기준 → 모든 사용자에게 같은 메시지)
+    (function() {
+      const COPIES = [
+        ['정치인은 4년에 한 번 옵니다.', '그들의 매일은 우리가 봅니다.'],
+        ['투표한 의원, 그 다음은', '잊고 계셨나요?'],
+        ['선거 다음 날부터,', '우리는 추적을 시작합니다.'],
+        ['300명의 발의·표결·재산.', '잊지 않고 기록합니다.'],
+        ['그들의 무기는 잊혀짐.', '우리의 무기는 기록입니다.'],
+        ['당신의 커피값이', '300명의 의정활동을 매주 추적합니다.'],
+        ['발의 19,876건, 통과 726건.', '우리는 그 차이를 봅니다.'],
+      ];
+      try {
+        const day = Math.floor(Date.now() / 86400000);
+        const c = COPIES[day % COPIES.length];
+        const el = document.getElementById('fbLine');
+        if (el && c) {
+          el.innerHTML = '<strong>' + c[0] + '</strong> ' + c[1];
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <header class="app-header">
+    <div class="container">
+      <a href="/" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
+        <span>정치탈탈</span>
+      </a>
+      <div class="header-actions">
+        <a href="/donate.html" class="header-donate"
+           title="당신의 커피 한 잔이 정치 감시의 눈이 됩니다 👀 (월 1,000원~)">
+          <span class="hd-heart">♥</span><span class="hd-text">커피 한 잔</span>
+        </a>
+        <a href="/login.html" id="headerAuthBtn"
+           onclick="if(!location.pathname.startsWith('/login')){this.href='/login.html?return='+encodeURIComponent(location.pathname+location.search+location.hash);}"
+           style="font-size:12px;font-weight:700;padding:6px 12px;
+                                      background:var(--color-primary);color:white;
+                                      border-radius:6px;text-decoration:none;
+                                      display:flex;align-items:center;gap:6px;">
+          로그인
+        </a>
+      </div>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
+    </div>
+  </header>
+  <main>
+    <div class="container wall-page">
+      <a href="/" class="back-link">← 홈으로</a>
+
+      <section class="wb" aria-labelledby="wbTitle">
+        <p class="wb-eyebrow">시민 본회의 · 후원자의 벽</p>
+        <h1 id="wbTitle" class="wb-title">정치인의 일을<br>시민이 지켜본다</h1>
+        <div id="wbLamps" class="wb-lamps" role="img" aria-label="창립 후원자석 100석"></div>
+        <div class="wb-tally">
+          <div><span class="wb-num" id="wbYes">0</span><span class="wb-lab">찬성</span></div>
+          <p class="wb-seats" id="wbSeats">창립 후원자석 100석<br>아직 불이 켜진 자리가 없습니다</p>
+        </div>
+        <a href="/donate.html#sign" class="wb-cta">후원하고 내 자리 켜기</a>
+        <p class="wb-fine">후원 → 이름 남기기 → 입금 확인 뒤 불이 켜집니다</p>
+      </section>
+
+      <section id="wallPlates" hidden>
+        <h2 class="wall-h">명패</h2>
+        <div class="plates" id="plates"></div>
+      </section>
+
+      <section id="wallBook" hidden>
+        <h2 class="wall-h">방명록</h2>
+        <div class="book" id="book"></div>
+      </section>
+
+      <section class="wall-empty" id="wallEmpty">
+        <p class="we-title">제1석이 비어 있습니다</p>
+        <p>정치탈탈은 시민 후원과 운영자 자비로 굴러갑니다.<br>첫 번째 불을 켜 주세요.</p>
+      </section>
+
+      <section class="stat-card wall-how">
+        <h2>이름은 이렇게 올라갑니다</h2>
+        <ol>
+          <li><a href="/donate.html">후원 페이지</a>에서 카카오페이나 계좌이체로 후원합니다.</li>
+          <li>같은 페이지에서 벽에 올릴 이름과 한마디를 남깁니다.</li>
+          <li>운영자가 입금을 확인하면 자리에 불이 켜지고 명패가 걸립니다.</li>
+        </ol>
+        <p>먼저 온 100명은 창립 후원자석에 앉습니다. 금액은 공개하지 않습니다.
+        특정 정당·정치인을 지지하거나 비방하는 문구는 올리지 않습니다.
+        후원금이 어디에 쓰였는지는 <a href="/transparency.html">투명성 보고</a>에 매달 공개합니다.</p>
+      </section>
+    </div>
+    <script>
+    (function () {
+      var lamps = document.getElementById('wbLamps'), cells = [];
+      for (var i = 0; i < 100; i++) { var c = document.createElement('span'); lamps.appendChild(c); cells.push(c); }
+      var el = function (tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+      var seatNo = function (n) { return '제' + ('00' + n).slice(-3) + '석'; };
+      fetch('/wall/list').then(function (r) { return r.json(); }).then(function (d) {
+        var seats = (d.ok && d.seats) || [];
+        if (!seats.length) return;
+        var n = seats.length, lit = Math.min(n, 100);
+        for (var i = 0; i < lit; i++) { cells[i].className = i === lit - 1 ? 'on new' : 'on'; cells[i].style.animationDelay = (i * 18) + 'ms, ' + (1200 + i * 18) + 'ms'; }
+        lamps.setAttribute('aria-label', '창립 후원자석 100석 중 ' + lit + '석 점등');
+        document.getElementById('wbYes').textContent = n.toLocaleString('ko-KR');
+        document.getElementById('wbSeats').innerHTML = n < 100 ? '창립 후원자석 100석 중<br>' + n + '석에 불이 켜졌습니다' : '창립 후원자석 100석 마감<br>지금은 일반석이 채워지고 있습니다';
+        var plates = document.getElementById('plates'), book = document.getElementById('book');
+        seats.forEach(function (s) {
+          var p = el('article', 'plate'), no = el('div', 'p-no', seatNo(s.no) + ' ');
+          if (s.no <= 100) no.appendChild(el('em', '', '창립'));
+          p.appendChild(no); p.appendChild(el('div', s.name.length > 9 ? 'p-name long' : 'p-name', s.name)); plates.appendChild(p);
+        });
+        seats.filter(function (s) { return s.msg; }).reverse().forEach(function (s) {
+          var b = el('blockquote', 'bk'); b.appendChild(el('p', '', '“' + s.msg + '”'));
+          b.appendChild(el('footer', '', s.name + ' · ' + seatNo(s.no) + ' · ' + s.day.slice(0, 7).replace('-', '.')));
+          book.appendChild(b);
+        });
+        document.getElementById('wallPlates').hidden = false;
+        document.getElementById('wallBook').hidden = !book.children.length;
+        document.getElementById('wallEmpty').hidden = true;
+      }).catch(function () {});
+    })();
+    </script>
+    </main>
+  <nav class="bottom-nav">
+    <a href="/" class="active">
+      <span class="icon">🏠</span>홈
+    </a>
+    <a href="/people.html" class="">
+      <span class="icon">👤</span>정치인
+    </a>
+    <a href="/pledges.html" class="">
+      <span class="icon">📜</span>공약·법안
+    </a>
+    <a href="/community.html" class="">
+      <span class="icon">💬</span>커뮤니티
+    </a>
+    <a href="/stories.html" class="">
+      <span class="icon">🎙</span>의원실
+    </a>
+  </nav>
+  <script>
+    // 정치 용어 tooltip — 모바일 tap-to-show, 다시 탭하면 닫기
+    document.addEventListener('click', function(e) {
+      const t = e.target.closest('.term-tip');
+      if (t) {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          if (x !== t) x.classList.remove('tt-active');
+        });
+        t.classList.toggle('tt-active');
+        e.stopPropagation();
+      } else {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          x.classList.remove('tt-active');
+        });
+      }
+    });
+  </script>
+  <script>/* 방문 집계: 페이지 주소·유입 사이트 이름만 보낸다(쿠키·식별값 없음) → site/worker.js /t */
+  try { navigator.sendBeacon("/t", JSON.stringify({ p: location.pathname, r: document.referrer ? new URL(document.referrer).host : "" })); } catch (e) {}
+  </script>
+  <script>
+  /* ── 정치탈탈 앱 전용: 의정 속보 푸시 등록 (웹에서는 아무것도 안 함) ── */
+  (function() {
+    var Cap = window.Capacitor;
+    var inApp = !!(Cap && Cap.isNativePlatform && Cap.isNativePlatform())
+                || /PolitaltalApp/.test(navigator.userAgent || "");
+    if (!inApp || !Cap || !Cap.Plugins || !Cap.Plugins.PushNotifications) return;
+    var PN = Cap.Plugins.PushNotifications;
+    var platform = (Cap.getPlatform && Cap.getPlatform()) || "unknown";
+    var PUSH_API = "";   // 같은 오리진 /push/* (site/worker.js)
+
+    function postToken(value) {
+      try {
+        fetch(PUSH_API + "/push/register", {
+          method: "POST", headers: { "content-type": "application/json" },
+          body: JSON.stringify({ token: value, platform: platform, topics: "all" })
+        }).catch(function() {});
+      } catch (e) {}
+    }
+
+    // 딥링크: 알림 탭 → 해당 URL로 이동
+    PN.addListener("pushNotificationActionPerformed", function(ev) {
+      try {
+        var url = ev && ev.notification && ev.notification.data && ev.notification.data.url;
+        if (url) window.location.href = url;
+      } catch (e) {}
+    });
+    PN.addListener("registration", function(t) { if (t && t.value) postToken(t.value); });
+    PN.addListener("registrationError", function() {});
+
+    function start() {
+      // 안드로이드 알림 채널(중요도 높음) — send_push.py 의 channel_id 와 일치
+      if (platform === "android" && PN.createChannel) {
+        PN.createChannel({ id: "politaltal_news", name: "의정 속보",
+          description: "본회의 처리·신규 발의 속보", importance: 5, visibility: 1 }).catch(function() {});
+      }
+      PN.checkPermissions().then(function(p) {
+        if (p.receive === "granted") { PN.register(); return; }
+        // 첫 방문 1회만 권한 요청(거부 후 매번 묻지 않도록 플래그)
+        if (localStorage.getItem("pt_push_asked") === "1" && p.receive === "denied") return;
+        localStorage.setItem("pt_push_asked", "1");
+        PN.requestPermissions().then(function(r) { if (r.receive === "granted") PN.register(); });
+      }).catch(function() {});
+    }
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start);
+  })();
+  </script>
+</body>
+</html>

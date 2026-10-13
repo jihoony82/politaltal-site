@@ -116,6 +116,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://politaltal.com/supporters</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://politaltal.com/local/100153736</loc>
     <lastmod>2026-10-14</lastmod>
     <changefreq>monthly</changefreq>

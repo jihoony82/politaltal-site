@@ -246,14 +246,48 @@ async function handleHit(request, env, url) {
 async function statsSummary(env) {
   await statsReady(env);
   const q = (sql, ...a) => env.PUSH_DB.prepare(sql).bind(...a).all().then((r) => r.results, () => []);
-  const [daily, paths, refs, plats, push] = await Promise.all([
+  const [daily, paths, refs, plats, push, wall] = await Promise.all([
     q("SELECT day, kind, n FROM stats WHERE kind IN ('pv', 'visit') AND day >= ? ORDER BY day", kstDay(29)),
     q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'path' AND day >= ? GROUP BY key ORDER BY n DESC LIMIT 15", kstDay(6)),
     q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'ref' AND day >= ? GROUP BY key ORDER BY n DESC LIMIT 10", kstDay(6)),
     q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'plat' AND day >= ? GROUP BY key", kstDay(6)),
     q("SELECT platform AS key, COUNT(*) AS n FROM push_tokens GROUP BY platform"),
+    q("SELECT status AS key, COUNT(*) AS n FROM wall GROUP BY status"),
   ]);
-  return { ok: true, today: kstDay(), daily, paths, refs, plats, push };
+  return { ok: true, today: kstDay(), daily, paths, refs, plats, push, wall };
+}
+
+// ── 후원자의 벽 (/wall/*) ───────────────────────────────────────────────
+// 후원한 사람이 표시 이름·한마디를 남긴다 → 운영자가 입금을 확인하고 승인해야 공개된다(사전 검수).
+// 입금자명은 확인용이라 관리자에게만 보이고, 승인하는 순간 지운다.
+// ponytail: 공개 목록 500명 상한, 대기 300건이 쌓이면 접수를 멈춘다(도배 방지). 넘어서면 페이지 나눔·속도 제한을.
+let WALL_READY = false;
+async function wallReady(env) {
+  if (WALL_READY) return;
+  await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS wall (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, msg TEXT NOT NULL DEFAULT '', payer TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'wait', created_at INTEGER NOT NULL, approved_at INTEGER NOT NULL DEFAULT 0)");
+  WALL_READY = true;
+}
+const wallText = (v, max) => String(v || "").replace(/[\u0000-\u001f<>]/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
+const wallPublic = (env) => env.PUSH_DB.prepare(
+  "SELECT name, msg, approved_at FROM wall WHERE status = 'ok' ORDER BY approved_at, id LIMIT 500").all()
+  .then((r) => r.results.map((x, i) => ({ no: i + 1, name: x.name, msg: x.msg, day: new Date(x.approved_at + 9 * 3600e3).toISOString().slice(0, 10) })));
+
+async function handleWall(request, env, url) {
+  if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
+  await wallReady(env);
+  const path = url.pathname.replace(/\/+$/, "");
+  if (path === "/wall/list" && request.method === "GET") return pj({ ok: true, seats: await wallPublic(env) });
+  if (path === "/wall/sign" && request.method === "POST") {
+    if (request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
+    const b = await request.json().catch(() => ({}));
+    const name = wallText(b.name, 20), msg = wallText(b.msg, 100), payer = wallText(b.payer, 20);
+    if (b.hp || !name || !payer) return pj({ ok: false, error: "invalid" }, 400);      // hp = 사람 눈에 안 보이는 칸(봇만 채운다)
+    const { n } = await env.PUSH_DB.prepare("SELECT COUNT(*) AS n FROM wall WHERE status = 'wait'").first();
+    if (n >= 300) return pj({ ok: false, error: "busy" }, 429);
+    await env.PUSH_DB.prepare("INSERT INTO wall (name, msg, payer, created_at) VALUES (?, ?, ?, ?)").bind(name, msg, payer, Date.now()).run();
+    return pj({ ok: true });
+  }
+  return pj({ ok: false, error: "not found" }, 404);
 }
 
 // ── 후원·지출 장부 (/ledger/*) ───────────────────────────────────────────
@@ -321,6 +355,18 @@ async function handleLedger(request, env, url) {
       return pj({ ok: true });
     }
     if (body.op === "stats") return pj(await statsSummary(env));
+    if (body.op === "wall_list") {
+      await wallReady(env);
+      const { results } = await env.PUSH_DB.prepare("SELECT id, name, msg, payer, status, created_at FROM wall ORDER BY status DESC, id DESC LIMIT 800").all();
+      return pj({ ok: true, rows: results });
+    }
+    if ((body.op === "wall_ok" || body.op === "wall_del") && Number.isInteger(body.id)) {
+      await wallReady(env);
+      await (body.op === "wall_del"
+        ? env.PUSH_DB.prepare("DELETE FROM wall WHERE id = ?").bind(body.id)
+        : env.PUSH_DB.prepare("UPDATE wall SET status = 'ok', payer = '', approved_at = ? WHERE id = ? AND status = 'wait'").bind(Date.now(), body.id)).run();
+      return pj({ ok: true });
+    }
     // 집계를 시작하기 전 날짜를 Cloudflare 수치로 채울 때만 쓴다 — 지난 날짜, 그리고 비어 있는 날만
     if (body.op === "stats_set" && /^\d{4}-\d{2}-\d{2}$/.test(String(body.day)) && body.day < kstDay()
         && Number.isInteger(body.pv) && Number.isInteger(body.visit) && body.pv >= 0 && body.visit >= 0) {
@@ -337,7 +383,8 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/t") return handleHit(request, env, url).catch(NO_CONTENT);
-    const api = url.pathname.startsWith("/push/") ? handlePush : url.pathname.startsWith("/ledger/") ? handleLedger : null;
+    const api = url.pathname.startsWith("/push/") ? handlePush : url.pathname.startsWith("/ledger/") ? handleLedger
+      : url.pathname.startsWith("/wall/") ? handleWall : null;
     if (api) {
       try { return await api(request, env, url); }
       catch (e) { return pj({ ok: false, error: "server" }, 500); }

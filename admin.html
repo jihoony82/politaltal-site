@@ -90,6 +90,16 @@
       .st-cols { grid-template-columns:1fr; }
     }
 
+    /* 후원자의 벽 */
+    .wl-badge { font-size:11px; background:#fde68a; color:#78350f; padding:2px 8px; border-radius:999px; font-weight:800; }
+    .wl-item { border:1px solid var(--border); border-radius:10px; padding:11px 13px; margin-top:8px; background:#fafbfc; }
+    .wl-item.wait { background:#fffbeb; border-color:#fde68a; }
+    .wl-name { font-weight:800; font-size:14px; word-break:break-all; }
+    .wl-msg { font-size:13px; color:#475569; line-height:1.55; margin-top:3px; word-break:break-all; }
+    .wl-meta { font-size:11px; color:var(--soft); margin-top:5px; }
+    .wl-meta b { color:var(--navy); }
+    .wl-item .item-actions { margin-top:9px; }
+
     /* 후원·지출 장부 */
     .lg-stats { display:flex; gap:22px; flex-wrap:wrap; }
     .lg-stats .big { font-size:24px; }
@@ -157,6 +167,18 @@
         <div class="st-row"><span class="k">데이터 마지막 갱신</span><span class="v" id="ssData">–</span></div>
         <div class="st-row"><span class="k">앱 알림 받는 기기</span><span class="v" id="ssPush">–</span></div>
         <div id="ssWarn" class="err" style="margin-top:8px;"></div>
+      </div>
+
+      <div class="card">
+        <h2>✍️ 후원자의 벽 <span id="wlBadge" class="wl-badge" style="display:none;"></span></h2>
+        <div class="label" style="margin:0 0 4px;">승인 대기</div>
+        <div id="wlWait"></div>
+        <div class="label" style="margin:16px 0 4px;">벽에 올라간 이름 <span id="wlOkN"></span></div>
+        <div id="wlOk"></div>
+        <div class="note">
+          ※ 입금 내역에서 <strong>입금자명</strong>을 확인한 뒤 승인하세요. 승인하면 <a href="/supporters.html" target="_blank">후원자의 벽</a>에 바로 올라가고 입금자명은 지워집니다.<br>
+          ※ 특정 정당·정치인을 지지하거나 비방하는 문구는 승인하지 않는 것이 사이트 중립 원칙에 맞습니다.
+        </div>
       </div>
 
       <div class="card">
@@ -404,8 +426,51 @@
       LG_ROWS = d.rows;
       $('lgKey').style.display = 'none'; $('lgBody').style.display = '';
       lgRender();
-      stLoad(key); ssLoad();
+      stLoad(key); ssLoad(); wlLoad(key);
       return d;
+    }
+
+    // ── 후원자의 벽: 승인 대기 → 승인/삭제 ──
+    let WL_ROWS = [];
+    async function wlLoad(key) {
+      const d = await lgApi({ op:'wall_list' }, key);
+      if (!d.ok) return;
+      WL_ROWS = d.rows;
+      const wait = d.rows.filter(r => r.status === 'wait'), ok = d.rows.filter(r => r.status === 'ok');
+      $('wlBadge').style.display = wait.length ? '' : 'none'; $('wlBadge').textContent = '대기 ' + wait.length;
+      $('wlOkN').textContent = ok.length + '명';
+      const draw = (el, all, empty, more) => {
+        el.textContent = '';
+        const rows = more ? all.slice(0, 5) : all;
+        if (!rows.length) { const e = document.createElement('div'); e.className = 'st-sub'; e.style.padding = '8px 0'; e.textContent = empty; el.appendChild(e); return; }
+        for (const r of rows) {
+          const it = document.createElement('div'); it.className = 'wl-item ' + r.status;
+          const add = (cls, text) => { const x = document.createElement('div'); x.className = cls; x.textContent = text; it.appendChild(x); return x; };
+          add('wl-name', r.name);
+          if (r.msg) add('wl-msg', r.msg);
+          const meta = add('wl-meta', new Date(r.created_at).toLocaleString('ko-KR', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' }) + ' 접수');
+          if (r.payer) { const b = document.createElement('b'); b.textContent = ' · 입금자명 ' + r.payer; meta.appendChild(b); }
+          const acts = document.createElement('div'); acts.className = 'item-actions';
+          const btn = (cls, text, op) => { const x = document.createElement('button'); x.className = cls; x.textContent = text; x.onclick = () => wlAct(op, r.id); acts.appendChild(x); };
+          if (r.status === 'wait') btn('unhide', '승인 — 벽에 올리기', 'wall_ok');
+          btn('delete', r.status === 'wait' ? '삭제' : '벽에서 내리기', 'wall_del');
+          it.appendChild(acts); el.appendChild(it);
+        }
+        if (all.length > rows.length) {
+          const b = document.createElement('button'); b.className = 'reset'; b.style.marginTop = '10px';
+          b.textContent = `더 보기 (${all.length - rows.length}명)`; b.onclick = () => draw(el, all, empty, false); el.appendChild(b);
+        }
+      };
+      draw($('wlWait'), wait, '대기 중인 이름이 없습니다.');
+      draw($('wlOk'), ok, '아직 올라간 이름이 없습니다.', true);
+    }
+    async function wlAct(op, id) {
+      const r = WL_ROWS.find(x => x.id === id);
+      if (!r) return;
+      const ask = op === 'wall_ok' ? `"${r.name}" 님을 후원자의 벽에 올릴까요?\n(입금자명 ${r.payer} 입금을 확인하셨나요?)` : `"${r.name}" 님 기록을 지울까요? 되돌릴 수 없습니다.`;
+      if (!confirm(ask)) return;
+      await lgApi({ op, id });
+      wlLoad();
     }
 
     // ── 방문 통계 ──

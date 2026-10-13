@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:false,android:false},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(/^[/](community|post|login)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency)/.test(location.pathname)))location.replace('/');}</script>
+  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:false,android:false},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(/^[/](community|post|login)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency|supporters)/.test(location.pathname)))location.replace('/');}</script>
   <title>후원하기 - 정치탈탈</title>
   <meta name="description" content="정치탈탈은 광고 없이 시민 후원으로 운영되는 정치 데이터 플랫폼입니다. 커피 한 잔의 후원으로 응원해주세요.">
   <meta name="keywords" content="정치탈탈,국회의원,의정활동,출석률,발의 법안,표결,재산공개,지역구,공공데이터,22대 국회,국회의원 검색,내 지역구 의원">
@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="정치탈탈은 광고 없이 시민 후원으로 운영되는 정치 데이터 플랫폼입니다. 커피 한 잔의 후원으로 응원해주세요.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610140118">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610140118">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610140118">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610140118">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610140210">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610140210">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610140210">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610140210">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610140118">
+  <link rel="stylesheet" href="/styles.css?v=202610140210">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610140118">
+  <link rel="manifest" href="/manifest.json?v=202610140210">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610140118">
+  <meta name="build-id" content="202610140210">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -297,6 +297,41 @@
             });
           });
         })();
+      </script>
+
+      <div class="stat-card web-only" id="sign">
+        <h2>✍️ 후원하셨다면, 이름을 남겨 주세요</h2>
+        <p class="source-note" style="margin:0 0 14px;">
+          입금이 확인되면 <a href="/supporters.html"><strong>후원자의 벽</strong></a>에 이름과 한마디가 올라갑니다. 금액은 공개하지 않습니다.
+        </p>
+        <form id="signForm" class="sign-form">
+          <label>벽에 올릴 이름
+            <input name="name" maxlength="20" required placeholder="이름·닉네임·아이디 (20자까지)" autocomplete="nickname"></label>
+          <label><span>남길 한마디 <span class="opt">선택</span></span>
+            <input name="msg" maxlength="100" placeholder="100자까지"></label>
+          <label>입금자명
+            <input name="payer" maxlength="20" required placeholder="입금 확인에만 쓰고 공개하지 않습니다" autocomplete="name"></label>
+          <input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="sign-hp">
+          <button type="submit">이름 남기기</button>
+        </form>
+        <p id="signMsg" class="sign-msg" role="status"></p>
+        <p class="source-note" style="margin-top:10px;">특정 정당·정치인을 지지하거나 비방하는 문구는 올리지 않습니다.</p>
+      </div>
+      <script>
+      document.getElementById('signForm').addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var f = ev.target, out = document.getElementById('signMsg'), btn = f.querySelector('button');
+        btn.disabled = true; out.textContent = '';
+        fetch('/wall/sign', { method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ name: f.name.value, msg: f.msg.value, payer: f.payer.value, hp: f.hp.value }) })
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            if (d.ok) { f.hidden = true; out.textContent = '이름을 받았습니다. 입금이 확인되면 후원자의 벽에 올라갑니다(보통 하루 이내).'; return; }
+            btn.disabled = false;
+            out.textContent = d.error === 'busy' ? '지금은 접수가 밀려 있습니다. 잠시 뒤 다시 남겨 주세요.' : '벽에 올릴 이름과 입금자명을 적어 주세요.';
+          })
+          .catch(function () { btn.disabled = false; out.textContent = '전송하지 못했습니다. 연결을 확인하고 다시 눌러 주세요.'; });
+      });
       </script>
 
       <div class="stat-card web-only">
