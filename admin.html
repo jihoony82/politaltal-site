@@ -172,6 +172,18 @@
       </div>
 
       <div class="card">
+        <h2>💬 정치인 한마디(댓글) <span id="pcBadge" class="wl-badge" style="display:none;"></span>
+          <button class="reset" style="margin-left:auto;" id="pcToggle" onclick="pcToggle()">–</button></h2>
+        <div id="pcState" class="note" style="margin:0 0 6px;"></div>
+        <div id="pcRows"></div>
+        <div class="note">
+          ※ 올리면 바로 공개되고, 서로 다른 3명이 신고하면 자동으로 숨겨집니다. 신고 받은 글이 맨 위에 옵니다.<br>
+          ※ <strong>숨기기</strong>는 되돌릴 수 있고, <strong>삭제</strong>는 달린 답글까지 함께 지워져 되돌릴 수 없습니다.<br>
+          ※ 선거 기간처럼 위험한 때에는 오른쪽 위 버튼으로 댓글 받기를 통째로 닫을 수 있습니다(이미 올라온 글은 그대로 보입니다).
+        </div>
+      </div>
+
+      <div class="card">
         <h2>✍️ 후원자의 벽 <span id="wlBadge" class="wl-badge" style="display:none;"></span></h2>
         <div class="label" style="margin:0 0 4px;">승인 대기</div>
         <div id="wlWait"></div>
@@ -428,8 +440,60 @@
       LG_ROWS = d.rows;
       $('lgKey').style.display = 'none'; $('lgBody').style.display = '';
       lgRender();
-      stLoad(key); ssLoad(); wlLoad(key);
+      stLoad(key); ssLoad(); wlLoad(key); pcLoad(key);
       return d;
+    }
+
+    // ── 정치인 한마디: 신고 받은 글 먼저, 숨기기·다시 공개·삭제, 댓글 받기 열고 닫기 ──
+    let PC_ROWS = [], PC_OPEN = true, PC_NAMES = null;
+    async function pcLoad(key) {
+      const d = await lgApi({ op:'pc_list' }, key);
+      if (!d.ok) return;
+      if (!PC_NAMES) { try { PC_NAMES = await (await fetch('/data/members-mini.json')).json(); } catch (e) { PC_NAMES = {}; } }
+      PC_ROWS = d.rows; PC_OPEN = d.open;
+      const flagged = d.rows.filter(r => r.status === 'visible' && r.reports > 0).length;
+      $('pcBadge').style.display = flagged ? '' : 'none'; $('pcBadge').textContent = '신고 ' + flagged;
+      $('pcToggle').textContent = PC_OPEN ? '댓글 받기 닫기' : '댓글 받기 열기';
+      $('pcState').textContent = PC_OPEN ? '지금 댓글을 받고 있습니다.' : '⚠ 댓글 받기를 닫아 두었습니다 — 새 글을 쓸 수 없습니다.';
+      const box = $('pcRows'); box.textContent = '';
+      if (!d.rows.length) { const e = document.createElement('div'); e.className = 'st-sub'; e.style.padding = '8px 0'; e.textContent = '아직 댓글이 없습니다.'; box.appendChild(e); return; }
+      const draw = more => {
+        box.textContent = '';
+        for (const r of (more ? d.rows : d.rows.slice(0, 10))) {
+          const [kind, id] = r.target.split(':'), href = (kind === 'p' ? '/politician/' : '/local/') + id;
+          const it = document.createElement('div'); it.className = 'wl-item' + (r.status === 'hidden' ? ' hidden-item' : r.reports ? ' wait' : '');
+          const add = (cls, text) => { const x = document.createElement('div'); x.className = cls; x.textContent = text; it.appendChild(x); return x; };
+          const head = add('wl-meta', '');
+          const a = document.createElement('a'); a.href = href; a.target = '_blank'; a.textContent = (PC_NAMES[id] && PC_NAMES[id].name) || (kind === 'l' ? '지자체장 ' + id : id);
+          head.appendChild(a);
+          head.appendChild(document.createTextNode(` · ${r.parent ? '↳ 답글 · ' : ''}${r.nick} · ${new Date(r.created_at).toLocaleString('ko-KR', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' })}`));
+          add('wl-msg', r.body);
+          const st = add('wl-meta', `공감 ${r.likes} · 신고 ${r.reports}${r.status === 'hidden' ? ' · 숨김 상태' : ''}`);
+          if (r.reports) st.style.color = '#b91c1c';
+          const acts = document.createElement('div'); acts.className = 'item-actions';
+          const btn = (cls, text, action) => { const x = document.createElement('button'); x.className = cls; x.textContent = text; x.onclick = () => pcAct(r.id, action); acts.appendChild(x); };
+          r.status === 'hidden' ? btn('unhide', '다시 공개', 'show') : btn('hide', '숨기기', 'hide');
+          btn('delete', '삭제', 'delete');
+          it.appendChild(acts); box.appendChild(it);
+        }
+        if (!more && d.rows.length > 10) {
+          const b = document.createElement('button'); b.className = 'reset'; b.style.marginTop = '10px';
+          b.textContent = `더 보기 (${d.rows.length - 10}개)`; b.onclick = () => draw(true); box.appendChild(b);
+        }
+      };
+      draw(false);
+    }
+    async function pcAct(id, action) {
+      const r = PC_ROWS.find(x => x.id === id);
+      if (!r) return;
+      if (action === 'delete' && !confirm('이 글을 지울까요? 달린 답글도 함께 지워지고 되돌릴 수 없습니다.')) return;
+      await lgApi({ op:'pc_act', id, action });
+      pcLoad();
+    }
+    async function pcToggle() {
+      if (!confirm(PC_OPEN ? '댓글 받기를 닫을까요? 새 글을 쓸 수 없게 됩니다.' : '댓글 받기를 다시 열까요?')) return;
+      await lgApi({ op:'pc_open', open: !PC_OPEN });
+      pcLoad();
     }
 
     // ── 후원자의 벽: 승인 대기 → 승인/삭제 ──

@@ -252,7 +252,7 @@ async function handleHit(request, env, url) {
 async function statsSummary(env) {
   await statsReady(env);
   const q = (sql, ...a) => env.PUSH_DB.prepare(sql).bind(...a).all().then((r) => r.results, () => []);
-  const [daily, paths, refs, plats, push, wall, clicks] = await Promise.all([
+  const [daily, paths, refs, plats, push, wall, clicks, pc] = await Promise.all([
     q("SELECT day, kind, n FROM stats WHERE kind IN ('pv', 'visit') AND day >= ? ORDER BY day", kstDay(29)),
     q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'path' AND day >= ? GROUP BY key ORDER BY n DESC LIMIT 15", kstDay(6)),
     q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'ref' AND day >= ? GROUP BY key ORDER BY n DESC LIMIT 10", kstDay(6)),
@@ -260,8 +260,9 @@ async function statsSummary(env) {
     q("SELECT platform AS key, COUNT(*) AS n FROM push_tokens GROUP BY platform"),
     q("SELECT status AS key, COUNT(*) AS n FROM wall GROUP BY status"),
     q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'click' AND day >= ? GROUP BY key ORDER BY n DESC LIMIT 20", kstDay(6)),
+    q("SELECT SUM(created_at > ?) AS fresh, SUM(status = 'visible' AND reports > 0) AS reported, SUM(status = 'hidden') AS hidden FROM pc", Date.now() - 86400e3),
   ]);
-  return { ok: true, today: kstDay(), daily, paths, refs, plats, push, wall, clicks };
+  return { ok: true, today: kstDay(), daily, paths, refs, plats, push, wall, clicks, pc: pc[0] || {} };
 }
 
 // ── 후원자의 벽 (/wall/*) ───────────────────────────────────────────────
@@ -292,6 +293,89 @@ async function handleWall(request, env, url) {
     const { n } = await env.PUSH_DB.prepare("SELECT COUNT(*) AS n FROM wall WHERE status = 'wait'").first();
     if (n >= 300) return pj({ ok: false, error: "busy" }, 429);
     await env.PUSH_DB.prepare("INSERT INTO wall (name, msg, payer, created_at) VALUES (?, ?, ?, ?)").bind(name, msg, payer, Date.now()).run();
+    return pj({ ok: true });
+  }
+  return pj({ ok: false, error: "not found" }, 404);
+}
+
+// ── 정치인 한마디 (/pc/*) ───────────────────────────────────────────────
+// 의원·지자체장 페이지 상단의 익명 댓글 + 답글(한 단계) + 공감. 올리면 바로 보이고(사후 검수), 서로 다른 3명이 신고하면 자동으로 숨는다.
+// IP는 저장하지 않는다 — DB에만 있는 소금을 섞은 해시 앞 16자를 도배 방지·신고 중복 확인에만 쓴다.
+// 관리자 화면에서 숨김·삭제하고, '댓글 받기'를 통째로 닫을 수 있다(선거 기간 등).
+// ponytail: 금칙어는 단순 포함 검사라 우회할 수 있다 — 신고·관리자 숨김이 2차 방어. 도배가 늘면 Turnstile 을 붙일 것.
+const PC_NICKS = ["관심시민", "데이터러버", "우리동네유권자", "팩트체커", "초보관찰자", "조용한관전러", "숫자로보는유권자", "동네지킴이"];
+const PC_BAD = ["씨발", "시발", "씨바", "ㅅㅂ", "병신", "ㅂㅅ", "좆", "지랄", "개새끼", "썅", "닥쳐", "죽여", "죽인다", "살해", "테러",
+  "미친놈", "미친년", "창녀", "걸레", "빨갱이", "토착왜구", "홍어", "틀딱"];
+const PC_LINK = /https?:|www\.|\.(com|net|kr|io|me|co)\b|open\.kakao/i;
+const PC_TARGET = /^[pl]:[A-Za-z0-9]{4,12}$/;                 // p:의원 코드 · l:지자체장 번호
+let PC_READY = false, PC_SALT = "";
+async function pcReady(env) {
+  if (PC_READY) return;
+  await env.PUSH_DB.batch([
+    env.PUSH_DB.prepare("CREATE TABLE IF NOT EXISTS pc (id INTEGER PRIMARY KEY AUTOINCREMENT, target TEXT NOT NULL, nick TEXT NOT NULL, body TEXT NOT NULL, ip_hash TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'visible', reports INTEGER NOT NULL DEFAULT 0, created_at INTEGER NOT NULL, parent INTEGER NOT NULL DEFAULT 0, likes INTEGER NOT NULL DEFAULT 0)"),
+    env.PUSH_DB.prepare("CREATE INDEX IF NOT EXISTS pc_target ON pc (target, id)"),
+    env.PUSH_DB.prepare("CREATE TABLE IF NOT EXISTS pc_likes (cid INTEGER NOT NULL, ip_hash TEXT NOT NULL, PRIMARY KEY (cid, ip_hash))"),
+    env.PUSH_DB.prepare("CREATE TABLE IF NOT EXISTS pc_reports (cid INTEGER NOT NULL, ip_hash TEXT NOT NULL, PRIMARY KEY (cid, ip_hash))"),
+    env.PUSH_DB.prepare("CREATE TABLE IF NOT EXISTS kv (k TEXT PRIMARY KEY, v TEXT NOT NULL)"),
+  ]);
+  await env.PUSH_DB.prepare("INSERT OR IGNORE INTO kv (k, v) VALUES ('pc_salt', ?)").bind(crypto.randomUUID() + crypto.randomUUID()).run();
+  PC_SALT = (await env.PUSH_DB.prepare("SELECT v FROM kv WHERE k = 'pc_salt'").first()).v;
+  PC_READY = true;
+}
+const sha16 = async (t) => [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t)))]
+  .slice(0, 8).map((x) => x.toString(16).padStart(2, "0")).join("");
+const pcOpen = async (env) => !(await env.PUSH_DB.prepare("SELECT v FROM kv WHERE k = 'pc_closed'").first());
+
+async function handlePc(request, env, url) {
+  if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
+  await pcReady(env);
+  const path = url.pathname.replace(/\/+$/, "");
+  const who = await sha16(PC_SALT + (request.headers.get("cf-connecting-ip") || "local"));
+  if (path === "/pc/list" && request.method === "GET") {
+    const t = url.searchParams.get("t") || "";
+    if (!PC_TARGET.test(t)) return pj({ ok: false, error: "invalid" }, 400);
+    // ponytail: 댓글·답글 합쳐 최근 300개만 내려보낸다 — 넘어서면 '이전 댓글 더 보기'(페이지 나눔)를 붙일 것
+    const { results } = await env.PUSH_DB.prepare(
+      "SELECT id, parent, nick, body, likes, created_at AS at, EXISTS(SELECT 1 FROM pc_likes l WHERE l.cid = pc.id AND l.ip_hash = ?) AS liked " +
+      "FROM pc WHERE target = ? AND status = 'visible' ORDER BY id DESC LIMIT 300").bind(who, t).all();
+    const { n } = await env.PUSH_DB.prepare("SELECT COUNT(*) AS n FROM pc WHERE target = ? AND status = 'visible'").bind(t).first();
+    return pj({ ok: true, open: await pcOpen(env), total: n, rows: results });
+  }
+  if (request.method !== "POST" || request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
+  const b = await request.json().catch(() => ({}));
+
+  if (path === "/pc/post") {
+    const t = String(b.t || "");
+    const body = String(b.body || "").replace(/[\u0000-\u001f<>]/g, " ").replace(/\s+/g, " ").trim();
+    const parent = b.parent == null ? 0 : b.parent;
+    if (b.hp || !PC_TARGET.test(t) || body.length < 2 || body.length > 300 || !Number.isInteger(parent) || parent < 0) return pj({ ok: false, error: "invalid" }, 400);
+    if (!(await pcOpen(env))) return pj({ ok: false, error: "closed" }, 403);
+    if (parent && !(await env.PUSH_DB.prepare("SELECT id FROM pc WHERE id = ? AND target = ? AND parent = 0 AND status = 'visible'").bind(parent, t).first()))
+      return pj({ ok: false, error: "invalid" }, 400);
+    if (PC_LINK.test(body)) return pj({ ok: false, error: "link" }, 400);
+    const flat = body.replace(/[^가-힣ㄱ-ㅎa-z]/gi, "");                        // 띄어쓰기·기호로 쪼갠 욕설도 잡는다
+    if (PC_BAD.some((w) => flat.includes(w))) return pj({ ok: false, error: "bad" }, 400);
+    const now = Date.now(), day = now - 86400e3;
+    const mine = await env.PUSH_DB.prepare("SELECT MAX(created_at) AS last, COUNT(*) AS n FROM pc WHERE ip_hash = ? AND created_at > ?").bind(who, day).first();
+    const all = await env.PUSH_DB.prepare("SELECT COUNT(*) AS n FROM pc WHERE created_at > ?").bind(day).first();
+    if ((mine.last && now - mine.last < 30000) || mine.n >= 20 || all.n >= 3000) return pj({ ok: false, error: "slow" }, 429);
+    const h = await sha16(who + t);                                           // 같은 페이지에서는 같은 별명, 다른 페이지와는 이어지지 않게
+    const nick = PC_NICKS[parseInt(h.slice(0, 6), 16) % PC_NICKS.length] + " " + h.slice(6, 9);
+    const r = await env.PUSH_DB.prepare("INSERT INTO pc (target, nick, body, ip_hash, created_at, parent) VALUES (?, ?, ?, ?, ?, ?)").bind(t, nick, body, who, now, parent).run();
+    return pj({ ok: true, row: { id: r.meta.last_row_id, parent, nick, body, likes: 0, liked: 0, at: now } });
+  }
+  if (path === "/pc/like" && Number.isInteger(b.id)) {                         // 한 사람 한 번 — 다시 누르면 취소
+    if (!(await env.PUSH_DB.prepare("SELECT id FROM pc WHERE id = ? AND status = 'visible'").bind(b.id).first())) return pj({ ok: false, error: "invalid" }, 400);
+    const ins = await env.PUSH_DB.prepare("INSERT OR IGNORE INTO pc_likes (cid, ip_hash) VALUES (?, ?)").bind(b.id, who).run();
+    const liked = ins.meta.changes === 1;
+    if (!liked) await env.PUSH_DB.prepare("DELETE FROM pc_likes WHERE cid = ? AND ip_hash = ?").bind(b.id, who).run();
+    const row = await env.PUSH_DB.prepare("UPDATE pc SET likes = MAX(0, likes + ?) WHERE id = ? RETURNING likes").bind(liked ? 1 : -1, b.id).first();
+    return pj({ ok: true, liked, likes: row.likes });
+  }
+  if (path === "/pc/report" && Number.isInteger(b.id)) {
+    const ins = await env.PUSH_DB.prepare("INSERT OR IGNORE INTO pc_reports (cid, ip_hash) VALUES (?, ?)").bind(b.id, who).run();
+    if (ins.meta.changes) await env.PUSH_DB.prepare(
+      "UPDATE pc SET reports = reports + 1, status = CASE WHEN reports + 1 >= 3 THEN 'hidden' ELSE status END WHERE id = ?").bind(b.id).run();
     return pj({ ok: true });
   }
   return pj({ ok: false, error: "not found" }, 404);
@@ -362,6 +446,31 @@ async function handleLedger(request, env, url) {
       return pj({ ok: true });
     }
     if (body.op === "stats") return pj(await statsSummary(env));
+    if (body.op === "pc_list") {
+      await pcReady(env);
+      const { results } = await env.PUSH_DB.prepare(
+        "SELECT id, target, parent, nick, body, status, reports, likes, created_at FROM pc ORDER BY (status = 'visible' AND reports > 0) DESC, id DESC LIMIT 200").all();
+      return pj({ ok: true, open: await pcOpen(env), rows: results });
+    }
+    if (body.op === "pc_act" && Number.isInteger(body.id) && ["hide", "show", "delete"].includes(body.action)) {
+      await pcReady(env);
+      const id = body.id, db = env.PUSH_DB;
+      if (body.action === "hide") await db.prepare("UPDATE pc SET status = 'hidden' WHERE id = ?").bind(id).run();
+      else if (body.action === "show") await db.batch([                      // 다시 공개하면 신고 기록도 비운다(곧바로 또 숨지 않게)
+        db.prepare("DELETE FROM pc_reports WHERE cid = ?").bind(id),
+        db.prepare("UPDATE pc SET status = 'visible', reports = 0 WHERE id = ?").bind(id)]);
+      else await db.batch([                                                  // 삭제: 달린 답글과 공감·신고 기록까지 함께
+        db.prepare("DELETE FROM pc_likes WHERE cid IN (SELECT id FROM pc WHERE id = ? OR parent = ?)").bind(id, id),
+        db.prepare("DELETE FROM pc_reports WHERE cid IN (SELECT id FROM pc WHERE id = ? OR parent = ?)").bind(id, id),
+        db.prepare("DELETE FROM pc WHERE id = ? OR parent = ?").bind(id, id)]);
+      return pj({ ok: true });
+    }
+    if (body.op === "pc_open" && typeof body.open === "boolean") {
+      await pcReady(env);
+      await (body.open ? env.PUSH_DB.prepare("DELETE FROM kv WHERE k = 'pc_closed'")
+                       : env.PUSH_DB.prepare("INSERT OR REPLACE INTO kv (k, v) VALUES ('pc_closed', '1')")).run();
+      return pj({ ok: true, open: body.open });
+    }
     if (body.op === "wall_list") {
       await wallReady(env);
       const { results } = await env.PUSH_DB.prepare("SELECT id, name, msg, payer, status, created_at FROM wall ORDER BY status DESC, id DESC LIMIT 800").all();
@@ -391,7 +500,7 @@ export default {
     const url = new URL(request.url);
     if (url.pathname === "/t") return handleHit(request, env, url).catch(NO_CONTENT);
     const api = url.pathname.startsWith("/push/") ? handlePush : url.pathname.startsWith("/ledger/") ? handleLedger
-      : url.pathname.startsWith("/wall/") ? handleWall : null;
+      : url.pathname.startsWith("/wall/") ? handleWall : url.pathname.startsWith("/pc/") ? handlePc : null;
     if (api) {
       try { return await api(request, env, url); }
       catch (e) { return pj({ ok: false, error: "server" }, 500); }
