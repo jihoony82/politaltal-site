@@ -225,6 +225,12 @@ async function handleHit(request, env, url) {
       || /bot|crawl|spider|headless|lighthouse|preview/i.test(ua)) return NO_CONTENT();
   let b = {};
   try { b = JSON.parse(await request.text()); } catch (e) { return NO_CONTENT(); }
+  if (b.c) {                                   // 띠 클릭(유튜브 구독·이어서 보기) — 이름표만 센다
+    if (!/^[a-z0-9-]{1,30}$/.test(String(b.c))) return NO_CONTENT();
+    await statsReady(env);
+    await env.PUSH_DB.prepare("INSERT INTO stats (day, kind, key, n) VALUES (?, 'click', ?, 1) ON CONFLICT(day, kind, key) DO UPDATE SET n = n + 1").bind(kstDay(), String(b.c)).run();
+    return NO_CONTENT();
+  }
   let path = String(b.p || "");
   try { path = decodeURIComponent(path); } catch (e) {}
   path = path.split("?")[0].replace(/\.html$/, "").replace(/\/+$/, "") || "/";
@@ -246,15 +252,16 @@ async function handleHit(request, env, url) {
 async function statsSummary(env) {
   await statsReady(env);
   const q = (sql, ...a) => env.PUSH_DB.prepare(sql).bind(...a).all().then((r) => r.results, () => []);
-  const [daily, paths, refs, plats, push, wall] = await Promise.all([
+  const [daily, paths, refs, plats, push, wall, clicks] = await Promise.all([
     q("SELECT day, kind, n FROM stats WHERE kind IN ('pv', 'visit') AND day >= ? ORDER BY day", kstDay(29)),
     q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'path' AND day >= ? GROUP BY key ORDER BY n DESC LIMIT 15", kstDay(6)),
     q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'ref' AND day >= ? GROUP BY key ORDER BY n DESC LIMIT 10", kstDay(6)),
     q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'plat' AND day >= ? GROUP BY key", kstDay(6)),
     q("SELECT platform AS key, COUNT(*) AS n FROM push_tokens GROUP BY platform"),
     q("SELECT status AS key, COUNT(*) AS n FROM wall GROUP BY status"),
+    q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'click' AND day >= ? GROUP BY key ORDER BY n DESC LIMIT 20", kstDay(6)),
   ]);
-  return { ok: true, today: kstDay(), daily, paths, refs, plats, push, wall };
+  return { ok: true, today: kstDay(), daily, paths, refs, plats, push, wall, clicks };
 }
 
 // ── 후원자의 벽 (/wall/*) ───────────────────────────────────────────────

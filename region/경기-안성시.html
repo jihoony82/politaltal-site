@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="경기 안성시 지역구 국회의원 1명의 대표발의·표결 참여·재산 등 의정활동을 공공데이터로 확인하세요.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610140931">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610140931">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610140931">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610140931">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610141105">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610141105">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610141105">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610141105">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610140931">
+  <link rel="stylesheet" href="/styles.css?v=202610141105">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610140931">
+  <link rel="manifest" href="/manifest.json?v=202610141105">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610140931">
+  <meta name="build-id" content="202610141105">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -90,7 +90,7 @@
         ['300명의 발의·표결·재산.', '잊지 않고 기록합니다.'],
         ['그들의 무기는 잊혀짐.', '우리의 무기는 기록입니다.'],
         ['당신의 커피값이', '300명의 의정활동을 매주 추적합니다.'],
-        ['발의 19,903건, 통과 726건.', '우리는 그 차이를 봅니다.'],
+        ['발의 19,876건, 통과 726건.', '우리는 그 차이를 봅니다.'],
       ];
       try {
         const day = Math.floor(Date.now() / 86400000);
@@ -201,7 +201,25 @@
     </div>
     
     </div>
-    </main>
+    
+  <section class="tail">
+    <div class="container">
+      <h2 class="tail-h">이어서 보기</h2>
+      <div class="next-list"><a class="next-card" href="/list.html" data-ck="next-vote"><span class="nk">표결</span><strong>본회의 표결 4번 중 1번은 ‘불참’</strong><span class="ns">내 의원은 몇 번 빠졌는지 참여율로 확인하세요 →</span></a><a class="next-card" href="/region.html" data-ck="next-region"><span class="nk">우리 동네</span><strong>우리 동네 의원 이름, 바로 떠오르시나요?</strong><span class="ns">지역만 고르면 성적표가 나옵니다 →</span></a><a class="next-card" href="/local.html" data-ck="next-local"><span class="nk">시장·군수·구청장</span><strong>우리 시장·군수·구청장 재산은 얼마일까요?</strong><span class="ns">전국 243명의 공개 자료를 모았습니다 →</span></a></div>
+      <div class="yt-band">
+        <div class="yt-head">
+          <div>
+            <span class="nk">정치탈탈 유튜브</span>
+            <strong class="yt-title">모르고 뽑으면 또 4년입니다</strong>
+            <p class="yt-sub">내 지역 의원의 출석·표결·법안·재산을 1분 영상으로 정리합니다. 편은 들지 않습니다.</p>
+          </div>
+          <a class="yt-btn" href="https://www.youtube.com/@politaltal?sub_confirmation=1" target="_blank" rel="noopener" data-ck="yt-sub">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>유튜브에서 구독</a>
+        </div>
+        <div class="yt-row" id="ytRow" hidden></div>
+      </div>
+    </div>
+  </section></main>
   <nav class="bottom-nav">
     <a href="/" class="">
       <span class="icon">🏠</span>홈
@@ -238,6 +256,32 @@
   </script>
   <script>/* 방문 집계: 페이지 주소·유입 사이트 이름만 보낸다(쿠키·식별값 없음) → site/worker.js /t */
   try { navigator.sendBeacon("/t", JSON.stringify({ p: location.pathname, r: document.referrer ? new URL(document.referrer).host : "" })); } catch (e) {}
+  /* 띠 클릭 집계: data-ck 가 붙은 링크만, 이름표(key)만 보낸다 */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("[data-ck]");
+    if (a) try { navigator.sendBeacon("/t", JSON.stringify({ c: a.getAttribute("data-ck") })); } catch (x) {}
+  });
+  /* 유튜브 띠: 채널 최신 영상(매일 수집) — 지금 보는 정치인 이름이 제목에 있으면 맨 앞으로 */
+  (function () {
+    var row = document.getElementById("ytRow");
+    if (!row) return;
+    fetch("/data/stories_videos.json").then(function (r) { return r.json(); }).then(function (d) {
+      var v = (d.latest || []).slice();
+      if (!v.length) return;
+      var name = /^[/](politician|local)[/]/.test(location.pathname) ? document.title.split(" ")[0] : "";
+      if (name.length >= 2) v = v.filter(function (x) { return (x.mine = x.title.indexOf(name) >= 0); }).concat(v.filter(function (x) { return !x.mine; }));
+      v.slice(0, 8).forEach(function (x) {
+        var a = document.createElement("a"), img = document.createElement("img"), t = document.createElement("span");
+        a.className = "yt-card"; a.href = "https://www.youtube.com/watch?v=" + encodeURIComponent(x.id); a.target = "_blank"; a.rel = "noopener";
+        a.setAttribute("data-ck", "yt-video");
+        img.loading = "lazy"; img.alt = ""; img.src = "https://i.ytimg.com/vi/" + encodeURIComponent(x.id) + "/mqdefault.jpg";
+        a.appendChild(img);
+        if (x.mine) { var m = document.createElement("em"); m.textContent = name + " 영상"; a.appendChild(m); }
+        t.textContent = x.title; a.appendChild(t); row.appendChild(a);
+      });
+      row.hidden = false;
+    }).catch(function () {});
+  })();
   </script>
   <script>
   /* ── 정치탈탈 앱 전용: 의정 속보 푸시 등록 (웹에서는 아무것도 안 함) ── */

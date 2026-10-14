@@ -154,6 +154,8 @@
           <div><div class="label">유입 경로 (최근 7일 방문)</div><div id="stRefs" class="st-list"></div></div>
           <div><div class="label">인기 페이지 (최근 7일 조회)</div><div id="stPaths" class="st-list"></div></div>
         </div>
+        <div class="label" style="margin-top:18px;">띠 클릭 (최근 7일) — 페이지 끝의 유튜브·이어서 보기</div>
+        <div id="stClicks" class="st-list"></div>
         <div id="stPlat" class="note"></div>
         <div class="note">
           ※ 열 때마다 실시간으로 읽어 옵니다. 하루는 <strong>한국 시각 자정</strong>에 넘어갑니다.<br>
@@ -515,6 +517,9 @@
       for (const r of d.refs) { const hit = REF_NAME.find(([re]) => re.test(r.key)); const name = hit ? hit[1] : r.key; refs[name] = (refs[name] || 0) + r.n; }
       stRows($('stRefs'), Object.entries(refs).sort((a, b) => b[1] - a[1]));
       stRows($('stPaths'), d.paths.map(r => [r.key, r.n]), true);
+      const CK = { 'yt-sub':'유튜브 구독 버튼', 'yt-video':'유튜브 영상', 'next-money':'이어서 보기 · 재산', 'next-vote':'이어서 보기 · 표결',
+                   'next-region':'이어서 보기 · 우리 동네', 'next-local':'이어서 보기 · 시장·군수·구청장', 'next-bills':'이어서 보기 · 법안', 'next-live':'이어서 보기 · 국회 속보' };
+      stRows($('stClicks'), (d.clicks || []).map(r => [CK[r.key] || r.key, r.n]));
       const pl = Object.fromEntries(d.plats.map(r => [r.key, r.n]));
       $('stPlat').textContent = `최근 7일 조회 — 웹 ${(pl.web || 0).toLocaleString('ko-KR')} · 아이폰 앱 ${(pl.ios || 0).toLocaleString('ko-KR')} · 안드로이드 앱 ${(pl.android || 0).toLocaleString('ko-KR')}`;
       const pu = Object.fromEntries(d.push.map(r => [r.key, r.n]));
