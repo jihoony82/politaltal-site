@@ -331,6 +331,12 @@ async function handlePc(request, env, url) {
   await pcReady(env);
   const path = url.pathname.replace(/\/+$/, "");
   const who = await sha16(PC_SALT + (request.headers.get("cf-connecting-ip") || "local"));
+  if (path === "/pc/recent" && request.method === "GET") {        // 홈 '방금 올라온 한마디' — 신고 없는 최근 7일 댓글 3개
+    const { results } = await env.PUSH_DB.prepare(
+      "SELECT target, nick, body FROM pc WHERE status = 'visible' AND parent = 0 AND reports = 0 AND created_at > ? ORDER BY id DESC LIMIT 3")
+      .bind(Date.now() - 7 * 86400e3).all();
+    return pj({ ok: true, rows: results });
+  }
   if (path === "/pc/list" && request.method === "GET") {
     const t = url.searchParams.get("t") || "";
     if (!PC_TARGET.test(t)) return pj({ ok: false, error: "invalid" }, 400);

@@ -255,6 +255,9 @@
         const LKEY = 'politaltal.localComments';
 
         function esc(s){ const d=document.createElement('div'); d.textContent=(s==null?'':s); return d.innerHTML; }
+        // ponytail: 채팅 서버(comments-worker, 대시보드 배포)엔 아직 거름망이 없어 화면에서만 거른다 — 그 워커를 다시 배포할 때 서버로 옮길 것. 목록 = worker.js PC_BAD
+        const BAD = ["씨발","시발","씨바","ㅅㅂ","병신","ㅂㅅ","좆","지랄","개새끼","썅","닥쳐","죽여","죽인다","살해","테러","미친놈","미친년","창녀","걸레","빨갱이","토착왜구","홍어","틀딱"];
+        function isBad(s){ const f=(s||'').replace(/[^가-힣ㄱ-ㅎa-z]/gi,''); return BAD.some(function(w){ return f.indexOf(w) >= 0; }); }
         function nickColor(s){ let h=0; for(const ch of (s||'')) h=(h*31+ch.charCodeAt(0))%360; return 'hsl('+h+',55%,42%)'; }
         function loadLocal(){ try { return JSON.parse(localStorage.getItem(LKEY)||'[]'); } catch(e){ return []; } }
         function saveLocal(a){ localStorage.setItem(LKEY, JSON.stringify(a.slice(0,50))); }
@@ -270,6 +273,7 @@
             setCount(0); return;
           }
           // API는 최신순(DESC) → 채팅은 오래된→최신(아래로) 표시
+          items = items.filter(function(c){ return !isBad(c.body); });
           const ordered = items.slice().reverse();
           box.innerHTML = ordered.map(function(c){
             const rep = (!isLocal && c.id) ? '<span class="ytr" onclick="reportComment('+c.id+',this)">🚩 신고</span>' : '';
@@ -300,6 +304,7 @@
           const t = document.getElementById('lfcText');
           const v = (t.value||'').trim();
           if(!v){ t.focus(); return; }
+          if(isBad(v)){ alert('욕설·비하 표현이 들어간 메시지는 올릴 수 없어요.'); return; }
           const btn = document.querySelector('.lfc-send');
           if(btn) btn.disabled = true;
           try {

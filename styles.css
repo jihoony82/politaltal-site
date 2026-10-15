@@ -2071,7 +2071,15 @@ a:hover { text-decoration: underline; }
 .pc-more { width: 100%; margin-top: 8px; background: #f8fafc; border: 1px solid var(--color-border, #e2e8f0); border-radius: 10px; padding: 10px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; color: var(--color-text); }
 .pc-rule { display: none; font-size: 11px; color: var(--color-text-soft); line-height: 1.6; margin: 10px 0 0; }
 .pc-box.open .pc-rule, .pc-box:focus-within .pc-rule { display: block; }
-.in-app .pc-box { display: none !important; }
+.in-app .pc-box, .in-app .pcr { display: none !important; }
+.pcr { background: #fff; border: 1.5px solid var(--color-accent); border-radius: 14px; padding: 14px 16px; margin: 16px 0; }
+.pcr[hidden] { display: none; }
+.pcr-head { font-size: 14px; font-weight: 800; color: var(--color-primary); margin-bottom: 8px; }
+.pcr-row { display: grid; gap: 2px; padding: 9px 0; border-top: 1px solid var(--color-border, #e2e8f0); color: inherit; text-decoration: none; }
+.pcr-row:first-child { border-top: 0; padding-top: 2px; }
+.pcr-who { font-size: 12px; font-weight: 700; color: var(--color-text-soft); }
+.pcr-body { font-size: 14px; line-height: 1.5; color: var(--color-text); overflow-wrap: anywhere; }
+.pcr-more { display: block; margin-top: 8px; font-size: 13px; font-weight: 800; color: var(--color-accent); text-decoration: none; }
 
 /* 페이지 끝: 이어서 보기 + 유튜브 구독 띠 */
 .tail { padding-top: 8px; }

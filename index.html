@@ -206,6 +206,29 @@
     </section>
 
     <div class="container">
+      <div class="pcr" id="pcRecent" hidden>
+        <div class="pcr-head">💬 방금 올라온 한마디</div>
+        <div id="pcrList"></div>
+        <a class="pcr-more" href="/region.html">우리 지역 의원에게도 한마디 남기기 →</a>
+      </div>
+      <script>
+      (function () {
+        var box = document.getElementById('pcRecent');
+        Promise.all([fetch('/pc/recent').then(function (r) { return r.json(); }), fetch('/data/pc-names.json').then(function (r) { return r.json(); })])
+          .then(function (res) {
+            var rows = (res[0].rows || []).filter(function (r) { return res[1][r.target]; }), list = document.getElementById('pcrList');
+            if (rows.length < 3) return;
+            rows.forEach(function (r) {
+              var id = r.target.slice(2), a = document.createElement('a'), w = document.createElement('span'), b = document.createElement('span');
+              a.className = 'pcr-row'; a.href = (r.target[0] === 'p' ? '/politician/' : '/local/') + id + '.html#pcBox';
+              w.className = 'pcr-who'; w.textContent = res[1][r.target] + '에게';
+              b.className = 'pcr-body'; b.textContent = '“' + (r.body.length > 60 ? r.body.slice(0, 59) + '…' : r.body) + '”';
+              a.appendChild(w); a.appendChild(b); list.appendChild(a);
+            });
+            box.hidden = false;
+          }).catch(function () {});
+      })();
+      </script>
       <!-- 카테고리 칩 (OTT 진입점) -->
       <div class="ott-cats">
         <a href="/region.html" class="ott-cat"><span class="ic">🗺</span><span>우리 동네</span></a>
