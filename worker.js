@@ -386,7 +386,7 @@ async function handlePc(request, env, url) {
 // '지난 달까지' 월 합계·기부 영수증 링크뿐 — 메모(입금자명 등)는 관리자에게만 나간다.
 // 인증: 긴 무작위 키의 SHA-256만 둔다(공개 저장소라 키는 못 둠). 원본 = 운영자 맥 ~/.config/politaltal/ledger-admin.key
 const LEDGER_KEY_SHA256 = "6ebe63593c6e5e84afff3590aabb6bfa81172eee8ba17798da13ecace4c052e0";
-const LEDGER_CH = { in: ["kakaopay", "bank", "appstore", "play", "etc"], out: ["server", "domain", "charity", "etc"] };
+const LEDGER_CH = { in: ["kakaopay", "bank", "card", "appstore", "play", "etc"], out: ["server", "domain", "pgfee", "charity", "etc"] };
 let LEDGER_READY = false;
 
 async function ledgerAdminOk(request) {
@@ -408,12 +408,15 @@ function ledgerRow(b) {
   return { kind, day, amount, channel, memo, link };
 }
 
+async function ledgerReady(env) {
+  if (LEDGER_READY) return;
+  await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS ledger (id INTEGER PRIMARY KEY AUTOINCREMENT, kind TEXT NOT NULL, day TEXT NOT NULL, amount INTEGER NOT NULL, channel TEXT NOT NULL, memo TEXT NOT NULL DEFAULT '', link TEXT NOT NULL DEFAULT '', created_at INTEGER NOT NULL)");
+  LEDGER_READY = true;
+}
+
 async function handleLedger(request, env, url) {
   if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
-  if (!LEDGER_READY) {
-    await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS ledger (id INTEGER PRIMARY KEY AUTOINCREMENT, kind TEXT NOT NULL, day TEXT NOT NULL, amount INTEGER NOT NULL, channel TEXT NOT NULL, memo TEXT NOT NULL DEFAULT '', link TEXT NOT NULL DEFAULT '', created_at INTEGER NOT NULL)");
-    LEDGER_READY = true;
-  }
+  await ledgerReady(env);
   const path = url.pathname.replace(/\/+$/, "");
 
   if (path === "/ledger/summary" && request.method === "GET") {
@@ -495,12 +498,91 @@ async function handleLedger(request, env, url) {
   return pj({ ok: false, error: "not found" }, 404);
 }
 
+// ── 카드 후원 (/pay/*) ──────────────────────────────────────────────────
+// 페이앱 리셀러 본계정 키 + subuserid(코코요 판매점 cocoyo2nd)로 결제창을 만든다 — 매출은 코코요 판매점으로 잡힌다.
+// 키는 워커 비밀값(PAYAPP_USERID·LINKKEY·LINKVAL·SUBUSERID)에만 있다. 없으면 /pay/on 이 false → 후원 페이지가 카드 칸을 숨긴다.
+// 결제 완료 통보(feedback)가 오면 장부에 '카드' 후원으로 자동 기록, 승인 취소가 오면 그 기록을 지운다.
+// 휴대폰 번호는 페이앱이 요구해서 그대로 넘길 뿐 여기 저장하지 않는다.
+const PAYAPP_API = "https://api.payapp.kr/oapi/apiLoad.html";
+let PAY_READY = false;
+const payOn = (env) => !!(env.PAYAPP_USERID && env.PAYAPP_LINKKEY && env.PAYAPP_LINKVAL);
+
+async function payReady(env) {
+  if (PAY_READY) return;
+  await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS pay (code TEXT PRIMARY KEY, amount INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'wait', mul_no TEXT NOT NULL DEFAULT '', ledger_id INTEGER NOT NULL DEFAULT 0, created_at INTEGER NOT NULL, paid_at INTEGER NOT NULL DEFAULT 0)");
+  await ledgerReady(env);
+  PAY_READY = true;
+}
+
+async function handlePay(request, env, url) {
+  const path = url.pathname.replace(/\/+$/, "");
+  if (path === "/pay/on") return pj({ ok: true, on: !!env.PUSH_DB && payOn(env) });
+  if (!env.PUSH_DB || !payOn(env)) return pj({ ok: false, error: "off" }, 503);
+  await payReady(env);
+  const db = env.PUSH_DB;
+
+  if (path === "/pay/card" && request.method === "POST") {
+    if (request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
+    const b = await request.json().catch(() => ({}));
+    const amount = Number(b.amount), phone = String(b.phone || "").replace(/\D/g, "");
+    if (!Number.isInteger(amount) || amount < 1000 || amount > 1000000 || !/^01[016789]\d{7,8}$/.test(phone))
+      return pj({ ok: false, error: "invalid" }, 400);
+    const { n } = await db.prepare("SELECT COUNT(*) AS n FROM pay WHERE status = 'wait' AND created_at > ?").bind(Date.now() - 86400e3).first();
+    if (n >= 300) return pj({ ok: false, error: "busy" }, 429);          // 결제창 남발 방지(하루 300건)
+    const code = [...crypto.getRandomValues(new Uint8Array(8))].map((x) => "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[x & 31]).join("");
+    await db.prepare("INSERT INTO pay (code, amount, created_at) VALUES (?, ?, ?)").bind(code, amount, Date.now()).run();
+    const form = new URLSearchParams({
+      cmd: "payrequest", userid: env.PAYAPP_USERID, linkkey: env.PAYAPP_LINKKEY,
+      goodname: "정치탈탈 운영 후원", price: String(amount), recvphone: phone,
+      smsuse: "n", openpaytype: "card", reqaddr: "0", var1: code,
+      feedbackurl: `${url.origin}/pay/feedback`,
+      returnurl: `${url.origin}/donate.html?paid=${code}#sign`,
+    });
+    if (env.PAYAPP_SUBUSERID) form.set("subuserid", env.PAYAPP_SUBUSERID);
+    const res = await fetch(PAYAPP_API, { method: "POST", body: form,
+      headers: { "content-type": "application/x-www-form-urlencoded; charset=utf-8", accept: "application/json" } });
+    const text = await res.text();
+    let d; try { d = JSON.parse(text); } catch { d = Object.fromEntries(new URLSearchParams(text)); }   // 응답이 JSON·쿼리문자열 둘 다 온다
+    if (String(d.state) !== "1" || !d.payurl) {
+      console.log("payapp payrequest fail", text.slice(0, 300));
+      await db.prepare("DELETE FROM pay WHERE code = ?").bind(code).run();
+      return pj({ ok: false, error: "pg" }, 502);
+    }
+    await db.prepare("UPDATE pay SET mul_no = ? WHERE code = ?").bind(String(d.mul_no || ""), code).run();
+    return pj({ ok: true, payurl: d.payurl });
+  }
+
+  if (path === "/pay/feedback" && request.method === "POST") {
+    const f = new URLSearchParams(await request.text());
+    if (!f.get("linkval") || f.get("linkval") !== env.PAYAPP_LINKVAL) return new Response("AUTH_FAIL", { status: 401 });
+    const code = String(f.get("var1") || ""), state = String(f.get("pay_state") || ""), price = Number(f.get("price"));
+    if (state === "4") {                                                  // 결제 완료 — 금액이 만든 값과 같을 때만, 한 번만
+      const r = await db.prepare("UPDATE pay SET status = 'paid', paid_at = ?, mul_no = ? WHERE code = ? AND status = 'wait' AND amount = ?")
+        .bind(Date.now(), String(f.get("mul_no") || ""), code, price).run();
+      if (r.meta.changes === 1) {
+        const ins = await db.prepare("INSERT INTO ledger (kind, day, amount, channel, memo, link, created_at) VALUES ('in', ?, ?, 'card', ?, '', ?)")
+          .bind(kstDay(), price, `카드 ${code} · 수수료 빼기 전`, Date.now()).run();
+        await db.prepare("UPDATE pay SET ledger_id = ? WHERE code = ?").bind(ins.meta.last_row_id, code).run();
+      }
+    } else if (state === "9" || state === "64") {                         // 승인 취소 — 장부에서도 뺀다
+      const row = await db.prepare("SELECT ledger_id FROM pay WHERE code = ? AND status = 'paid'").bind(code).first();
+      if (row) await db.batch([
+        db.prepare("UPDATE pay SET status = 'cancel' WHERE code = ?").bind(code),
+        db.prepare("DELETE FROM ledger WHERE id = ?").bind(row.ledger_id),
+      ]);
+    }
+    return new Response("SUCCESS", { headers: { "content-type": "text/plain" } });   // 페이앱은 SUCCESS 를 기대한다
+  }
+  return pj({ ok: false, error: "not found" }, 404);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/t") return handleHit(request, env, url).catch(NO_CONTENT);
     const api = url.pathname.startsWith("/push/") ? handlePush : url.pathname.startsWith("/ledger/") ? handleLedger
-      : url.pathname.startsWith("/wall/") ? handleWall : url.pathname.startsWith("/pc/") ? handlePc : null;
+      : url.pathname.startsWith("/wall/") ? handleWall : url.pathname.startsWith("/pc/") ? handlePc
+      : url.pathname.startsWith("/pay/") ? handlePay : null;
     if (api) {
       try { return await api(request, env, url); }
       catch (e) { return pj({ ok: false, error: "server" }, 500); }

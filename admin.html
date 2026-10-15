@@ -414,8 +414,8 @@
 
     // ── 후원·지출 장부 ──────────────────────────────────────────
     const LG_KEY = 'politaltal.ledgerKey';
-    const LG_CH = { in:  { kakaopay:'카카오페이', bank:'계좌이체', appstore:'앱스토어', play:'구글플레이', etc:'기타' },
-                    out: { server:'서버·운영', domain:'도메인', charity:'시민단체 기부', etc:'기타' } };
+    const LG_CH = { in:  { kakaopay:'카카오페이', bank:'계좌이체', card:'카드(자동 기록)', appstore:'앱스토어', play:'구글플레이', etc:'기타' },
+                    out: { server:'서버·운영', domain:'도메인', pgfee:'카드 결제 수수료', charity:'시민단체 기부', etc:'기타' } };
     let LG_ROWS = [];
     const $ = id => document.getElementById(id);
     const won = n => n.toLocaleString('ko-KR') + '원';

@@ -2110,6 +2110,11 @@ a:hover { text-decoration: underline; }
 .sign-form .sign-hp { position: absolute; left: -9999px; width: 1px; height: 1px; }
 .sign-msg { font-size: 13.5px; font-weight: 700; color: var(--color-primary); margin-top: 12px; line-height: 1.6; }
 .sign-msg:empty { display: none; }
+.sign-form label[hidden], .sign-msg[hidden] { display: none; }
+.amt-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+@media (max-width: 420px) { .amt-chips { grid-template-columns: 1fr 1fr; } }
+.sign-form .amt-chips button { background: #fff; color: var(--color-text); border: 1px solid var(--color-border, #e2e8f0); padding: 12px 6px; font-size: 14px; font-weight: 700; }
+.sign-form .amt-chips button[aria-checked="true"] { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
 /* 올댓라이브 자사 광고 — 로고의 검정+빨강. 앱에서는 숨김(스토어에 '광고 없음'으로 신고) */
 .atl-ad .ad-content { background: linear-gradient(135deg, #f6f6f7 0%, #fff 60%); }
 .atl-ad .ad-brand { color: #e11d48; }

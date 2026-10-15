@@ -274,7 +274,7 @@
     // 월별 보고 — 관리자 장부의 '지난 달까지' 합계를 그대로 보여 준다(개별 후원자·메모는 내려오지 않음)
     fetch('/ledger/summary').then(function (r) { return r.json(); }).then(function (d) {
       if (!d.ok || !d.rows.length) return;
-      var NAME = {kakaopay:'카카오페이', bank:'계좌이체', appstore:'앱스토어', play:'구글플레이', server:'서버·운영', domain:'도메인', charity:'시민단체 기부', etc:'기타'};
+      var NAME = {kakaopay:'카카오페이', bank:'계좌이체', card:'카드', appstore:'앱스토어', play:'구글플레이', server:'서버·운영', domain:'도메인', pgfee:'카드 결제 수수료', charity:'시민단체 기부', etc:'기타'};
       var won = function (n) { return n.toLocaleString('ko-KR') + '원'; };
       var el = function (tag, text, css) { var e = document.createElement(tag); e.textContent = text; if (css) e.style.cssText = css; return e; };
       var months = {}, order = [];
