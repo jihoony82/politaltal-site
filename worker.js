@@ -245,7 +245,45 @@ async function handleHit(request, env, url) {
   const rows = [up("pv", ""), up("path", path), up("plat", plat)];
   if (ref !== url.host) rows.push(up("visit", ""), up("ref", ref || "(직접)"));
   await env.PUSH_DB.batch(rows);
+  if (HOT_PATH.test(path)) await hotCount(env, request, day, path);
   return NO_CONTENT();
+}
+
+// ── 실시간 많이 찾는 정치인 (/hot) ───────────────────────────────────────
+// 의원·지자체장 페이지를 본 사람 수(같은 사람=IP 해시는 하루 한 정치인에 1번)를 stats kind 'hot' 으로 센다. 원본 IP는 저장하지 않는다.
+// 순위 = 오늘×2 + 어제, 화살표는 어제 기준 순위와 비교. 'hot' 기록이 모자라는 동안은 조회수(kind 'path')로 채운다.
+// ponytail: IP를 바꿔 가며 누르면 순위를 올릴 수 있다 — 조작이 보이면 Turnstile 이나 앱·웹 가중치를 붙일 것
+const HOT_PATH = /^\/(politician|local)\/[A-Za-z0-9]{4,12}$/;
+let HOT_READY = false;
+async function hotCount(env, request, day, path) {
+  await pcReady(env);
+  if (!HOT_READY) {
+    await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS hot_seen (day TEXT NOT NULL, h TEXT NOT NULL, path TEXT NOT NULL, PRIMARY KEY (day, h, path))");
+    HOT_READY = true;
+  }
+  const h = await sha16(PC_SALT + day + (request.headers.get("cf-connecting-ip") || "local"));
+  const r = await env.PUSH_DB.prepare("INSERT OR IGNORE INTO hot_seen (day, h, path) VALUES (?, ?, ?)").bind(day, h, path).run();
+  if (r.meta.changes) await env.PUSH_DB.prepare(
+    "INSERT INTO stats (day, kind, key, n) VALUES (?, 'hot', ?, 1) ON CONFLICT(day, kind, key) DO UPDATE SET n = n + 1").bind(day, path).run();
+  if (Math.random() < 0.02) await env.PUSH_DB.prepare("DELETE FROM hot_seen WHERE day < ?").bind(kstDay(1)).run();
+}
+
+async function handleHot(env) {
+  if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
+  await statsReady(env);
+  const rank = async (d0, d1) => {
+    const q = (kind) => env.PUSH_DB.prepare(
+      "SELECT key, SUM(CASE WHEN day = ? THEN 2 * n ELSE n END) AS s FROM stats WHERE kind = ? AND day IN (?, ?) " +
+      "AND (key LIKE '/politician/%' OR key LIKE '/local/%') GROUP BY key ORDER BY s DESC LIMIT 10").bind(d0, kind, d0, d1).all().then((r) => r.results);
+    const hot = await q("hot");
+    if (hot.length >= 10) return hot.map((r) => r.key);
+    const seen = new Set(hot.map((r) => r.key));
+    return [...seen, ...(await q("path")).map((r) => r.key).filter((k) => !seen.has(k))].slice(0, 10);
+  };
+  const [now, prev] = await Promise.all([rank(kstDay(0), kstDay(1)), rank(kstDay(1), kstDay(2))]);
+  const rows = now.map((path) => ({ path, was: prev.indexOf(path) + 1 }));   // was 0 = 새로 들어옴
+  return new Response(JSON.stringify({ ok: true, rows }), {
+    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=60" } });
 }
 
 // 관리자 화면·자정 요약용: 최근 30일 일별 합계 + 최근 7일 인기 페이지·유입 경로·앱/웹 + 푸시 구독 기기 수
@@ -586,6 +624,7 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/t") return handleHit(request, env, url).catch(NO_CONTENT);
+    if (url.pathname === "/hot") return handleHot(env).catch(() => pj({ ok: false, error: "server" }, 500));
     const api = url.pathname.startsWith("/push/") ? handlePush : url.pathname.startsWith("/ledger/") ? handleLedger
       : url.pathname.startsWith("/wall/") ? handleWall : url.pathname.startsWith("/pc/") ? handlePc
       : url.pathname.startsWith("/pay/") ? handlePay : null;
