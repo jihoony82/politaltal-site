@@ -460,11 +460,11 @@
       const draw = more => {
         box.textContent = '';
         for (const r of (more ? d.rows : d.rows.slice(0, 10))) {
-          const [kind, id] = r.target.split(':'), href = (kind === 'p' ? '/politician/' : '/local/') + id;
+          const [kind, id] = r.target.split(':'), href = kind === 'n' ? '/news.html?id=' + id : (kind === 'p' ? '/politician/' : '/local/') + id;
           const it = document.createElement('div'); it.className = 'wl-item' + (r.status === 'hidden' ? ' hidden-item' : r.reports ? ' wait' : '');
           const add = (cls, text) => { const x = document.createElement('div'); x.className = cls; x.textContent = text; it.appendChild(x); return x; };
           const head = add('wl-meta', '');
-          const a = document.createElement('a'); a.href = href; a.target = '_blank'; a.textContent = (PC_NAMES[id] && PC_NAMES[id].name) || (kind === 'l' ? '지자체장 ' + id : id);
+          const a = document.createElement('a'); a.href = href; a.target = '_blank'; a.textContent = kind === 'n' ? '🗞 뉴스 댓글' : (PC_NAMES[id] && PC_NAMES[id].name) || (kind === 'l' ? '지자체장 ' + id : id);
           head.appendChild(a);
           head.appendChild(document.createTextNode(` · ${r.parent ? '↳ 답글 · ' : ''}${r.nick} · ${new Date(r.created_at).toLocaleString('ko-KR', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' })}`));
           add('wl-msg', r.body);

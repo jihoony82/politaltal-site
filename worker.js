@@ -345,7 +345,7 @@ const PC_NICKS = ["관심시민", "데이터러버", "우리동네유권자", "�
 const PC_BAD = ["씨발", "시발", "씨바", "ㅅㅂ", "병신", "ㅂㅅ", "좆", "지랄", "개새끼", "썅", "닥쳐", "죽여", "죽인다", "살해", "테러",
   "미친놈", "미친년", "창녀", "걸레", "빨갱이", "토착왜구", "홍어", "틀딱"];
 const PC_LINK = /https?:|www\.|\.(com|net|kr|io|me|co)\b|open\.kakao/i;
-const PC_TARGET = /^[pl]:[A-Za-z0-9]{4,12}$/;                 // p:의원 코드 · l:지자체장 번호
+const PC_TARGET = /^(?:[pl]:[A-Za-z0-9]{4,12}|n:[a-f0-9]{16})$/;   // p:의원 코드 · l:지자체장 번호 · n:뉴스 헤드라인
 let PC_READY = false, PC_SALT = "";
 async function pcReady(env) {
   if (PC_READY) return;
@@ -371,7 +371,7 @@ async function handlePc(request, env, url) {
   const who = await sha16(PC_SALT + (request.headers.get("cf-connecting-ip") || "local"));
   if (path === "/pc/recent" && request.method === "GET") {        // 홈 '방금 올라온 한마디' — 신고 없는 최근 7일 댓글 3개
     const { results } = await env.PUSH_DB.prepare(
-      "SELECT target, nick, body FROM pc WHERE status = 'visible' AND parent = 0 AND reports = 0 AND created_at > ? ORDER BY id DESC LIMIT 3")
+      "SELECT target, nick, body FROM pc WHERE status = 'visible' AND parent = 0 AND reports = 0 AND target NOT LIKE 'n:%' AND created_at > ? ORDER BY id DESC LIMIT 3")
       .bind(Date.now() - 7 * 86400e3).all();
     return pj({ ok: true, rows: results });
   }
@@ -394,6 +394,7 @@ async function handlePc(request, env, url) {
     const parent = b.parent == null ? 0 : b.parent;
     if (b.hp || !PC_TARGET.test(t) || body.length < 2 || body.length > 300 || !Number.isInteger(parent) || parent < 0) return pj({ ok: false, error: "invalid" }, 400);
     if (!(await pcOpen(env))) return pj({ ok: false, error: "closed" }, 403);
+    if (t.startsWith("n:")) { await newsReady(env); if (!(await env.PUSH_DB.prepare("SELECT id FROM news WHERE id = ?").bind(t.slice(2)).first())) return pj({ ok: false, error: "invalid" }, 400); }
     if (parent && !(await env.PUSH_DB.prepare("SELECT id FROM pc WHERE id = ? AND target = ? AND parent = 0 AND status = 'visible'").bind(parent, t).first()))
       return pj({ ok: false, error: "invalid" }, 400);
     if (PC_LINK.test(body)) return pj({ ok: false, error: "link" }, 400);
@@ -620,9 +621,133 @@ async function handlePay(request, env, url) {
   return pj({ ok: false, error: "not found" }, 404);
 }
 
+// ── 좌우 뉴스 (/news/*) ───────────────────────────────────────────────────
+// 진보·보수 성향 매체(일반적 분류) 정치면 RSS 헤드라인을 20분마다 모은다(크론). 제목·링크·시각만 저장 — 기사 본문은 저장·표시하지 않는다(저작권).
+// '같은 사건, 다른 제목' = 양쪽 헤드라인의 핵심 낱말이 3개 이상 겹치면서 표현은 다른 쌍.
+// ponytail: 낱말 겹침으로만 짝짓는다 — 엉뚱한 짝이 보이면 NEWS_STOP 에 흔한 낱말을 더 넣을 것
+const NEWS_FEEDS = [
+  { side: "L", src: "한겨레", url: "https://www.hani.co.kr/rss/politics/" },
+  { side: "L", src: "경향신문", url: "https://www.khan.co.kr/rss/rssdata/politic_news.xml" },
+  { side: "L", src: "오마이뉴스", url: "http://rss.ohmynews.com/rss/politics.xml" },
+  { side: "R", src: "조선일보", url: "https://www.chosun.com/arc/outboundfeeds/rss/category/politics/?outputType=xml" },
+  { side: "R", src: "동아일보", url: "https://rss.donga.com/politics.xml" },
+  { side: "R", src: "데일리안", url: "https://www.dailian.co.kr/rss/politics" },
+];
+const NEWS_STOP = new Set(("정부 국회 대통령 민주당 민주 국민의힘 국힘 여야 여당 야당 의원 대표 장관 발언 논란 속보 단독 종합 이재명 대통령실 " +
+  "정치 위원장 사과 비판 공방 국감 국정감사 오늘 내일 관련 추진 요구 지적 강조 우려 입장 반발 비난 사진 영상 포토 與 野 李").split(" "));
+let NEWS_READY = false;
+async function newsReady(env) {
+  if (NEWS_READY) return;
+  await env.PUSH_DB.batch([
+    env.PUSH_DB.prepare("CREATE TABLE IF NOT EXISTS news (id TEXT PRIMARY KEY, side TEXT NOT NULL, src TEXT NOT NULL, title TEXT NOT NULL, link TEXT NOT NULL, at INTEGER NOT NULL, seen INTEGER NOT NULL)"),
+    env.PUSH_DB.prepare("CREATE INDEX IF NOT EXISTS news_at ON news (side, at)"),
+  ]);
+  NEWS_READY = true;
+}
+
+const newsText = (t) => t.replace(/<!\[CDATA\[|\]\]>/g, "").replace(/<[^>]+>/g, "")
+  .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n)).replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
+  .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&middot;/g, "·").replace(/&hellip;/g, "…").replace(/&amp;/g, "&")
+  .replace(/\s+/g, " ").trim();
+
+async function newsFeed(f) {
+  // 피드 앞쪽 100KB만 읽는다(최신 기사가 앞에 있고, 큰 피드를 통째로 파싱하면 무료 요금제 CPU 한도에 걸린다)
+  const res = await fetch(f.url, { headers: { "user-agent": "Mozilla/5.0 (politaltal.com news)" }, cf: { cacheTtl: 300 } });
+  if (!res.ok || !res.body) return [];
+  const reader = res.body.getReader(), parts = [];
+  let n = 0;
+  while (n < 100000) { const { done, value } = await reader.read(); if (done) break; parts.push(value); n += value.length; }
+  reader.cancel().catch(() => {});
+  const buf = new Uint8Array(n); let o = 0; for (const p of parts) { buf.set(p, o); o += p.length; }
+  const xml = new TextDecoder().decode(buf), out = [], now = Date.now();
+  for (const [i, it] of (xml.match(/<item[\s>][\s\S]*?<\/item>/g) || []).slice(0, 15).entries()) {
+    const title = newsText((it.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || "");
+    let link = newsText((it.match(/<link>([\s\S]*?)<\/link>/) || [])[1] || "");
+    if (!title || !/^https?:\/\//.test(link)) continue;
+    link = link.replace(/([?&])utm_[^&]*/g, "$1").replace(/[?&]+$/, "").replace(/^http:\/\//, "https://");
+    const d = Date.parse(newsText((it.match(/<(?:pubDate|dc:date)>([\s\S]*?)<\/(?:pubDate|dc:date)>/) || [])[1] || ""));
+    // 시각이 없는 피드(한겨레)는 피드 순서(최신이 앞)대로 1분씩 당겨 둔다 — 처음 모을 때 한 매체가 맨 위를 다 차지하지 않게
+    out.push({ id: await sha16(link), side: f.side, src: f.src, title: title.slice(0, 200), link, at: d && d <= now ? d : now - i * 60e3 });
+  }
+  return out;
+}
+
+async function newsFetch(env) {
+  await newsReady(env);
+  const all = (await Promise.all(NEWS_FEEDS.map((f) => newsFeed(f).catch(() => [])))).flat(), now = Date.now();
+  const db = env.PUSH_DB;
+  const stmts = all.map((r) => db.prepare("INSERT OR IGNORE INTO news (id, side, src, title, link, at, seen) VALUES (?, ?, ?, ?, ?, ?, ?)")
+    .bind(r.id, r.side, r.src, r.title, r.link, r.at, now));
+  stmts.push(db.prepare("DELETE FROM news WHERE seen < ? AND id NOT IN (SELECT substr(target, 3) FROM pc WHERE target LIKE 'n:%')").bind(now - 7 * 86400e3));
+  await pcReady(env);
+  await db.batch(stmts);
+  await db.prepare("INSERT INTO kv (k, v) VALUES ('news_at', ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v").bind(String(now)).run();
+  return all.length;
+}
+
+function newsToks(s) {
+  const out = new Set();
+  for (let w of s.replace(/[‘’“”'"…·,.!?()\[\]<>|/~\-]/g, " ").split(/\s+/)) {
+    if (w.length > 2) w = w.replace(/(으로|에서|까지|부터|은|는|이|가|을|를|에|의|도|로|과|와|만|께|서)$/, "");
+    if (w.length >= 2 && !NEWS_STOP.has(w) && !/^\d+$/.test(w)) out.add(w);
+  }
+  return out;
+}
+
+// 같은 사건을 다르게 쓴 쌍 — 겹치는 낱말이 많을수록, 표현이 다를수록 점수가 높다. 한 기사는 한 번만 쓴다.
+function newsPairs(L, R, k) {
+  const c = [];
+  for (const a of L) { const ta = newsToks(a.title);
+    for (const b of R) { const tb = newsToks(b.title); let sh = 0; for (const w of ta) if (tb.has(w)) sh++;
+      if (sh >= 3) c.push({ a, b, score: sh * (1 - sh / (ta.size + tb.size - sh)) ** 2 }); } }
+  c.sort((x, y) => y.score - x.score);
+  const used = new Set(), out = [];
+  for (const p of c) { if (out.length >= k) break; if (used.has(p.a.id) || used.has(p.b.id)) continue;
+    used.add(p.a.id); used.add(p.b.id); out.push({ l: p.a, r: p.b }); }
+  return out;
+}
+
+async function handleNews(request, env, url, ctx) {
+  if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
+  await newsReady(env); await pcReady(env);
+  const db = env.PUSH_DB, path = url.pathname.replace(/\/+$/, "");
+  const last = await db.prepare("SELECT v FROM kv WHERE k = 'news_at'").first();
+  if (!last || Date.now() - +last.v > 40 * 60e3) {                      // 크론이 멈췄거나 첫 실행 — 이번 요청에서 한 번 채운다
+    if (!last) await newsFetch(env); else ctx.waitUntil(newsFetch(env));
+  }
+  const cnt = "(SELECT COUNT(*) FROM pc WHERE pc.target = 'n:' || news.id AND pc.status = 'visible') AS c";
+  const side = (sd, n) => db.prepare(`SELECT id, src, title, link, at, ${cnt} FROM news WHERE side = ? AND at > ? ORDER BY at DESC LIMIT ?`)
+    .bind(sd, Date.now() - 36 * 3600e3, n).all().then((r) => r.results);
+  const cache = { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=60" };
+  if (path === "/news/list") {
+    const n = Math.min(Math.max(+url.searchParams.get("n") || 10, 1), 30);
+    const [L, R] = await Promise.all([side("L", 40), side("R", 40)]);
+    const pairs = newsPairs(L.filter((r) => r.at > Date.now() - 24 * 3600e3), R.filter((r) => r.at > Date.now() - 24 * 3600e3), 3);
+    // 한 매체가 칸을 다 차지하지 않게 매체별 최신순으로 번갈아 놓는다
+    const mix = (rows) => { const by = {}; rows.forEach((r) => (by[r.src] = by[r.src] || []).push(r)); const q = Object.values(by), out = [];
+      for (let i = 0; out.length < rows.length; i++) q.forEach((x) => { if (x[i]) out.push(x[i]); }); return out; };
+    return new Response(JSON.stringify({ ok: true, L: mix(L).slice(0, n), R: mix(R).slice(0, n), pairs }), { headers: cache });
+  }
+  if (path === "/news/item") {
+    const id = url.searchParams.get("id") || "";
+    if (!/^[a-f0-9]{16}$/.test(id)) return pj({ ok: false, error: "invalid" }, 400);
+    const item = await db.prepare(`SELECT id, side, src, title, link, at, ${cnt} FROM news WHERE id = ?`).bind(id).first();
+    if (!item) return pj({ ok: false, error: "not found" }, 404);
+    const other = await side(item.side === "L" ? "R" : "L", 8);
+    return new Response(JSON.stringify({ ok: true, item, other }), { headers: cache });
+  }
+  return pj({ ok: false, error: "not found" }, 404);
+}
+
 export default {
-  async fetch(request, env) {
+  async scheduled(event, env, ctx) {
+    if (env.PUSH_DB) ctx.waitUntil(newsFetch(env));
+  },
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (url.pathname.startsWith("/news/")) {
+      try { return await handleNews(request, env, url, ctx); } catch (e) { return pj({ ok: false, error: "server" }, 500); }
+    }
     if (url.pathname === "/t") return handleHit(request, env, url).catch(NO_CONTENT);
     if (url.pathname === "/hot") return handleHot(env).catch(() => pj({ ok: false, error: "server" }, 500));
     const api = url.pathname.startsWith("/push/") ? handlePush : url.pathname.startsWith("/ledger/") ? handleLedger
