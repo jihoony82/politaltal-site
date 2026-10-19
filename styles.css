@@ -2098,6 +2098,38 @@ a:hover { text-decoration: underline; }
 .hs-rthumb { display: block; aspect-ratio: 16/9; border-radius: 10px; background: #0e1626 center/cover; position: relative; }
 .hs-rthumb::after { content: "▶"; position: absolute; right: 8px; bottom: 6px; color: #fff; font-size: 13px; background: rgba(0,0,0,.55); border-radius: 999px; padding: 3px 8px 3px 9px; }
 .hs-rtit { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 13px; font-weight: 700; line-height: 1.4; margin-top: 6px; }
+/* 좌우 뉴스(홈 상자·/news.html) — 파랑 vs 빨강 */
+.nw-box { background: #fff; border: 1px solid var(--color-border); border-radius: 14px; padding: 14px 14px 10px; margin: 0 0 14px; }
+.nw-box[hidden], .nw-detail[hidden], #nwMain[hidden] { display: none; }
+.nw-page { margin-top: 14px; }
+.nw-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.nw-head h2 { margin: 0; font-size: 16px; font-weight: 900; color: var(--color-primary); letter-spacing: -.02em; }
+.nw-head a { font-size: 12.5px; font-weight: 700; color: var(--color-accent); text-decoration: none; }
+.nw-pair { background: linear-gradient(90deg, #eff6ff 0%, #fff 50%, #fff1f2 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px 12px; margin-bottom: 10px; }
+.nw-pk { font-size: 12px; font-weight: 900; color: var(--color-primary); margin-bottom: 4px; }
+.nw-pl { display: block; padding: 6px 0 6px 10px; text-decoration: none; color: var(--color-text); border-left: 3px solid; margin-top: 4px; }
+.nw-pl-l { border-color: #2563eb; } .nw-pl-r { border-color: #e11d48; }
+.nw-pt { display: block; font-size: 14px; font-weight: 800; line-height: 1.45; }
+.nw-ps { display: block; font-size: 11px; font-weight: 700; margin-top: 2px; }
+.nw-pl-l .nw-ps { color: #1d4ed8; } .nw-pl-r .nw-ps { color: #be123c; }
+.nw-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.nw-col ul, .nw-list { list-style: none; margin: 0; padding: 0; }
+.nw-side { font-size: 12px; font-weight: 900; padding: 6px 8px; border-radius: 8px; }
+.nw-l .nw-side { background: #eff6ff; color: #1d4ed8; } .nw-r .nw-side { background: #fff1f2; color: #be123c; }
+.nw-item { display: block; padding: 9px 2px; border-bottom: 1px solid #f1f5f9; text-decoration: none; color: var(--color-text); }
+.nw-t { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-size: 13.5px; font-weight: 700; line-height: 1.42; overflow-wrap: anywhere; }
+.nw-m { display: block; font-size: 11px; color: var(--color-text-soft); margin-top: 3px; }
+.nw-note { font-size: 11px; color: var(--color-text-soft); margin: 8px 0 0; line-height: 1.5; }
+.nw-d-card { background: #fff; border: 1px solid var(--color-border); border-top: 5px solid #64748b; border-radius: 14px; padding: 16px; margin: 10px 0 14px; }
+.nw-detail.is-l .nw-d-card { border-top-color: #2563eb; } .nw-detail.is-r .nw-d-card { border-top-color: #e11d48; }
+.nw-d-side { font-size: 12.5px; font-weight: 900; color: var(--color-text-soft); }
+.nw-detail.is-l .nw-d-side { color: #1d4ed8; } .nw-detail.is-r .nw-d-side { color: #be123c; }
+.nw-d-title { font-size: 21px; font-weight: 900; line-height: 1.4; margin: 6px 0 4px; letter-spacing: -.02em; color: var(--color-text); }
+.nw-d-meta { font-size: 12px; color: var(--color-text-soft); }
+.nw-orig { display: block; text-align: center; margin-top: 12px; padding: 13px; border-radius: 10px; background: var(--color-primary); color: #fff; font-weight: 800; font-size: 14.5px; text-decoration: none; }
+.nw-d-note { font-size: 11.5px; color: var(--color-text-soft); margin: 8px 0 0; line-height: 1.5; }
+.nw-h { font-size: 15px; font-weight: 900; margin: 18px 0 4px; }
+.nw-back { display: inline-block; margin: 14px 0 6px; font-size: 13px; font-weight: 700; color: var(--color-accent); text-decoration: none; }
 /* 의원·지자체장 페이지 맨 위 훅 */
 .hook-bar { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px; padding: 10px 14px; margin: 10px 0 12px; display: grid; gap: 4px; }
 .hk-line { font-size: 13.5px; font-weight: 700; line-height: 1.5; color: var(--color-text); }

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:false,android:false},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(/^[/](community|post|login)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency|supporters)/.test(location.pathname)))location.replace('/');}</script>
+  <title>좌우 뉴스 — 같은 날, 진보와 보수의 다른 헤드라인 | 정치탈탈</title>
+  <meta name="description" content="한겨레·경향·오마이뉴스와 조선·동아·데일리안의 정치 헤드라인을 나란히. 같은 사건, 다른 제목을 한눈에 보고 댓글로 이야기하세요.">
+  <meta name="keywords" content="정치탈탈,국회의원,의정활동,출석률,발의 법안,표결,재산공개,지역구,공공데이터,22대 국회,국회의원 검색,내 지역구 의원">
+  <meta name="author" content="정치탈탈">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://politaltal.com/news">
+
+  <!-- 검색엔진 사이트 소유 확인 (각 사이트에서 등록 후 content 값 채우기) -->
+  <meta name="naver-site-verification" content="9e3ca58898c588a94375445bf3e90634c27da43d">
+  <meta name="google-site-verification" content="3T1zR-6vdABc-R7XTfG9TFbnljB_3DYZQroa1B6pbiE">
+  <meta name="msvalidate.01" content="50D545291AE8CB679E6A71ED05D18AC4">
+  <!-- ↑ 빙(Bing) 웹마스터: https://www.bing.com/webmasters 등록 후 받은 코드 -->
+  <!-- ↑ 다음(Daum)은 verification 메타 없음. https://register.search.daum.net 사이트 URL만 등록 -->
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="정치탈탈">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="좌우 뉴스 — 같은 날, 진보와 보수의 다른 헤드라인 | 정치탈탈">
+  <meta property="og:description" content="한겨레·경향·오마이뉴스와 조선·동아·데일리안의 정치 헤드라인을 나란히. 같은 사건, 다른 제목을 한눈에 보고 댓글로 이야기하세요.">
+  <meta property="og:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="정치탈탈 - 국회의원 의정활동 대시보드">
+  <meta property="og:url" content="https://politaltal.com/news">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="좌우 뉴스 — 같은 날, 진보와 보수의 다른 헤드라인 | 정치탈탈">
+  <meta name="twitter:description" content="한겨레·경향·오마이뉴스와 조선·동아·데일리안의 정치 헤드라인을 나란히. 같은 사건, 다른 제목을 한눈에 보고 댓글로 이야기하세요.">
+  <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610191420">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610191420">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610191420">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610191420">
+  <meta name="theme-color" content="#0a2540">
+  <link rel="stylesheet" href="/styles.css?v=202610191420">
+  <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
+  <link rel="manifest" href="/manifest.json?v=202610191420">
+  <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="build-id" content="202610191420">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="정치탈탈">
+
+  <!-- Cloudflare Web Analytics -->
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "26dbbaa3ad4d4e4a95991d64553fa612"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+  <!-- 후원 진행 배너 (사이트 최상단) — 매일 다른 감정 카피 -->
+  <div class="fundraiser-bar">
+    <div class="container fb-inner">
+      <div class="fb-copy">
+        <span class="fb-kicker">정치탈탈 후원</span>
+        <span class="fb-line" id="fbLine">
+          <strong>정치인은 4년에 한 번 옵니다.</strong> 그들의 매일은 우리가 봅니다.
+        </span>
+      </div>
+      <div class="fb-progress-wrap">
+        <div class="fb-progress-track">
+          <div class="fb-progress-fill" style="width: 8%;"></div>
+          <span class="fb-progress-text">시작 단계</span>
+        </div>
+        <div class="fb-progress-stats">
+          <span class="fb-raised">목표 100만원 · 서버·도메인 유지비</span>
+          <span class="fb-pct" id="fbPledge">후원금 30% 시민단체 기부</span>
+        </div>
+      </div>
+      <a href="/donate.html" class="fb-donate-btn">☕ 후원하기</a>
+    </div>
+  </div>
+  <script>
+    // 후원 카피 매일 회전 (날짜 기준 → 모든 사용자에게 같은 메시지)
+    (function() {
+      const COPIES = [
+        ['정치인은 4년에 한 번 옵니다.', '그들의 매일은 우리가 봅니다.'],
+        ['투표한 의원, 그 다음은', '잊고 계셨나요?'],
+        ['선거 다음 날부터,', '우리는 추적을 시작합니다.'],
+        ['300명의 발의·표결·재산.', '잊지 않고 기록합니다.'],
+        ['그들의 무기는 잊혀짐.', '우리의 무기는 기록입니다.'],
+        ['당신의 커피값이', '300명의 의정활동을 매주 추적합니다.'],
+        ['발의 19,958건, 통과 726건.', '우리는 그 차이를 봅니다.'],
+      ];
+      try {
+        const day = Math.floor(Date.now() / 86400000);
+        const c = COPIES[day % COPIES.length];
+        const el = document.getElementById('fbLine');
+        if (el && c) {
+          el.innerHTML = '<strong>' + c[0] + '</strong> ' + c[1];
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <header class="app-header">
+    <div class="container">
+      <a href="/" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
+        <span>정치탈탈</span>
+      </a>
+      <div class="header-actions">
+        <a href="/donate.html" class="header-donate"
+           title="당신의 커피 한 잔이 정치 감시의 눈이 됩니다 👀 (월 1,000원~)">
+          <span class="hd-heart">♥</span><span class="hd-text">커피 한 잔</span>
+        </a>
+        <a href="/login.html" id="headerAuthBtn"
+           onclick="if(!location.pathname.startsWith('/login')){this.href='/login.html?return='+encodeURIComponent(location.pathname+location.search+location.hash);}"
+           style="font-size:12px;font-weight:700;padding:6px 12px;
+                                      background:var(--color-primary);color:white;
+                                      border-radius:6px;text-decoration:none;
+                                      display:flex;align-items:center;gap:6px;">
+          로그인
+        </a>
+      </div>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <a href="/" class="back-link">← 홈으로</a>
+      <div id="nwDetail" class="nw-detail" hidden>
+        <div class="nw-d-card">
+          <div class="nw-d-side" id="nwSide"></div>
+          <h1 class="nw-d-title" id="nwTitle">불러오는 중…</h1>
+          <div class="nw-d-meta" id="nwMeta"></div>
+          <a class="nw-orig" id="nwOrig" href="#" target="_blank" rel="noopener nofollow" data-ck="news-orig">기사 전문 보기 ↗</a>
+          <p class="nw-d-note">기사 본문은 저작권이 언론사에 있어 언론사 사이트에서 열립니다. 여기서는 제목과 댓글만 다룹니다.</p>
+        </div>
+        
+      <div class="pc-box" id="pcBox" data-t="n:0000000000000000">
+        <div class="pc-head"><strong>💬 이 기사, 어떻게 보세요?</strong><span class="pc-count" id="pcCount"></span>
+          <button type="button" class="pc-sort" id="pcSort" hidden></button></div>
+        <form class="pc-form" id="pcForm">
+          <input name="body" maxlength="300" required placeholder="이 제목, 어떻게 보세요? (300자)" aria-label="한마디">
+          <input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="pc-hp">
+          <button type="submit">남기기</button>
+        </form>
+        <p class="pc-msg" id="pcMsg" role="status"></p>
+        <div class="pc-list" id="pcList"></div>
+        <button type="button" class="pc-more" id="pcMore" hidden></button>
+        <p class="pc-rule">욕설·비방·허위사실·홍보 글은 숨겨집니다. 댓글은 작성자 개인 의견이며 언론사에 전달되지는 않습니다. 삭제 요청: jihoony8282@naver.com</p>
+      </div>
+      <script src="/pc.js?v=202610191420" defer></script>
+        <h2 class="nw-h" id="nwOtherH"></h2>
+        <ul class="nw-list" id="nwOther"></ul>
+        <a class="nw-back" href="/news.html">← 좌우 헤드라인 전체 보기</a>
+      </div>
+      <div id="nwMain">
+        <div class="section-title">🗞 같은 날, 다른 헤드라인</div>
+        <div class="section-sub">진보 언론과 보수 언론은 오늘 정치면에 무엇을 올렸을까 — 20분마다 새로 고칩니다</div>
+        <section class="nw-box nw-page" id="nwList" hidden>
+          <div id="nwPairs"></div>
+        <div class="nw-cols">
+          <div class="nw-col nw-l"><div class="nw-side">🔵 진보 성향</div><ul id="nwL"></ul></div>
+          <div class="nw-col nw-r"><div class="nw-side">🔴 보수 성향</div><ul id="nwR"></ul></div>
+        </div>
+        <p class="nw-note">한겨레·경향신문·오마이뉴스 / 조선일보·동아일보·데일리안 정치면. 성향은 흔히 쓰는 분류이고, 제목은 언론사가 쓴 그대로입니다.</p>
+        </section>
+      </div>
+    </div>
+    <script>
+      (function () {   /* pc.js(defer)보다 먼저 — 상세면 댓글 대상을 이 헤드라인으로, 목록이면 댓글 상자를 뺀다 */
+        var id = new URLSearchParams(location.search).get('id') || '', box = document.getElementById('pcBox');
+        if (/^[a-f0-9]{16}$/.test(id)) {
+          box.setAttribute('data-t', 'n:' + id);
+          document.getElementById('nwDetail').hidden = false; document.getElementById('nwMain').hidden = true;
+        } else box.parentNode.removeChild(box);
+      })();
+    </script>
+    <script src="/news.js?v=202610191420" defer></script>
+    
+  <section class="tail">
+    <div class="container">
+      <h2 class="tail-h">이어서 보기</h2>
+      <div class="next-list"><a class="next-card" href="/live.html" data-ck="next-live"><span class="nk">국회 속보</span><strong>국회가 최근 통과시킨 법, 알고 계신가요?</strong><span class="ns">본회의 처리 결과를 공식 기록 그대로 정리합니다 →</span></a><a class="next-card" href="/money.html" data-ck="next-money"><span class="nk">재산</span><strong>의원 재산 1위 1,368억, 꼴찌는 −11억</strong><span class="ns">내 의원은 몇 위일까요? →</span></a><a class="next-card" href="/list.html" data-ck="next-vote"><span class="nk">표결</span><strong>본회의 표결 4번 중 1번은 ‘불참’</strong><span class="ns">내 의원은 몇 번 빠졌는지 참여율로 확인하세요 →</span></a></div>
+      <div class="yt-band">
+        <div class="yt-head">
+          <div>
+            <span class="nk">정치탈탈 유튜브</span>
+            <strong class="yt-title">모르고 뽑으면 또 4년입니다</strong>
+            <p class="yt-sub">의원 성적표(출석·표결·법안·재산)와 정치사 이야기를 영상으로 정리합니다. 편은 들지 않습니다.</p>
+          </div>
+          <a class="yt-btn" href="https://www.youtube.com/@politaltal?sub_confirmation=1" target="_blank" rel="noopener" data-ck="yt-sub">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>유튜브에서 구독</a>
+        </div>
+        <div class="yt-row" id="ytRow" hidden></div>
+      </div>
+    </div>
+  </section></main>
+  <nav class="bottom-nav">
+    <a href="/" class="">
+      <span class="icon">🏠</span>홈
+    </a>
+    <a href="/people.html" class="">
+      <span class="icon">👤</span>정치인
+    </a>
+    <a href="/pledges.html" class="">
+      <span class="icon">📜</span>공약·법안
+    </a>
+    <a href="/community.html" class="">
+      <span class="icon">💬</span>커뮤니티
+    </a>
+    <a href="/history.html" class="">
+      <span class="icon">📼</span>비사
+    </a>
+  </nav>
+  <script>
+    // 정치 용어 tooltip — 모바일 tap-to-show, 다시 탭하면 닫기
+    document.addEventListener('click', function(e) {
+      const t = e.target.closest('.term-tip');
+      if (t) {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          if (x !== t) x.classList.remove('tt-active');
+        });
+        t.classList.toggle('tt-active');
+        e.stopPropagation();
+      } else {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          x.classList.remove('tt-active');
+        });
+      }
+    });
+  </script>
+  <script>/* 방문 집계: 페이지 주소·유입 사이트 이름만 보낸다(쿠키·식별값 없음) → site/worker.js /t */
+  try { navigator.sendBeacon("/t", JSON.stringify({ p: location.pathname, r: document.referrer ? new URL(document.referrer).host : "" })); } catch (e) {}
+  /* 띠 클릭 집계: data-ck 가 붙은 링크만, 이름표(key)만 보낸다 */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("[data-ck]");
+    if (a) try { navigator.sendBeacon("/t", JSON.stringify({ c: a.getAttribute("data-ck") })); } catch (x) {}
+  });
+  /* 유튜브 띠: 채널 최신 영상(매일 수집) — 지금 보는 정치인 이름이 제목에 있으면 맨 앞으로 */
+  (function () {
+    var row = document.getElementById("ytRow");
+    if (!row) return;
+    fetch("/data/stories_videos.json").then(function (r) { return r.json(); }).then(function (d) {
+      var v = (d.latest || []).slice();
+      if (!v.length) return;
+      var name = /^[/](politician|local)[/]/.test(location.pathname) ? document.title.split(" ")[0] : "";
+      if (name.length >= 2) v = v.filter(function (x) { return (x.mine = x.title.indexOf(name) >= 0); }).concat(v.filter(function (x) { return !x.mine; }));
+      v.slice(0, 8).forEach(function (x) {
+        var a = document.createElement("a"), img = document.createElement("img"), t = document.createElement("span");
+        a.className = "yt-card"; a.href = "https://www.youtube.com/watch?v=" + encodeURIComponent(x.id); a.target = "_blank"; a.rel = "noopener";
+        a.setAttribute("data-ck", "yt-video");
+        img.loading = "lazy"; img.alt = ""; img.src = "https://i.ytimg.com/vi/" + encodeURIComponent(x.id) + "/mqdefault.jpg";
+        a.appendChild(img);
+        if (x.mine) { var m = document.createElement("em"); m.textContent = name + " 영상"; a.appendChild(m); }
+        t.textContent = x.title; a.appendChild(t); row.appendChild(a);
+      });
+      row.hidden = false;
+    }).catch(function () {});
+  })();
+  </script>
+  <script>
+  /* ── 정치탈탈 앱 전용: 의정 속보 푸시 등록 (웹에서는 아무것도 안 함) ── */
+  (function() {
+    var Cap = window.Capacitor;
+    var inApp = !!(Cap && Cap.isNativePlatform && Cap.isNativePlatform())
+                || /PolitaltalApp/.test(navigator.userAgent || "");
+    if (!inApp || !Cap || !Cap.Plugins || !Cap.Plugins.PushNotifications) return;
+    var PN = Cap.Plugins.PushNotifications;
+    var platform = (Cap.getPlatform && Cap.getPlatform()) || "unknown";
+    var PUSH_API = "";   // 같은 오리진 /push/* (site/worker.js)
+
+    function postToken(value) {
+      try {
+        fetch(PUSH_API + "/push/register", {
+          method: "POST", headers: { "content-type": "application/json" },
+          body: JSON.stringify({ token: value, platform: platform, topics: "all" })
+        }).catch(function() {});
+      } catch (e) {}
+    }
+
+    // 딥링크: 알림 탭 → 해당 URL로 이동
+    PN.addListener("pushNotificationActionPerformed", function(ev) {
+      try {
+        var url = ev && ev.notification && ev.notification.data && ev.notification.data.url;
+        if (url) window.location.href = url;
+      } catch (e) {}
+    });
+    PN.addListener("registration", function(t) { if (t && t.value) postToken(t.value); });
+    PN.addListener("registrationError", function() {});
+
+    function start() {
+      // 안드로이드 알림 채널(중요도 높음) — send_push.py 의 channel_id 와 일치
+      if (platform === "android" && PN.createChannel) {
+        PN.createChannel({ id: "politaltal_news", name: "의정 속보",
+          description: "본회의 처리·신규 발의 속보", importance: 5, visibility: 1 }).catch(function() {});
+      }
+      PN.checkPermissions().then(function(p) {
+        if (p.receive === "granted") { PN.register(); return; }
+        // 첫 방문 1회만 권한 요청(거부 후 매번 묻지 않도록 플래그)
+        if (localStorage.getItem("pt_push_asked") === "1" && p.receive === "denied") return;
+        localStorage.setItem("pt_push_asked", "1");
+        PN.requestPermissions().then(function(r) { if (r.receive === "granted") PN.register(); });
+      }).catch(function() {});
+    }
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start);
+  })();
+  </script>
+</body>
+</html>
