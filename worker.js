@@ -268,17 +268,35 @@ async function hotCount(env, request, day, path) {
   if (Math.random() < 0.02) await env.PUSH_DB.prepare("DELETE FROM hot_seen WHERE day < ?").bind(kstDay(1)).run();
 }
 
-async function handleHot(env) {
+// 같은 관심이면 국회의원·광역단체장·시장이 위로(대표 10-23: "군수는 약하다"). 이름표 = 정적 파일 data/pc-names.json(직함으로 판단)
+let HOT_NAMES = null, HOT_NAMES_AT = 0;
+async function hotNames(env, origin) {
+  if (!HOT_NAMES || Date.now() - HOT_NAMES_AT > 3600e3) {
+    try { HOT_NAMES = await (await env.ASSETS.fetch(new Request(origin + "/data/pc-names.json"))).json(); HOT_NAMES_AT = Date.now(); }
+    catch (e) { HOT_NAMES = HOT_NAMES || {}; }
+  }
+  return HOT_NAMES;
+}
+const HOT_METRO = /^(서울|부산|대구|인천|광주|대전|울산|세종)시장$|통합시장$|지사$/;
+function hotWeight(path, names) {
+  if (path.startsWith("/politician/")) return 3;
+  const t = (names["l:" + path.split("/")[2]] || "").split(" ").slice(1).join(" ");
+  return HOT_METRO.test(t) ? 3 : /시장$/.test(t) ? 2 : /구청장$/.test(t) ? 1 : 0.6;   // 나머지 = 군수
+}
+
+async function handleHot(env, url) {
   if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
   await statsReady(env);
+  const names = await hotNames(env, url.origin);
   const rank = async (d0, d1) => {
     const q = (kind) => env.PUSH_DB.prepare(
       "SELECT key, SUM(CASE WHEN day = ? THEN 2 * n ELSE n END) AS s FROM stats WHERE kind = ? AND day IN (?, ?) " +
-      "AND (key LIKE '/politician/%' OR key LIKE '/local/%') GROUP BY key ORDER BY s DESC LIMIT 10").bind(d0, kind, d0, d1).all().then((r) => r.results);
-    const hot = await q("hot");
-    if (hot.length >= 10) return hot.map((r) => r.key);
-    const seen = new Set(hot.map((r) => r.key));
-    return [...seen, ...(await q("path")).map((r) => r.key).filter((k) => !seen.has(k))].slice(0, 10);
+      "AND (key LIKE '/politician/%' OR key LIKE '/local/%') GROUP BY key ORDER BY s DESC LIMIT 60").bind(d0, kind, d0, d1).all().then((r) => r.results);
+    const top = (rows) => rows.map((r) => ({ key: r.key, s: r.s * hotWeight(r.key, names) })).sort((a, b) => b.s - a.s).map((r) => r.key);
+    const hot = top(await q("hot"));
+    if (hot.length >= 10) return hot.slice(0, 10);
+    const seen = new Set(hot);
+    return [...hot, ...top(await q("path")).filter((k) => !seen.has(k))].slice(0, 10);
   };
   const [now, prev] = await Promise.all([rank(kstDay(0), kstDay(1)), rank(kstDay(1), kstDay(2))]);
   const rows = now.map((path) => ({ path, was: prev.indexOf(path) + 1 }));   // was 0 = 새로 들어옴
@@ -749,7 +767,7 @@ export default {
       try { return await handleNews(request, env, url, ctx); } catch (e) { return pj({ ok: false, error: "server" }, 500); }
     }
     if (url.pathname === "/t") return handleHit(request, env, url).catch(NO_CONTENT);
-    if (url.pathname === "/hot") return handleHot(env).catch(() => pj({ ok: false, error: "server" }, 500));
+    if (url.pathname === "/hot") return handleHot(env, url).catch(() => pj({ ok: false, error: "server" }, 500));
     const api = url.pathname.startsWith("/push/") ? handlePush : url.pathname.startsWith("/ledger/") ? handleLedger
       : url.pathname.startsWith("/wall/") ? handleWall : url.pathname.startsWith("/pc/") ? handlePc
       : url.pathname.startsWith("/pay/") ? handlePay : null;
