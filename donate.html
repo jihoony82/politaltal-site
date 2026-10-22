@@ -270,7 +270,7 @@
         var max = +(book.getAttribute('data-max') || 0), msgs = seats.filter(function (s) { return s.msg; }).reverse();
         (max ? msgs.slice(0, max) : msgs).forEach(function (s) {
           var b = el('blockquote', 'bk'); b.appendChild(el('p', '', '“' + s.msg + '”'));
-          b.appendChild(el('footer', '', s.name + ' · ' + seatNo(s.no) + ' · ' + s.day.slice(0, 7).replace('-', '.')));
+          b.appendChild(el('footer', '', s.name + ' · ' + seatNo(s.no) + (s.no <= 100 ? ' · 창립 후원자' : '')));
           book.appendChild(b);
         });
         document.getElementById('wallPlates').hidden = false;
