@@ -2836,6 +2836,8 @@ a.post-card .post-cta {
 .in-app .app-only { display: block; }
 .in-app .web-only { display: none !important; }
 .in-app a[href^="/community"], .in-app a[href^="/post.html"], .in-app a[href^="/login"] { display: none !important; }
+/* 앱 심사 3.1.1·3.1.3(g)(10-16 반려): 앱 안에서 광고 게재 판매(의원실 이야기 광고 단가표)·유료 데이터 문의를 보이지 않는다 */
+.in-app .ad-toggle-btn, .in-app .ad-section, .in-app a[href^="/data.html"], .in-app a[href="/data"] { display: none !important; }
 /* 인앱결제가 아직 안 켜진 앱: 후원 진입점 전부 숨김('준비 중' 화면을 보여주지 않는다) */
 .no-iap a[href^="/donate"], .no-iap a[href^="/transparency"], .no-iap a[href^="/supporters"], .no-iap .donate-banner, .no-iap .cost-cta,
 .no-iap .mini-cta, .no-iap .fundraiser-bar { display: none !important; }
