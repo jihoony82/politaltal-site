@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-24T09:01:36",
+  "generated_at": "2026-10-26T08:22:22",
   "processed": [],
   "proposed": [
     {
@@ -647,120 +647,6 @@
       },
       "bill_url": "/bills/2222035.html",
       "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_5932C7131EE742AC922BB5769A7973&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_1E43CE255A084EBC9DCC72EABD54E9",
-      "bill_no": "2222034",
-      "bill_name": "조세특례제한법 일부개정법률안",
-      "propose_dt": "2026-10-22",
-      "committee": "재정경제기획위원회",
-      "proposer": {
-        "mona_cd": "SKP6181Y",
-        "name": "김남준",
-        "party": "더불어민주당",
-        "district": "인천 계양구을",
-        "url": "/politician/SKP6181Y.html",
-        "color": "#0a4ea2",
-        "text": "김남준의원 등 14인"
-      },
-      "bill_url": "/bills/2222034.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_1E43CE255A084EBC9DCC72EABD54E9&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_A2Z6Y0Z3U2U0S1Q4R2Z0Y5X2V8W6E3",
-      "bill_no": "2222033",
-      "bill_name": "최저임금법 일부개정법률안",
-      "propose_dt": "2026-10-22",
-      "committee": "기후에너지환경노동위원회",
-      "proposer": {
-        "mona_cd": "51A45980",
-        "name": "서미화",
-        "party": "더불어민주당",
-        "district": "비례대표",
-        "url": "/politician/51A45980.html",
-        "color": "#0a4ea2",
-        "text": "서미화의원 등 10인"
-      },
-      "bill_url": "/bills/2222033.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_A2Z6Y0Z3U2U0S1Q4R2Z0Y5X2V8W6E3&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_07557B43239D46B9BE76B0B58D0889",
-      "bill_no": "2222032",
-      "bill_name": "보조금 관리에 관한 법률 일부개정법률안",
-      "propose_dt": "2026-10-22",
-      "committee": "재정경제기획위원회",
-      "proposer": {
-        "mona_cd": "8O34202I",
-        "name": "김영환",
-        "party": "더불어민주당",
-        "district": "경기 고양시정",
-        "url": "/politician/8O34202I.html",
-        "color": "#0a4ea2",
-        "text": "김영환의원 등 10인"
-      },
-      "bill_url": "/bills/2222032.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_07557B43239D46B9BE76B0B58D0889&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_9AC9355E38C141C98F1E656D1AD942",
-      "bill_no": "2222031",
-      "bill_name": "노동감독관 직무집행법 일부개정법률안",
-      "propose_dt": "2026-10-22",
-      "committee": "기후에너지환경노동위원회",
-      "proposer": {
-        "mona_cd": "LCZ1711I",
-        "name": "김위상",
-        "party": "국민의힘",
-        "district": "비례대표",
-        "url": "/politician/LCZ1711I.html",
-        "color": "#e2231a",
-        "text": "김위상의원 등 12인"
-      },
-      "bill_url": "/bills/2222031.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_9AC9355E38C141C98F1E656D1AD942&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_AA3A82DA13244856B5AA6FC25A0A58",
-      "bill_no": "2222030",
-      "bill_name": "건설산업기본법 일부개정법률안",
-      "propose_dt": "2026-10-22",
-      "committee": "국토교통위원회",
-      "proposer": {
-        "mona_cd": "IUX1829H",
-        "name": "김남근",
-        "party": "더불어민주당",
-        "district": "서울 성북구을",
-        "url": "/politician/IUX1829H.html",
-        "color": "#0a4ea2",
-        "text": "김남근의원 등 11인"
-      },
-      "bill_url": "/bills/2222030.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_AA3A82DA13244856B5AA6FC25A0A58&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_BCAE6723DFC94A0CB6298622C0D4F6",
-      "bill_no": "2222029",
-      "bill_name": "조세특례제한법 일부개정법률안",
-      "propose_dt": "2026-10-22",
-      "committee": "재정경제기획위원회",
-      "proposer": {
-        "mona_cd": "GX38539O",
-        "name": "유동수",
-        "party": "더불어민주당",
-        "district": "인천 계양구갑",
-        "url": "/politician/GX38539O.html",
-        "color": "#0a4ea2",
-        "text": "유동수의원 등 35인"
-      },
-      "bill_url": "/bills/2222029.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_BCAE6723DFC94A0CB6298622C0D4F6&ageFrom=22&ageTo=22"
     }
   ],
   "upcoming": []

@@ -1,6 +1,21 @@
 {
   "updates": [
     {
+      "timestamp": "2026-10-26T08:21:50",
+      "deltas": {
+        "politicians": 0,
+        "bills": 122,
+        "passed": 0,
+        "votes": 0
+      },
+      "narrative": [
+        "📜 발의 의안: 19,958 → 20,080 (+122건)",
+        "🏆 발의 TOP 5: 윤준병, 이수진, 김선교, 이용우, 문진석",
+        "   ⬆ 신규 진입: 문진석",
+        "   ⬇ 이탈: 한정애"
+      ]
+    },
+    {
       "timestamp": "2026-10-19T14:19:30",
       "deltas": {
         "politicians": 0,
