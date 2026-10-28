@@ -254,7 +254,8 @@ async function handleHit(request, env, url) {
 // 순위 = 오늘×2 + 어제, 화살표는 어제 기준 순위와 비교. 'hot' 기록이 모자라는 동안은 조회수(kind 'path')로 채운다.
 // ── 정치 전장 (/war) ─────────────────────────────────────────────────
 // 파랑·하양(중립)·빨강 진영의 '오늘의 화력' = 참여 점수. 여론조사가 아니다(같은 사람이 여러 번 참여, 표본 없음 — 화면에도 그렇게 쓴다).
-// 편 고르기 1 · 응원 1 · 팩트 폭탄 1(의원마다 하루 한 번) · 청기홍기 점수(한 판 30점, 하루 10판) · 댓글 2 · 후원 승인 100.
+// b=진보 성향(파랑) · w=중도(하양) · r=보수 성향(빨강). 정치인은 정당으로 편을 매기지 않는다 — 고른 사람의 성향에만 쌓인다.
+// 편 고르기 1 · 응원 1 · 팩트 폭탄 1(의원마다 하루 한 번) · 청기홍기 점수(한 판 30점, 하루 10판) · 댓글 2 · 후원 승인 100 · 화력 상점(유료).
 // 중복은 hot_seen(하루·IP 해시)으로 막는다. ponytail: IP를 바꿔 가며 누르면 올릴 수 있다 — 조작이 보이면 Turnstile.
 const WAR_T = /^[bwr]$/;
 async function warAdd(env, team, n, day = kstDay()) {
@@ -289,7 +290,6 @@ async function handleWar(request, env, url) {
   } else if (kind === "cheer" || kind === "bomb") {
     const t = String(b.t || "");
     if (!PC_TARGET.test(t) || t.startsWith("n:")) return pj({ ok: false, error: "invalid" }, 400);
-    if (kind === "cheer") { if (!WAR_T.test(b.camp)) return pj({ ok: false, error: "invalid" }, 400); to = b.camp; }   // 응원은 그 정치인 진영에
     if (!(await once(`war:${kind}:${t}`))) return pj({ ok: true, dup: true });
     await env.PUSH_DB.prepare("INSERT INTO stats (day, kind, key, n) VALUES (?, ?, ?, 1) ON CONFLICT(day, kind, key) DO UPDATE SET n = n + 1").bind(day, kind, t).run();
     n = 1;
@@ -630,6 +630,11 @@ async function handleLedger(request, env, url) {
                        : env.PUSH_DB.prepare("INSERT OR REPLACE INTO kv (k, v) VALUES ('pc_closed', '1')")).run();
       return pj({ ok: true, open: body.open });
     }
+    if (body.op === "sales") {
+      await env.PUSH_DB.exec(SALES_SQL);
+      const { results } = await env.PUSH_DB.prepare("SELECT code, item, amount, team, fire, day, status FROM sales ORDER BY at DESC LIMIT 300").all();
+      return pj({ ok: true, rows: results });
+    }
     if (body.op === "wall_list") {
       await wallReady(env);
       const { results } = await env.PUSH_DB.prepare("SELECT id, name, msg, payer, status, created_at FROM wall ORDER BY status DESC, id DESC LIMIT 800").all();
@@ -664,6 +669,28 @@ async function handleLedger(request, env, url) {
 // 결제 완료 통보(feedback)가 오면 장부에 '카드' 후원으로 자동 기록, 승인 취소가 오면 그 기록을 지운다.
 // 휴대폰 번호는 페이앱이 요구해서 그대로 넘길 뿐 여기 저장하지 않는다.
 const PAYAPP_API = "https://api.payapp.kr/oapi/apiLoad.html";
+// 화력 상점(게임 아이템) — [가격, 화력]. 이 돈은 운영 수익이라 후원 장부(ledger)가 아니라 sales 에 따로 적는다(후원금은 전액 좋은 일).
+const FIRE_PACKS = { f1: [1000, 100], f5: [5000, 600], f10: [10000, 1500] };
+const SALES_SQL = "CREATE TABLE IF NOT EXISTS sales (mul_no TEXT PRIMARY KEY, code TEXT NOT NULL, item TEXT NOT NULL, amount INTEGER NOT NULL, team TEXT NOT NULL DEFAULT '', fire INTEGER NOT NULL DEFAULT 0, day TEXT NOT NULL, at INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'paid')";
+async function fireFeedback(env, row, code, mul, state, price) {
+  const db = env.PUSH_DB;
+  if (state === "4" && price === row.amount) {
+    const r = await db.prepare("INSERT OR IGNORE INTO sales (mul_no, code, item, amount, team, fire, day, at) VALUES (?, ?, 'fire', ?, ?, ?, ?, ?)")
+      .bind(mul, code, price, row.team, row.fire, kstDay(), Date.now()).run();
+    if (r.meta.changes === 1) {
+      await warAdd(env, row.team, row.fire);
+      await db.prepare("UPDATE pay SET status = 'paid', paid_at = ? WHERE code = ?").bind(Date.now(), code).run();
+    }
+  } else if (state === "9" || state === "64") {                         // 결제 취소 → 그날 화력도 회수
+    const x = await db.prepare("SELECT team, fire, day FROM sales WHERE mul_no = ? AND status = 'paid'").bind(mul).first();
+    if (x) {
+      await db.prepare("UPDATE sales SET status = 'cancel' WHERE mul_no = ?").bind(mul).run();
+      await warAdd(env, x.team, -x.fire, x.day);
+      await db.prepare("UPDATE pay SET status = 'cancel' WHERE code = ?").bind(code).run();
+    }
+  }
+  return new Response("SUCCESS", { headers: { "content-type": "text/plain" } });
+}
 let PAY_READY = false;
 const payOn = (env) => !!(env.PAYAPP_USERID && env.PAYAPP_LINKKEY && env.PAYAPP_LINKVAL);
 
@@ -673,6 +700,9 @@ async function payReady(env) {
   // kind once/monthly · rebill_no = 페이앱 정기결제 번호. 실제 결제(첫 달·매달)는 pay_charges 에 결제번호(mul_no)마다 한 줄
   await env.PUSH_DB.prepare("ALTER TABLE pay ADD COLUMN kind TEXT NOT NULL DEFAULT 'once'").run().catch(() => {});
   await env.PUSH_DB.prepare("ALTER TABLE pay ADD COLUMN rebill_no TEXT NOT NULL DEFAULT ''").run().catch(() => {});
+  await env.PUSH_DB.prepare("ALTER TABLE pay ADD COLUMN team TEXT NOT NULL DEFAULT ''").run().catch(() => {});
+  await env.PUSH_DB.prepare("ALTER TABLE pay ADD COLUMN fire INTEGER NOT NULL DEFAULT 0").run().catch(() => {});
+  await env.PUSH_DB.exec(SALES_SQL);
   await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS pay_charges (mul_no TEXT PRIMARY KEY, code TEXT NOT NULL, amount INTEGER NOT NULL, at INTEGER NOT NULL, ledger_id INTEGER NOT NULL DEFAULT 0, status TEXT NOT NULL DEFAULT 'paid')");
   await ledgerReady(env);
   PAY_READY = true;
@@ -688,13 +718,16 @@ async function handlePay(request, env, url) {
   if (path === "/pay/card" && request.method === "POST") {
     if (request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
     const b = await request.json().catch(() => ({}));
-    const amount = Number(b.amount), phone = String(b.phone || "").replace(/\D/g, ""), monthly = b.monthly === true;
+    const pack = b.item === "fire" ? FIRE_PACKS[b.pack] : null, team = WAR_T.test(b.team) ? b.team : "";
+    if (b.item === "fire" && (!pack || !team)) return pj({ ok: false, error: "invalid" }, 400);
+    const amount = pack ? pack[0] : Number(b.amount), phone = String(b.phone || "").replace(/\D/g, ""), monthly = !pack && b.monthly === true;
     if (!Number.isInteger(amount) || amount < 1000 || amount > 1000000 || !/^01[016789]\d{7,8}$/.test(phone))
       return pj({ ok: false, error: "invalid" }, 400);
     const { n } = await db.prepare("SELECT COUNT(*) AS n FROM pay WHERE status = 'wait' AND created_at > ?").bind(Date.now() - 86400e3).first();
     if (n >= 300) return pj({ ok: false, error: "busy" }, 429);          // 결제창 남발 방지(하루 300건)
     const code = [...crypto.getRandomValues(new Uint8Array(8))].map((x) => "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[x & 31]).join("");
-    await db.prepare("INSERT INTO pay (code, amount, created_at, kind) VALUES (?, ?, ?, ?)").bind(code, amount, Date.now(), monthly ? "monthly" : "once").run();
+    await db.prepare("INSERT INTO pay (code, amount, created_at, kind, team, fire) VALUES (?, ?, ?, ?, ?, ?)")
+      .bind(code, amount, Date.now(), pack ? "fire" : monthly ? "monthly" : "once", team, pack ? pack[1] : 0).run();
     const form = new URLSearchParams(monthly ? {
       // 매달 오늘과 같은 날(29~31일이면 28일) 자동 결제, 5년 뒤 자동 종료. 첫 결제는 카드 등록 때 바로
       cmd: "rebillRegist", userid: env.PAYAPP_USERID, linkkey: env.PAYAPP_LINKKEY,
@@ -705,10 +738,10 @@ async function handlePay(request, env, url) {
       returnurl: `${url.origin}/donate.html?paid=${code}&m=1#sign`,
     } : {
       cmd: "payrequest", userid: env.PAYAPP_USERID, linkkey: env.PAYAPP_LINKKEY,
-      goodname: "정치탈탈 운영 후원", price: String(amount), recvphone: phone,
+      goodname: pack ? "정치탈탈 화력 지원(게임 아이템)" : "정치탈탈 후원", price: String(amount), recvphone: phone,
       smsuse: "n", openpaytype: "card", reqaddr: "0", var1: code,
       feedbackurl: `${url.origin}/pay/feedback`,
-      returnurl: `${url.origin}/donate.html?paid=${code}#sign`,
+      returnurl: pack ? `${url.origin}/fire.html?paid=${code}` : `${url.origin}/donate.html?paid=${code}#sign`,
     });
     if (env.PAYAPP_SUBUSERID) form.set("subuserid", env.PAYAPP_SUBUSERID);
     const res = await fetch(PAYAPP_API, { method: "POST", body: form,
@@ -746,7 +779,8 @@ async function handlePay(request, env, url) {
     if (!f.get("linkval") || f.get("linkval") !== env.PAYAPP_LINKVAL) return new Response("AUTH_FAIL", { status: 401 });
     const code = String(f.get("var1") || ""), state = String(f.get("pay_state") || ""), price = Number(f.get("price") || f.get("goodprice"));
     const mul = String(f.get("mul_no") || code);
-    const row = await db.prepare("SELECT kind, amount, status FROM pay WHERE code = ?").bind(code).first();
+    const row = await db.prepare("SELECT kind, amount, status, team, fire FROM pay WHERE code = ?").bind(code).first();
+    if (row && row.kind === "fire") return fireFeedback(env, row, code, mul, state, price);
     if (state === "4" && row && price === row.amount) {                   // 결제 완료 — 금액이 만든 값과 같을 때만, 결제번호마다 한 번만
       const r = await db.prepare("INSERT OR IGNORE INTO pay_charges (mul_no, code, amount, at) VALUES (?, ?, ?, ?)").bind(mul, code, price, Date.now()).run();
       if (r.meta.changes === 1) {

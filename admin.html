@@ -224,6 +224,17 @@
           ※ 잘못 적었으면 지우고 다시 기록하세요.
         </div>
       </div>
+
+      <div class="card">
+        <h2>🔥 운영 수익 (화력 지원) <span class="label" style="margin-left:6px;">후원과 별도</span></h2>
+        <div class="lg-stats">
+          <div><div class="big" id="slMonth" style="color:#166534;">–</div><div class="label">이번 달 수익</div></div>
+          <div><div class="big" id="slAll" style="color:var(--navy);">–</div><div class="label">누적 수익</div></div>
+          <div><div class="big" id="slN" style="color:var(--navy);">–</div><div class="label">이번 달 건수</div></div>
+        </div>
+        <div id="slList" class="empty">로딩 중…</div>
+        <div class="note">※ 카드 결제가 확인되면 자동으로 들어옵니다(수수료 빼기 전 금액). 후원 장부·투명성 페이지에는 들어가지 않습니다 — 후원금은 전액 좋은 일, 이 돈은 운영비.<br>※ 결제 취소는 페이앱 판매점 관리자에서 하면 여기와 화력에서 같이 빠집니다.</div>
+      </div>
     </div>
 
     <div id="keyCard" class="card" style="display:none;">
@@ -434,13 +445,29 @@
       $('lgLink').style.display = k === 'out' ? '' : 'none';
     }
     function lgShowKey(msg) { $('lgBody').style.display = 'none'; $('lgKey').style.display = ''; $('lgKeyErr').textContent = msg || ''; }
+    // ── 운영 수익(화력 지원) ──
+    async function slLoad(key) {
+      const d = await lgApi({ op:'sales' }, key);
+      if (!d.ok) { $('slList').textContent = '불러오지 못했습니다.'; return; }
+      const won = (n) => n.toLocaleString('ko-KR') + '원', ok = d.rows.filter(r => r.status === 'paid');
+      const month = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 7), mine = ok.filter(r => r.day.startsWith(month));
+      $('slMonth').textContent = won(mine.reduce((a, r) => a + r.amount, 0));
+      $('slAll').textContent = won(ok.reduce((a, r) => a + r.amount, 0));
+      $('slN').textContent = mine.length + '건';
+      const TEAM = { b:'🔵 진보', w:'⚪ 중도', r:'🔴 보수' };
+      $('slList').className = d.rows.length ? '' : 'empty';
+      $('slList').innerHTML = d.rows.length ? d.rows.slice(0, 50).map(r =>
+        `<div class="row" style="display:flex;gap:8px;font-size:13px;padding:6px 0;border-bottom:1px solid #eef2f7;${r.status === 'paid' ? '' : 'opacity:.45;text-decoration:line-through;'}">` +
+        `<span>${r.day}</span><b>${won(r.amount)}</b><span>${TEAM[r.team] || ''} 화력 +${r.fire}</span><span style="margin-left:auto;color:#64748b;">${r.code}</span></div>`).join('')
+        : '아직 수익이 없습니다.';
+    }
     async function lgLoad(key) {
       const d = await lgApi({ op:'list' }, key);
       if (!d.ok) return d;
       LG_ROWS = d.rows;
       $('lgKey').style.display = 'none'; $('lgBody').style.display = '';
       lgRender();
-      stLoad(key); ssLoad(); wlLoad(key); pcLoad(key);
+      stLoad(key); ssLoad(); wlLoad(key); pcLoad(key); slLoad(key);
       return d;
     }
 
