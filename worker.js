@@ -252,6 +252,83 @@ async function handleHit(request, env, url) {
 // ── 실시간 많이 찾는 정치인 (/hot) ───────────────────────────────────────
 // 의원·지자체장 페이지를 본 사람 수(같은 사람=IP 해시는 하루 한 정치인에 1번)를 stats kind 'hot' 으로 센다. 원본 IP는 저장하지 않는다.
 // 순위 = 오늘×2 + 어제, 화살표는 어제 기준 순위와 비교. 'hot' 기록이 모자라는 동안은 조회수(kind 'path')로 채운다.
+// ── 앱 인앱결제 검증 ────────────────────────────────────────────────
+// 애플: StoreKit 2 거래 JWS(x5c 3장) — 루트가 Apple Root CA G3 인지(지문), 중간·잎 인증서 서명이 이어지는지, 잎에 애플 '영수증 서명' OID 가 있는지,
+//       그 잎 키로 JWS 서명이 맞는지 확인한다(개발자 인증서로 위조한 JWS 를 막으려면 OID 검사가 필수).
+const APPLE_ROOT_G3_SHA256 = "63343abfb89a6a03ebb57e9b3f5fa7be7c4f5c756f3017b3a8c488c3653e9179";
+const b64std = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+const hex = (u8) => [...u8].map((x) => x.toString(16).padStart(2, "0")).join("");
+const has = (u8, seq) => { outer: for (let i = 0; i <= u8.length - seq.length; i++) { for (let j = 0; j < seq.length; j++) if (u8[i + j] !== seq[j]) continue outer; return true; } return false; };
+function asn(buf, pos) {                                   // DER 한 칸: {tag, hdr(시작), start(내용), end}
+  let len = buf[pos + 1], p = pos + 2;
+  if (len & 0x80) { const n = len & 0x7f; len = 0; for (let i = 0; i < n; i++) len = len * 256 + buf[p++]; }
+  return { tag: buf[pos], hdr: pos, start: p, end: p + len };
+}
+const kids = (buf, node) => { const out = []; for (let p = node.start; p < node.end;) { const c = asn(buf, p); out.push(c); p = c.end; } return out; };
+const OID_P256 = [0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x03, 0x01, 0x07], OID_P384 = [0x06, 0x05, 0x2b, 0x81, 0x04, 0x00, 0x22];
+const OID_SHA384 = [0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x04, 0x03, 0x03];
+const OID_APPLE_RECEIPT_LEAF = [0x06, 0x0a, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0x63, 0x64, 0x06, 0x0b, 0x01];   // 1.2.840.113635.100.6.11.1
+function certParts(der) {
+  const cert = asn(der, 0), [tbs, alg, sig] = kids(der, cert), t = kids(der, tbs);
+  const spki = t[t[0].tag === 0xa0 ? 6 : 5];
+  const spkiBytes = der.slice(spki.hdr, spki.end);
+  return { tbs: der.slice(tbs.hdr, tbs.end), hash: has(der.slice(alg.hdr, alg.end), OID_SHA384) ? "SHA-384" : "SHA-256",
+           sig: der.slice(sig.start + 1, sig.end), spki: spkiBytes, curve: has(spkiBytes, OID_P384) ? "P-384" : has(spkiBytes, OID_P256) ? "P-256" : "" };
+}
+function rawSig(derSig, size) {                            // ECDSA-Sig-Value(DER) → r‖s (WebCrypto 형식)
+  const seq = asn(derSig, 0), [r, s] = kids(derSig, seq), out = new Uint8Array(size * 2);
+  const put = (n, off) => { let v = derSig.slice(n.start, n.end); while (v.length > size && v[0] === 0) v = v.slice(1); out.set(v, off + size - v.length); };
+  put(r, 0); put(s, size); return out;
+}
+const ecKey = (spki, curve) => crypto.subtle.importKey("spki", spki, { name: "ECDSA", namedCurve: curve }, false, ["verify"]);
+async function signedBy(child, parent) {
+  const key = await ecKey(parent.spki, parent.curve);
+  return crypto.subtle.verify({ name: "ECDSA", hash: child.hash }, key, rawSig(child.sig, parent.curve === "P-384" ? 48 : 32), child.tbs);
+}
+async function verifyAppleJws(jws, rootSha = APPLE_ROOT_G3_SHA256) {
+  const [h, p, s] = String(jws || "").split(".");
+  if (!s) return null;
+  const head = JSON.parse(new TextDecoder().decode(b64u(h)));
+  if (head.alg !== "ES256" || !Array.isArray(head.x5c) || head.x5c.length !== 3) return null;
+  const ders = head.x5c.map(b64std);
+  if (hex(new Uint8Array(await crypto.subtle.digest("SHA-256", ders[2]))) !== rootSha) return null;
+  const [leaf, mid, root] = ders.map(certParts);
+  if (!has(ders[0], OID_APPLE_RECEIPT_LEAF) || leaf.curve !== "P-256") return null;
+  if (!(await signedBy(mid, root)) || !(await signedBy(leaf, mid))) return null;
+  const ok = await crypto.subtle.verify({ name: "ECDSA", hash: "SHA-256" }, await ecKey(leaf.spki, "P-256"), b64u(s), new TextEncoder().encode(h + "." + p));
+  return ok ? JSON.parse(new TextDecoder().decode(b64u(p))) : null;
+}
+
+// 구글: 구매 토큰을 Play 개발자 API(purchases.products.get)로 확인. 서비스 계정 JSON = 비밀값 PLAY_SA(대표가 등록).
+// 돌려줌: {sandbox} 확인됨 · false 가짜 토큰 · null 확인 못 함(키 없음·권한 없음 — 이때는 'unverified'로 적고 화력은 준다).
+// ponytail: PLAY_SA 없으면 안드로이드 결제는 검증 없이 받는다 — 키를 등록하면 바로 검증으로 바뀐다.
+async function verifyGoogle(env, productId, token) {
+  if (!env.PLAY_SA) return null;
+  try {
+    const sa = JSON.parse(env.PLAY_SA), now = Math.floor(Date.now() / 1000);
+    const enc = (u8) => btoa(String.fromCharCode(...u8)).replace(/=+$/, "").replace(/\+/g, "-").replace(/\//g, "_");
+    const te = (o) => enc(new TextEncoder().encode(JSON.stringify(o)));
+    const unsigned = te({ alg: "RS256", typ: "JWT" }) + "." + te({ iss: sa.client_email, scope: "https://www.googleapis.com/auth/androidpublisher",
+      aud: "https://oauth2.googleapis.com/token", iat: now, exp: now + 3600 });
+    const key = await crypto.subtle.importKey("pkcs8", b64std(sa.private_key.replace(/-----[^-]+-----|\s/g, "")), { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["sign"]);
+    const jwt = unsigned + "." + enc(new Uint8Array(await crypto.subtle.sign("RSASSA-PKCS1-v1_5", key, new TextEncoder().encode(unsigned))));
+    const t = await (await fetch("https://oauth2.googleapis.com/token", { method: "POST",
+      body: new URLSearchParams({ grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer", assertion: jwt }) })).json();
+    if (!t.access_token) return null;
+    const r = await fetch(`https://androidpublisher.googleapis.com/androidpublisher/v3/applications/com.politaltal/purchases/products/${encodeURIComponent(productId)}/tokens/${encodeURIComponent(token)}`,
+      { headers: { authorization: "Bearer " + t.access_token } });
+    if (r.status === 401 || r.status === 403) return null;
+    if (r.status !== 200) return false;
+    const j = await r.json();
+    return j.purchaseState === 0 ? { sandbox: j.purchaseType === 0 } : false;
+  } catch (e) { return null; }
+}
+// 앱 상품 → [가격(원, 스토어 수수료 빼기 전), 화력]. 화력 지원 3종 + 응원 3종(응원도 내 성향 화력 +100 — 웹 후원과 같게)
+const IAP_ITEMS = {
+  "com.politaltal.fire.small": [1000, 100], "com.politaltal.fire.medium": [5000, 600], "com.politaltal.fire.large": [10000, 1500],
+  "com.politaltal.support.small": [5000, 100], "com.politaltal.support.medium": [10000, 100], "com.politaltal.support.large": [30000, 100],
+};
+
 // ── 정치 전장 (/war) ─────────────────────────────────────────────────
 // 파랑·하양(중립)·빨강 진영의 '오늘의 화력' = 참여 점수. 여론조사가 아니다(같은 사람이 여러 번 참여, 표본 없음 — 화면에도 그렇게 쓴다).
 // b=진보 성향(파랑) · w=중도(하양) · r=보수 성향(빨강). 정치인은 정당으로 편을 매기지 않는다 — 고른 사람의 성향에만 쌓인다.
@@ -277,6 +354,30 @@ async function handleWar(request, env, url) {
       out.t = Object.fromEntries(results.map((x) => [x.kind, x.n]));
     }
     return new Response(JSON.stringify(out), { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=15" } });
+  }
+  if (path === "/war/iap" && request.method === "POST") {         // 앱 인앱결제(애플·구글) — 스토어 서명·조회로 확인한 거래만, 거래마다 한 번
+    if (request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
+    const b = await request.json().catch(() => ({}));
+    const team = WAR_T.test(b.team) ? b.team : "", item = IAP_ITEMS[b.productId];
+    if (!team || !item) return pj({ ok: false, error: "invalid" }, 400);
+    let tx = "", status = "paid";
+    if (b.platform === "ios") {
+      const t = await verifyAppleJws(b.jws).catch(() => null);
+      if (!t || t.bundleId !== "com.politaltal" || t.productId !== b.productId) return pj({ ok: false, error: "verify" }, 400);
+      tx = "ios:" + t.transactionId; if (t.environment === "Sandbox") status = "sandbox";
+    } else if (b.platform === "android") {
+      const tok = String(b.purchaseToken || "");
+      if (tok.length < 20 || tok.length > 600) return pj({ ok: false, error: "invalid" }, 400);
+      const v = await verifyGoogle(env, b.productId, tok);
+      if (v === false) return pj({ ok: false, error: "verify" }, 400);
+      tx = "and:" + (await sha16(tok)); status = v === null ? "unverified" : v.sandbox ? "sandbox" : "paid";
+    } else return pj({ ok: false, error: "invalid" }, 400);
+    await env.PUSH_DB.exec(SALES_SQL);                              // 운영 수익 — 시험 결제(sandbox)는 관리자 합계에서 빠진다
+    const r = await env.PUSH_DB.prepare("INSERT OR IGNORE INTO sales (mul_no, code, item, amount, team, fire, day, at, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
+      .bind(tx, b.platform, b.productId.includes(".fire.") ? "iap-fire" : "iap-support", item[0], team, item[1], kstDay(), Date.now(), status).run();
+    if (!r.meta.changes) return pj({ ok: true, dup: true });
+    await warAdd(env, team, item[1]);
+    return pj({ ok: true, n: item[1], to: team });
   }
   if (path !== "/war/fire" || request.method !== "POST" || request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
   const b = await request.json().catch(() => ({}));
