@@ -340,6 +340,19 @@ async function warAdd(env, team, n, day = kstDay()) {
   await env.PUSH_DB.prepare("INSERT INTO stats (day, kind, key, n) VALUES (?, 'war', ?, ?) ON CONFLICT(day, kind, key) DO UPDATE SET n = n + ?")
     .bind(day, team, n, n).run();
 }
+// 이 기기(브라우저 uid) 누적 — 내 표(하루 한 번 출석 투표한 날 수)·내가 보탠 화력. 이름·연락처와 묶지 않는다.
+let WAR_ME_READY = false;
+async function warMe(env, uid, team = "", votes = 0, fire = 0, day = kstDay()) {
+  if (!/^[a-f0-9]{16}$/.test(uid || "")) return null;
+  if (!WAR_ME_READY) {
+    await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS war_me (uid TEXT PRIMARY KEY, team TEXT NOT NULL, votes INTEGER NOT NULL DEFAULT 0, fire INTEGER NOT NULL DEFAULT 0, first_day TEXT NOT NULL, last_day TEXT NOT NULL)");
+    WAR_ME_READY = true;
+  }
+  if (votes || fire) await env.PUSH_DB.prepare("INSERT INTO war_me (uid, team, votes, fire, first_day, last_day) VALUES (?, ?, ?, ?, ?, ?) " +
+    "ON CONFLICT(uid) DO UPDATE SET team = excluded.team, votes = votes + excluded.votes, fire = fire + excluded.fire, last_day = excluded.last_day")
+    .bind(uid, team, votes, fire, day, day).run();
+  return env.PUSH_DB.prepare("SELECT votes, fire, first_day, last_day FROM war_me WHERE uid = ?").bind(uid).first();
+}
 async function handleWar(request, env, url) {
   if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
   await pcReady(env); await statsReady(env); await hotReady(env);
@@ -348,12 +361,17 @@ async function handleWar(request, env, url) {
     const q = (day) => env.PUSH_DB.prepare("SELECT key, n FROM stats WHERE day = ? AND kind = 'war'").bind(day).all()
       .then((r) => Object.fromEntries(r.results.map((x) => [x.key, x.n])));
     const out = { ok: true, today: await q(kstDay()), yday: await q(kstDay(1)) };
+    // 점수판은 누적(매일 0시에 지우지 않는다 — 대표 10-29). 오늘 몫은 today 로 따로
+    const tot = await env.PUSH_DB.prepare("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'war' GROUP BY key").all();
+    out.total = Object.fromEntries(tot.results.map((x) => [x.key, x.n]));
+    const uid = url.searchParams.get("uid") || "";
+    if (uid) out.me = await warMe(env, uid);
     const t = url.searchParams.get("t") || "";
     if (PC_TARGET.test(t)) {
       const { results } = await env.PUSH_DB.prepare("SELECT kind, SUM(n) AS n FROM stats WHERE kind IN ('cheer', 'bomb') AND key = ? GROUP BY kind").bind(t).all();
       out.t = Object.fromEntries(results.map((x) => [x.kind, x.n]));
     }
-    return new Response(JSON.stringify(out), { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=15" } });
+    return new Response(JSON.stringify(out), { headers: { "content-type": "application/json; charset=utf-8", "cache-control": uid ? "no-store" : "public, max-age=15" } });
   }
   if (path === "/war/iap" && request.method === "POST") {         // 앱 인앱결제(애플·구글) — 스토어 서명·조회로 확인한 거래만, 거래마다 한 번
     if (request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
@@ -377,7 +395,7 @@ async function handleWar(request, env, url) {
       .bind(tx, b.platform, b.productId.includes(".fire.") ? "iap-fire" : "iap-support", item[0], team, item[1], kstDay(), Date.now(), status).run();
     if (!r.meta.changes) return pj({ ok: true, dup: true });
     await warAdd(env, team, item[1]);
-    return pj({ ok: true, n: item[1], to: team });
+    return pj({ ok: true, n: item[1], to: team, me: await warMe(env, b.uid, team, 0, item[1]) });
   }
   if (path !== "/war/fire" || request.method !== "POST" || request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
   const b = await request.json().catch(() => ({}));
@@ -386,8 +404,12 @@ async function handleWar(request, env, url) {
   const day = kstDay(), h = await sha16(PC_SALT + day + (request.headers.get("cf-connecting-ip") || "local"));
   const once = async (k) => (await env.PUSH_DB.prepare("INSERT OR IGNORE INTO hot_seen (day, h, path) VALUES (?, ?, ?)").bind(day, h, k).run()).meta.changes === 1;
   let n = 0, to = team;
-  if (kind === "join") {
-    if (await once("war:join")) n = 1;
+  const uid = /^[a-f0-9]{16}$/.test(b.uid || "") ? b.uid : "";
+  if (kind === "join") {                                            // 매일 출석 투표 1표 — 기기마다 하루 한 번, 같은 IP는 하루 20표까지(통신사 공유 IP 고려). ponytail: 기기 표식을 지우면 다시 투표 가능 — 조작 보이면 Turnstile
+    if (uid) {
+      const { c } = await env.PUSH_DB.prepare("SELECT COUNT(*) AS c FROM hot_seen WHERE day = ? AND h = ? AND path LIKE 'war:join:%'").bind(day, h).first();
+      if (c < 20 && await once(`war:join:${uid}`)) n = 1;
+    } else if (await once("war:join")) n = 1;
   } else if (kind === "cheer" || kind === "bomb") {
     const t = String(b.t || "");
     if (!PC_TARGET.test(t) || t.startsWith("n:")) return pj({ ok: false, error: "invalid" }, 400);
@@ -401,7 +423,7 @@ async function handleWar(request, env, url) {
     n = Math.max(0, Math.min(30, Math.floor(Number(b.n) || 0)));
   } else return pj({ ok: false, error: "invalid" }, 400);
   if (n) await warAdd(env, to, n, day);
-  return pj({ ok: true, n, to });
+  return pj({ ok: true, n, to, me: uid ? await warMe(env, uid, team, kind === "join" && n ? 1 : 0, n, day) : null });
 }
 
 // ponytail: IP를 바꿔 가며 누르면 순위를 올릴 수 있다 — 조작이 보이면 Turnstile 이나 앱·웹 가중치를 붙일 것
