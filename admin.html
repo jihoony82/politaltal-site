@@ -226,6 +226,20 @@
       </div>
 
       <div class="card">
+        <h2>📣 후원자 문자 <span id="smState" class="label" style="margin-left:6px;"></span></h2>
+        <div class="note" style="margin-top:0;">문자 받기에 동의한 후원자에게만 갑니다. 승인하면 감사 문자(내 자리 자랑 링크)가 <strong>자동</strong>으로 나가고, 여기서는 소식을 한꺼번에 보냅니다. <code>{이름}</code>은 받는 분 이름으로 바뀝니다. 끝에 수신거부 링크가 자동으로 붙습니다.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0;">
+          <button class="reset" onclick="smTpl('app')">📱 앱 출시 알림</button>
+          <button class="reset" onclick="smTpl('month')">📊 이번 달 보고</button>
+          <button class="reset" onclick="smTpl('thanks')">💛 감사 인사</button>
+        </div>
+        <textarea id="smText" rows="6" style="width:100%;box-sizing:border-box;font:inherit;padding:10px;border:1px solid #e2e8f0;border-radius:10px;" placeholder="보낼 내용"></textarea>
+        <label style="display:flex;gap:6px;align-items:center;font-size:13px;margin:8px 0;"><input type="checkbox" id="smAd" checked> 광고성 소식 — 앞에 (광고) 붙이기 (밤 9시~아침 8시엔 못 보냄)</label>
+        <button onclick="smSend()" id="smBtn">보내기</button>
+        <div id="smOut" class="note"></div>
+      </div>
+
+      <div class="card">
         <h2>🔥 운영 수익 (화력 지원) <span class="label" style="margin-left:6px;">후원과 별도</span></h2>
         <div class="lg-stats">
           <div><div class="big" id="slMonth" style="color:#166534;">–</div><div class="label">이번 달 수익</div></div>
@@ -445,6 +459,33 @@
       $('lgLink').style.display = k === 'out' ? '' : 'none';
     }
     function lgShowKey(msg) { $('lgBody').style.display = 'none'; $('lgKey').style.display = ''; $('lgKeyErr').textContent = msg || ''; }
+    // ── 후원자 문자 ──
+    let SM_TO = 0;
+    async function smLoad(key) {
+      const d = await lgApi({ op:'sms_status' }, key);
+      if (!d.ok) return;
+      SM_TO = d.to;
+      $('smState').textContent = (d.on ? '켜짐' : '꺼짐 — poc/setup_sms_secrets.sh 로 솔라피 키 등록') + ` · 받는 분 ${d.to}명`;
+    }
+    function smTpl(k) {
+      $('smText').value = {
+        app: '{이름}님, 정치탈탈 앱이 나왔습니다!\n의정 속보 알림을 휴대폰으로 바로 받아 보세요.\n아이폰·안드로이드: https://politaltal.com/app\n함께해 주셔서 고맙습니다.',
+        month: '{이름}님, 이번 달 정치탈탈 소식입니다.\n후원금은 전액 좋은 일에 썼고, 쓴 곳을 공개했습니다.\nhttps://politaltal.com/transparency\n늘 함께해 주셔서 고맙습니다.',
+        thanks: '{이름}님, 정치탈탈과 함께 정치인의 일을 지켜봐 주셔서 고맙습니다.\n앞으로도 좋은 일만 가득하시길!\nhttps://politaltal.com',
+      }[k];
+      $('smAd').checked = k !== 'thanks';
+    }
+    async function smSend() {
+      const text = $('smText').value.trim();
+      if (text.length < 5) return alert('내용을 적어 주세요.');
+      if (!confirm(`후원자 ${SM_TO}명에게 보냅니다. 보낼까요?\n\n${($('smAd').checked ? '(광고)' : '') + '[정치탈탈] ' + text}`)) return;
+      $('smBtn').disabled = true; $('smOut').textContent = '보내는 중…';
+      const d = await lgApi({ op:'sms_blast', text, ad: $('smAd').checked });
+      $('smBtn').disabled = false;
+      $('smOut').textContent = d.ok ? `보냄 ${d.sent}명 · 실패 ${d.failed}명 · 이미 받음 ${d.skipped}명`
+        : d.error === 'night' ? '광고성 문자는 밤 9시~아침 8시에 보낼 수 없습니다.' : d.error === 'off' ? '솔라피 키가 아직 등록되지 않았습니다.' : '보내지 못했습니다.';
+    }
+
     // ── 운영 수익(화력 지원) ──
     async function slLoad(key) {
       const d = await lgApi({ op:'sales' }, key);
@@ -467,7 +508,7 @@
       LG_ROWS = d.rows;
       $('lgKey').style.display = 'none'; $('lgBody').style.display = '';
       lgRender();
-      stLoad(key); ssLoad(); wlLoad(key); pcLoad(key); slLoad(key);
+      stLoad(key); ssLoad(); wlLoad(key); pcLoad(key); slLoad(key); smLoad(key);
       return d;
     }
 
@@ -543,9 +584,22 @@
           if (r.msg) add('wl-msg', r.msg);
           const meta = add('wl-meta', new Date(r.created_at).toLocaleString('ko-KR', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' }) + ' 접수');
           if (r.payer) { const b = document.createElement('b'); b.textContent = ' · 입금자명 ' + r.payer; meta.appendChild(b); }
+          meta.appendChild(document.createTextNode((r.sms_ok ? ' · 📱문자 동의' : '') + (r.thanked ? ' · ✉️감사 문자 보냄' : '')));
           const acts = document.createElement('div'); acts.className = 'item-actions';
           const btn = (cls, text, op) => { const x = document.createElement('button'); x.className = cls; x.textContent = text; x.onclick = () => wlAct(op, r.id); acts.appendChild(x); };
           if (r.status === 'wait') btn('unhide', '승인 — 벽에 올리기', 'wall_ok');
+          const sel = document.createElement('select'); sel.setAttribute('aria-label', '불 색');
+          sel.innerHTML = '<option value="">색 없음(금색)</option><option value="b">🔵 진보</option><option value="w">⚪ 중도</option><option value="r">🔴 보수</option>';
+          sel.value = r.team || '';
+          sel.onchange = async () => { if (!sel.value) return; const d = await lgApi({ op:'wall_team', id:r.id, team:sel.value }); if (!d.ok) alert('바꾸지 못했습니다.'); };
+          acts.appendChild(sel);
+          const lk = document.createElement('button'); lk.className = 'reset'; lk.textContent = '🔗 자리 링크';
+          lk.onclick = async () => {
+            const d = await lgApi({ op:'wall_link', id:r.id });
+            if (!d.ok) return alert('링크를 만들지 못했습니다.');
+            try { await navigator.clipboard.writeText(d.claim); lk.textContent = '복사됨'; } catch (e) { prompt('이 링크를 보내 주세요(본인이 열면 내 자리·색 고르기가 보입니다)', d.claim); }
+          };
+          acts.appendChild(lk);
           btn('delete', r.status === 'wait' ? '삭제' : '벽에서 내리기', 'wall_del');
           it.appendChild(acts); el.appendChild(it);
         }
@@ -574,6 +628,11 @@
           const res = await lgApi({ op: 'add', kind: 'in', day, amount: won, channel, memo: `후원자의 벽 ${r.name} · 입금자명 ${r.payer}`.slice(0, 200), link: '' });
           if (!res || !res.ok) { alert('장부 기록에 실패해 승인을 멈췄습니다. 다시 시도해 주세요.'); return; }
         }
+        const okr = await lgApi({ op, id });
+        if (okr && okr.sms && okr.sms.ok) alert(`"${r.name}" 님께 감사 문자를 보냈습니다.`);
+        if (typeof lgLoad === 'function') lgLoad();
+        wlLoad();
+        return;
       } else if (!confirm(`"${r.name}" 님 기록을 지울까요? 되돌릴 수 없습니다.`)) return;
       await lgApi({ op, id });
       if (typeof lgLoad === 'function') lgLoad();

@@ -392,17 +392,66 @@ async function wallReady(env) {
   // tok = 이름을 남긴 브라우저에만 주는 무작위 표식. 승인되면 그 브라우저가 '제n석'을 알고 댓글에 후원자 배지를 단다(개인정보 아님)
   await env.PUSH_DB.prepare("ALTER TABLE wall ADD COLUMN tok TEXT NOT NULL DEFAULT ''").run().catch(() => {});
   await env.PUSH_DB.prepare("ALTER TABLE wall ADD COLUMN team TEXT NOT NULL DEFAULT ''").run().catch(() => {});   // 불 색 b·w·r(없으면 금색)
+  await env.PUSH_DB.prepare("ALTER TABLE wall ADD COLUMN phone TEXT NOT NULL DEFAULT ''").run().catch(() => {});  // 문자 받기 동의한 사람만, 숫자만
+  await env.PUSH_DB.prepare("ALTER TABLE wall ADD COLUMN sms_ok INTEGER NOT NULL DEFAULT 0").run().catch(() => {});
+  await env.PUSH_DB.prepare("ALTER TABLE wall ADD COLUMN thanked INTEGER NOT NULL DEFAULT 0").run().catch(() => {});
+  await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS sms_log (blast TEXT NOT NULL, wid INTEGER NOT NULL, at INTEGER NOT NULL, ok INTEGER NOT NULL, PRIMARY KEY (blast, wid))");
   WALL_READY = true;
 }
+// ── 후원자 문자(솔라피) ──────────────────────────────────────────────
+// 비밀값 SOLAPI_API_KEY·SOLAPI_API_SECRET(대표가 poc/setup_sms_secrets.sh 로 등록), 발신번호 SOLAPI_SENDER(없으면 대표 번호).
+// 받는 사람 = 후원자의 벽에서 '문자 받기'에 동의하고 번호를 남긴 사람만. 문자마다 수신 거부 링크(/wall/stop)를 붙인다 — 누르면 번호를 지운다.
+const SMS_FROM = (env) => String(env.SOLAPI_SENDER || "01040104968").replace(/\D/g, "");
+const smsOn = (env) => !!(env.SOLAPI_API_KEY && env.SOLAPI_API_SECRET);
+async function smsSend(env, to, text) {
+  if (!smsOn(env)) return { ok: false, error: "off" };
+  const date = new Date().toISOString(), salt = [...crypto.getRandomValues(new Uint8Array(16))].map((x) => x.toString(16).padStart(2, "0")).join("");
+  const k = await crypto.subtle.importKey("raw", new TextEncoder().encode(env.SOLAPI_API_SECRET), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const sig = [...new Uint8Array(await crypto.subtle.sign("HMAC", k, new TextEncoder().encode(date + salt)))].map((x) => x.toString(16).padStart(2, "0")).join("");
+  let bytes = 0; for (const ch of text) bytes += ch.charCodeAt(0) > 127 ? 2 : 1;
+  const type = bytes <= 90 ? "SMS" : "LMS";
+  try {
+    const r = await fetch("https://api.solapi.com/messages/v4/send-many/detail", {
+      method: "POST",
+      headers: { Authorization: `HMAC-SHA256 apiKey=${env.SOLAPI_API_KEY}, date=${date}, salt=${salt}, signature=${sig}`, "content-type": "application/json" },
+      body: JSON.stringify({ messages: [{ to, from: SMS_FROM(env), text, type, ...(type === "LMS" ? { subject: "정치탈탈" } : {}) }] }),
+    });
+    const j = await r.json().catch(() => ({}));
+    const fail = (j.failedMessageList || [])[0];
+    return r.status === 200 && !fail ? { ok: true } : { ok: false, error: (fail && fail.statusMessage) || j.errorMessage || `HTTP ${r.status}` };
+  } catch (e) { return { ok: false, error: "network" }; }
+}
+const seatUrl = (no) => `https://politaltal.com/supporters?seat=${no}`;
+const stopUrl = (tok) => `https://politaltal.com/wall/stop?t=${tok}`;
+async function wallTok(env, id) {                       // 토큰이 없던 옛 후원자(10-24 전)도 링크를 받을 수 있게 만들어 둔다
+  const w = await env.PUSH_DB.prepare("SELECT tok FROM wall WHERE id = ?").bind(id).first();
+  if (!w) return "";
+  if (w.tok) return w.tok;
+  const tok = [...crypto.getRandomValues(new Uint8Array(8))].map((x) => x.toString(16).padStart(2, "0")).join("");
+  await env.PUSH_DB.prepare("UPDATE wall SET tok = ? WHERE id = ? AND tok = ''").bind(tok, id).run();
+  return (await env.PUSH_DB.prepare("SELECT tok FROM wall WHERE id = ?").bind(id).first()).tok;
+}
+async function wallThanks(env, id) {                    // 승인 직후 감사 문자(거래 안내라 '(광고)' 없음)
+  const w = await env.PUSH_DB.prepare("SELECT name, phone, sms_ok FROM wall WHERE id = ? AND status = 'ok'").bind(id).first();
+  if (!w || !w.phone || !w.sms_ok || !smsOn(env)) return { ok: false, error: "skip" };
+  const seat = await wallSeat(env, await wallTok(env, id));
+  const r = await smsSend(env, w.phone,
+    `[정치탈탈] ${w.name}님, 고맙습니다!\n시민 본회의 제${seat.no}석에 불이 켜졌습니다.\n\n` +
+    `후원금은 전액 국민을 위한 좋은 일에 쓰고, 쓴 곳은 매달 공개합니다. 정치인의 일, 끝까지 함께 지켜봐요.\n${w.name}님께도 좋은 일만 가득하길 바랍니다.\n\n` +
+    `내 자리 보기·자랑하기\n${seatUrl(seat.no)}\n\n수신거부 ${stopUrl(await wallTok(env, id))}`);
+  if (r.ok) await env.PUSH_DB.prepare("UPDATE wall SET thanked = ? WHERE id = ?").bind(Date.now(), id).run();
+  return r;
+}
+
 // 승인된 자리 번호(승인 순서) — 없으면 0
 async function wallSeat(env, tok) {
   if (!/^[a-f0-9]{16}$/.test(tok || "")) return null;
-  const w = await env.PUSH_DB.prepare("SELECT id, name, status, approved_at FROM wall WHERE tok = ?").bind(tok).first();
+  const w = await env.PUSH_DB.prepare("SELECT id, name, status, team, approved_at FROM wall WHERE tok = ?").bind(tok).first();
   if (!w) return null;
-  if (w.status !== "ok") return { status: w.status, name: w.name, no: 0 };
+  if (w.status !== "ok") return { status: w.status, name: w.name, no: 0, team: w.team };
   const { n } = await env.PUSH_DB.prepare("SELECT COUNT(*) AS n FROM wall WHERE status = 'ok' AND (approved_at < ? OR (approved_at = ? AND id <= ?))")
     .bind(w.approved_at, w.approved_at, w.id).first();
-  return { status: "ok", name: w.name, no: n };
+  return { status: "ok", name: w.name, no: n, team: w.team };
 }
 const wallText = (v, max) => String(v || "").replace(/[\u0000-\u001f<>]/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
 const wallPublic = (env) => env.PUSH_DB.prepare(
@@ -422,6 +471,25 @@ async function handleWall(request, env, url) {
     return new Response(JSON.stringify(out),
       { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=60" } });
   }
+  if (path === "/wall/stop" && request.method === "GET") {        // 문자 수신 거부 — 번호를 바로 지운다
+    const t = url.searchParams.get("t") || "";
+    if (/^[a-f0-9]{16}$/.test(t)) await env.PUSH_DB.prepare("UPDATE wall SET sms_ok = 0, phone = '' WHERE tok = ?").bind(t).run();
+    return new Response('<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>수신 거부</title>' +
+      '<body style="font-family:system-ui,sans-serif;text-align:center;padding:60px 20px;color:#0a2540"><h1 style="font-size:22px">문자 수신을 끊었습니다</h1>' +
+      '<p style="line-height:1.7">남겨 주신 번호는 지웠습니다. 후원자의 벽 자리는 그대로 있어요.<br>그동안 함께해 주셔서 고맙습니다.</p><p><a href="/supporters">후원자의 벽 보기</a></p></body>',
+      { headers: { "content-type": "text/html; charset=utf-8" } });
+  }
+  if (path === "/wall/team" && request.method === "POST") {      // 내 자리 불 색(성향) — 처음 고를 때 그 성향 화력 +100
+    if (request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
+    const b = await request.json().catch(() => ({}));
+    const tok = String(b.tok || ""), team = WAR_T.test(b.team) ? b.team : "";
+    if (!/^[a-f0-9]{16}$/.test(tok) || !team) return pj({ ok: false, error: "invalid" }, 400);
+    const w = await env.PUSH_DB.prepare("SELECT team, status FROM wall WHERE tok = ?").bind(tok).first();
+    if (!w) return pj({ ok: false, error: "not found" }, 404);
+    await env.PUSH_DB.prepare("UPDATE wall SET team = ? WHERE tok = ?").bind(team, tok).run();
+    if (!w.team && w.status === "ok") await warAdd(env, team, 100);
+    return pj({ ok: true, team });
+  }
   if (path === "/wall/me" && request.method === "GET") {
     const me = await wallSeat(env, url.searchParams.get("tok"));
     return pj({ ok: true, me: me || { status: "none" } });
@@ -435,7 +503,9 @@ async function handleWall(request, env, url) {
     if (n >= 300) return pj({ ok: false, error: "busy" }, 429);
     const tok = [...crypto.getRandomValues(new Uint8Array(8))].map((x) => x.toString(16).padStart(2, "0")).join("");
     const team = WAR_T.test(b.team) ? b.team : "";
-    await env.PUSH_DB.prepare("INSERT INTO wall (name, msg, payer, created_at, tok, team) VALUES (?, ?, ?, ?, ?, ?)").bind(name, msg, payer, Date.now(), tok, team).run();
+    const phone = String(b.phone || "").replace(/\D/g, ""), smsOk = b.sms === true && /^01[016789]\d{7,8}$/.test(phone);   // 동의 없으면 번호를 저장하지 않는다
+    await env.PUSH_DB.prepare("INSERT INTO wall (name, msg, payer, created_at, tok, team, phone, sms_ok) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+      .bind(name, msg, payer, Date.now(), tok, team, smsOk ? phone : "", smsOk ? 1 : 0).run();
     return pj({ ok: true, tok });
   }
   return pj({ ok: false, error: "not found" }, 404);
@@ -637,7 +707,7 @@ async function handleLedger(request, env, url) {
     }
     if (body.op === "wall_list") {
       await wallReady(env);
-      const { results } = await env.PUSH_DB.prepare("SELECT id, name, msg, payer, status, created_at FROM wall ORDER BY status DESC, id DESC LIMIT 800").all();
+      const { results } = await env.PUSH_DB.prepare("SELECT id, name, msg, payer, status, created_at, team, sms_ok, thanked FROM wall ORDER BY status DESC, id DESC LIMIT 800").all();
       return pj({ ok: true, rows: results });
     }
     if ((body.op === "wall_ok" || body.op === "wall_del") && Number.isInteger(body.id)) {
@@ -645,11 +715,47 @@ async function handleLedger(request, env, url) {
       const r = await (body.op === "wall_del"
         ? env.PUSH_DB.prepare("DELETE FROM wall WHERE id = ?").bind(body.id)
         : env.PUSH_DB.prepare("UPDATE wall SET status = 'ok', payer = '', approved_at = ? WHERE id = ? AND status = 'wait'").bind(Date.now(), body.id)).run();
-      if (body.op === "wall_ok" && r.meta.changes === 1) {             // 후원 = 고른 진영에 화력 100(금액과 무관, 한 명당 한 번)
+      let sms = null;
+      if (body.op === "wall_ok" && r.meta.changes === 1) {             // 후원 = 고른 성향에 화력 100(금액과 무관, 한 명당 한 번) + 감사 문자
         const w = await env.PUSH_DB.prepare("SELECT team FROM wall WHERE id = ?").bind(body.id).first();
         if (w && WAR_T.test(w.team)) await warAdd(env, w.team, 100);
+        sms = await wallThanks(env, body.id);
       }
+      return pj({ ok: true, sms });
+    }
+    if (body.op === "wall_team" && Number.isInteger(body.id) && WAR_T.test(body.team)) {   // 운영자가 대신 색 지정(화력 없음)
+      await wallReady(env);
+      await env.PUSH_DB.prepare("UPDATE wall SET team = ? WHERE id = ?").bind(body.team, body.id).run();
       return pj({ ok: true });
+    }
+    if (body.op === "wall_link" && Number.isInteger(body.id)) {      // 자리 링크(색 고르기용) — 연락처가 없는 후원자에게 대표가 직접 보낸다
+      await wallReady(env);
+      const tok = await wallTok(env, body.id);
+      return tok ? pj({ ok: true, claim: `https://politaltal.com/supporters?claim=${tok}` }) : pj({ ok: false, error: "not found" }, 404);
+    }
+    if (body.op === "sms_status") {
+      await wallReady(env);
+      const { n } = await env.PUSH_DB.prepare("SELECT COUNT(*) AS n FROM wall WHERE status = 'ok' AND sms_ok = 1 AND phone != ''").first();
+      return pj({ ok: true, on: smsOn(env), to: n });
+    }
+    if (body.op === "sms_blast" && typeof body.text === "string" && body.text.trim().length >= 5) {
+      // 소식 일괄 — 같은 날 같은 글은 사람마다 한 번만(sms_log). 광고성이면 '(광고)'를 붙이고 밤 9시~아침 8시엔 막는다(정보통신망법).
+      await wallReady(env);
+      if (!smsOn(env)) return pj({ ok: false, error: "off" });
+      const hour = new Date(Date.now() + 9 * 3600e3).getUTCHours();
+      if (body.ad && (hour >= 21 || hour < 8)) return pj({ ok: false, error: "night" });
+      const text = body.text.trim().slice(0, 900), blast = await sha16(text + kstDay());
+      const { results } = await env.PUSH_DB.prepare("SELECT id, name, phone, tok FROM wall WHERE status = 'ok' AND sms_ok = 1 AND phone != '' ORDER BY id LIMIT 1000").all();
+      let sent = 0, failed = 0, skipped = 0;
+      for (const w of results) {
+        const lock = await env.PUSH_DB.prepare("INSERT OR IGNORE INTO sms_log (blast, wid, at, ok) VALUES (?, ?, ?, 0)").bind(blast, w.id, Date.now()).run();
+        if (!lock.meta.changes) { skipped++; continue; }
+        const r = await smsSend(env, w.phone, (body.ad ? "(광고)" : "") + "[정치탈탈] " + text.replaceAll("{이름}", w.name) +
+          `\n\n수신거부 ${stopUrl(w.tok || await wallTok(env, w.id))}`);
+        await env.PUSH_DB.prepare("UPDATE sms_log SET ok = ? WHERE blast = ? AND wid = ?").bind(r.ok ? 1 : 0, blast, w.id).run();
+        r.ok ? sent++ : failed++;
+      }
+      return pj({ ok: true, sent, failed, skipped });
     }
     // 집계를 시작하기 전 날짜를 Cloudflare 수치로 채울 때만 쓴다 — 지난 날짜, 그리고 비어 있는 날만
     if (body.op === "stats_set" && /^\d{4}-\d{2}-\d{2}$/.test(String(body.day)) && body.day < kstDay()
