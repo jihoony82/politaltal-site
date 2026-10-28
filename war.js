@@ -1,7 +1,7 @@
 /* 정치 전장: 내 편 고르기·오늘의 화력·응원/팩트 폭탄 — prototype/generate.py 의 WAR_JS 에서 만든다. 저장은 site/worker.js /war/* */
 (function () {
-  var T = { b: { name: "파랑 진영", short: "파랑", dot: "🔵", heart: "💙" }, w: { name: "중립", short: "중립", dot: "⚪", heart: "🤍" },
-            r: { name: "빨강 진영", short: "빨강", dot: "🔴", heart: "❤️" } };
+  var T = { b: { name: "진보 성향", short: "진보", dot: "🔵", heart: "💙" }, w: { name: "중도", short: "중도", dot: "⚪", heart: "🤍" },
+            r: { name: "보수 성향", short: "보수", dot: "🔴", heart: "❤️" } };
   var get = function () { try { var t = localStorage.getItem("pt_team"); return T[t] ? t : ""; } catch (e) { return ""; } };
   var fire = function (body) {
     return fetch("/war/fire", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) })
@@ -17,7 +17,7 @@
     sheetCb = cb;
     if (!sheet) {
       sheet = document.createElement("div"); sheet.className = "war-sheet";
-      sheet.innerHTML = '<div class="wsh-card" role="dialog" aria-modal="true" aria-label="내 편 고르기"><p class="wsh-h">⚔️ 어느 편에 화력을 보탤까요?</p><div class="war-pick">' +
+      sheet.innerHTML = '<div class="wsh-card" role="dialog" aria-modal="true" aria-label="내 편 고르기"><p class="wsh-h">⚔️ 내 성향은? 화력을 보탤 편을 고르세요</p><div class="war-pick">' +
         ["b", "w", "r"].map(function (k) { return '<button type="button" data-team="' + k + '">' + T[k].dot + " " + T[k].short + "</button>"; }).join("") +
         '</div><p class="wsh-fine">언제든 바꿀 수 있어요 · 이 기기에만 저장됩니다</p><button type="button" class="wsh-x">닫기</button></div>';
       document.body.appendChild(sheet);
@@ -51,13 +51,13 @@
         box.querySelector(".war-bar ." + k).style.flexGrow = sum ? v[k] : 1;
       });
       var yb = y.b || 0, yr = y.r || 0;
-      if (yb || yr) document.getElementById("warY").textContent = "어제는 " + (yb === yr ? "무승부" : (yb > yr ? "🔵 파랑" : "🔴 빨강") + " 진영 승리") + " · ";
+      if (yb || yr) document.getElementById("warY").textContent = "어제는 " + (yb === yr ? "무승부" : (yb > yr ? "🔵 진보" : "🔴 보수") + " 승리") + " · ";
     }).catch(function () {});
   }
   function pbox() {                                    /* 정치인·지자체장 페이지: 응원 · 팩트 폭탄 */
     var box = document.getElementById("warP");
     if (!box) return;
-    var t = box.getAttribute("data-t"), camp = box.getAttribute("data-c"), facts = [];
+    var t = box.getAttribute("data-t"), facts = [];
     try { facts = JSON.parse(box.getAttribute("data-f") || "[]"); } catch (e) {}
     var q = function (sel) { return box.querySelector(sel); }, msg = q(".wp-msg"), list = q(".wp-facts");
     var num = function (sel, n) { q(sel + " b").textContent = n.toLocaleString("ko-KR"); };
@@ -66,10 +66,13 @@
       var x = d.t || {}; cnt.cheer = x.cheer || 0; cnt.bomb = x.bomb || 0; num(".wp-cheer", cnt.cheer); num(".wp-bomb", cnt.bomb);
     }).catch(function () {});
     q(".wp-cheer").onclick = function () {
-      fire({ kind: "cheer", team: get() || camp, camp: camp, t: t }).then(function (r) {
-        if (r.dup) msg.textContent = "오늘은 이미 응원했어요. 내일 또 힘을 보태 주세요!";
-        else if (r.ok) { num(".wp-cheer", ++cnt.cheer); msg.textContent = T[camp].heart + " 응원 완료! " + T[camp].name + " 화력 +1"; }
-      });
+      var go = function (me) {
+        fire({ kind: "cheer", team: me, t: t }).then(function (r) {
+          if (r.dup) msg.textContent = "오늘은 이미 응원했어요. 내일 또 힘을 보태 주세요!";
+          else if (r.ok) { num(".wp-cheer", ++cnt.cheer); msg.textContent = T[me].heart + " 응원 완료! " + T[me].name + " 화력 +1"; }
+        });
+      };
+      if (get()) go(get()); else pick(go);
     };
     if (!facts.length) { q(".wp-bomb").hidden = true; q(".wp-acts").style.gridTemplateColumns = "1fr"; return; }
     facts.forEach(function (f) {

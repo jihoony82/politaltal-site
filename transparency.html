@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:true,android:true},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(/^[/](community|post|login|data([.]html)?$)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency|supporters)/.test(location.pathname)))location.replace('/');}</script>
+  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:true,android:true},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(/^[/](community|post|login|fire|data([.]html)?$)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency|supporters)/.test(location.pathname)))location.replace('/');}</script>
   <title>투명성 보고 - 정치탈탈</title>
   <meta name="description" content="정치탈탈 후원금 사용 내역과 운영 약속을 투명하게 공개합니다.">
   <meta name="keywords" content="정치탈탈,국회의원,의정활동,출석률,발의 법안,표결,재산공개,지역구,공공데이터,22대 국회,국회의원 검색,내 지역구 의원">
@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="정치탈탈 후원금 사용 내역과 운영 약속을 투명하게 공개합니다.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281503">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281503">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281503">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281503">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281542">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281542">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281542">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281542">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610281503">
+  <link rel="stylesheet" href="/styles.css?v=202610281542">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610281503">
+  <link rel="manifest" href="/manifest.json?v=202610281542">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610281503">
+  <meta name="build-id" content="202610281542">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -99,7 +99,7 @@
         </div>
         <div class="fb-progress-stats">
           <span class="fb-raised" id="fbLeft">먼저 온 100명이 창립 후원자</span>
-          <span class="fb-pct" id="fbPledge">후원금 30% 시민단체 기부</span>
+          <span class="fb-pct" id="fbPledge">후원금은 전액 좋은 일에</span>
         </div>
       </div>
       <a href="/donate.html" class="fb-donate-btn">☕ 후원하기</a>
@@ -114,7 +114,7 @@
         ['선거 다음 날부터,', '우리는 추적을 시작합니다.'],
         ['300명의 발의·표결·재산.', '잊지 않고 기록합니다.'],
         ['그들의 무기는 잊혀짐.', '우리의 무기는 기록입니다.'],
-        ['당신의 커피값이', '300명의 의정활동을 매주 추적합니다.'],
+        ['당신의 커피값은', '전액 국민을 위한 좋은 일에 쓰입니다.'],
         ['발의 20,168건, 통과 726건.', '우리는 그 차이를 봅니다.'],
       ];
       try {
@@ -219,29 +219,24 @@
         <p style="color:#92400e;font-size:12.5px;line-height:1.7;">
           정치탈탈은 2026년 5월 정식 오픈했습니다. 후원금이 모이는 대로 이 페이지에
           <strong>매월 1일</strong> 사용 내역을 업데이트합니다 (모금이 시작되면).<br>
-          현재까지 서버·도메인 비용은 운영자 자비로 충당 중이며, 시민 후원금이 모이면
-          공개적으로 사용 내역을 보고드립니다.
+          서버·도메인 비용은 운영자 자비와 유료 기능 수익으로 내며, 후원금은 <strong>전액 좋은 일</strong>에 씁니다.
         </p>
       </div>
 
       <h2 class="about-section-title">💰 후원금 사용 약속</h2>
       <div class="about-principles" style="grid-template-columns:1fr;">
-        <div class="ap-card" style="border-left:4px solid #16a34a;">
-          <div class="ap-title">70% — 사이트 운영비</div>
+        <div class="ap-card" style="border-left:4px solid #c89b3c;">
+          <div class="ap-title">100% — 국민을 위한 좋은 일</div>
           <div class="ap-desc">
-            • Cloudflare 서버·D1 데이터베이스·CDN 비용<br>
-            • politaltal.com 도메인 갱신 (연 ~3만원)<br>
-            • 데이터 매일 자동 갱신·텔레그램 봇 운영<br>
-            • 보안 인증서·이메일 호스팅
+            후원금은 전액 기부합니다. 진보·보수 어느 편에도 치우치지 않는 곳을 고르고, 기부할 곳은 미리 공지합니다.<br>
+            어느 정당·정치인에게도 가지 않습니다. 기부 영수증은 이 페이지에 공개합니다.
           </div>
         </div>
-        <div class="ap-card" style="border-left:4px solid #c89b3c;">
-          <div class="ap-title">30% — 시민단체 기부</div>
+        <div class="ap-card" style="border-left:4px solid #16a34a;">
+          <div class="ap-title">운영비는 따로 — 후원금에서 0원</div>
           <div class="ap-desc">
-            정치 감시·시민 정치 참여를 강화하는 비영리 단체에 기부합니다.<br>
-            우선 검토: <strong>정보공개센터</strong>(opengirok — 정치탈탈 재산 데이터 출처),
-            <strong>참여연대 의정감시센터</strong>, <strong>바른선거시민모임</strong> 등.
-            <br>※ 후원금이 일정 규모(월 5만원+) 이상 모이면 분기별 1회 기부.
+            서버·도메인·데이터 갱신 비용은 운영자 자비와 유료 기능(🔥 화력 지원 등) 수익으로 냅니다.
+            유료 기능 수익은 후원금과 따로 관리합니다.
           </div>
         </div>
       </div>
@@ -272,7 +267,7 @@
           매월 1일 이 자리에 사용 내역이 업데이트됩니다.
         </p>
         <p style="font-size:11.5px;margin-top:12px;color:#94a3b8;">
-          공개 항목: 월 받은 후원금(앱 내 응원은 스토어 수수료를 뺀 정산액 기준) / 항목별 지출 / 잔액 / 기부 내역(영수증 링크 포함)
+          공개 항목: 월 받은 후원금 / 기부 내역(영수증 링크 포함) / 잔액
         </p>
       </div>
 
@@ -280,17 +275,17 @@
       <div class="stat-card" style="background:#f0f9ff;border-left:3px solid #0ea5e9;">
         <ul style="font-size:13px;color:#075985;line-height:1.95;list-style:none;padding:0;margin:0;">
           <li>✓ <strong>매월 1일 사용 내역 공개</strong> — 후원이 들어오는 달부터</li>
-          <li>✓ <strong>월 5만원 이상 모이면 분기별 기부</strong> — 영수증 링크 첨부</li>
-          <li>✓ <strong>운영자는 후원금에서 인건비 받지 않습니다</strong> — 자원봉사 원칙</li>
+          <li>✓ <strong>후원금은 전액 좋은 일에</strong> — 기부 영수증 링크 첨부</li>
+          <li>✓ <strong>운영비·인건비는 후원금에서 쓰지 않습니다</strong> — 운영자 자비 + 유료 기능 수익</li>
           <li>✓ <strong>큰 변동 사항은 공지</strong> — 운영 중단·이전·대규모 지출 등</li>
-          <li>✓ <strong>광고 0·외부 자금 0</strong> — 시민 후원 + 운영자 자비만</li>
+          <li>✓ <strong>광고 0·외부 자금 0</strong> — 유료 기능 수익은 후원금과 따로 관리</li>
         </ul>
       </div>
 
       <div class="about-cta">
         <div class="ac-title">시민이 만드는 데이터, 시민이 유지합니다</div>
-        <div class="ac-sub">현재 시작 단계 · 운영비는 운영자 자비로 충당 중<br>
-        작은 후원이 매주 300명 추적의 기반이 됩니다</div>
+        <div class="ac-sub">후원금은 전액 국민을 위한 좋은 일에<br>
+        운영비는 운영자 자비와 유료 기능 수익으로</div>
         <div class="ac-actions">
           <a href="/donate.html" class="ac-btn ac-btn-primary">☕ 후원하기</a>
           <a href="/supporters.html" class="ac-btn ac-btn-secondary">후원자의 벽</a>
@@ -468,6 +463,6 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202610281503" defer></script>
+  <script src="/war.js?v=202610281542" defer></script>
 </body>
 </html>
