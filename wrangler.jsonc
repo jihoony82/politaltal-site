@@ -10,8 +10,8 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
-    // /bills/*(동적 렌더링)·/push/*(앱 푸시 토큰)·/ledger/*(후원 장부·관리자 통계)·/wall/*(후원자의 벽)·/pc/*(정치인 한마디)·/pay/*(카드 후원)·/t(방문 집계)·/hot(실시간 많이 찾는 정치인)·/news/*(좌우 뉴스)만 Worker를 먼저 실행. 그 외는 Worker를 거치지 않음.
-    "run_worker_first": ["/bills/*", "/push/*", "/ledger/*", "/wall/*", "/pc/*", "/pay/*", "/news/*", "/t", "/hot"]
+    // /bills/*(동적 렌더링)·/push/*(앱 푸시 토큰)·/ledger/*(후원 장부·관리자 통계)·/wall/*(후원자의 벽)·/pc/*(정치인 한마디)·/pay/*(카드 후원)·/t(방문 집계)·/hot(실시간 많이 찾는 정치인)·/war/*(정치 전장 화력)·/news/*(좌우 뉴스)만 Worker를 먼저 실행. 그 외는 Worker를 거치지 않음.
+    "run_worker_first": ["/bills/*", "/push/*", "/ledger/*", "/wall/*", "/pc/*", "/pay/*", "/news/*", "/war/*", "/t", "/hot"]
   },
   // 앱 푸시 토큰 + 후원 장부(ledger 테이블) 저장소. database_id 를 비워 두면 배포 때 wrangler가 자동 생성·연결한다.
   // 좌우 뉴스 RSS 를 20분마다 모은다(worker.js scheduled → newsFetch)

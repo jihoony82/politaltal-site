@@ -252,15 +252,67 @@ async function handleHit(request, env, url) {
 // ── 실시간 많이 찾는 정치인 (/hot) ───────────────────────────────────────
 // 의원·지자체장 페이지를 본 사람 수(같은 사람=IP 해시는 하루 한 정치인에 1번)를 stats kind 'hot' 으로 센다. 원본 IP는 저장하지 않는다.
 // 순위 = 오늘×2 + 어제, 화살표는 어제 기준 순위와 비교. 'hot' 기록이 모자라는 동안은 조회수(kind 'path')로 채운다.
+// ── 정치 전장 (/war) ─────────────────────────────────────────────────
+// 파랑·하양(중립)·빨강 진영의 '오늘의 화력' = 참여 점수. 여론조사가 아니다(같은 사람이 여러 번 참여, 표본 없음 — 화면에도 그렇게 쓴다).
+// 편 고르기 1 · 응원 1 · 팩트 폭탄 1(의원마다 하루 한 번) · 청기홍기 점수(한 판 30점, 하루 10판) · 댓글 2 · 후원 승인 100.
+// 중복은 hot_seen(하루·IP 해시)으로 막는다. ponytail: IP를 바꿔 가며 누르면 올릴 수 있다 — 조작이 보이면 Turnstile.
+const WAR_T = /^[bwr]$/;
+async function warAdd(env, team, n, day = kstDay()) {
+  await statsReady(env);
+  await env.PUSH_DB.prepare("INSERT INTO stats (day, kind, key, n) VALUES (?, 'war', ?, ?) ON CONFLICT(day, kind, key) DO UPDATE SET n = n + ?")
+    .bind(day, team, n, n).run();
+}
+async function handleWar(request, env, url) {
+  if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
+  await pcReady(env); await statsReady(env); await hotReady(env);
+  const path = url.pathname.replace(/\/+$/, "");
+  if (path === "/war/today" && request.method === "GET") {
+    const q = (day) => env.PUSH_DB.prepare("SELECT key, n FROM stats WHERE day = ? AND kind = 'war'").bind(day).all()
+      .then((r) => Object.fromEntries(r.results.map((x) => [x.key, x.n])));
+    const out = { ok: true, today: await q(kstDay()), yday: await q(kstDay(1)) };
+    const t = url.searchParams.get("t") || "";
+    if (PC_TARGET.test(t)) {
+      const { results } = await env.PUSH_DB.prepare("SELECT kind, SUM(n) AS n FROM stats WHERE kind IN ('cheer', 'bomb') AND key = ? GROUP BY kind").bind(t).all();
+      out.t = Object.fromEntries(results.map((x) => [x.kind, x.n]));
+    }
+    return new Response(JSON.stringify(out), { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=15" } });
+  }
+  if (path !== "/war/fire" || request.method !== "POST" || request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
+  const b = await request.json().catch(() => ({}));
+  const kind = String(b.kind || ""), team = WAR_T.test(b.team) ? b.team : "";
+  if (!team) return pj({ ok: false, error: "invalid" }, 400);
+  const day = kstDay(), h = await sha16(PC_SALT + day + (request.headers.get("cf-connecting-ip") || "local"));
+  const once = async (k) => (await env.PUSH_DB.prepare("INSERT OR IGNORE INTO hot_seen (day, h, path) VALUES (?, ?, ?)").bind(day, h, k).run()).meta.changes === 1;
+  let n = 0, to = team;
+  if (kind === "join") {
+    if (await once("war:join")) n = 1;
+  } else if (kind === "cheer" || kind === "bomb") {
+    const t = String(b.t || "");
+    if (!PC_TARGET.test(t) || t.startsWith("n:")) return pj({ ok: false, error: "invalid" }, 400);
+    if (kind === "cheer") { if (!WAR_T.test(b.camp)) return pj({ ok: false, error: "invalid" }, 400); to = b.camp; }   // 응원은 그 정치인 진영에
+    if (!(await once(`war:${kind}:${t}`))) return pj({ ok: true, dup: true });
+    await env.PUSH_DB.prepare("INSERT INTO stats (day, kind, key, n) VALUES (?, ?, ?, 1) ON CONFLICT(day, kind, key) DO UPDATE SET n = n + 1").bind(day, kind, t).run();
+    n = 1;
+  } else if (kind === "game") {
+    const { c } = await env.PUSH_DB.prepare("SELECT COUNT(*) AS c FROM hot_seen WHERE day = ? AND h = ? AND path LIKE 'war:game:%'").bind(day, h).first();
+    if (c >= 10) return pj({ ok: true, capped: true });
+    await once(`war:game:${Date.now()}`);
+    n = Math.max(0, Math.min(30, Math.floor(Number(b.n) || 0)));
+  } else return pj({ ok: false, error: "invalid" }, 400);
+  if (n) await warAdd(env, to, n, day);
+  return pj({ ok: true, n, to });
+}
+
 // ponytail: IP를 바꿔 가며 누르면 순위를 올릴 수 있다 — 조작이 보이면 Turnstile 이나 앱·웹 가중치를 붙일 것
 const HOT_PATH = /^\/(politician|local)\/[A-Za-z0-9]{4,12}$/;
 let HOT_READY = false;
+async function hotReady(env) {
+  if (HOT_READY) return;
+  await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS hot_seen (day TEXT NOT NULL, h TEXT NOT NULL, path TEXT NOT NULL, PRIMARY KEY (day, h, path))");
+  HOT_READY = true;
+}
 async function hotCount(env, request, day, path) {
-  await pcReady(env);
-  if (!HOT_READY) {
-    await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS hot_seen (day TEXT NOT NULL, h TEXT NOT NULL, path TEXT NOT NULL, PRIMARY KEY (day, h, path))");
-    HOT_READY = true;
-  }
+  await pcReady(env); await hotReady(env);
   const h = await sha16(PC_SALT + day + (request.headers.get("cf-connecting-ip") || "local"));
   const r = await env.PUSH_DB.prepare("INSERT OR IGNORE INTO hot_seen (day, h, path) VALUES (?, ?, ?)").bind(day, h, path).run();
   if (r.meta.changes) await env.PUSH_DB.prepare(
@@ -339,6 +391,7 @@ async function wallReady(env) {
   await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS wall (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, msg TEXT NOT NULL DEFAULT '', payer TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'wait', created_at INTEGER NOT NULL, approved_at INTEGER NOT NULL DEFAULT 0)");
   // tok = 이름을 남긴 브라우저에만 주는 무작위 표식. 승인되면 그 브라우저가 '제n석'을 알고 댓글에 후원자 배지를 단다(개인정보 아님)
   await env.PUSH_DB.prepare("ALTER TABLE wall ADD COLUMN tok TEXT NOT NULL DEFAULT ''").run().catch(() => {});
+  await env.PUSH_DB.prepare("ALTER TABLE wall ADD COLUMN team TEXT NOT NULL DEFAULT ''").run().catch(() => {});   // 불 색 b·w·r(없으면 금색)
   WALL_READY = true;
 }
 // 승인된 자리 번호(승인 순서) — 없으면 0
@@ -353,8 +406,8 @@ async function wallSeat(env, tok) {
 }
 const wallText = (v, max) => String(v || "").replace(/[\u0000-\u001f<>]/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
 const wallPublic = (env) => env.PUSH_DB.prepare(
-  "SELECT name, msg, approved_at FROM wall WHERE status = 'ok' ORDER BY approved_at, id LIMIT 500").all()
-  .then((r) => r.results.map((x, i) => ({ no: i + 1, name: x.name, msg: x.msg, at: x.approved_at, day: new Date(x.approved_at + 9 * 3600e3).toISOString().slice(0, 10) })));
+  "SELECT name, msg, team, approved_at FROM wall WHERE status = 'ok' ORDER BY approved_at, id LIMIT 500").all()
+  .then((r) => r.results.map((x, i) => ({ no: i + 1, name: x.name, msg: x.msg, team: x.team, at: x.approved_at, day: new Date(x.approved_at + 9 * 3600e3).toISOString().slice(0, 10) })));
 
 async function handleWall(request, env, url) {
   if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
@@ -381,7 +434,8 @@ async function handleWall(request, env, url) {
     const { n } = await env.PUSH_DB.prepare("SELECT COUNT(*) AS n FROM wall WHERE status = 'wait'").first();
     if (n >= 300) return pj({ ok: false, error: "busy" }, 429);
     const tok = [...crypto.getRandomValues(new Uint8Array(8))].map((x) => x.toString(16).padStart(2, "0")).join("");
-    await env.PUSH_DB.prepare("INSERT INTO wall (name, msg, payer, created_at, tok) VALUES (?, ?, ?, ?, ?)").bind(name, msg, payer, Date.now(), tok).run();
+    const team = WAR_T.test(b.team) ? b.team : "";
+    await env.PUSH_DB.prepare("INSERT INTO wall (name, msg, payer, created_at, tok, team) VALUES (?, ?, ?, ?, ?, ?)").bind(name, msg, payer, Date.now(), tok, team).run();
     return pj({ ok: true, tok });
   }
   return pj({ ok: false, error: "not found" }, 404);
@@ -408,6 +462,7 @@ async function pcReady(env) {
     env.PUSH_DB.prepare("CREATE TABLE IF NOT EXISTS kv (k TEXT PRIMARY KEY, v TEXT NOT NULL)"),
   ]);
   await env.PUSH_DB.prepare("ALTER TABLE pc ADD COLUMN badge INTEGER NOT NULL DEFAULT 0").run().catch(() => {});   // 후원자 자리 번호(0=없음)
+  await env.PUSH_DB.prepare("ALTER TABLE pc ADD COLUMN team TEXT NOT NULL DEFAULT ''").run().catch(() => {});        // 글쓴이 진영 b·w·r
   await env.PUSH_DB.prepare("INSERT OR IGNORE INTO kv (k, v) VALUES ('pc_salt', ?)").bind(crypto.randomUUID() + crypto.randomUUID()).run();
   PC_SALT = (await env.PUSH_DB.prepare("SELECT v FROM kv WHERE k = 'pc_salt'").first()).v;
   PC_READY = true;
@@ -432,7 +487,7 @@ async function handlePc(request, env, url) {
     if (!PC_TARGET.test(t)) return pj({ ok: false, error: "invalid" }, 400);
     // ponytail: 댓글·답글 합쳐 최근 300개만 내려보낸다 — 넘어서면 '이전 댓글 더 보기'(페이지 나눔)를 붙일 것
     const { results } = await env.PUSH_DB.prepare(
-      "SELECT id, parent, nick, body, likes, badge, created_at AS at, EXISTS(SELECT 1 FROM pc_likes l WHERE l.cid = pc.id AND l.ip_hash = ?) AS liked " +
+      "SELECT id, parent, nick, body, likes, badge, team, created_at AS at, EXISTS(SELECT 1 FROM pc_likes l WHERE l.cid = pc.id AND l.ip_hash = ?) AS liked " +
       "FROM pc WHERE target = ? AND status = 'visible' ORDER BY id DESC LIMIT 300").bind(who, t).all();
     const { n } = await env.PUSH_DB.prepare("SELECT COUNT(*) AS n FROM pc WHERE target = ? AND status = 'visible'").bind(t).first();
     return pj({ ok: true, open: await pcOpen(env), total: n, rows: results });
@@ -460,8 +515,10 @@ async function handlePc(request, env, url) {
     const nick = PC_NICKS[parseInt(h.slice(0, 6), 16) % PC_NICKS.length] + " " + h.slice(6, 9);
     let badge = 0;
     if (b.sup) { await wallReady(env); const seat = await wallSeat(env, String(b.sup)); if (seat && seat.status === "ok") badge = seat.no; }
-    const r = await env.PUSH_DB.prepare("INSERT INTO pc (target, nick, body, ip_hash, created_at, parent, badge) VALUES (?, ?, ?, ?, ?, ?, ?)").bind(t, nick, body, who, now, parent, badge).run();
-    return pj({ ok: true, row: { id: r.meta.last_row_id, parent, nick, body, likes: 0, liked: 0, at: now, badge } });
+    const team = WAR_T.test(b.team) ? b.team : "";
+    const r = await env.PUSH_DB.prepare("INSERT INTO pc (target, nick, body, ip_hash, created_at, parent, badge, team) VALUES (?, ?, ?, ?, ?, ?, ?, ?)").bind(t, nick, body, who, now, parent, badge, team).run();
+    if (team) await warAdd(env, team, 2);
+    return pj({ ok: true, row: { id: r.meta.last_row_id, parent, nick, body, likes: 0, liked: 0, at: now, badge, team } });
   }
   if (path === "/pc/like" && Number.isInteger(b.id)) {                         // 한 사람 한 번 — 다시 누르면 취소
     if (!(await env.PUSH_DB.prepare("SELECT id FROM pc WHERE id = ? AND status = 'visible'").bind(b.id).first())) return pj({ ok: false, error: "invalid" }, 400);
@@ -580,9 +637,13 @@ async function handleLedger(request, env, url) {
     }
     if ((body.op === "wall_ok" || body.op === "wall_del") && Number.isInteger(body.id)) {
       await wallReady(env);
-      await (body.op === "wall_del"
+      const r = await (body.op === "wall_del"
         ? env.PUSH_DB.prepare("DELETE FROM wall WHERE id = ?").bind(body.id)
         : env.PUSH_DB.prepare("UPDATE wall SET status = 'ok', payer = '', approved_at = ? WHERE id = ? AND status = 'wait'").bind(Date.now(), body.id)).run();
+      if (body.op === "wall_ok" && r.meta.changes === 1) {             // 후원 = 고른 진영에 화력 100(금액과 무관, 한 명당 한 번)
+        const w = await env.PUSH_DB.prepare("SELECT team FROM wall WHERE id = ?").bind(body.id).first();
+        if (w && WAR_T.test(w.team)) await warAdd(env, w.team, 100);
+      }
       return pj({ ok: true });
     }
     // 집계를 시작하기 전 날짜를 Cloudflare 수치로 채울 때만 쓴다 — 지난 날짜, 그리고 비어 있는 날만
@@ -842,7 +903,7 @@ export default {
     if (url.pathname === "/hot") return handleHot(env, url).catch(() => pj({ ok: false, error: "server" }, 500));
     const api = url.pathname.startsWith("/push/") ? handlePush : url.pathname.startsWith("/ledger/") ? handleLedger
       : url.pathname.startsWith("/wall/") ? handleWall : url.pathname.startsWith("/pc/") ? handlePc
-      : url.pathname.startsWith("/pay/") ? handlePay : null;
+      : url.pathname.startsWith("/pay/") ? handlePay : url.pathname.startsWith("/war/") ? handleWar : null;
     if (api) {
       try { return await api(request, env, url); }
       catch (e) { return pj({ ok: false, error: "server" }, 500); }
