@@ -533,9 +533,22 @@
     async function wlAct(op, id) {
       const r = WL_ROWS.find(x => x.id === id);
       if (!r) return;
-      const ask = op === 'wall_ok' ? `"${r.name}" 님을 후원자의 벽에 올릴까요?\n(입금자명 ${r.payer} 입금을 확인하셨나요?)` : `"${r.name}" 님 기록을 지울까요? 되돌릴 수 없습니다.`;
-      if (!confirm(ask)) return;
+      if (op === 'wall_ok') {
+        // 승인하면 입금자명이 지워지므로, 받은 돈은 이때 후원 장부에 같이 남긴다(메모에 입금자명 — 관리자만 봄)
+        const amt = prompt(`"${r.name}" 님 승인\n입금자명: ${r.payer}\n접수: ${new Date(r.created_at).toLocaleString('ko-KR')}\n\n받은 금액(원)을 적으면 후원 장부에도 같이 기록됩니다.\n장부 기록 없이 승인만 하려면 비워 두고 확인.`, '');
+        if (amt === null) return;
+        const won = Number(String(amt).replace(/\D/g, ''));
+        if (won) {
+          const how = prompt('어디로 받았나요?  1 = 카카오페이 · 2 = 계좌이체 · 3 = 카드', '2');
+          if (how === null) return;
+          const channel = { 1: 'kakaopay', 2: 'bank', 3: 'card' }[String(how).trim()] || 'etc';
+          const day = new Date(r.created_at + 9 * 3600e3).toISOString().slice(0, 10);
+          const res = await lgApi({ op: 'add', kind: 'in', day, amount: won, channel, memo: `후원자의 벽 ${r.name} · 입금자명 ${r.payer}`.slice(0, 200), link: '' });
+          if (!res || !res.ok) { alert('장부 기록에 실패해 승인을 멈췄습니다. 다시 시도해 주세요.'); return; }
+        }
+      } else if (!confirm(`"${r.name}" 님 기록을 지울까요? 되돌릴 수 없습니다.`)) return;
       await lgApi({ op, id });
+      if (typeof lgLoad === 'function') lgLoad();
       wlLoad();
     }
 

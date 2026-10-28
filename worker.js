@@ -308,7 +308,7 @@ async function handleHot(env, url) {
 async function statsSummary(env) {
   await statsReady(env);
   const q = (sql, ...a) => env.PUSH_DB.prepare(sql).bind(...a).all().then((r) => r.results, () => []);
-  const [daily, paths, refs, plats, push, wall, clicks, pc] = await Promise.all([
+  const [daily, paths, refs, plats, push, wall, clicks, pc, wallWait] = await Promise.all([
     q("SELECT day, kind, n FROM stats WHERE kind IN ('pv', 'visit') AND day >= ? ORDER BY day", kstDay(29)),
     q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'path' AND day >= ? GROUP BY key ORDER BY n DESC LIMIT 15", kstDay(6)),
     q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'ref' AND day >= ? GROUP BY key ORDER BY n DESC LIMIT 10", kstDay(6)),
@@ -317,8 +317,9 @@ async function statsSummary(env) {
     q("SELECT status AS key, COUNT(*) AS n FROM wall GROUP BY status"),
     q("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'click' AND day >= ? GROUP BY key ORDER BY n DESC LIMIT 20", kstDay(6)),
     q("SELECT SUM(created_at > ?) AS fresh, SUM(status = 'visible' AND reports > 0) AS reported, SUM(status = 'hidden') AS hidden FROM pc", Date.now() - 86400e3),
+    q("SELECT name, payer, created_at FROM wall WHERE status = 'wait' ORDER BY id LIMIT 5"),   // 자정 요약에서 입금 내역과 바로 맞춰 보게
   ]);
-  return { ok: true, today: kstDay(), daily, paths, refs, plats, push, wall, clicks, pc: pc[0] || {} };
+  return { ok: true, today: kstDay(), daily, paths, refs, plats, push, wall, clicks, pc: pc[0] || {}, wall_wait: wallWait };
 }
 
 // ── 후원자의 벽 (/wall/*) ───────────────────────────────────────────────
