@@ -82,6 +82,14 @@ body { background: linear-gradient(115deg, #dce6ff 0%, #f1f5ff 36%, #ffffff 50%,
 .war-bar .b { background: #1e3a8a; } .war-bar .w { background: #fff; } .war-bar .r { background: #991b1b; }
 .war-cap { text-align: center; margin: 0 auto 14px; font-size: 11px; font-weight: 700; color: var(--color-primary); background: rgba(255,255,255,.9);
   border-radius: 10px; padding: 5px 10px; max-width: 460px; word-break: keep-all; }
+.war-today { text-align: center; margin: 0 0 6px; font-size: 12.5px; font-weight: 800; color: var(--color-primary); }
+.war-today b { font-variant-numeric: tabular-nums; }
+.war-me { text-align: center; margin: 12px auto 0; max-width: 460px; background: rgba(10,37,64,.88); color: #fff; border-radius: 12px; padding: 9px 12px; font-size: 13.5px; font-weight: 700; word-break: keep-all; }
+.war-me b { color: #facc15; font-size: 16px; font-variant-numeric: tabular-nums; }
+.war-toast { position: fixed; left: 50%; bottom: calc(86px + env(safe-area-inset-bottom)); transform: translate(-50%, 20px); z-index: 2100; background: var(--color-primary); color: #fff;
+  font-size: 14px; font-weight: 800; padding: 12px 18px; border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,.25); opacity: 0; transition: opacity .3s, transform .3s; pointer-events: none;
+  max-width: calc(100% - 32px); text-align: center; word-break: keep-all; }
+.war-toast.on { opacity: 1; transform: translate(-50%, 0); }
 .war-acts { display: flex; gap: 8px; justify-content: center; margin: 14px 0 18px; flex-wrap: wrap; }
 .war-acts a { background: rgba(10,37,64,.88); color: #fff; font-size: 13.5px; font-weight: 800; padding: 10px 15px; border-radius: 999px; text-decoration: none; }
 .hero.war .hero-search-hints a, .hero.war .hero-search-hints span { background: rgba(10,37,64,.62); border-color: rgba(255,255,255,.3); color: #fff; }

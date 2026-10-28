@@ -3,14 +3,48 @@
   var T = { b: { name: "진보 성향", short: "진보", dot: "🔵", heart: "💙" }, w: { name: "중도", short: "중도", dot: "⚪", heart: "🤍" },
             r: { name: "보수 성향", short: "보수", dot: "🔴", heart: "❤️" } };
   var get = function () { try { var t = localStorage.getItem("pt_team"); return T[t] ? t : ""; } catch (e) { return ""; } };
+  /* 이 기기 표식(무작위) — 내 표·내 화력 누적용. 이름·연락처와 묶지 않는다 */
+  var uid = (function () {
+    try {
+      var u = localStorage.getItem("pt_uid");
+      if (!/^[a-f0-9]{16}$/.test(u || "")) { u = [].map.call(crypto.getRandomValues(new Uint8Array(8)), function (x) { return ("0" + x.toString(16)).slice(-2); }).join(""); localStorage.setItem("pt_uid", u); }
+      return u;
+    } catch (e) { return ""; }
+  })();
+  var myVotes = function () { try { return +(localStorage.getItem("pt_my_votes") || 0); } catch (e) { return 0; } };
+  function showMe(me) {                                /* 내 표·내가 보탠 화력 — 홈 점수판 아래, 헤더 칩 */
+    if (!me) return;
+    try { localStorage.setItem("pt_my_votes", me.votes || 0); } catch (e) {}
+    var el = document.getElementById("warMe");
+    if (el && get()) el.innerHTML = "🗳 내 표 <b>" + (me.votes || 0).toLocaleString("ko-KR") + "</b>표 · 내가 보탠 화력 <b>" + (me.fire || 0).toLocaleString("ko-KR") + "</b> · 매일 들어오면 1표씩";
+    paint();
+  }
+  var toastEl;
+  function toast(msg) {
+    if (!toastEl) { toastEl = document.createElement("div"); toastEl.className = "war-toast"; toastEl.setAttribute("role", "status"); document.body.appendChild(toastEl); }
+    toastEl.textContent = msg; toastEl.classList.add("on");
+    clearTimeout(toastEl._t); toastEl._t = setTimeout(function () { toastEl.classList.remove("on"); }, 3200);
+  }
   var fire = function (body) {
+    body.uid = uid;
     return fetch("/war/fire", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) })
-      .then(function (r) { return r.json(); }).catch(function () { return {}; });
+      .then(function (r) { return r.json(); }).then(function (j) { if (j && j.me) showMe(j.me); return j; }).catch(function () { return {}; });
   };
+  var kday = function () { return new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10); };
+  function vote(force) {                               /* 매일 출석 투표 — 하루 처음 들어오면 내 성향에 1표 */
+    var t = get(), d = kday();
+    if (!t) return Promise.resolve();
+    try { if (!force && localStorage.getItem("pt_vote_day") === d) return Promise.resolve(); } catch (e) {}
+    return fire({ kind: "join", team: t }).then(function (r) {
+      if (!r.ok) return;
+      try { localStorage.setItem("pt_vote_day", d); } catch (e) {}
+      if (r.n) toast("🗳 오늘의 내 표 +1 → " + T[t].dot + " " + T[t].name + (r.me ? " · 누적 " + r.me.votes + "표" : ""));
+    });
+  }
   var set = function (t) {
     try { localStorage.setItem("pt_team", t); } catch (e) {}
-    fire({ kind: "join", team: t });
     document.dispatchEvent(new CustomEvent("pt-team", { detail: t }));
+    vote(true).then(gauge);
   };
   var sheet, sheetCb;
   function pick(cb) {
@@ -32,7 +66,7 @@
   function paint() {
     var t = get(), host = document.querySelector(".header-actions"), c = document.getElementById("warChip");
     if (host && !c) { c = document.createElement("button"); c.type = "button"; c.id = "warChip"; c.onclick = function () { pick(); }; host.insertBefore(c, host.firstChild); }
-    if (c) { c.className = "war-chip" + (t ? " t-" + t : ""); c.textContent = t ? T[t].dot + " " + T[t].short : "⚔️ 편 고르기"; }
+    if (c) { c.className = "war-chip" + (t ? " t-" + t : ""); c.textContent = t ? T[t].dot + " " + T[t].short + (myVotes() ? " " + myVotes() + "표" : "") : "⚔️ 편 고르기"; }
     [].forEach.call(document.querySelectorAll(".war-pick [data-team]"), function (b) { b.setAttribute("aria-pressed", b.dataset.team === t ? "true" : "false"); });
   }
   document.addEventListener("pt-team", paint);
@@ -40,20 +74,23 @@
   var iap = function (t, pid, team) {
     var ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
     return fetch("/war/iap", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(ios
-      ? { platform: "ios", productId: pid, team: team, jws: t && t.jwsRepresentation }
-      : { platform: "android", productId: pid, team: team, purchaseToken: t && t.purchaseToken }) })
-      .then(function (r) { return r.json(); }).catch(function () { return {}; });
+      ? { platform: "ios", productId: pid, team: team, uid: uid, jws: t && t.jwsRepresentation }
+      : { platform: "android", productId: pid, team: team, uid: uid, purchaseToken: t && t.purchaseToken }) })
+      .then(function (r) { return r.json(); }).then(function (j) { if (j && j.me) showMe(j.me); return j; }).catch(function () { return {}; });
   };
   window.PTW = { T: T, team: get, pick: pick, fire: fire, iap: iap };
 
-  function gauge() {                                   /* 홈 맨 위: 오늘의 화력 */
+  function gauge() {                                   /* 홈 맨 위: 누적 화력(오늘 몫은 따로 한 줄) */
     var box = document.getElementById("warBox");
     if (!box) return;
-    box.addEventListener("click", function (e) { var b = e.target.closest(".war-pick [data-team]"); if (b) set(b.dataset.team); });
+    if (!box._bound) { box._bound = 1; box.addEventListener("click", function (e) { var b = e.target.closest(".war-pick [data-team]"); if (b) set(b.dataset.team); }); }
     if (!document.getElementById("fireB")) return;   /* 선거 임박 모드엔 점수판이 없다 */
-    fetch("/war/today").then(function (r) { return r.json(); }).then(function (d) {
+    fetch("/war/today" + (uid ? "?uid=" + uid : "")).then(function (r) { return r.json(); }).then(function (d) {
       if (!d.ok) return;
-      var f = d.today || {}, y = d.yday || {}, v = { b: f.b || 0, w: f.w || 0, r: f.r || 0 }, sum = v.b + v.w + v.r;
+      var f = d.total || d.today || {}, y = d.yday || {}, td = d.today || {}, v = { b: f.b || 0, w: f.w || 0, r: f.r || 0 }, sum = v.b + v.w + v.r;
+      var plus = function (k) { return "<b>+" + (td[k] || 0).toLocaleString("ko-KR") + "</b>"; };
+      document.getElementById("warToday").innerHTML = "오늘 🔵 " + plus("b") + " · ⚪ " + plus("w") + " · 🔴 " + plus("r");
+      if (get()) showMe(d.me || { votes: 0, fire: 0 });
       ["b", "w", "r"].forEach(function (k) {
         document.getElementById("fire" + k.toUpperCase()).textContent = v[k].toLocaleString("ko-KR");
         box.querySelector(".war-bar ." + k).style.flexGrow = sum ? v[k] : 1;
@@ -102,6 +139,6 @@
     });
     q(".wp-bomb").onclick = function () { list.hidden = !list.hidden; };
   }
-  function start() { paint(); gauge(); pbox(); }
+  function start() { paint(); pbox(); vote(false).then(gauge); }   /* 출석 투표가 먼저 들어간 뒤 점수판을 읽는다 */
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
 })();
