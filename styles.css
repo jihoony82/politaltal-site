@@ -133,6 +133,8 @@ img, video { height: auto; }
   word-break: keep-all;
 }
 .fb-line strong { font-weight: 800; }
+.sup-live, .mini-cta-text .sup-live { display: block; margin-top: 4px; font-size: 11.5px; font-weight: 700; color: var(--color-accent); }
+.sup-live[hidden] { display: none; }
 .fb-progress-wrap { flex: 1 1 220px; min-width: 0; }
 .fb-progress-track {
   position: relative; height: 14px; background: #0a2540;
@@ -2057,6 +2059,7 @@ a:hover { text-decoration: underline; }
 .pc-list { margin-top: 10px; }
 .pc-item { padding: 10px 0; border-top: 1px solid #eef2f7; }
 .pc-meta { font-size: 11.5px; color: var(--color-text-soft); display: flex; align-items: center; gap: 8px; }
+.pc-sup { font-size: 10.5px; font-weight: 800; color: #8a6414; background: #fdf3d7; border: 1px solid #f0d78c; border-radius: 999px; padding: 1px 7px; text-decoration: none; }
 .pc-item p { margin: 3px 0 0; font-size: 14px; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
 .pc-acts { display: flex; align-items: center; gap: 14px; margin-top: 6px; }
 .pc-act { background: none; border: 0; padding: 4px 0; font-size: 12px; font-weight: 700; color: var(--color-text-soft); cursor: pointer; font-family: inherit; }

@@ -22,7 +22,8 @@
 
   function post(text, parent, button, out, done) {
     button.disabled = true; out.textContent = "";
-    send("/pc/post", { t: T, body: text, parent: parent, hp: form.hp.value }).then(function (d) {
+    var sup = ""; try { sup = localStorage.getItem("pt_sup") || ""; } catch (e) {}   /* 후원자의 벽에 이름을 남긴 기기 — 승인됐으면 배지 */
+    send("/pc/post", { t: T, body: text, parent: parent, hp: form.hp.value, sup: sup }).then(function (d) {
       button.disabled = false;
       if (!d.ok) { out.textContent = ERR[d.error] || "올리지 못했습니다. 다시 시도해 주세요."; return; }
       if (parent) { (kids[parent] = kids[parent] || []).push(d.row); shown[parent] = true; } else tops.unshift(d.row);
@@ -32,7 +33,10 @@
 
   function item(r, isReply) {
     var it = el("div", isReply ? "pc-item pc-reply" : "pc-item"), acts = el("div", "pc-acts"), n = (kids[r.id] || []).length;
-    it.appendChild(el("div", "pc-meta", r.nick + " · " + ago(r.at)));
+    var meta = el("div", "pc-meta", r.nick);
+    if (r.badge) { var bd = el("a", "pc-sup", r.badge <= 100 ? "☕ 창립 후원자" : "☕ 후원자"); bd.href = "/supporters.html"; bd.title = "후원자의 벽 제" + r.badge + "석"; meta.appendChild(bd); }
+    meta.appendChild(document.createTextNode("· " + ago(r.at)));
+    it.appendChild(meta);
     it.appendChild(el("p", "", r.body));
     var like = btn("pc-act" + (r.liked ? " on" : ""), (r.liked ? "♥" : "♡") + " 공감" + (r.likes ? " " + r.likes : ""), function () {
       like.disabled = true;

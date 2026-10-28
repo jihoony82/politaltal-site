@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="이기헌 의원 프로필 — 더불어민주당 경기 고양시병 · 초선 · 1968년생·만 57세 · 소관 제9회전국동시지방선거투표용지부족사태등국민참정권침해진상규명및선거관리개혁을위한국정조사특별위원회, 예산결산특별위원회, 외교통일위원회, 정보위원회 · 학력 경희대학교 무역학과 졸업. 출석률·대표발의 법안·표결 참여·재산공개 등 제22대 국회 의정활동을 공공데이터로 확인하세요.">
   <meta name="twitter:image" content="https://politaltal.com/images/og/W3U3344O.jpg">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610280939">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610280939">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610280939">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610280939">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281054">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281054">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281054">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281054">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610280939">
+  <link rel="stylesheet" href="/styles.css?v=202610281054">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610280939">
+  <link rel="manifest" href="/manifest.json?v=202610281054">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610280939">
+  <meta name="build-id" content="202610281054">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -102,11 +102,11 @@
       </div>
       <div class="fb-progress-wrap">
         <div class="fb-progress-track">
-          <div class="fb-progress-fill" style="width: 8%;"></div>
-          <span class="fb-progress-text">시작 단계</span>
+          <div class="fb-progress-fill" id="fbFill" style="width: 2%;"></div>
+          <span class="fb-progress-text" id="fbSeat">창립 후원자석 100석</span>
         </div>
         <div class="fb-progress-stats">
-          <span class="fb-raised">목표 100만원 · 서버·도메인 유지비</span>
+          <span class="fb-raised" id="fbLeft">먼저 온 100명이 창립 후원자</span>
           <span class="fb-pct" id="fbPledge">후원금 30% 시민단체 기부</span>
         </div>
       </div>
@@ -133,6 +133,37 @@
           el.innerHTML = '<strong>' + c[0] + '</strong> ' + c[1];
         }
       } catch (e) {}
+    })();
+    // 후원자의 벽 실제 숫자(점등 수·최근 점등) — 상단 띠와 페이지 끝 후원 카드(.sup-live)가 같이 쓴다
+    (function () {
+      var ago = function (t) { var m = Math.floor((Date.now() - t) / 6e4); return m < 1 ? '방금' : m < 60 ? m + '분 전' : m < 1440 ? Math.floor(m / 60) + '시간 전' : Math.floor(m / 1440) + '일 전'; };
+      var wall = fetch('/wall/list?brief=1').then(function (r) { return r.json(); }).catch(function () { return {}; });
+      wall.then(function (d) {
+        var bar = document.querySelector('.fundraiser-bar');
+        if (!d.ok || !bar || !bar.offsetParent) return;
+        var lit = Math.min(d.n || 0, 100), s = d.last, el = document.getElementById('fbLine');
+        document.getElementById('fbFill').style.width = Math.max(lit, 2) + '%';
+        document.getElementById('fbSeat').textContent = '창립 후원자석 ' + lit + ' / 100';
+        document.getElementById('fbLeft').textContent = lit < 100 ? '창립 후원자석 ' + (100 - lit) + '석 남음' : '창립 후원자석 마감';
+        if (s && Date.now() - s.at < 3 * 864e5) {
+          var b = document.createElement('strong');
+          b.textContent = '🔔 ' + s.name + '님이 제' + s.no + '석에 불을 켰습니다';
+          el.textContent = ''; el.appendChild(b);
+          el.appendChild(document.createTextNode(' ' + ago(s.at) + (lit < 100 ? ' · 창립석 ' + (100 - lit) + '석 남음' : '')));
+        }
+      });
+      document.addEventListener('DOMContentLoaded', function () {
+        var live = [].slice.call(document.querySelectorAll('.sup-live'));
+        if (!live.length) return;
+        var hot = fetch('/hot?p=' + encodeURIComponent(location.pathname)).then(function (r) { return r.json(); }).catch(function () { return {}; });
+        Promise.all([hot, wall]).then(function (v) {
+          var parts = [];
+          if (v[0].n >= 10) parts.push('오늘 이 페이지 조회 ' + v[0].n.toLocaleString('ko-KR') + '회');
+          if (v[1].ok) parts.push(v[1].n < 100 ? '창립 후원자석 ' + (100 - v[1].n) + '석 남음' : '후원자 ' + v[1].n + '명이 함께합니다');
+          if (!parts.length) return;
+          live.forEach(function (p) { p.textContent = parts.join(' · '); p.hidden = false; });
+        });
+      });
     })();
   </script>
 
@@ -209,7 +240,7 @@
         <span class="bd-leg"><span class="bd-dot bd-dot-orange"></span>관심사</span>
       </div>
       <div class="bigdata-cloud">
-        <span class="bd-word bd-name bd-dark" style="transform:rotate(-3deg);" data-tip="이기헌 의원 (더불어민주당)"><span class="bd-text">이기헌</span></span><span class="bd-word bd-major bd-blue" style="transform:rotate(-3deg);" data-tip="소속 정당: 더불어민주당"><span class="bd-text">더불어민주당</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(0deg);" data-tip="대표발의 52건 중 본회의 통과 7건"><span class="bd-text">13% 가결률</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(6deg);" data-tip="발의 키워드: 국민체육진흥법"><span class="bd-text">국민체육진흥법 관심사</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(-3deg);" data-tip="발의 키워드: 대중문화예술산업발전법"><span class="bd-text">대중문화예술산… 관심사</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="출생: 1968-12-23"><span class="bd-text">58세 나이</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(-6deg);" data-tip="발의 키워드: 저작권법"><span class="bd-text">저작권법 관심사</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="군 복무: 복무기록 미기재"><span class="bd-text">미기재 군복무</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="신고 재산: 6억 7,783만원 (2025년)"><span class="bd-text">6억 7783… 재산</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(6deg);" data-tip="22대 국회 대표발의 52건 (가결 7건, 가결률 13%)"><span class="bd-text">52건 발의</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="성별: 남"><span class="bd-text">남 성별</span></span><span class="bd-word bd-medium bd-blue" style="transform:rotate(3deg);" data-tip="학력: 경희대학교 (약력 자동 추출)"><span class="bd-text">경희대학교 학력</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(6deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">38</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(3deg);" data-tip="본회의 표결 참여율 (683/720건)"><span class="bd-text">95% 출석</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="제9회전국동시지방선거투표용지부족사태등국민참정권침해진상규명및선거관리개혁을위한국정조사특별위원회, 예산결산특별위원회, 외교통일위원회, 정보위원회 위원"><span class="bd-text">제9회전국… 위원</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(6deg);" data-tip="22대 국회 초선"><span class="bd-text">초선 선수</span></span><span class="bd-word bd-tiny bd-gray" style="transform:rotate(0deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">종합점수</span></span>
+        <span class="bd-word bd-name bd-dark" style="transform:rotate(0deg);" data-tip="이기헌 의원 (더불어민주당)"><span class="bd-text">이기헌</span></span><span class="bd-word bd-major bd-blue" style="transform:rotate(0deg);" data-tip="소속 정당: 더불어민주당"><span class="bd-text">더불어민주당</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="성별: 남"><span class="bd-text">남 성별</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 저작권법"><span class="bd-text">저작권법 관심사</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(6deg);" data-tip="군 복무: 복무기록 미기재"><span class="bd-text">미기재 군복무</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 대중문화예술산업발전법"><span class="bd-text">대중문화예술산… 관심사</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(-6deg);" data-tip="대표발의 52건 중 본회의 통과 7건"><span class="bd-text">13% 가결률</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="출생: 1968-12-23"><span class="bd-text">58세 나이</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(-6deg);" data-tip="신고 재산: 6억 7,783만원 (2025년)"><span class="bd-text">6억 7783… 재산</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(6deg);" data-tip="본회의 표결 참여율 (683/720건)"><span class="bd-text">95% 출석</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(0deg);" data-tip="22대 국회 대표발의 52건 (가결 7건, 가결률 13%)"><span class="bd-text">52건 발의</span></span><span class="bd-word bd-tiny bd-gray" style="transform:rotate(-6deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">종합점수</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(0deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">38</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(-3deg);" data-tip="제9회전국동시지방선거투표용지부족사태등국민참정권침해진상규명및선거관리개혁을위한국정조사특별위원회, 예산결산특별위원회, 외교통일위원회, 정보위원회 위원"><span class="bd-text">제9회전국… 위원</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(3deg);" data-tip="22대 국회 초선"><span class="bd-text">초선 선수</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 국민체육진흥법"><span class="bd-text">국민체육진흥법 관심사</span></span><span class="bd-word bd-medium bd-blue" style="transform:rotate(-3deg);" data-tip="학력: 경희대학교 (약력 자동 추출)"><span class="bd-text">경희대학교 학력</span></span>
       </div>
       <div class="bd-hint">💡 단어 위에 마우스를 올리면 자세한 정보가 나옵니다</div>
     </div>
@@ -229,7 +260,7 @@
         <button type="button" class="pc-more" id="pcMore" hidden></button>
         <p class="pc-rule">욕설·비방·허위사실·홍보 글은 숨겨집니다. 댓글은 작성자 개인 의견이며 당사자에게 전달되지는 않습니다. 삭제 요청: jihoony8282@naver.com</p>
       </div>
-      <script src="/pc.js?v=202610280939" defer></script>
+      <script src="/pc.js?v=202610281054" defer></script>
           <div class="profile-card">
             <div class="profile-head">
               <img class="profile-avatar-img" src="/images/politicians/W3U3344O.jpg" alt="이기헌">
@@ -491,6 +522,7 @@
         서버·도메인·데이터 처리에 매달 비용이 들어갑니다.
         <strong>광고도, 후원사도 없습니다.</strong> 시민의 후원만이 이 추적을 멈추지 않게 합니다.
       </p>
+      <p class="sup-live" hidden style="color:#ffb999;margin:0 0 12px;"></p>
       <div class="cost-cta-actions">
         <a href="/donate.html" class="cost-cta-btn primary">☕ 커피값으로 후원하기</a>
         <a href="/transparency.html" class="cost-cta-btn secondary">사용 내역 보기 →</a>

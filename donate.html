@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="정치탈탈은 광고 없이 시민 후원으로 운영되는 정치 데이터 플랫폼입니다. 커피 한 잔의 후원으로 응원해주세요.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610280939">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610280939">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610280939">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610280939">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281054">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281054">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281054">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281054">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610280939">
+  <link rel="stylesheet" href="/styles.css?v=202610281054">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610280939">
+  <link rel="manifest" href="/manifest.json?v=202610281054">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610280939">
+  <meta name="build-id" content="202610281054">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -114,8 +114,19 @@
   .book { background: #fff; border: 1px solid var(--color-border, #e2e8f0); border-radius: 14px; padding: 4px 18px; margin-bottom: 32px; }
   .bk { margin: 0; padding: 16px 0; border-bottom: 1px solid #eef2f7; }
   .bk:last-child { border-bottom: 0; }
-  .bk p { margin: 0; font-size: 15px; line-height: 1.65; color: var(--color-text); word-break: keep-all; overflow-wrap: anywhere; }
-  .bk footer { font-size: 12px; color: var(--color-text-soft); margin-top: 6px; }
+  .bk p { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 700; font-size: 16px; line-height: 1.7; color: var(--color-text); word-break: keep-all; overflow-wrap: anywhere; }
+  .bk mark { background: linear-gradient(transparent 58%, rgba(233,196,106,.6) 58%); color: #0a2540; font-weight: 900; padding: 0 1px; }
+  .bk footer { font-size: 12px; color: var(--color-text-soft); margin-top: 8px; }
+  .bk footer b { color: var(--color-text); font-weight: 800; }
+  .bk footer i { font: 600 11px/1 var(--mono); font-style: normal; color: #8a6414; }
+  .wb-feed { font-size: 13px; color: var(--lamp); text-align: center; margin: 14px 0 0; word-break: keep-all; }
+  .wb-feed b { color: #fff; }
+  .wb-me { background: rgba(233,196,106,.14); border: 1px solid rgba(233,196,106,.5); border-radius: 12px; padding: 14px; margin: 16px 0 0; text-align: center; }
+  .wb-me p { margin: 0 0 10px; font-size: 15px; line-height: 1.5; color: #fff; word-break: keep-all; }
+  .wb-me p.wait { margin: 0; font-size: 13px; color: #c7d5e3; }
+  .wb-me b { color: var(--lamp); }
+  .wb-me button { background: #fff; color: var(--board); border: 0; border-radius: 10px; font-weight: 800; font-size: 14px; padding: 10px 16px; cursor: pointer; }
+  .wb-lamps span.me { background: #fff; box-shadow: 0 0 16px 4px rgba(233,196,106,1); }
   .wall-empty { text-align: center; padding: 6px 8px 30px; color: var(--color-text-soft); font-size: 13.5px; line-height: 1.7; }
   .we-title { font-family: 'Noto Serif KR', serif; font-weight: 700; font-size: 19px; color: var(--color-text); margin: 0 0 6px; }
   .wall-how ol { margin: 8px 0 12px; padding-left: 20px; font-size: 13.5px; line-height: 1.9; }
@@ -139,11 +150,11 @@
       </div>
       <div class="fb-progress-wrap">
         <div class="fb-progress-track">
-          <div class="fb-progress-fill" style="width: 8%;"></div>
-          <span class="fb-progress-text">시작 단계</span>
+          <div class="fb-progress-fill" id="fbFill" style="width: 2%;"></div>
+          <span class="fb-progress-text" id="fbSeat">창립 후원자석 100석</span>
         </div>
         <div class="fb-progress-stats">
-          <span class="fb-raised">목표 100만원 · 서버·도메인 유지비</span>
+          <span class="fb-raised" id="fbLeft">먼저 온 100명이 창립 후원자</span>
           <span class="fb-pct" id="fbPledge">후원금 30% 시민단체 기부</span>
         </div>
       </div>
@@ -170,6 +181,37 @@
           el.innerHTML = '<strong>' + c[0] + '</strong> ' + c[1];
         }
       } catch (e) {}
+    })();
+    // 후원자의 벽 실제 숫자(점등 수·최근 점등) — 상단 띠와 페이지 끝 후원 카드(.sup-live)가 같이 쓴다
+    (function () {
+      var ago = function (t) { var m = Math.floor((Date.now() - t) / 6e4); return m < 1 ? '방금' : m < 60 ? m + '분 전' : m < 1440 ? Math.floor(m / 60) + '시간 전' : Math.floor(m / 1440) + '일 전'; };
+      var wall = fetch('/wall/list?brief=1').then(function (r) { return r.json(); }).catch(function () { return {}; });
+      wall.then(function (d) {
+        var bar = document.querySelector('.fundraiser-bar');
+        if (!d.ok || !bar || !bar.offsetParent) return;
+        var lit = Math.min(d.n || 0, 100), s = d.last, el = document.getElementById('fbLine');
+        document.getElementById('fbFill').style.width = Math.max(lit, 2) + '%';
+        document.getElementById('fbSeat').textContent = '창립 후원자석 ' + lit + ' / 100';
+        document.getElementById('fbLeft').textContent = lit < 100 ? '창립 후원자석 ' + (100 - lit) + '석 남음' : '창립 후원자석 마감';
+        if (s && Date.now() - s.at < 3 * 864e5) {
+          var b = document.createElement('strong');
+          b.textContent = '🔔 ' + s.name + '님이 제' + s.no + '석에 불을 켰습니다';
+          el.textContent = ''; el.appendChild(b);
+          el.appendChild(document.createTextNode(' ' + ago(s.at) + (lit < 100 ? ' · 창립석 ' + (100 - lit) + '석 남음' : '')));
+        }
+      });
+      document.addEventListener('DOMContentLoaded', function () {
+        var live = [].slice.call(document.querySelectorAll('.sup-live'));
+        if (!live.length) return;
+        var hot = fetch('/hot?p=' + encodeURIComponent(location.pathname)).then(function (r) { return r.json(); }).catch(function () { return {}; });
+        Promise.all([hot, wall]).then(function (v) {
+          var parts = [];
+          if (v[0].n >= 10) parts.push('오늘 이 페이지 조회 ' + v[0].n.toLocaleString('ko-KR') + '회');
+          if (v[1].ok) parts.push(v[1].n < 100 ? '창립 후원자석 ' + (100 - v[1].n) + '석 남음' : '후원자 ' + v[1].n + '명이 함께합니다');
+          if (!parts.length) return;
+          live.forEach(function (p) { p.textContent = parts.join(' · '); p.hidden = false; });
+        });
+      });
     })();
   </script>
 
@@ -236,6 +278,7 @@
           </div>
           <a href="#donateNow" class="wb-cta">후원하고 내 자리 켜기</a>
           <p class="wb-fine">후원 → 이름 남기기 → 확인 뒤 불이 켜집니다</p>
+          <p class="wb-feed" id="wbFeed" hidden></p>
         </section>
         <section id="wallPlates" hidden>
           <h2 class="wall-h">명패</h2>
@@ -253,6 +296,37 @@
       for (var i = 0; i < 100; i++) { var c = document.createElement('span'); lamps.appendChild(c); cells.push(c); }
       var el = function (tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
       var seatNo = function (n) { return '제' + ('00' + n).slice(-3) + '석'; };
+      var ago = function (t) { var m = Math.floor((Date.now() - t) / 6e4); return m < 1 ? '방금' : m < 60 ? m + '분 전' : m < 1440 ? Math.floor(m / 60) + '시간 전' : Math.floor(m / 1440) + '일 전'; };
+      // 방명록 핵심 낱말에 형광펜 — 우선순위 높은 낱말이 든 어절 2개까지(세 어절 이하 짧은 글은 전부)
+      var KEYS = ['지켜', '기록', '숫자', '끝까지', '내내', '응원', '함께', '제대로', '투명', '알권리', '감사', '고맙', '힘내', '화이팅', '파이팅', '진실', '사실', '시민', '투표', '개표'];
+      var mark = function (msg) {
+        var p = el('p'), words = msg.split(/( +)/), rank = [], pick = {};
+        words.forEach(function (w, i) { var k = -1; KEYS.some(function (x, j) { if (w.indexOf(x) >= 0) { k = j; return true; } }); if (k >= 0) rank.push([k, i]); });
+        var short = words.filter(function (w) { return w.trim(); }).length <= 3;
+        rank.sort(function (a, b) { return a[0] - b[0]; }).slice(0, short ? 9 : 2).forEach(function (r) { pick[r[1]] = 1; });
+        p.appendChild(document.createTextNode('“'));
+        words.forEach(function (w, i) { p.appendChild(pick[i] ? el('mark', '', w) : document.createTextNode(w)); });
+        p.appendChild(document.createTextNode('”'));
+        return p;
+      };
+      // 이 기기에서 이름을 남겼으면(후원 페이지) 내 자리 확인 — 승인되면 축하·자랑하기
+      var tok = ''; try { tok = localStorage.getItem('pt_sup') || ''; } catch (e) {}
+      if (tok) fetch('/wall/me?tok=' + tok).then(function (r) { return r.json(); }).then(function (d) {
+        var me = d.me || {}, wb = document.querySelector('.wb'), box = el('div', 'wb-me');
+        if (me.status === 'wait') { box.appendChild(el('p', 'wait', '✍️ ' + me.name + '님 이름을 받았습니다. 입금이 확인되면 여기서 불이 켜집니다.')); wb.appendChild(box); return; }
+        if (me.status !== 'ok') return;
+        var p = el('p'); p.appendChild(document.createTextNode('🎉 ' + me.name + '님, ')); p.appendChild(el('b', '', seatNo(me.no)));
+        p.appendChild(document.createTextNode('에 불이 켜졌습니다' + (me.no <= 100 ? ' — 창립 후원자입니다' : '')));
+        var share = el('button', '', '내 자리 자랑하기'); share.type = 'button';
+        share.onclick = function () {
+          var text = '정치탈탈 시민 본회의 ' + seatNo(me.no) + '에 제 불이 켜졌습니다. 정치인의 일, 시민이 지켜봅니다.', url = 'https://politaltal.com/supporters';
+          if (navigator.share) navigator.share({ title: '정치탈탈 후원자의 벽', text: text, url: url }).catch(function () {});
+          else if (navigator.clipboard) navigator.clipboard.writeText(text + ' ' + url).then(function () { share.textContent = '복사했어요 — 붙여넣어 자랑하세요'; });
+        };
+        box.appendChild(p); box.appendChild(share); wb.appendChild(box);
+        var paint = function () { if (cells[me.no - 1]) cells[me.no - 1].className = 'on me'; };
+        paint(); setTimeout(paint, 2600);
+      }).catch(function () {});
       fetch('/wall/list').then(function (r) { return r.json(); }).then(function (d) {
         var seats = (d.ok && d.seats) || [];
         if (!seats.length) return;
@@ -260,7 +334,11 @@
         for (var i = 0; i < lit; i++) { cells[i].className = i === lit - 1 ? 'on new' : 'on'; cells[i].style.animationDelay = (i * 18) + 'ms, ' + (1200 + i * 18) + 'ms'; }
         lamps.setAttribute('aria-label', '창립 후원자석 100석 중 ' + lit + '석 점등');
         document.getElementById('wbYes').textContent = n.toLocaleString('ko-KR');
-        document.getElementById('wbSeats').innerHTML = n < 100 ? '창립 후원자석 100석 중<br>' + n + '석에 불이 켜졌습니다' : '창립 후원자석 100석 마감<br>지금은 일반석이 채워지고 있습니다';
+        document.getElementById('wbSeats').innerHTML = n < 100 ? '창립 후원자석 100석 중<br><b>' + (100 - n) + '석 남았습니다</b>' : '창립 후원자석 100석 마감<br>지금은 일반석이 채워지고 있습니다';
+        var last = seats[n - 1], feed = document.getElementById('wbFeed');
+        feed.textContent = '🔔 ' + ago(last.at) + ' ';
+        feed.appendChild(el('b', '', last.name + '님이 ' + seatNo(last.no) + '에 불을 켰습니다'));
+        feed.hidden = false;
         var plates = document.getElementById('plates'), book = document.getElementById('book');
         seats.forEach(function (s) {
           var p = el('article', 'plate'), no = el('div', 'p-no', seatNo(s.no) + ' ');
@@ -269,8 +347,11 @@
         });
         var max = +(book.getAttribute('data-max') || 0), msgs = seats.filter(function (s) { return s.msg; }).reverse();
         (max ? msgs.slice(0, max) : msgs).forEach(function (s) {
-          var b = el('blockquote', 'bk'); b.appendChild(el('p', '', '“' + s.msg + '”'));
-          b.appendChild(el('footer', '', s.name + ' · ' + seatNo(s.no) + (s.no <= 100 ? ' · 창립 후원자' : '')));
+          var b = el('blockquote', 'bk'), f = el('footer');
+          b.appendChild(mark(s.msg));
+          f.appendChild(el('b', '', s.name)); f.appendChild(document.createTextNode(' · '));
+          f.appendChild(el('i', '', seatNo(s.no))); if (s.no <= 100) f.appendChild(document.createTextNode(' · 창립 후원자'));
+          b.appendChild(f);
           book.appendChild(b);
         });
         document.getElementById('wallPlates').hidden = false;
@@ -333,17 +414,24 @@
           </div>
         </div>
         <div class="source-note" style="margin-top:12px;">
-          카카오페이·계좌이체는 수수료 없이 그대로 전달됩니다. 카카오페이는 앱 자동 실행, 계좌이체는 카드 탭 시 복사됩니다.<br>※ 후원금은 기부금 영수증 발급(세액공제) 대상이 아닙니다.
+          카카오페이·계좌이체는 수수료 없이 그대로 전달됩니다. 카카오페이는 앱 자동 실행, 계좌이체는 카드 탭 시 복사됩니다.<br>※ 후원금은 기부금 영수증 발급(세액공제) 대상이 아닙니다.<br>
+          ⚠️ <strong>정치탈탈 서비스 운영</strong>을 위한 후원이며, <strong>특정 정당·후보·정치인에 대한 정치자금이 아닙니다</strong>.
         </div>
       </div>
 
       <div class="stat-card web-only" id="cardPay" hidden>
-        <h2>💳 카드로 후원</h2>
+        <h2>💳 카드로 후원 · 매달 정기 후원</h2>
         <p class="source-note" style="margin:0 0 14px;">
           신용·체크카드 모두 됩니다. 결제는 페이앱이 처리하고, 카드 명세서에는 운영사 <strong>코코요</strong>로 찍힙니다.
         </p>
+        <p id="rebillNow" class="sign-msg" style="margin:0 0 14px;" hidden></p>
         <form id="cardForm" class="sign-form">
-          <div class="amt-chips" role="radiogroup" aria-label="후원 금액">
+          <div class="amt-chips" id="payKind" role="radiogroup" aria-label="후원 방식">
+            <button type="button" role="radio" aria-checked="true" data-k="">한 번</button>
+            <button type="button" role="radio" aria-checked="false" data-k="1">매달 정기 후원</button>
+          </div>
+          <p id="kindNote" class="source-note" style="margin:-4px 0 0;" hidden>매달 오늘 날짜에 같은 금액이 카드로 자동 결제됩니다(29~31일이면 28일). 이 페이지에서 언제든 해지할 수 있어요.</p>
+          <div class="amt-chips" id="amtChips" role="radiogroup" aria-label="후원 금액">
             <button type="button" role="radio" aria-checked="true" data-v="5000">☕ 5,000원</button>
             <button type="button" role="radio" aria-checked="false" data-v="10000">🍱 1만 원</button>
             <button type="button" role="radio" aria-checked="false" data-v="30000">🖥 3만 원</button>
@@ -353,7 +441,7 @@
             <input name="amount" inputmode="numeric" maxlength="9" placeholder="1,000원부터 100만 원까지"></label>
           <label>휴대폰 번호
             <input name="phone" type="tel" inputmode="numeric" maxlength="13" required placeholder="결제대행사에만 전달, 저장하지 않습니다" autocomplete="tel"></label>
-          <button type="submit">카드로 후원하기</button>
+          <button type="submit" id="cardGo">카드로 후원하기</button>
         </form>
         <p id="cardMsg" class="sign-msg" role="status"></p>
       </div>
@@ -362,7 +450,34 @@
         var box = document.getElementById('cardPay');
         fetch('/pay/on').then(function (r) { return r.json(); }).then(function (d) { if (d.on) box.hidden = false; }).catch(function () {});
         var f = document.getElementById('cardForm'), out = document.getElementById('cardMsg'), own = document.getElementById('amtOwn');
-        var chips = [].slice.call(f.querySelectorAll('.amt-chips button')), amt = 5000;
+        var chips = [].slice.call(f.querySelectorAll('#amtChips button')), amt = 5000, monthly = false;
+        var kinds = [].slice.call(f.querySelectorAll('#payKind button'));
+        kinds.forEach(function (b) {
+          b.addEventListener('click', function () {
+            kinds.forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); });
+            monthly = !!b.dataset.k;
+            document.getElementById('kindNote').hidden = !monthly;
+            document.getElementById('cardGo').textContent = monthly ? '매달 후원 시작하기' : '카드로 후원하기';
+          });
+        });
+        /* 이 기기에서 시작한 정기 후원 — 결제 코드가 곧 해지 열쇠(서버엔 카드·이름 없음) */
+        var LS = function (k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || 'null'); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } };
+        var q = new URLSearchParams(location.search), back = (q.get('paid') || '').toUpperCase(), tried = LS('pt_rebill_try');
+        if (q.get('m') && tried && tried.code === back) { LS('pt_rebill', tried); LS('pt_rebill_try', null); }
+        var mine = LS('pt_rebill'), now = document.getElementById('rebillNow');
+        if (mine) {
+          now.textContent = '💛 이 기기에서 매달 ' + mine.amount.toLocaleString('ko-KR') + '원 정기 후원 중입니다. ';
+          var stop = document.createElement('button'); stop.type = 'button'; stop.style.cssText = 'background:none;border:0;padding:0;color:inherit;font:inherit;font-weight:800;text-decoration:underline;cursor:pointer'; stop.textContent = '정기 후원 해지';
+          stop.onclick = function () {
+            if (!confirm('다음 달부터 결제가 멈춥니다. 해지할까요?')) return;
+            stop.disabled = true;
+            fetch('/pay/stop', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: mine.code }) })
+              .then(function (r) { return r.json(); })
+              .then(function (d) { if (d.ok) { LS('pt_rebill', null); now.textContent = '정기 후원을 해지했습니다. 그동안 고맙습니다.'; } else { stop.disabled = false; alert('해지하지 못했습니다. 잠시 뒤 다시 눌러 주세요.'); } })
+              .catch(function () { stop.disabled = false; });
+          };
+          now.appendChild(stop); now.hidden = false;
+        }
         chips.forEach(function (b) {
           b.addEventListener('click', function () {
             chips.forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); });
@@ -375,10 +490,10 @@
           var a = amt || Number(String(f.amount.value).replace(/\D/g, '')), btn = f.querySelector('button[type=submit]');
           if (!(a >= 1000 && a <= 1000000)) { out.textContent = '금액은 1,000원부터 100만 원까지 됩니다.'; return; }
           btn.disabled = true; out.textContent = '결제창을 여는 중…';
-          fetch('/pay/card', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ amount: a, phone: f.phone.value }) })
+          fetch('/pay/card', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ amount: a, phone: f.phone.value, monthly: monthly }) })
             .then(function (r) { return r.json(); })
             .then(function (d) {
-              if (d.ok) { location.href = d.payurl; return; }
+              if (d.ok) { if (monthly) LS('pt_rebill_try', { code: d.code, amount: a }); location.href = d.payurl; return; }
               btn.disabled = false;
               out.textContent = d.error === 'invalid' ? '휴대폰 번호를 확인해 주세요.' : d.error === 'busy' ? '지금은 결제 요청이 밀려 있습니다. 잠시 뒤 다시 눌러 주세요.' : '결제창을 열지 못했습니다. 잠시 뒤 다시 눌러 주세요.';
             })
@@ -474,7 +589,9 @@
         if (!/^[A-Z2-9]{8}$/.test(code)) return;
         document.getElementById('signForm').payer.value = '카드 ' + code;
         document.getElementById('payerRow').hidden = true;
-        document.getElementById('paidNote').hidden = false;
+        var pn = document.getElementById('paidNote');
+        if (new URLSearchParams(location.search).get('m')) pn.textContent = '🎉 매달 정기 후원 고맙습니다! 이름을 남기시면 후원자의 벽에 올라갑니다.';
+        pn.hidden = false;
         document.getElementById('sign').scrollIntoView();
       })();
       document.getElementById('signForm').addEventListener('submit', function (ev) {
@@ -485,7 +602,10 @@
           body: JSON.stringify({ name: f.name.value, msg: f.msg.value, payer: f.payer.value, hp: f.hp.value }) })
           .then(function (r) { return r.json(); })
           .then(function (d) {
-            if (d.ok) { f.hidden = true; out.textContent = '이름을 받았습니다. 입금이 확인되면 후원자의 벽에 올라갑니다(보통 하루 이내).'; return; }
+            if (d.ok) {
+              try { if (d.tok) localStorage.setItem('pt_sup', d.tok); } catch (e) {}
+              f.hidden = true; out.textContent = '이름을 받았습니다. 입금이 확인되면 후원자의 벽에 올라갑니다(보통 하루 이내). 이 기기로 다시 오면 맨 위에서 내 자리를 확인할 수 있어요.'; return;
+            }
             btn.disabled = false;
             out.textContent = d.error === 'busy' ? '지금은 접수가 밀려 있습니다. 잠시 뒤 다시 남겨 주세요.' : '벽에 올릴 이름과 입금자명을 적어 주세요.';
           })
@@ -493,20 +613,6 @@
       });
       </script>
 
-      <div class="stat-card web-only">
-        <h2>🎨 정기 후원 (준비 중)</h2>
-        <div class="donate-options" style="grid-template-columns:1fr;">
-          <div class="donate-card soon">
-            <div class="donate-icon">🎁</div>
-            <h4>포스타입 정기 후원</h4>
-            <p>매월 자동 후원 + 멤버십 콘텐츠<br>(준비 중)</p>
-          </div>
-        </div>
-        <div class="source-note" style="margin-top:12px;">
-          ⚠️ 본 후원은 <strong>정치탈탈 서비스 운영</strong>을 위한 것이며,
-          <strong>특정 정당·후보·정치인에 대한 정치자금이 아닙니다</strong>. (정치자금법 무관)
-        </div>
-      </div>
 
       <div class="stat-card">
         <h2>🎯 후원금 사용처 (투명 공개 예정)</h2>
