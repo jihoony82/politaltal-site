@@ -36,7 +36,15 @@
     [].forEach.call(document.querySelectorAll(".war-pick [data-team]"), function (b) { b.setAttribute("aria-pressed", b.dataset.team === t ? "true" : "false"); });
   }
   document.addEventListener("pt-team", paint);
-  window.PTW = { T: T, team: get, pick: pick, fire: fire };
+  // 앱 인앱결제 거래를 서버에 넘겨 화력으로 — 애플은 서명된 거래(JWS), 구글은 구매 토큰. 서버가 스토어 서명·조회로 확인한다
+  var iap = function (t, pid, team) {
+    var ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
+    return fetch("/war/iap", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(ios
+      ? { platform: "ios", productId: pid, team: team, jws: t && t.jwsRepresentation }
+      : { platform: "android", productId: pid, team: team, purchaseToken: t && t.purchaseToken }) })
+      .then(function (r) { return r.json(); }).catch(function () { return {}; });
+  };
+  window.PTW = { T: T, team: get, pick: pick, fire: fire, iap: iap };
 
   function gauge() {                                   /* 홈 맨 위: 오늘의 화력 */
     var box = document.getElementById("warBox");

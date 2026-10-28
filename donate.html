@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:true,android:true},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(/^[/](community|post|login|fire|data([.]html)?$)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency|supporters)/.test(location.pathname)))location.replace('/');}</script>
+  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:true,android:true},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(/^[/](community|post|login|data([.]html)?$)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency|supporters)/.test(location.pathname)))location.replace('/');}</script>
   <title>후원하기 - 정치탈탈</title>
   <meta name="description" content="정치탈탈은 광고 없이 시민 후원으로 운영되는 정치 데이터 플랫폼입니다. 커피 한 잔의 후원으로 응원해주세요.">
   <meta name="keywords" content="정치탈탈,국회의원,의정활동,출석률,발의 법안,표결,재산공개,지역구,공공데이터,22대 국회,국회의원 검색,내 지역구 의원">
@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="정치탈탈은 광고 없이 시민 후원으로 운영되는 정치 데이터 플랫폼입니다. 커피 한 잔의 후원으로 응원해주세요.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281814">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281814">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281814">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281814">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281846">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281846">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281846">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281846">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610281814">
+  <link rel="stylesheet" href="/styles.css?v=202610281846">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610281814">
+  <link rel="manifest" href="/manifest.json?v=202610281846">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610281814">
+  <meta name="build-id" content="202610281846">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -446,6 +446,7 @@
           </button>
         </div>
         <div class="source-note" id="iapNote" style="margin-top:12px;">
+          응원하면 내 성향(진보·중도·보수) 화력이 +100 올라갑니다.
           결제는 스토어(App Store·Google Play)를 통해 안전하게 처리됩니다. 응원은 정치탈탈 서비스 운영에만 쓰이며,
           특정 정당·후보·정치인에 대한 정치자금이 아닙니다. 기부금 영수증 발급 대상이 아닙니다.
         </div>
@@ -615,7 +616,12 @@
               if (b.dataset.busy || !b.dataset.ready) return;
               b.dataset.busy = '1';
               NP.purchaseProduct({ productIdentifier: b.dataset.pid, productType: 'inapp', quantity: 1, isConsumable: true })
-                .then(function() { showToast('고맙습니다! 응원이 전달됐어요 🙏'); })
+                .then(function(t) {
+                  var pid = b.dataset.pid, go = function(me) {
+                    PTW.iap(t, pid, me).then(function(d) { showToast(d.ok ? '고맙습니다! ' + PTW.T[me].dot + ' ' + PTW.T[me].name + ' 화력 +100 🙏' : '고맙습니다! 응원이 전달됐어요 🙏'); });
+                  };
+                  if (PTW.team()) go(PTW.team()); else { showToast('고맙습니다! 응원이 전달됐어요 🙏'); PTW.pick(go); }
+                })
                 .catch(function() {})          /* 취소·실패는 조용히 */
                 .then(function() { delete b.dataset.busy; });
             });
@@ -813,6 +819,6 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202610281814" defer></script>
+  <script src="/war.js?v=202610281846" defer></script>
 </body>
 </html>

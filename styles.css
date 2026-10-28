@@ -2907,6 +2907,7 @@ a.post-card .post-cta {
 /* 앱(웹뷰) 전용/웹 전용 — <html class="in-app"> 는 page() 머리의 UA 스크립트가 붙임 */
 .app-only { display: none; }
 .in-app .app-only { display: block; }
+.in-app li.app-only { display: list-item; }
 .in-app .web-only { display: none !important; }
 .in-app a[href^="/community"], .in-app a[href^="/post.html"], .in-app a[href^="/login"] { display: none !important; }
 /* 앱 심사 3.1.1·3.1.3(g)(10-16 반려): 앱 안에서 광고 게재 판매(의원실 이야기 광고 단가표)·유료 데이터 문의를 보이지 않는다 */

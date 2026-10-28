@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:true,android:true},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(/^[/](community|post|login|fire|data([.]html)?$)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency|supporters)/.test(location.pathname)))location.replace('/');}</script>
+  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:true,android:true},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(/^[/](community|post|login|data([.]html)?$)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency|supporters)/.test(location.pathname)))location.replace('/');}</script>
   <title>화력 지원 — 내 성향에 화력을 | 정치탈탈</title>
   <meta name="description" content="정치탈탈 전장 게임 아이템. 내 성향(진보·중도·보수)에 화력을 보탭니다. 수익은 운영비로, 후원금과 별도입니다.">
   <meta name="keywords" content="정치탈탈,국회의원,의정활동,출석률,발의 법안,표결,재산공개,지역구,공공데이터,22대 국회,국회의원 검색,내 지역구 의원">
@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="정치탈탈 전장 게임 아이템. 내 성향(진보·중도·보수)에 화력을 보탭니다. 수익은 운영비로, 후원금과 별도입니다.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281814">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281814">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281814">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281814">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281846">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281846">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281846">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281846">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610281814">
+  <link rel="stylesheet" href="/styles.css?v=202610281846">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610281814">
+  <link rel="manifest" href="/manifest.json?v=202610281846">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610281814">
+  <meta name="build-id" content="202610281846">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -186,7 +186,7 @@
       <div class="section-title">🔥 화력 지원</div>
       <div class="section-sub">내 성향에 화력을 한 번에 크게 보탭니다</div>
       
-      <div class="stat-card" id="fireShop" hidden>
+      <div class="stat-card web-only" id="fireShop" hidden>
         <p class="fire-team"><span id="fireTeam">먼저 내 성향을 골라 주세요</span> <button type="button" id="fireChange">바꾸기</button></p>
         <form id="fireForm" class="sign-form">
           <div class="amt-chips" id="packs" role="radiogroup" aria-label="화력 크기" style="grid-template-columns:repeat(3,1fr);">
@@ -200,14 +200,24 @@
         </form>
         <p id="fireMsg" class="sign-msg" role="status"></p>
       </div>
-      <div class="stat-card" id="fireOff" style="text-align:center;" hidden>화력 지원 결제를 준비 중입니다.</div>
+      <div class="stat-card web-only" id="fireOff" style="text-align:center;" hidden>화력 지원 결제를 준비 중입니다.</div>
+      <div class="stat-card app-only">
+        <p class="fire-team"><span id="fireTeamA">먼저 내 성향을 골라 주세요</span> <button type="button" id="fireChangeA">바꾸기</button></p>
+        <div class="sign-form"><div class="amt-chips" style="grid-template-columns:repeat(3,1fr);">
+          <button type="button" class="fire-iap" data-pid="com.politaltal.fire.small">🔥 +100<br><small class="iap-price">&nbsp;</small></button>
+          <button type="button" class="fire-iap" data-pid="com.politaltal.fire.medium">🔥🔥 +600<br><small class="iap-price">&nbsp;</small></button>
+          <button type="button" class="fire-iap" data-pid="com.politaltal.fire.large">💥 +1,500<br><small class="iap-price">&nbsp;</small></button>
+        </div></div>
+        <p id="fireMsgA" class="sign-msg" role="status"></p>
+      </div>
       <div class="stat-card fire-note">
         <h2>알아 두세요</h2>
         <ul>
           <li>화력 지원은 <strong>게임 아이템</strong>입니다. 오늘의 화력(참여 점수)에 바로 더해지며, 여론조사가 아닙니다.</li>
-          <li>결제 금액은 <strong>정치탈탈 운영 수익</strong>(서버·데이터 운영비)입니다. <strong>후원과 다릅니다</strong> — 후원금은 전액 국민을 위한 좋은 일에 씁니다. <a href="/donate.html">후원하기</a></li>
-          <li>화력은 결제한 날(0시 기준) 점수판에 들어갑니다. 결제를 취소하면 화력도 빠집니다.</li>
-          <li>카드 명세서에는 운영사 <strong>코코요</strong>로 찍힙니다. 어느 정당·정치인에게도 가지 않습니다.</li>
+          <li>결제 금액은 <strong>정치탈탈 운영 수익</strong>(서버·데이터 운영비)입니다. 어느 정당·정치인에게도 가지 않습니다.</li>
+          <li>화력은 결제한 날(0시 기준) 점수판에 들어갑니다.</li>
+          <li class="web-only">후원과 다릅니다 — 후원금은 전액 국민을 위한 좋은 일에 씁니다. 결제를 취소하면 화력도 빠지고, 카드 명세서에는 운영사 <strong>코코요</strong>로 찍힙니다.</li>
+          <li class="app-only">결제는 App Store·Google Play를 통해 처리됩니다.</li>
         </ul>
       </div>
     </div>
@@ -219,9 +229,42 @@
     .fire-note ul { margin: 6px 0 0; padding-left: 18px; font-size: 13.5px; line-height: 1.8; }
     </style>
     <script>
+    document.addEventListener("DOMContentLoaded", function () {    /* 앱: 스토어 인앱결제(소모성) → 서버가 거래 확인 뒤 화력 */
+      if (!document.documentElement.classList.contains("in-app")) return;
+      var Cap = window.Capacitor, NP = Cap && Cap.Plugins && Cap.Plugins.NativePurchases, out = document.getElementById("fireMsgA");
+      var btns = [].slice.call(document.querySelectorAll(".fire-iap"));
+      var team = function () { var me = PTW.team(); document.getElementById("fireTeamA").textContent = me ? "내 성향: " + PTW.T[me].dot + " " + PTW.T[me].name : "먼저 내 성향을 골라 주세요"; };
+      document.getElementById("fireChangeA").onclick = function () { PTW.pick(team); };
+      document.addEventListener("pt-team", team); team();
+      var off = function (msg) { btns.forEach(function (b) { b.style.display = "none"; }); out.textContent = msg; };
+      if (!NP) { off("앱을 최신 버전으로 업데이트하면 화력 지원을 이용할 수 있어요."); return; }
+      NP.getProducts({ productIdentifiers: btns.map(function (b) { return b.dataset.pid; }), productType: "inapp" }).then(function (r) {
+        (r.products || []).forEach(function (pr) {
+          var b = document.querySelector('.fire-iap[data-pid="' + pr.identifier + '"]');
+          if (b) { b.querySelector(".iap-price").textContent = pr.priceString; b.dataset.ready = "1"; }
+        });
+        if (!btns.some(function (b) { return b.dataset.ready; })) { off("화력 지원을 준비 중입니다. 곧 열려요."); return; }
+        btns.forEach(function (b) { if (!b.dataset.ready) b.style.display = "none"; });
+      }).catch(function () { off("스토어에 연결하지 못했어요. 잠시 후 다시 시도해 주세요."); });
+      btns.forEach(function (b) {
+        b.addEventListener("click", function () {
+          if (b.dataset.busy || !b.dataset.ready) return;
+          var me = PTW.team();
+          if (!me) { PTW.pick(function () { team(); out.textContent = "성향을 골랐어요. 한 번 더 눌러 주세요."; }); return; }
+          b.dataset.busy = "1"; out.textContent = "";
+          NP.purchaseProduct({ productIdentifier: b.dataset.pid, productType: "inapp", quantity: 1, isConsumable: true })
+            .then(function (t) { return PTW.iap(t, b.dataset.pid, me); })
+            .then(function (d) {
+              out.textContent = d.ok ? "🔥 " + PTW.T[me].name + "에 화력 +" + d.n + " 투입!" : d.dup ? "이미 반영된 결제예요." : "결제는 됐는데 화력 반영이 늦어지고 있어요. 문의: jihoony8282@naver.com";
+            })
+            .catch(function () {})                                /* 취소는 조용히 */
+            .then(function () { delete b.dataset.busy; });
+        });
+      });
+    });
     document.addEventListener("DOMContentLoaded", function () {
       var box = document.getElementById("fireShop");
-      if (!box) return;
+      if (!box || document.documentElement.classList.contains("in-app")) return;
       var f = document.getElementById("fireForm"), out = document.getElementById("fireMsg"), pack = "f1";
       var team = function () { var me = PTW.team(); document.getElementById("fireTeam").textContent = me ? "내 성향: " + PTW.T[me].dot + " " + PTW.T[me].name : "먼저 내 성향을 골라 주세요"; };
       fetch("/pay/on").then(function (r) { return r.json(); }).then(function (d) {
@@ -363,6 +406,6 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202610281814" defer></script>
+  <script src="/war.js?v=202610281846" defer></script>
 </body>
 </html>
