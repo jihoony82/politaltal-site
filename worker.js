@@ -395,6 +395,8 @@ async function wallReady(env) {
   await env.PUSH_DB.prepare("ALTER TABLE wall ADD COLUMN phone TEXT NOT NULL DEFAULT ''").run().catch(() => {});  // 문자 받기 동의한 사람만, 숫자만
   await env.PUSH_DB.prepare("ALTER TABLE wall ADD COLUMN sms_ok INTEGER NOT NULL DEFAULT 0").run().catch(() => {});
   await env.PUSH_DB.prepare("ALTER TABLE wall ADD COLUMN thanked INTEGER NOT NULL DEFAULT 0").run().catch(() => {});
+  await env.PUSH_DB.prepare("ALTER TABLE wall ADD COLUMN reply TEXT NOT NULL DEFAULT ''").run().catch(() => {});   // 운영자 답글(방명록 아래 공개)
+  await env.PUSH_DB.prepare("ALTER TABLE wall ADD COLUMN claim TEXT NOT NULL DEFAULT ''").run().catch(() => {});   // 한 번 쓰는 '내 자리' 링크 코드
   await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS sms_log (blast TEXT NOT NULL, wid INTEGER NOT NULL, at INTEGER NOT NULL, ok INTEGER NOT NULL, PRIMARY KEY (blast, wid))");
   WALL_READY = true;
 }
@@ -455,8 +457,8 @@ async function wallSeat(env, tok) {
 }
 const wallText = (v, max) => String(v || "").replace(/[\u0000-\u001f<>]/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
 const wallPublic = (env) => env.PUSH_DB.prepare(
-  "SELECT name, msg, team, approved_at FROM wall WHERE status = 'ok' ORDER BY approved_at, id LIMIT 500").all()
-  .then((r) => r.results.map((x, i) => ({ no: i + 1, name: x.name, msg: x.msg, team: x.team, at: x.approved_at, day: new Date(x.approved_at + 9 * 3600e3).toISOString().slice(0, 10) })));
+  "SELECT name, msg, team, reply, approved_at FROM wall WHERE status = 'ok' ORDER BY approved_at, id LIMIT 500").all()
+  .then((r) => r.results.map((x, i) => ({ no: i + 1, name: x.name, msg: x.msg, team: x.team, reply: x.reply, at: x.approved_at, day: new Date(x.approved_at + 9 * 3600e3).toISOString().slice(0, 10) })));
 
 async function handleWall(request, env, url) {
   if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
@@ -478,6 +480,16 @@ async function handleWall(request, env, url) {
       '<body style="font-family:system-ui,sans-serif;text-align:center;padding:60px 20px;color:#0a2540"><h1 style="font-size:22px">문자 수신을 끊었습니다</h1>' +
       '<p style="line-height:1.7">남겨 주신 번호는 지웠습니다. 후원자의 벽 자리는 그대로 있어요.<br>그동안 함께해 주셔서 고맙습니다.</p><p><a href="/supporters">후원자의 벽 보기</a></p></body>',
       { headers: { "content-type": "text/html; charset=utf-8" } });
+  }
+  if (path === "/wall/claim" && request.method === "POST") {     // 한 번 쓰는 '내 자리' 링크 → 이 기기에 자리 토큰을 준다(공개 답글에 붙여도 한 사람만)
+    if (request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
+    const b = await request.json().catch(() => ({}));
+    const c = String(b.c || "");
+    const w = /^[a-f0-9]{12}$/.test(c) && await env.PUSH_DB.prepare("SELECT id FROM wall WHERE claim = ?").bind(c).first();
+    if (!w) return pj({ ok: false, error: "used" }, 404);
+    const tok = await wallTok(env, w.id);
+    await env.PUSH_DB.prepare("UPDATE wall SET claim = '' WHERE id = ?").bind(w.id).run();
+    return pj({ ok: true, tok });
   }
   if (path === "/wall/team" && request.method === "POST") {      // 내 자리 불 색(성향) — 처음 고를 때 그 성향 화력 +100
     if (request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
@@ -707,7 +719,7 @@ async function handleLedger(request, env, url) {
     }
     if (body.op === "wall_list") {
       await wallReady(env);
-      const { results } = await env.PUSH_DB.prepare("SELECT id, name, msg, payer, status, created_at, team, sms_ok, thanked FROM wall ORDER BY status DESC, id DESC LIMIT 800").all();
+      const { results } = await env.PUSH_DB.prepare("SELECT id, name, msg, payer, status, created_at, team, sms_ok, thanked, reply FROM wall ORDER BY status DESC, id DESC LIMIT 800").all();
       return pj({ ok: true, rows: results });
     }
     if ((body.op === "wall_ok" || body.op === "wall_del") && Number.isInteger(body.id)) {
@@ -730,8 +742,15 @@ async function handleLedger(request, env, url) {
     }
     if (body.op === "wall_link" && Number.isInteger(body.id)) {      // 자리 링크(색 고르기용) — 연락처가 없는 후원자에게 대표가 직접 보낸다
       await wallReady(env);
-      const tok = await wallTok(env, body.id);
-      return tok ? pj({ ok: true, claim: `https://politaltal.com/supporters?claim=${tok}` }) : pj({ ok: false, error: "not found" }, 404);
+      if (!(await wallTok(env, body.id))) return pj({ ok: false, error: "not found" }, 404);
+      const c = [...crypto.getRandomValues(new Uint8Array(6))].map((x) => x.toString(16).padStart(2, "0")).join("");   // 새로 만들면 예전 링크는 무효
+      await env.PUSH_DB.prepare("UPDATE wall SET claim = ? WHERE id = ?").bind(c, body.id).run();
+      return pj({ ok: true, claim: `https://politaltal.com/supporters?claim=${c}` });
+    }
+    if (body.op === "wall_reply" && Number.isInteger(body.id) && typeof body.text === "string") {   // 방명록 운영자 답글(빈 글 = 지우기)
+      await wallReady(env);
+      await env.PUSH_DB.prepare("UPDATE wall SET reply = ? WHERE id = ?").bind(body.text.replace(/\s+/g, " ").trim().slice(0, 500), body.id).run();
+      return pj({ ok: true });
     }
     if (body.op === "sms_status") {
       await wallReady(env);
