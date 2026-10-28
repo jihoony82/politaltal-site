@@ -23,7 +23,8 @@
   function post(text, parent, button, out, done) {
     button.disabled = true; out.textContent = "";
     var sup = ""; try { sup = localStorage.getItem("pt_sup") || ""; } catch (e) {}   /* 후원자의 벽에 이름을 남긴 기기 — 승인됐으면 배지 */
-    send("/pc/post", { t: T, body: text, parent: parent, hp: form.hp.value, sup: sup }).then(function (d) {
+    var team = (window.PTW && PTW.team()) || "";                                     /* 내 편 색으로 댓글 테두리 + 진영 화력 +2 */
+    send("/pc/post", { t: T, body: text, parent: parent, hp: form.hp.value, sup: sup, team: team }).then(function (d) {
       button.disabled = false;
       if (!d.ok) { out.textContent = ERR[d.error] || "올리지 못했습니다. 다시 시도해 주세요."; return; }
       if (parent) { (kids[parent] = kids[parent] || []).push(d.row); shown[parent] = true; } else tops.unshift(d.row);
@@ -32,8 +33,8 @@
   }
 
   function item(r, isReply) {
-    var it = el("div", isReply ? "pc-item pc-reply" : "pc-item"), acts = el("div", "pc-acts"), n = (kids[r.id] || []).length;
-    var meta = el("div", "pc-meta", r.nick);
+    var it = el("div", (isReply ? "pc-item pc-reply" : "pc-item") + (r.team ? " t-" + r.team : "")), acts = el("div", "pc-acts"), n = (kids[r.id] || []).length;
+    var meta = el("div", "pc-meta", ({ b: "🔵 ", w: "⚪ ", r: "🔴 " }[r.team] || "") + r.nick);
     if (r.badge) { var bd = el("a", "pc-sup", r.badge <= 100 ? "☕ 창립 후원자" : "☕ 후원자"); bd.href = "/supporters.html"; bd.title = "후원자의 벽 제" + r.badge + "석"; meta.appendChild(bd); }
     meta.appendChild(document.createTextNode("· " + ago(r.at)));
     it.appendChild(meta);

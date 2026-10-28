@@ -42,6 +42,70 @@ img, video { height: auto; }
 
 .container { max-width: 720px; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-right)) 0 max(20px, env(safe-area-inset-left)); }
 
+/* ─── 정치 전장: 파랑 | 하양(중립) | 빨강 사선 — 들어오자마자 '편이 갈린 싸움터'로 보이게 ─── */
+:root { --war-b: #1d4ed8; --war-r: #dc2626; }
+body { background: linear-gradient(115deg, #dce6ff 0%, #f1f5ff 36%, #ffffff 50%, #fff3f3 64%, #ffdede 100%) fixed; }
+.fundraiser-bar { background: linear-gradient(115deg, #d3e0ff 0%, #edf2ff 40%, #ffffff 50%, #ffefef 60%, #ffd6d6 100%); }
+.app-header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 4px; pointer-events: none;
+  background: linear-gradient(90deg, var(--war-b) 0%, var(--war-b) 42%, #fff 50%, var(--war-r) 58%, var(--war-r) 100%); }
+.war-chip { border: 2px solid #94a3b8; background: #fff; color: var(--color-primary); border-radius: 999px; font-size: 12px; font-weight: 900;
+  padding: 5px 10px; cursor: pointer; white-space: nowrap; font-family: inherit; }
+.war-chip.t-b { border-color: var(--war-b); color: var(--war-b); } .war-chip.t-r { border-color: var(--war-r); color: var(--war-r); }
+.war-pick { display: flex; gap: 8px; justify-content: center; }
+.war-pick button { flex: 1; max-width: 128px; border: 2px solid #fff; border-radius: 12px; padding: 11px 6px; font: 900 15px/1 inherit; cursor: pointer; }
+.war-pick [data-team="b"] { background: var(--war-b); color: #fff; } .war-pick [data-team="r"] { background: var(--war-r); color: #fff; }
+.war-pick [data-team="w"] { background: #fff; color: var(--color-primary); border-color: #cbd5e1; }
+.war-pick button[aria-pressed="true"] { box-shadow: 0 0 0 3px #facc15; transform: scale(1.05); }
+.war-sheet { position: fixed; inset: 0; z-index: 2000; background: rgba(10,37,64,.55); display: flex; align-items: flex-end; justify-content: center; }
+.war-sheet[hidden] { display: none; }
+.wsh-card { background: #fff; width: 100%; max-width: 480px; border-radius: 20px 20px 0 0; padding: 22px 18px calc(18px + env(safe-area-inset-bottom)); text-align: center; }
+.wsh-h { font-size: 18px; font-weight: 900; margin: 0 0 16px; color: var(--color-primary); }
+.wsh-fine { font-size: 12px; color: var(--color-text-soft); margin: 14px 0 6px; }
+.wsh-x { background: none; border: 0; font: 700 14px inherit; color: var(--color-text-soft); padding: 8px 16px; cursor: pointer; }
+/* 홈 맨 위 전장 */
+.hero.war { background: linear-gradient(115deg, rgba(29,78,216,.95) 0%, rgba(37,99,235,.88) 36%, rgba(255,255,255,.97) 48%, rgba(255,255,255,.97) 52%,
+  rgba(220,38,38,.88) 64%, rgba(185,28,28,.95) 100%), url('/videos/hero-city.jpg') center 50% / cover no-repeat; padding: 22px 0 26px; }
+.hero.war::before { display: none; }
+.war-title { text-align: center; margin-bottom: 14px; }
+.war-title b { display: inline-block; background: var(--color-primary); color: #fff; font-size: 19px; font-weight: 900; letter-spacing: -.4px;
+  padding: 9px 18px; border-radius: 999px; box-shadow: 0 6px 18px rgba(0,0,0,.25); }
+.war-title small { display: block; margin-top: 8px; font-size: 13px; font-weight: 800; color: var(--color-primary); }
+.war-score { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 6px; }
+.ws-side { color: #fff; text-align: center; text-shadow: 0 2px 8px rgba(0,0,0,.3); }
+.ws-side span { font-size: 13px; font-weight: 800; }
+.ws-side b { display: block; font-size: clamp(30px, 9vw, 44px); font-weight: 900; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.ws-mid { text-align: center; color: var(--color-primary); }
+.ws-mid .vs { font-size: 24px; font-weight: 900; font-style: italic; }
+.ws-mid small { display: block; font-size: 11.5px; font-weight: 800; white-space: nowrap; }
+.war-bar { display: flex; height: 14px; border-radius: 999px; overflow: hidden; margin: 12px 0 8px; background: #fff; box-shadow: 0 0 0 2px rgba(10,37,64,.35); }
+.war-bar i { display: block; flex: 1 1 0; transition: flex-grow .9s ease; }
+.war-bar .b { background: #1e3a8a; } .war-bar .w { background: #fff; } .war-bar .r { background: #991b1b; }
+.war-cap { text-align: center; margin: 0 auto 14px; font-size: 11px; font-weight: 700; color: var(--color-primary); background: rgba(255,255,255,.9);
+  border-radius: 10px; padding: 5px 10px; max-width: 460px; word-break: keep-all; }
+.war-acts { display: flex; gap: 8px; justify-content: center; margin: 14px 0 18px; flex-wrap: wrap; }
+.war-acts a { background: rgba(10,37,64,.88); color: #fff; font-size: 13.5px; font-weight: 800; padding: 10px 15px; border-radius: 999px; text-decoration: none; }
+.hero.war .hero-search-hints a, .hero.war .hero-search-hints span { background: rgba(10,37,64,.62); border-color: rgba(255,255,255,.3); color: #fff; }
+/* 정치인 페이지: 응원 · 팩트 폭탄 */
+.war-p { background: #fff; border-radius: 14px; padding: 14px; margin: 12px 0; box-shadow: var(--shadow-sm); border: 2px solid #e2e8f0; border-top-width: 6px; }
+.war-p.t-b { border-top-color: var(--war-b); } .war-p.t-r { border-top-color: var(--war-r); } .war-p.t-w { border-top-color: #cbd5e1; }
+.wp-head { font-size: 14px; font-weight: 800; margin-bottom: 10px; color: var(--color-primary); }
+.wp-acts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.wp-acts button { border: 0; border-radius: 12px; padding: 13px 8px; font: 900 15px/1.2 inherit; cursor: pointer; }
+.wp-acts button b { margin-left: 4px; font-variant-numeric: tabular-nums; }
+.wp-cheer { background: #eef2ff; color: var(--war-b); } .war-p.t-r .wp-cheer { background: #fef2f2; color: var(--war-r); } .war-p.t-w .wp-cheer { background: #f1f5f9; color: var(--color-primary); }
+.wp-bomb { background: var(--color-primary); color: #fff; }
+.wp-facts { display: grid; gap: 6px; margin-top: 8px; }
+.wp-facts[hidden] { display: none; }
+.wp-facts button { text-align: left; border: 1px dashed #94a3b8; background: #f8fafc; border-radius: 10px; padding: 11px 12px; font: 700 14px/1.4 inherit; cursor: pointer; color: var(--color-text); }
+.wp-msg { font-size: 13.5px; font-weight: 800; margin: 8px 0 0; min-height: 1em; color: var(--color-primary); }
+.wp-rule { font-size: 11px; color: var(--color-text-soft); margin: 6px 0 0; }
+.war-p.boom { animation: wpBoom .6s; }
+@keyframes wpBoom { 20% { transform: translateX(-6px) rotate(-1deg); } 40% { transform: translateX(6px) rotate(1deg); } 60% { transform: translateX(-4px); } }
+/* 진영 색 댓글 */
+.pc-item.t-b { border-left: 4px solid var(--war-b); padding-left: 10px; } .pc-item.t-r { border-left: 4px solid var(--war-r); padding-left: 10px; }
+.pc-item.t-w { border-left: 4px solid #cbd5e1; padding-left: 10px; }
+@media (prefers-reduced-motion: reduce) { .war-p.boom { animation: none; } .war-bar i { transition: none; } }
+
 /* ─── 헤더 ───────────────────────────────────────── */
 /* ── Hero 상단 카피 (홈 .hero 내부) ── */
 .hero-topline {
@@ -83,6 +147,7 @@ img, video { height: auto; }
   display: flex; flex-direction: column; justify-content: center;
 }
 .page-hero .ph-title {
+  text-shadow: 0 2px 10px rgba(0,0,0,.45);
   font-size: 28px; font-weight: 900; line-height: 1.3;
   letter-spacing: -.6px;
   text-shadow: 0 2px 12px rgba(0,0,0,.45);
@@ -1544,7 +1609,7 @@ section { padding: 32px 0; }
 .bd-dot-orange { background: #ff5e3a; }
 
 /* 워드클라우드 핵심 */
-.bigdata-cloud {
+.bigdata-cloud { overflow: hidden; /* 단어가 넘쳐 폰에서 페이지 전체가 옆으로 밀리던 것 */
   background: white;
   border-radius: 14px;
   padding: 24px 18px;
@@ -2203,6 +2268,9 @@ a:hover { text-decoration: underline; }
 @media (max-width: 420px) { .amt-chips { grid-template-columns: 1fr 1fr; } }
 .sign-form .amt-chips button { background: #fff; color: var(--color-text); border: 1px solid var(--color-border, #e2e8f0); padding: 12px 6px; font-size: 14px; font-weight: 700; }
 .sign-form .amt-chips button[aria-checked="true"] { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+.sign-form #teamChips button[data-t="b"][aria-checked="true"] { background: var(--war-b); border-color: var(--war-b); }
+.sign-form #teamChips button[data-t="r"][aria-checked="true"] { background: var(--war-r); border-color: var(--war-r); }
+.sign-team-h { font-size: 14px; font-weight: 700; }
 /* 올댓라이브 자사 광고 — 로고의 검정+빨강. 앱에서는 숨김(스토어에 '광고 없음'으로 신고) */
 .atl-ad .ad-content { background: linear-gradient(135deg, #f6f6f7 0%, #fff 60%); }
 .atl-ad .ad-brand { color: #e11d48; }

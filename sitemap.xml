@@ -134,6 +134,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://politaltal.com/game</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://politaltal.com/local/100153736</loc>
     <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>

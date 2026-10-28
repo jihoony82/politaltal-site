@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="정치탈탈은 광고 없이 시민 후원으로 운영되는 정치 데이터 플랫폼입니다. 커피 한 잔의 후원으로 응원해주세요.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281054">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281054">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281054">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281054">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281503">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281503">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281503">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281503">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610281054">
+  <link rel="stylesheet" href="/styles.css?v=202610281503">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610281054">
+  <link rel="manifest" href="/manifest.json?v=202610281503">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610281054">
+  <meta name="build-id" content="202610281503">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -127,6 +127,10 @@
   .wb-me b { color: var(--lamp); }
   .wb-me button { background: #fff; color: var(--board); border: 0; border-radius: 10px; font-weight: 800; font-size: 14px; padding: 10px 16px; cursor: pointer; }
   .wb-lamps span.me { background: #fff; box-shadow: 0 0 16px 4px rgba(233,196,106,1); }
+  .wb-lamps span.on.t-b { background: #3b82f6; box-shadow: 0 0 12px rgba(59,130,246,.85); }
+  .wb-lamps span.on.t-r { background: #ef4444; box-shadow: 0 0 12px rgba(239,68,68,.85); }
+  .wb-lamps span.on.t-w { background: #f8fafc; box-shadow: 0 0 12px rgba(255,255,255,.8); }
+  .plate.t-b { border-bottom-color: #3b82f6; } .plate.t-r { border-bottom-color: #ef4444; } .plate.t-w { border-bottom-color: #f8fafc; }
   .wall-empty { text-align: center; padding: 6px 8px 30px; color: var(--color-text-soft); font-size: 13.5px; line-height: 1.7; }
   .we-title { font-family: 'Noto Serif KR', serif; font-weight: 700; font-size: 19px; color: var(--color-text); margin: 0 0 6px; }
   .wall-how ol { margin: 8px 0 12px; padding-left: 20px; font-size: 13.5px; line-height: 1.9; }
@@ -324,14 +328,14 @@
           else if (navigator.clipboard) navigator.clipboard.writeText(text + ' ' + url).then(function () { share.textContent = '복사했어요 — 붙여넣어 자랑하세요'; });
         };
         box.appendChild(p); box.appendChild(share); wb.appendChild(box);
-        var paint = function () { if (cells[me.no - 1]) cells[me.no - 1].className = 'on me'; };
+        var paint = function () { if (cells[me.no - 1]) cells[me.no - 1].className += ' me'; };
         paint(); setTimeout(paint, 2600);
       }).catch(function () {});
       fetch('/wall/list').then(function (r) { return r.json(); }).then(function (d) {
         var seats = (d.ok && d.seats) || [];
         if (!seats.length) return;
         var n = seats.length, lit = Math.min(n, 100);
-        for (var i = 0; i < lit; i++) { cells[i].className = i === lit - 1 ? 'on new' : 'on'; cells[i].style.animationDelay = (i * 18) + 'ms, ' + (1200 + i * 18) + 'ms'; }
+        for (var i = 0; i < lit; i++) { cells[i].className = (i === lit - 1 ? 'on new' : 'on') + (seats[i].team ? ' t-' + seats[i].team : ''); cells[i].style.animationDelay = (i * 18) + 'ms, ' + (1200 + i * 18) + 'ms'; }
         lamps.setAttribute('aria-label', '창립 후원자석 100석 중 ' + lit + '석 점등');
         document.getElementById('wbYes').textContent = n.toLocaleString('ko-KR');
         document.getElementById('wbSeats').innerHTML = n < 100 ? '창립 후원자석 100석 중<br><b>' + (100 - n) + '석 남았습니다</b>' : '창립 후원자석 100석 마감<br>지금은 일반석이 채워지고 있습니다';
@@ -341,7 +345,7 @@
         feed.hidden = false;
         var plates = document.getElementById('plates'), book = document.getElementById('book');
         seats.forEach(function (s) {
-          var p = el('article', 'plate'), no = el('div', 'p-no', seatNo(s.no) + ' ');
+          var p = el('article', 'plate' + (s.team ? ' t-' + s.team : '')), no = el('div', 'p-no', seatNo(s.no) + ' ');
           if (s.no <= 100) no.appendChild(el('em', '', '창립'));
           p.appendChild(no); p.appendChild(el('div', s.name.length > 9 ? 'p-name long' : 'p-name', s.name)); plates.appendChild(p);
         });
@@ -351,6 +355,7 @@
           b.appendChild(mark(s.msg));
           f.appendChild(el('b', '', s.name)); f.appendChild(document.createTextNode(' · '));
           f.appendChild(el('i', '', seatNo(s.no))); if (s.no <= 100) f.appendChild(document.createTextNode(' · 창립 후원자'));
+          if (s.team) f.appendChild(document.createTextNode(' · ' + { b: '🔵 파랑 진영', w: '⚪ 중립', r: '🔴 빨강 진영' }[s.team]));
           b.appendChild(f);
           book.appendChild(b);
         });
@@ -363,6 +368,10 @@
 
       <div class="stat-card">
         <h2>💌 왜 후원이 필요한가요?</h2>
+        <p style="font-size:15px;line-height:1.7;color:var(--color-text);background:#fff7d6;border-radius:10px;padding:12px 14px;margin:0 0 12px;">
+          <strong>어느 편이 이기든, 모인 돈은 편을 가르지 않습니다.</strong><br>
+          후원금은 어느 정당·정치인에게도 가지 않고, <strong>국민을 위한 좋은 일에만</strong> 씁니다. 쓴 곳은 <a href="/transparency.html">매달 공개</a>합니다.
+        </p>
         <p style="font-size:14px;line-height:1.8;color:var(--color-text);">
           정치탈탈은 <strong>광고 없이 후원으로 운영</strong>되는 시민 데이터 플랫폼입니다.<br><br>
           • 공공데이터 시각화와 분석 비용<br>
@@ -577,6 +586,13 @@
             <input name="msg" maxlength="100" placeholder="100자까지"></label>
           <label id="payerRow">입금자명
             <input name="payer" maxlength="20" required placeholder="입금 확인에만 쓰고 공개하지 않습니다" autocomplete="name"></label>
+          <span class="sign-team-h">어느 진영 불을 켤까요? <span class="opt">후원 1명 = 그 진영 화력 +100</span></span>
+          <div class="amt-chips" id="teamChips" role="radiogroup" aria-label="불 색(진영)" style="grid-template-columns:repeat(3,1fr);">
+            <button type="button" role="radio" aria-checked="false" data-t="b">🔵 파랑</button>
+            <button type="button" role="radio" aria-checked="true" data-t="w">⚪ 중립</button>
+            <button type="button" role="radio" aria-checked="false" data-t="r">🔴 빨강</button>
+          </div>
+          <p class="source-note" style="margin:-4px 0 0;">색은 벽에 켜질 불 색일 뿐, 후원금은 어느 정당·정치인에게도 가지 않습니다.</p>
           <input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="sign-hp">
           <button type="submit">이름 남기기</button>
         </form>
@@ -594,12 +610,19 @@
         pn.hidden = false;
         document.getElementById('sign').scrollIntoView();
       })();
+      var signTeam = 'w';
+      (function () {
+        var cs = [].slice.call(document.querySelectorAll('#teamChips button'));
+        var mark = function (t) { signTeam = t; cs.forEach(function (x) { x.setAttribute('aria-checked', x.dataset.t === t ? 'true' : 'false'); }); };
+        try { var my = localStorage.getItem('pt_team'); if (/^[bwr]$/.test(my || '')) mark(my); } catch (e) {}
+        cs.forEach(function (b) { b.addEventListener('click', function () { mark(b.dataset.t); }); });
+      })();
       document.getElementById('signForm').addEventListener('submit', function (ev) {
         ev.preventDefault();
         var f = ev.target, out = document.getElementById('signMsg'), btn = f.querySelector('button');
         btn.disabled = true; out.textContent = '';
         fetch('/wall/sign', { method: 'POST', headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ name: f.name.value, msg: f.msg.value, payer: f.payer.value, hp: f.hp.value }) })
+          body: JSON.stringify({ name: f.name.value, msg: f.msg.value, payer: f.payer.value, hp: f.hp.value, team: signTeam }) })
           .then(function (r) { return r.json(); })
           .then(function (d) {
             if (d.ok) {
@@ -734,5 +757,6 @@
     else window.addEventListener("load", start);
   })();
   </script>
+  <script src="/war.js?v=202610281503" defer></script>
 </body>
 </html>

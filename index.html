@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="공공데이터로 검증하는 제22대 국회 300명의 진짜 의정활동. 내가 뽑은 의원, 진짜 일하고 있나요?">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281054">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281054">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281054">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281054">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281503">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281503">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281503">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281503">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610281054">
+  <link rel="stylesheet" href="/styles.css?v=202610281503">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610281054">
+  <link rel="manifest" href="/manifest.json?v=202610281503">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610281054">
+  <meta name="build-id" content="202610281503">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -206,12 +206,24 @@
     </div>
   </header>
   <main>
-    <section class="hero">
+    <section class="hero war" id="warBox">
 
       <div class="container">
-        <div class="hero-topline">
-          <div class="hero-tl-title">내가 뽑은 국회의원, 진짜 일하고 있나요?</div>
-          <div class="hero-tl-sub">현역 299명 의원 · 20,168건 법안 · 214,443건 표결</div>
+        <div class="war-title"><b>⚔️ 여기는 정치 전쟁터</b><small>오늘, 어느 편이 이기고 있나</small></div>
+        
+        <div class="war-score">
+          <div class="ws-side"><span>🔵 파랑 진영</span><b id="fireB">0</b></div>
+          <div class="ws-mid"><span class="vs">VS</span><small>⚪ 중립 <b id="fireW">0</b></small></div>
+          <div class="ws-side"><span>🔴 빨강 진영</span><b id="fireR">0</b></div>
+        </div>
+        <div class="war-bar" aria-hidden="true"><i class="b"></i><i class="w"></i><i class="r"></i></div>
+        <p class="war-cap"><span id="warY"></span>오늘의 화력 = 응원·팩트 폭탄·게임·댓글·후원 참여 점수 (여론조사 아님 · 매일 0시 새 판)</p>
+        <div class="war-pick" role="group" aria-label="내 편 고르기">
+          <button type="button" data-team="b">🔵 파랑 편</button><button type="button" data-team="w">⚪ 중립</button><button type="button" data-team="r">🔴 빨강 편</button>
+        </div>
+        <div class="war-acts">
+          <a href="/game.html" data-ck="war-game">🏳 청기홍기 한 판</a>
+          <a href="/donate.html" data-ck="war-donate">☕ 후원 = 화력 +100</a>
         </div>
 
         <!-- 최상단 검색 (네이버 스타일) -->
@@ -272,7 +284,7 @@
         </div>
         <p class="nw-note">한겨레·경향신문·오마이뉴스 / 조선일보·동아일보·데일리안 정치면. 성향은 흔히 쓰는 분류이고, 제목은 언론사가 쓴 그대로입니다.</p>
       </section>
-      <script src="/news.js?v=202610281054" defer></script>
+      <script src="/news.js?v=202610281503" defer></script>
       <div class="rail-block">
         <div class="rail-head"><div><h2 class="rail-title">📰 오늘의 정치 핫이슈</h2><div class="rail-sub">10월 28일 · 국회 공식 기록에서 뽑은 숫자</div></div></div>
         <div class="iss-rail"><a class="iss-card" href="/bills/2221213.html" data-ck="home-issue"><span class="iss-k">⚔️ 찬반 갈린 법안</span><strong class="iss-big">반대 82표</strong><span class="iss-t">고위공직자범죄수사처 설치 및 운영에 관한 법률 개정안 · 찬성 137표로 통과</span></a><a class="iss-card" href="/bills/2221265.html" data-ck="home-issue"><span class="iss-k">⚔️ 찬반 갈린 법안</span><strong class="iss-big">반대 77표</strong><span class="iss-t">대통령 등의 경호에 관한 법률 개정안 · 찬성 162표로 통과</span></a><a class="iss-card" href="/live.html" data-ck="home-issue"><span class="iss-k">🏛 최근 2주 본회의</span><strong class="iss-big">74건 통과</strong><span class="iss-t">내 생활에 걸리는 법이 있을까요?</span></a><a class="iss-card" href="/history.html#v=Mw-cHwCSmKY" data-ck="home-issue"><span class="iss-k">📼 새 정치 비사</span><strong class="iss-big">▶ 영상</strong><span class="iss-t">대통령 경호실장은 어떻게 '2인자'가 됐나</span></a><a class="iss-card" href="/money.html" data-ck="home-issue"><span class="iss-k">💰 국회의원 재산 1위</span><strong class="iss-big">1,368억</strong><span class="iss-t">안철수 의원 · 꼴찌는 얼마일까요?</span></a><a class="iss-card" href="/politician/JC14718Q.html" data-ck="home-issue"><span class="iss-k">📜 대표발의 1위</span><strong class="iss-big">358건</strong><span class="iss-t">윤준병 의원 · 그대로 통과한 건 5건</span></a></div>
@@ -310,6 +322,7 @@
       <div class="ott-cats">
         <a href="/region.html" class="ott-cat"><span class="ic">🗺</span><span>우리 동네</span></a>
         <a href="/news.html" class="ott-cat"><span class="ic">🗞</span><span>좌우 뉴스</span></a>
+        <a href="/game.html" class="ott-cat"><span class="ic">🏳</span><span>청기홍기</span></a>
         <a href="/history.html" class="ott-cat"><span class="ic">📼</span><span>정치 비사</span></a>
         <a href="/money.html" class="ott-cat"><span class="ic">💰</span><span>재산</span></a>
         <a href="/pledges.html" class="ott-cat"><span class="ic">📜</span><span>공약</span></a>
@@ -1692,5 +1705,6 @@
     else window.addEventListener("load", start);
   })();
   </script>
+  <script src="/war.js?v=202610281503" defer></script>
 </body>
 </html>
