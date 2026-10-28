@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="정치탈탈을 후원한 시민들의 이름과 한마디. 후원자 한 명이 자리 하나에 불을 켭니다.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281739">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281739">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281739">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281739">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281814">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281814">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281814">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281814">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610281739">
+  <link rel="stylesheet" href="/styles.css?v=202610281814">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610281739">
+  <link rel="manifest" href="/manifest.json?v=202610281814">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610281739">
+  <meta name="build-id" content="202610281814">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -106,6 +106,9 @@
   .wb-me .wb-me-team button { background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 6px 11px; font-size: 13px; }
   .wb-me .wb-me-team button.on { background: #fff; color: var(--board); }
   .plate.hl { outline: 3px solid var(--lamp); outline-offset: 2px; }
+  .bk-reply { margin-top: 10px; padding: 10px 12px; background: #f8fafc; border-left: 3px solid var(--lamp); border-radius: 8px; font-size: 13.5px; line-height: 1.65; color: var(--color-text); }
+  .bk-reply b { display: block; font-size: 12px; color: #8a6414; margin-bottom: 2px; }
+  .bk-reply a { display: inline-block; margin-top: 6px; font-weight: 800; color: var(--color-accent); text-decoration: none; }
   .wb-lamps span.on.t-b { background: #3b82f6; box-shadow: 0 0 12px rgba(59,130,246,.85); }
   .wb-lamps span.on.t-r { background: #ef4444; box-shadow: 0 0 12px rgba(239,68,68,.85); }
   .wb-lamps span.on.t-w { background: #f8fafc; box-shadow: 0 0 12px rgba(255,255,255,.8); }
@@ -310,9 +313,16 @@
       // 이 기기에서 이름을 남겼으면(후원 페이지) 내 자리 확인 — 승인되면 축하·자랑하기
       // ?claim=토큰 = 대표가 보낸 '내 자리' 링크(옛 후원자도 색을 고를 수 있게) · ?seat=n = 문자로 받은 자리 자랑 링크
       var qs = new URLSearchParams(location.search), claim = qs.get('claim') || '', seatQ = +(qs.get('seat') || 0);
-      if (/^[a-f0-9]{16}$/.test(claim)) { try { localStorage.setItem('pt_sup', claim); } catch (e) {} history.replaceState(null, '', location.pathname); }
-      var tok = /^[a-f0-9]{16}$/.test(claim) ? claim : ''; try { tok = tok || localStorage.getItem('pt_sup') || ''; } catch (e) {}
-      if (tok) fetch('/wall/me?tok=' + tok).then(function (r) { return r.json(); }).then(function (d) {
+      var tok = ''; try { tok = localStorage.getItem('pt_sup') || ''; } catch (e) {}
+      var claimed = /^[a-f0-9]{12}$/.test(claim)        // 한 번 쓰는 링크 → 이 기기에 내 자리 토큰 저장
+        ? fetch('/wall/claim', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ c: claim }) })
+            .then(function (r) { return r.json(); }).then(function (d) {
+              history.replaceState(null, '', location.pathname);
+              if (d.ok) { tok = d.tok; try { localStorage.setItem('pt_sup', tok); } catch (e) {} }
+              return tok;
+            }).catch(function () { return tok; })
+        : Promise.resolve(tok);
+      claimed.then(function (t) { tok = t; return tok ? fetch('/wall/me?tok=' + tok).then(function (r) { return r.json(); }) : {}; }).then(function (d) {
         var me = d.me || {}, wb = document.querySelector('.wb'), box = el('div', 'wb-me');
         var teamRow = function () {                      // 내 불 색(성향) — 언제든 바꿀 수 있다
           var row = el('div', 'wb-me-team'); row.appendChild(el('span', '', '내 불 색'));
@@ -373,6 +383,14 @@
           f.appendChild(el('i', '', seatNo(s.no))); if (s.no <= 100) f.appendChild(document.createTextNode(' · 창립 후원자'));
           if (s.team) f.appendChild(document.createTextNode(' · ' + { b: '🔵 진보 성향', w: '⚪ 중도', r: '🔴 보수 성향' }[s.team]));
           b.appendChild(f);
+          if (s.reply) {                                  // 운영자 답글 — 정치탈탈 주소는 버튼으로
+            var rp = el('div', 'bk-reply'); rp.appendChild(el('b', '', '↳ 정치탈탈 운영자'));
+            s.reply.split(new RegExp('(https://politaltal[.]com/[^ ]+)')).forEach(function (part, i) {
+              if (i % 2) { var a = el('a', '', part.indexOf('claim=') > 0 ? '🎨 내 자리 색 고르기 →' : part); a.href = part; rp.appendChild(a); }
+              else if (part.trim()) rp.appendChild(el('span', '', part));
+            });
+            b.appendChild(rp);
+          }
           book.appendChild(b);
         });
         document.getElementById('wallPlates').hidden = false;
@@ -501,6 +519,6 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202610281739" defer></script>
+  <script src="/war.js?v=202610281814" defer></script>
 </body>
 </html>
