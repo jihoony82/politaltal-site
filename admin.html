@@ -535,7 +535,8 @@
       if (!r) return;
       if (op === 'wall_ok') {
         // 승인하면 입금자명이 지워지므로, 받은 돈은 이때 후원 장부에 같이 남긴다(메모에 입금자명 — 관리자만 봄)
-        const amt = prompt(`"${r.name}" 님 승인\n입금자명: ${r.payer}\n접수: ${new Date(r.created_at).toLocaleString('ko-KR')}\n\n받은 금액(원)을 적으면 후원 장부에도 같이 기록됩니다.\n장부 기록 없이 승인만 하려면 비워 두고 확인.`, '');
+        // 카드 결제(입금자명 '카드 코드')는 결제 통보 때 장부에 이미 들어갔다 — 금액을 또 묻지 않는다
+        const amt = /^카드 [A-Z2-9]{8}$/.test(r.payer) ? '' : prompt(`"${r.name}" 님 승인\n입금자명: ${r.payer}\n접수: ${new Date(r.created_at).toLocaleString('ko-KR')}\n\n받은 금액(원)을 적으면 후원 장부에도 같이 기록됩니다.\n장부 기록 없이 승인만 하려면 비워 두고 확인.`, '');
         if (amt === null) return;
         const won = Number(String(amt).replace(/\D/g, ''));
         if (won) {

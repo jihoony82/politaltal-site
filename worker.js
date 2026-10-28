@@ -287,6 +287,13 @@ function hotWeight(path, names) {
 async function handleHot(env, url) {
   if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
   await statsReady(env);
+  let pg = url.searchParams.get("p");
+  if (pg) {
+    try { pg = decodeURIComponent(pg); } catch (e) {}       // location.pathname 은 한글이 %인코딩돼 온다(/t 와 같은 키로 맞춤)
+    const key = pg.split("?")[0].replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+    const r = await env.PUSH_DB.prepare("SELECT n FROM stats WHERE day = ? AND kind = 'path' AND key = ?").bind(kstDay(), key).first();
+    return new Response(JSON.stringify({ ok: true, n: r ? r.n : 0 }), { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=120" } });
+  }
   const names = await hotNames(env, url.origin);
   const rank = async (d0, d1) => {
     const q = (kind) => env.PUSH_DB.prepare(
@@ -330,18 +337,42 @@ let WALL_READY = false;
 async function wallReady(env) {
   if (WALL_READY) return;
   await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS wall (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, msg TEXT NOT NULL DEFAULT '', payer TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'wait', created_at INTEGER NOT NULL, approved_at INTEGER NOT NULL DEFAULT 0)");
+  // tok = 이름을 남긴 브라우저에만 주는 무작위 표식. 승인되면 그 브라우저가 '제n석'을 알고 댓글에 후원자 배지를 단다(개인정보 아님)
+  await env.PUSH_DB.prepare("ALTER TABLE wall ADD COLUMN tok TEXT NOT NULL DEFAULT ''").run().catch(() => {});
   WALL_READY = true;
+}
+// 승인된 자리 번호(승인 순서) — 없으면 0
+async function wallSeat(env, tok) {
+  if (!/^[a-f0-9]{16}$/.test(tok || "")) return null;
+  const w = await env.PUSH_DB.prepare("SELECT id, name, status, approved_at FROM wall WHERE tok = ?").bind(tok).first();
+  if (!w) return null;
+  if (w.status !== "ok") return { status: w.status, name: w.name, no: 0 };
+  const { n } = await env.PUSH_DB.prepare("SELECT COUNT(*) AS n FROM wall WHERE status = 'ok' AND (approved_at < ? OR (approved_at = ? AND id <= ?))")
+    .bind(w.approved_at, w.approved_at, w.id).first();
+  return { status: "ok", name: w.name, no: n };
 }
 const wallText = (v, max) => String(v || "").replace(/[\u0000-\u001f<>]/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
 const wallPublic = (env) => env.PUSH_DB.prepare(
   "SELECT name, msg, approved_at FROM wall WHERE status = 'ok' ORDER BY approved_at, id LIMIT 500").all()
-  .then((r) => r.results.map((x, i) => ({ no: i + 1, name: x.name, msg: x.msg, day: new Date(x.approved_at + 9 * 3600e3).toISOString().slice(0, 10) })));
+  .then((r) => r.results.map((x, i) => ({ no: i + 1, name: x.name, msg: x.msg, at: x.approved_at, day: new Date(x.approved_at + 9 * 3600e3).toISOString().slice(0, 10) })));
 
 async function handleWall(request, env, url) {
   if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
   await wallReady(env);
   const path = url.pathname.replace(/\/+$/, "");
-  if (path === "/wall/list" && request.method === "GET") return pj({ ok: true, seats: await wallPublic(env) });
+  if (path === "/wall/list" && request.method === "GET") {
+    // 금액은 내보내지 않는다(합계도 장부 페이지에서 '끝난 달'만 — 이번 달 합계가 오르면 누가 얼마 냈는지 보이므로)
+    const seats = await wallPublic(env);
+    const out = url.searchParams.has("brief")            // 모든 페이지 상단 띠용 — 자리 수와 마지막 점등만
+      ? { ok: true, n: seats.length, last: seats.length ? { no: seats.length, name: seats[seats.length - 1].name, at: seats[seats.length - 1].at } : null }
+      : { ok: true, seats };
+    return new Response(JSON.stringify(out),
+      { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=60" } });
+  }
+  if (path === "/wall/me" && request.method === "GET") {
+    const me = await wallSeat(env, url.searchParams.get("tok"));
+    return pj({ ok: true, me: me || { status: "none" } });
+  }
   if (path === "/wall/sign" && request.method === "POST") {
     if (request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
     const b = await request.json().catch(() => ({}));
@@ -349,8 +380,9 @@ async function handleWall(request, env, url) {
     if (b.hp || !name || !payer) return pj({ ok: false, error: "invalid" }, 400);      // hp = 사람 눈에 안 보이는 칸(봇만 채운다)
     const { n } = await env.PUSH_DB.prepare("SELECT COUNT(*) AS n FROM wall WHERE status = 'wait'").first();
     if (n >= 300) return pj({ ok: false, error: "busy" }, 429);
-    await env.PUSH_DB.prepare("INSERT INTO wall (name, msg, payer, created_at) VALUES (?, ?, ?, ?)").bind(name, msg, payer, Date.now()).run();
-    return pj({ ok: true });
+    const tok = [...crypto.getRandomValues(new Uint8Array(8))].map((x) => x.toString(16).padStart(2, "0")).join("");
+    await env.PUSH_DB.prepare("INSERT INTO wall (name, msg, payer, created_at, tok) VALUES (?, ?, ?, ?, ?)").bind(name, msg, payer, Date.now(), tok).run();
+    return pj({ ok: true, tok });
   }
   return pj({ ok: false, error: "not found" }, 404);
 }
@@ -375,6 +407,7 @@ async function pcReady(env) {
     env.PUSH_DB.prepare("CREATE TABLE IF NOT EXISTS pc_reports (cid INTEGER NOT NULL, ip_hash TEXT NOT NULL, PRIMARY KEY (cid, ip_hash))"),
     env.PUSH_DB.prepare("CREATE TABLE IF NOT EXISTS kv (k TEXT PRIMARY KEY, v TEXT NOT NULL)"),
   ]);
+  await env.PUSH_DB.prepare("ALTER TABLE pc ADD COLUMN badge INTEGER NOT NULL DEFAULT 0").run().catch(() => {});   // 후원자 자리 번호(0=없음)
   await env.PUSH_DB.prepare("INSERT OR IGNORE INTO kv (k, v) VALUES ('pc_salt', ?)").bind(crypto.randomUUID() + crypto.randomUUID()).run();
   PC_SALT = (await env.PUSH_DB.prepare("SELECT v FROM kv WHERE k = 'pc_salt'").first()).v;
   PC_READY = true;
@@ -399,7 +432,7 @@ async function handlePc(request, env, url) {
     if (!PC_TARGET.test(t)) return pj({ ok: false, error: "invalid" }, 400);
     // ponytail: 댓글·답글 합쳐 최근 300개만 내려보낸다 — 넘어서면 '이전 댓글 더 보기'(페이지 나눔)를 붙일 것
     const { results } = await env.PUSH_DB.prepare(
-      "SELECT id, parent, nick, body, likes, created_at AS at, EXISTS(SELECT 1 FROM pc_likes l WHERE l.cid = pc.id AND l.ip_hash = ?) AS liked " +
+      "SELECT id, parent, nick, body, likes, badge, created_at AS at, EXISTS(SELECT 1 FROM pc_likes l WHERE l.cid = pc.id AND l.ip_hash = ?) AS liked " +
       "FROM pc WHERE target = ? AND status = 'visible' ORDER BY id DESC LIMIT 300").bind(who, t).all();
     const { n } = await env.PUSH_DB.prepare("SELECT COUNT(*) AS n FROM pc WHERE target = ? AND status = 'visible'").bind(t).first();
     return pj({ ok: true, open: await pcOpen(env), total: n, rows: results });
@@ -425,8 +458,10 @@ async function handlePc(request, env, url) {
     if ((mine.last && now - mine.last < 30000) || mine.n >= 20 || all.n >= 3000) return pj({ ok: false, error: "slow" }, 429);
     const h = await sha16(who + t);                                           // 같은 페이지에서는 같은 별명, 다른 페이지와는 이어지지 않게
     const nick = PC_NICKS[parseInt(h.slice(0, 6), 16) % PC_NICKS.length] + " " + h.slice(6, 9);
-    const r = await env.PUSH_DB.prepare("INSERT INTO pc (target, nick, body, ip_hash, created_at, parent) VALUES (?, ?, ?, ?, ?, ?)").bind(t, nick, body, who, now, parent).run();
-    return pj({ ok: true, row: { id: r.meta.last_row_id, parent, nick, body, likes: 0, liked: 0, at: now } });
+    let badge = 0;
+    if (b.sup) { await wallReady(env); const seat = await wallSeat(env, String(b.sup)); if (seat && seat.status === "ok") badge = seat.no; }
+    const r = await env.PUSH_DB.prepare("INSERT INTO pc (target, nick, body, ip_hash, created_at, parent, badge) VALUES (?, ?, ?, ?, ?, ?, ?)").bind(t, nick, body, who, now, parent, badge).run();
+    return pj({ ok: true, row: { id: r.meta.last_row_id, parent, nick, body, likes: 0, liked: 0, at: now, badge } });
   }
   if (path === "/pc/like" && Number.isInteger(b.id)) {                         // 한 사람 한 번 — 다시 누르면 취소
     if (!(await env.PUSH_DB.prepare("SELECT id FROM pc WHERE id = ? AND status = 'visible'").bind(b.id).first())) return pj({ ok: false, error: "invalid" }, 400);
@@ -574,6 +609,10 @@ const payOn = (env) => !!(env.PAYAPP_USERID && env.PAYAPP_LINKKEY && env.PAYAPP_
 async function payReady(env) {
   if (PAY_READY) return;
   await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS pay (code TEXT PRIMARY KEY, amount INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'wait', mul_no TEXT NOT NULL DEFAULT '', ledger_id INTEGER NOT NULL DEFAULT 0, created_at INTEGER NOT NULL, paid_at INTEGER NOT NULL DEFAULT 0)");
+  // kind once/monthly · rebill_no = 페이앱 정기결제 번호. 실제 결제(첫 달·매달)는 pay_charges 에 결제번호(mul_no)마다 한 줄
+  await env.PUSH_DB.prepare("ALTER TABLE pay ADD COLUMN kind TEXT NOT NULL DEFAULT 'once'").run().catch(() => {});
+  await env.PUSH_DB.prepare("ALTER TABLE pay ADD COLUMN rebill_no TEXT NOT NULL DEFAULT ''").run().catch(() => {});
+  await env.PUSH_DB.exec("CREATE TABLE IF NOT EXISTS pay_charges (mul_no TEXT PRIMARY KEY, code TEXT NOT NULL, amount INTEGER NOT NULL, at INTEGER NOT NULL, ledger_id INTEGER NOT NULL DEFAULT 0, status TEXT NOT NULL DEFAULT 'paid')");
   await ledgerReady(env);
   PAY_READY = true;
 }
@@ -588,14 +627,22 @@ async function handlePay(request, env, url) {
   if (path === "/pay/card" && request.method === "POST") {
     if (request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
     const b = await request.json().catch(() => ({}));
-    const amount = Number(b.amount), phone = String(b.phone || "").replace(/\D/g, "");
+    const amount = Number(b.amount), phone = String(b.phone || "").replace(/\D/g, ""), monthly = b.monthly === true;
     if (!Number.isInteger(amount) || amount < 1000 || amount > 1000000 || !/^01[016789]\d{7,8}$/.test(phone))
       return pj({ ok: false, error: "invalid" }, 400);
     const { n } = await db.prepare("SELECT COUNT(*) AS n FROM pay WHERE status = 'wait' AND created_at > ?").bind(Date.now() - 86400e3).first();
     if (n >= 300) return pj({ ok: false, error: "busy" }, 429);          // 결제창 남발 방지(하루 300건)
     const code = [...crypto.getRandomValues(new Uint8Array(8))].map((x) => "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[x & 31]).join("");
-    await db.prepare("INSERT INTO pay (code, amount, created_at) VALUES (?, ?, ?)").bind(code, amount, Date.now()).run();
-    const form = new URLSearchParams({
+    await db.prepare("INSERT INTO pay (code, amount, created_at, kind) VALUES (?, ?, ?, ?)").bind(code, amount, Date.now(), monthly ? "monthly" : "once").run();
+    const form = new URLSearchParams(monthly ? {
+      // 매달 오늘과 같은 날(29~31일이면 28일) 자동 결제, 5년 뒤 자동 종료. 첫 결제는 카드 등록 때 바로
+      cmd: "rebillRegist", userid: env.PAYAPP_USERID, linkkey: env.PAYAPP_LINKKEY,
+      goodname: "정치탈탈 정기 후원", goodprice: String(amount), recvphone: phone, smsuse: "n", openpaytype: "card",
+      rebillCycleType: "Month", rebillCycleMonth: String(Math.min(+kstDay().slice(8, 10), 28)),
+      rebillExpire: `${+kstDay().slice(0, 4) + 5}${kstDay().slice(4)}`, var1: code,
+      feedbackurl: `${url.origin}/pay/feedback`,
+      returnurl: `${url.origin}/donate.html?paid=${code}&m=1#sign`,
+    } : {
       cmd: "payrequest", userid: env.PAYAPP_USERID, linkkey: env.PAYAPP_LINKKEY,
       goodname: "정치탈탈 운영 후원", price: String(amount), recvphone: phone,
       smsuse: "n", openpaytype: "card", reqaddr: "0", var1: code,
@@ -612,27 +659,51 @@ async function handlePay(request, env, url) {
       await db.prepare("DELETE FROM pay WHERE code = ?").bind(code).run();
       return pj({ ok: false, error: "pg" }, 502);
     }
-    await db.prepare("UPDATE pay SET mul_no = ? WHERE code = ?").bind(String(d.mul_no || ""), code).run();
-    return pj({ ok: true, payurl: d.payurl });
+    await db.prepare("UPDATE pay SET mul_no = ?, rebill_no = ? WHERE code = ?").bind(String(d.mul_no || ""), String(d.rebill_no || ""), code).run();
+    return pj({ ok: true, payurl: d.payurl, code });
+  }
+
+  if (path === "/pay/stop" && request.method === "POST") {
+    if (request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
+    const b = await request.json().catch(() => ({}));
+    const code = String(b.code || "");
+    const row = /^[A-Z2-9]{8}$/.test(code) && await db.prepare("SELECT rebill_no, status FROM pay WHERE code = ? AND kind = 'monthly'").bind(code).first();
+    if (!row) return pj({ ok: false, error: "not found" }, 404);
+    if (row.status === "stopped") return pj({ ok: true, already: true });
+    if (row.rebill_no) {
+      const res = await fetch(PAYAPP_API, { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded; charset=utf-8" },
+        body: new URLSearchParams({ cmd: "rebillCancel", userid: env.PAYAPP_USERID, linkkey: env.PAYAPP_LINKKEY, rebill_no: row.rebill_no }) });
+      const p = new URLSearchParams(await res.text());
+      if (p.get("state") !== "1") { console.log("rebillCancel fail", p.get("errorMessage")); return pj({ ok: false, error: "pg" }, 502); }
+    }
+    await db.prepare("UPDATE pay SET status = 'stopped' WHERE code = ?").bind(code).run();
+    return pj({ ok: true });
   }
 
   if (path === "/pay/feedback" && request.method === "POST") {
     const f = new URLSearchParams(await request.text());
     if (!f.get("linkval") || f.get("linkval") !== env.PAYAPP_LINKVAL) return new Response("AUTH_FAIL", { status: 401 });
-    const code = String(f.get("var1") || ""), state = String(f.get("pay_state") || ""), price = Number(f.get("price"));
-    if (state === "4") {                                                  // 결제 완료 — 금액이 만든 값과 같을 때만, 한 번만
-      const r = await db.prepare("UPDATE pay SET status = 'paid', paid_at = ?, mul_no = ? WHERE code = ? AND status = 'wait' AND amount = ?")
-        .bind(Date.now(), String(f.get("mul_no") || ""), code, price).run();
+    const code = String(f.get("var1") || ""), state = String(f.get("pay_state") || ""), price = Number(f.get("price") || f.get("goodprice"));
+    const mul = String(f.get("mul_no") || code);
+    const row = await db.prepare("SELECT kind, amount, status FROM pay WHERE code = ?").bind(code).first();
+    if (state === "4" && row && price === row.amount) {                   // 결제 완료 — 금액이 만든 값과 같을 때만, 결제번호마다 한 번만
+      const r = await db.prepare("INSERT OR IGNORE INTO pay_charges (mul_no, code, amount, at) VALUES (?, ?, ?, ?)").bind(mul, code, price, Date.now()).run();
       if (r.meta.changes === 1) {
         const ins = await db.prepare("INSERT INTO ledger (kind, day, amount, channel, memo, link, created_at) VALUES ('in', ?, ?, 'card', ?, '', ?)")
-          .bind(kstDay(), price, `카드 ${code} · 수수료 빼기 전`, Date.now()).run();
-        await db.prepare("UPDATE pay SET ledger_id = ? WHERE code = ?").bind(ins.meta.last_row_id, code).run();
+          .bind(kstDay(), price, `카드${row.kind === "monthly" ? " 정기" : ""} ${code} · 수수료 빼기 전`, Date.now()).run();
+        await db.batch([
+          db.prepare("UPDATE pay_charges SET ledger_id = ? WHERE mul_no = ?").bind(ins.meta.last_row_id, mul),
+          db.prepare("UPDATE pay SET status = ?, paid_at = ?, ledger_id = ?, rebill_no = CASE WHEN ? != '' THEN ? ELSE rebill_no END WHERE code = ?")
+            .bind(row.kind === "monthly" ? (row.status === "stopped" ? "stopped" : "active") : "paid", Date.now(), ins.meta.last_row_id,
+                  String(f.get("rebill_no") || ""), String(f.get("rebill_no") || ""), code),
+        ]);
       }
-    } else if (state === "9" || state === "64") {                         // 승인 취소 — 장부에서도 뺀다
-      const row = await db.prepare("SELECT ledger_id FROM pay WHERE code = ? AND status = 'paid'").bind(code).first();
-      if (row) await db.batch([
-        db.prepare("UPDATE pay SET status = 'cancel' WHERE code = ?").bind(code),
-        db.prepare("DELETE FROM ledger WHERE id = ?").bind(row.ledger_id),
+    } else if (state === "9" || state === "64") {                         // 승인 취소 — 그 결제 건만 장부에서 뺀다
+      const ch = await db.prepare("SELECT ledger_id FROM pay_charges WHERE mul_no = ? AND status = 'paid'").bind(mul).first();
+      if (ch) await db.batch([
+        db.prepare("UPDATE pay_charges SET status = 'cancel' WHERE mul_no = ?").bind(mul),
+        db.prepare("DELETE FROM ledger WHERE id = ?").bind(ch.ledger_id),
+        db.prepare("UPDATE pay SET status = 'cancel' WHERE code = ? AND kind = 'once'").bind(code),
       ]);
     }
     return new Response("SUCCESS", { headers: { "content-type": "text/plain" } });   // 페이앱은 SUCCESS 를 기대한다
