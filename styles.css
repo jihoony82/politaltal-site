@@ -2271,6 +2271,8 @@ a:hover { text-decoration: underline; }
 .sign-form #teamChips button[data-t="b"][aria-checked="true"] { background: var(--war-b); border-color: var(--war-b); }
 .sign-form #teamChips button[data-t="r"][aria-checked="true"] { background: var(--war-r); border-color: var(--war-r); }
 .sign-team-h { font-size: 14px; font-weight: 700; }
+.sign-form .sign-agree { display: flex; gap: 8px; align-items: flex-start; font-size: 12.5px; font-weight: 500; line-height: 1.55; color: var(--color-text-soft); }
+.sign-form .sign-agree input { width: 18px; height: 18px; flex: 0 0 auto; margin-top: 1px; }
 /* 올댓라이브 자사 광고 — 로고의 검정+빨강. 앱에서는 숨김(스토어에 '광고 없음'으로 신고) */
 .atl-ad .ad-content { background: linear-gradient(135deg, #f6f6f7 0%, #fff 60%); }
 .atl-ad .ad-brand { color: #e11d48; }

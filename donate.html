@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="정치탈탈은 광고 없이 시민 후원으로 운영되는 정치 데이터 플랫폼입니다. 커피 한 잔의 후원으로 응원해주세요.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281542">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281542">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281542">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281542">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281739">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281739">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281739">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281739">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610281542">
+  <link rel="stylesheet" href="/styles.css?v=202610281739">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610281542">
+  <link rel="manifest" href="/manifest.json?v=202610281739">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610281542">
+  <meta name="build-id" content="202610281739">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -127,6 +127,10 @@
   .wb-me b { color: var(--lamp); }
   .wb-me button { background: #fff; color: var(--board); border: 0; border-radius: 10px; font-weight: 800; font-size: 14px; padding: 10px 16px; cursor: pointer; }
   .wb-lamps span.me { background: #fff; box-shadow: 0 0 16px 4px rgba(233,196,106,1); }
+  .wb-me-team { display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 12px; font-size: 12.5px; color: #c7d5e3; }
+  .wb-me .wb-me-team button { background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 6px 11px; font-size: 13px; }
+  .wb-me .wb-me-team button.on { background: #fff; color: var(--board); }
+  .plate.hl { outline: 3px solid var(--lamp); outline-offset: 2px; }
   .wb-lamps span.on.t-b { background: #3b82f6; box-shadow: 0 0 12px rgba(59,130,246,.85); }
   .wb-lamps span.on.t-r { background: #ef4444; box-shadow: 0 0 12px rgba(239,68,68,.85); }
   .wb-lamps span.on.t-w { background: #f8fafc; box-shadow: 0 0 12px rgba(255,255,255,.8); }
@@ -314,10 +318,31 @@
         return p;
       };
       // 이 기기에서 이름을 남겼으면(후원 페이지) 내 자리 확인 — 승인되면 축하·자랑하기
-      var tok = ''; try { tok = localStorage.getItem('pt_sup') || ''; } catch (e) {}
+      // ?claim=토큰 = 대표가 보낸 '내 자리' 링크(옛 후원자도 색을 고를 수 있게) · ?seat=n = 문자로 받은 자리 자랑 링크
+      var qs = new URLSearchParams(location.search), claim = qs.get('claim') || '', seatQ = +(qs.get('seat') || 0);
+      if (/^[a-f0-9]{16}$/.test(claim)) { try { localStorage.setItem('pt_sup', claim); } catch (e) {} history.replaceState(null, '', location.pathname); }
+      var tok = /^[a-f0-9]{16}$/.test(claim) ? claim : ''; try { tok = tok || localStorage.getItem('pt_sup') || ''; } catch (e) {}
       if (tok) fetch('/wall/me?tok=' + tok).then(function (r) { return r.json(); }).then(function (d) {
         var me = d.me || {}, wb = document.querySelector('.wb'), box = el('div', 'wb-me');
-        if (me.status === 'wait') { box.appendChild(el('p', 'wait', '✍️ ' + me.name + '님 이름을 받았습니다. 입금이 확인되면 여기서 불이 켜집니다.')); wb.appendChild(box); return; }
+        var teamRow = function () {                      // 내 불 색(성향) — 언제든 바꿀 수 있다
+          var row = el('div', 'wb-me-team'); row.appendChild(el('span', '', '내 불 색'));
+          [['b', '🔵 진보'], ['w', '⚪ 중도'], ['r', '🔴 보수']].forEach(function (x) {
+            var c = el('button', me.team === x[0] ? 'on' : '', x[1]); c.type = 'button';
+            c.onclick = function () {
+              fetch('/wall/team', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ tok: tok, team: x[0] }) })
+                .then(function (r) { return r.json(); }).then(function (d) {
+                  if (!d.ok) return;
+                  me.team = x[0];
+                  [].forEach.call(row.querySelectorAll('button'), function (b) { b.className = b === c ? 'on' : ''; });
+                  if (me.no && cells[me.no - 1]) cells[me.no - 1].className = 'on t-' + x[0] + ' me';
+                  var pl = document.getElementById('seat-' + me.no); if (pl) pl.className = 'plate t-' + x[0];
+                }).catch(function () {});
+            };
+            row.appendChild(c);
+          });
+          return row;
+        };
+        if (me.status === 'wait') { box.appendChild(el('p', 'wait', '✍️ ' + me.name + '님 이름을 받았습니다. 입금이 확인되면 여기서 불이 켜집니다.')); box.appendChild(teamRow()); wb.appendChild(box); return; }
         if (me.status !== 'ok') return;
         var p = el('p'); p.appendChild(document.createTextNode('🎉 ' + me.name + '님, ')); p.appendChild(el('b', '', seatNo(me.no)));
         p.appendChild(document.createTextNode('에 불이 켜졌습니다' + (me.no <= 100 ? ' — 창립 후원자입니다' : '')));
@@ -327,7 +352,7 @@
           if (navigator.share) navigator.share({ title: '정치탈탈 후원자의 벽', text: text, url: url }).catch(function () {});
           else if (navigator.clipboard) navigator.clipboard.writeText(text + ' ' + url).then(function () { share.textContent = '복사했어요 — 붙여넣어 자랑하세요'; });
         };
-        box.appendChild(p); box.appendChild(share); wb.appendChild(box);
+        box.appendChild(p); box.appendChild(share); box.appendChild(teamRow()); wb.appendChild(box);
         var paint = function () { if (cells[me.no - 1]) cells[me.no - 1].className += ' me'; };
         paint(); setTimeout(paint, 2600);
       }).catch(function () {});
@@ -346,6 +371,7 @@
         var plates = document.getElementById('plates'), book = document.getElementById('book');
         seats.forEach(function (s) {
           var p = el('article', 'plate' + (s.team ? ' t-' + s.team : '')), no = el('div', 'p-no', seatNo(s.no) + ' ');
+          p.id = 'seat-' + s.no;
           if (s.no <= 100) no.appendChild(el('em', '', '창립'));
           p.appendChild(no); p.appendChild(el('div', s.name.length > 9 ? 'p-name long' : 'p-name', s.name)); plates.appendChild(p);
         });
@@ -360,6 +386,14 @@
           book.appendChild(b);
         });
         document.getElementById('wallPlates').hidden = false;
+        if (seatQ && seats[seatQ - 1]) {                  // 자리 자랑 링크로 들어온 경우 — 그 자리를 밝히고 알려 준다
+          var sq = seats[seatQ - 1], hb = el('div', 'wb-me'), hp = el('p');
+          if (cells[seatQ - 1]) cells[seatQ - 1].className += ' me';
+          hp.appendChild(document.createTextNode('🏛 ')); hp.appendChild(el('b', '', seatNo(sq.no)));
+          hp.appendChild(document.createTextNode(' · ' + sq.name + '님의 자리입니다' + (sq.no <= 100 ? ' — 창립 후원자' : '')));
+          hb.appendChild(hp); document.querySelector('.wb').appendChild(hb);
+          var hpl = document.getElementById('seat-' + sq.no); if (hpl) hpl.classList.add('hl');
+        }
         document.getElementById('wallBook').hidden = !book.children.length;
         var we = document.getElementById('wallEmpty'); if (we) we.hidden = true;
       }).catch(function () {});
@@ -591,6 +625,9 @@
             <button type="button" role="radio" aria-checked="false" data-t="r">🔴 보수</button>
           </div>
           <p class="source-note" style="margin:-4px 0 0;">색은 벽에 켜질 불 색일 뿐, 후원금은 어느 정당·정치인에게도 가지 않습니다.</p>
+          <label><span>📱 문자로 감사 인사·소식 받기 <span class="opt">선택</span></span>
+            <input name="phone" type="tel" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" autocomplete="tel"></label>
+          <label class="sign-agree"><input type="checkbox" name="sms"> <span>후원 감사·앱 출시 등 정치탈탈 소식을 문자로 받는 데 동의합니다. 번호는 문자 발송에만 쓰고, 수신 거부하면 바로 지웁니다.</span></label>
           <input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="sign-hp">
           <button type="submit">이름 남기기</button>
         </form>
@@ -617,15 +654,18 @@
       })();
       document.getElementById('signForm').addEventListener('submit', function (ev) {
         ev.preventDefault();
-        var f = ev.target, out = document.getElementById('signMsg'), btn = f.querySelector('button');
+        var f = ev.target, out = document.getElementById('signMsg'), btn = f.querySelector('button[type=submit]');
+        var phone = String(f.phone.value).replace(/\D/g, '');
+        if (phone && !f.sms.checked) { out.textContent = '문자를 받으시려면 아래 동의에 체크해 주세요. (안 받으셔도 되면 번호를 지워 주세요)'; return; }
+        if (phone && !/^01[016789]\d{7,8}$/.test(phone)) { out.textContent = '휴대폰 번호를 확인해 주세요.'; return; }
         btn.disabled = true; out.textContent = '';
         fetch('/wall/sign', { method: 'POST', headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ name: f.name.value, msg: f.msg.value, payer: f.payer.value, hp: f.hp.value, team: signTeam }) })
+          body: JSON.stringify({ name: f.name.value, msg: f.msg.value, payer: f.payer.value, hp: f.hp.value, team: signTeam, phone: phone, sms: !!(phone && f.sms.checked) }) })
           .then(function (r) { return r.json(); })
           .then(function (d) {
             if (d.ok) {
               try { if (d.tok) localStorage.setItem('pt_sup', d.tok); } catch (e) {}
-              f.hidden = true; out.textContent = '이름을 받았습니다. 입금이 확인되면 후원자의 벽에 올라갑니다(보통 하루 이내). 이 기기로 다시 오면 맨 위에서 내 자리를 확인할 수 있어요.'; return;
+              f.hidden = true; out.textContent = '이름을 받았습니다. 입금이 확인되면 후원자의 벽에 올라갑니다(보통 하루 이내).' + (phone ? ' 불이 켜지면 문자로 알려 드릴게요.' : ' 이 기기로 다시 오면 맨 위에서 내 자리를 확인할 수 있어요.'); return;
             }
             btn.disabled = false;
             out.textContent = d.error === 'busy' ? '지금은 접수가 밀려 있습니다. 잠시 뒤 다시 남겨 주세요.' : '벽에 올릴 이름과 입금자명을 적어 주세요.';
@@ -755,6 +795,6 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202610281542" defer></script>
+  <script src="/war.js?v=202610281739" defer></script>
 </body>
 </html>

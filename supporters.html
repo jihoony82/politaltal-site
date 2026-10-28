@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="정치탈탈을 후원한 시민들의 이름과 한마디. 후원자 한 명이 자리 하나에 불을 켭니다.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281542">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281542">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281542">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281542">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610281739">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610281739">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610281739">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610281739">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610281542">
+  <link rel="stylesheet" href="/styles.css?v=202610281739">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610281542">
+  <link rel="manifest" href="/manifest.json?v=202610281739">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610281542">
+  <meta name="build-id" content="202610281739">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -102,6 +102,10 @@
   .wb-me b { color: var(--lamp); }
   .wb-me button { background: #fff; color: var(--board); border: 0; border-radius: 10px; font-weight: 800; font-size: 14px; padding: 10px 16px; cursor: pointer; }
   .wb-lamps span.me { background: #fff; box-shadow: 0 0 16px 4px rgba(233,196,106,1); }
+  .wb-me-team { display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 12px; font-size: 12.5px; color: #c7d5e3; }
+  .wb-me .wb-me-team button { background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 6px 11px; font-size: 13px; }
+  .wb-me .wb-me-team button.on { background: #fff; color: var(--board); }
+  .plate.hl { outline: 3px solid var(--lamp); outline-offset: 2px; }
   .wb-lamps span.on.t-b { background: #3b82f6; box-shadow: 0 0 12px rgba(59,130,246,.85); }
   .wb-lamps span.on.t-r { background: #ef4444; box-shadow: 0 0 12px rgba(239,68,68,.85); }
   .wb-lamps span.on.t-w { background: #f8fafc; box-shadow: 0 0 12px rgba(255,255,255,.8); }
@@ -304,10 +308,31 @@
         return p;
       };
       // 이 기기에서 이름을 남겼으면(후원 페이지) 내 자리 확인 — 승인되면 축하·자랑하기
-      var tok = ''; try { tok = localStorage.getItem('pt_sup') || ''; } catch (e) {}
+      // ?claim=토큰 = 대표가 보낸 '내 자리' 링크(옛 후원자도 색을 고를 수 있게) · ?seat=n = 문자로 받은 자리 자랑 링크
+      var qs = new URLSearchParams(location.search), claim = qs.get('claim') || '', seatQ = +(qs.get('seat') || 0);
+      if (/^[a-f0-9]{16}$/.test(claim)) { try { localStorage.setItem('pt_sup', claim); } catch (e) {} history.replaceState(null, '', location.pathname); }
+      var tok = /^[a-f0-9]{16}$/.test(claim) ? claim : ''; try { tok = tok || localStorage.getItem('pt_sup') || ''; } catch (e) {}
       if (tok) fetch('/wall/me?tok=' + tok).then(function (r) { return r.json(); }).then(function (d) {
         var me = d.me || {}, wb = document.querySelector('.wb'), box = el('div', 'wb-me');
-        if (me.status === 'wait') { box.appendChild(el('p', 'wait', '✍️ ' + me.name + '님 이름을 받았습니다. 입금이 확인되면 여기서 불이 켜집니다.')); wb.appendChild(box); return; }
+        var teamRow = function () {                      // 내 불 색(성향) — 언제든 바꿀 수 있다
+          var row = el('div', 'wb-me-team'); row.appendChild(el('span', '', '내 불 색'));
+          [['b', '🔵 진보'], ['w', '⚪ 중도'], ['r', '🔴 보수']].forEach(function (x) {
+            var c = el('button', me.team === x[0] ? 'on' : '', x[1]); c.type = 'button';
+            c.onclick = function () {
+              fetch('/wall/team', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ tok: tok, team: x[0] }) })
+                .then(function (r) { return r.json(); }).then(function (d) {
+                  if (!d.ok) return;
+                  me.team = x[0];
+                  [].forEach.call(row.querySelectorAll('button'), function (b) { b.className = b === c ? 'on' : ''; });
+                  if (me.no && cells[me.no - 1]) cells[me.no - 1].className = 'on t-' + x[0] + ' me';
+                  var pl = document.getElementById('seat-' + me.no); if (pl) pl.className = 'plate t-' + x[0];
+                }).catch(function () {});
+            };
+            row.appendChild(c);
+          });
+          return row;
+        };
+        if (me.status === 'wait') { box.appendChild(el('p', 'wait', '✍️ ' + me.name + '님 이름을 받았습니다. 입금이 확인되면 여기서 불이 켜집니다.')); box.appendChild(teamRow()); wb.appendChild(box); return; }
         if (me.status !== 'ok') return;
         var p = el('p'); p.appendChild(document.createTextNode('🎉 ' + me.name + '님, ')); p.appendChild(el('b', '', seatNo(me.no)));
         p.appendChild(document.createTextNode('에 불이 켜졌습니다' + (me.no <= 100 ? ' — 창립 후원자입니다' : '')));
@@ -317,7 +342,7 @@
           if (navigator.share) navigator.share({ title: '정치탈탈 후원자의 벽', text: text, url: url }).catch(function () {});
           else if (navigator.clipboard) navigator.clipboard.writeText(text + ' ' + url).then(function () { share.textContent = '복사했어요 — 붙여넣어 자랑하세요'; });
         };
-        box.appendChild(p); box.appendChild(share); wb.appendChild(box);
+        box.appendChild(p); box.appendChild(share); box.appendChild(teamRow()); wb.appendChild(box);
         var paint = function () { if (cells[me.no - 1]) cells[me.no - 1].className += ' me'; };
         paint(); setTimeout(paint, 2600);
       }).catch(function () {});
@@ -336,6 +361,7 @@
         var plates = document.getElementById('plates'), book = document.getElementById('book');
         seats.forEach(function (s) {
           var p = el('article', 'plate' + (s.team ? ' t-' + s.team : '')), no = el('div', 'p-no', seatNo(s.no) + ' ');
+          p.id = 'seat-' + s.no;
           if (s.no <= 100) no.appendChild(el('em', '', '창립'));
           p.appendChild(no); p.appendChild(el('div', s.name.length > 9 ? 'p-name long' : 'p-name', s.name)); plates.appendChild(p);
         });
@@ -350,6 +376,14 @@
           book.appendChild(b);
         });
         document.getElementById('wallPlates').hidden = false;
+        if (seatQ && seats[seatQ - 1]) {                  // 자리 자랑 링크로 들어온 경우 — 그 자리를 밝히고 알려 준다
+          var sq = seats[seatQ - 1], hb = el('div', 'wb-me'), hp = el('p');
+          if (cells[seatQ - 1]) cells[seatQ - 1].className += ' me';
+          hp.appendChild(document.createTextNode('🏛 ')); hp.appendChild(el('b', '', seatNo(sq.no)));
+          hp.appendChild(document.createTextNode(' · ' + sq.name + '님의 자리입니다' + (sq.no <= 100 ? ' — 창립 후원자' : '')));
+          hb.appendChild(hp); document.querySelector('.wb').appendChild(hb);
+          var hpl = document.getElementById('seat-' + sq.no); if (hpl) hpl.classList.add('hl');
+        }
         document.getElementById('wallBook').hidden = !book.children.length;
         var we = document.getElementById('wallEmpty'); if (we) we.hidden = true;
       }).catch(function () {});
@@ -467,6 +501,6 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202610281542" defer></script>
+  <script src="/war.js?v=202610281739" defer></script>
 </body>
 </html>
