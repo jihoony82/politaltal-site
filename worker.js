@@ -1132,7 +1132,7 @@ function ofcWords(texts) {
 const OFC_AI_MODEL = "claude-opus-5-5";
 async function ofcAi(env, system, user) {
   if (!env.ANTHROPIC_API_KEY) return { ok: false, error: "ai_off" };
-  const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
+  const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY.trim() });   // 붙여 넣을 때 딸려 온 줄바꿈·공백 제거
   try {
     const res = await client.beta.messages.create({
       model: OFC_AI_MODEL, max_tokens: 16000, output_config: { effort: "low" },
@@ -1515,7 +1515,9 @@ async function handleLedger(request, env, url) {
       const r = await env.PUSH_DB.prepare("UPDATE ofc SET pro_until = MAX(pro_until, ?) + ? WHERE t = ?").bind(Date.now(), body.days * 86400e3, body.t).run();
       return pj({ ok: !!r.meta.changes });
     }
-    if (body.op === "ai_test") {                                     // Claude 키·모델 확인용 — 가짜 한마디로 초안 한 번
+    if (body.op === "ai_test") {                                     // Claude 키·모델 확인용 — 가짜 한마디로 초안 한 번(키 값은 내보내지 않고 모양만)
+      const k = String(env.ANTHROPIC_API_KEY || "");
+      if (body.shape) return pj({ ok: true, len: k.length, kind: k.trim().slice(0, 10), space: /\s/.test(k) });
       return pj(await ofcAi(env, OFC_DRAFT_SYS, "의원: 시험 의원(무소속, 서울 시험구)\n\n시민 한마디:\n우리 동네 버스 배차 간격이 너무 길어요. 개선 계획이 있나요?\n\n이 한마디에 달 의원실 공식 답글 초안을 써 주세요."));
     }
     if (body.op === "ofc_post_hide" && Number.isInteger(body.id) && typeof body.hide === "boolean") {
