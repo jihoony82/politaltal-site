@@ -36,20 +36,20 @@
   <meta name="twitter:description" content="공공데이터로 검증하는 제22대 국회 300명의 진짜 의정활동. 내가 뽑은 의원, 진짜 일하고 있나요?">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610300048">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610300048">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610300048">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610300048">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610300103">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610300103">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610300103">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610300103">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610300048">
+  <link rel="stylesheet" href="/styles.css?v=202610300103">
   <script>document.documentElement.classList.add("hub-js")</script><!-- 박스→카드: JS 없는 검색로봇은 전체 내용을 그대로 읽는다 -->
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610300048">
+  <link rel="manifest" href="/manifest.json?v=202610300103">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610300048">
+  <meta name="build-id" content="202610300103">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -230,6 +230,34 @@
         </div>
 
 
+        <section class="hot-box" id="hotBox" hidden>
+        <div class="hot-head"><h2><i class="hot-dot"></i>실시간 급상승 정치인</h2><span class="hot-time" id="hotTime"></span></div>
+        <ol class="hot-list" id="hotList"></ol>
+        <button type="button" class="hot-more" id="hotMore" onclick="var b=document.getElementById('hotBox');b.classList.toggle('all');this.textContent=b.classList.contains('all')?'접기':'더보기 (10위까지)'">더보기 (10위까지)</button>
+      </section>
+      <script>
+      (function () {
+        window.__pcN = window.__pcN || fetch('/data/pc-names.json').then(function (r) { return r.json(); });
+        Promise.all([fetch('/hot').then(function (r) { return r.json(); }), window.__pcN]).then(function (res) {
+          var names = res[1], list = document.getElementById('hotList');
+          var rows = (res[0].rows || []).filter(function (r) { return names[(r.path[1] === 'p' ? 'p:' : 'l:') + r.path.split('/')[2]]; });
+          if (rows.length < 5) return;
+          rows.forEach(function (r, i) {
+            var id = r.path.split('/')[2], li = document.createElement('li'), a = document.createElement('a');
+            a.href = r.path + '.html'; a.dataset.ck = 'home-hot';
+            var n = document.createElement('span'); n.className = 'hr-n'; n.textContent = i + 1;
+            var nm = document.createElement('span'); nm.className = 'hr-name'; nm.textContent = names[(r.path[1] === 'p' ? 'p:' : 'l:') + id];
+            var d = document.createElement('span'), up = r.was ? r.was - (i + 1) : 0;
+            d.className = 'hr-d ' + (!r.was ? 'new' : up > 0 ? 'up' : up < 0 ? 'down' : '');
+            d.textContent = !r.was ? 'NEW' : up > 0 ? '▲' + up : up < 0 ? '▼' + (-up) : '–';
+            a.appendChild(n); a.appendChild(nm); a.appendChild(d); li.appendChild(a); list.appendChild(li);
+          });
+          var t = new Date(); document.getElementById('hotTime').textContent = t.getHours() + ':' + String(t.getMinutes()).padStart(2, '0') + ' 기준';
+          document.getElementById('hotBox').hidden = false;
+          document.getElementById('hotMore').hidden = rows.length <= 6;
+        }).catch(function () {});
+      })();
+      </script>
       </div>
     </section>
 
@@ -239,12 +267,10 @@
         <small>국회의원 300명 · 시도지사·시장·군수·구청장 243명에게 민원·청원을 직접 — 인증된 곳이 공식 답변합니다</small><span class="hub-cta">민원·청원 넣기 ›</span></a>
       <h2 class="hub-h">지금 뜨는</h2>
       <div class="hub-grid">
-        <a class="hub-tile" href="#h-hot"><b>실시간 많이 찾는</b><small>지금 사람들이 몰려 보는 정치인 순위</small></a>
         <a class="hub-tile" href="#h-issue"><b>오늘의 핫이슈</b><small>국회 공식 기록에서 뽑은 오늘의 숫자</small></a>
         <a class="hub-tile" href="#h-news"><b>좌우 뉴스</b><small>같은 사건, 진보·보수 언론은 어떻게 썼나</small></a>
         <a class="hub-tile" href="#h-talk"><b>방금 올라온 한마디</b><small>시민이 정치인에게 남긴 말</small></a>
         <a class="hub-tile" href="#h-hist"><b>정치 비사·영상</b><small>교과서엔 한 줄, 그날의 기록 · 의원 리뷰</small></a>
-        <a class="hub-tile" href="/game.html" data-ck="home-game"><b>청기홍기</b><small>한 판 하고 내 성향에 화력 보태기</small></a>
       </div>
       <h2 class="hub-h">정치인 찾기</h2>
       <div class="hub-grid">
@@ -266,38 +292,11 @@
       <div class="hub-grid">
         <a class="hub-tile" href="/community" data-ck="home-community"><b>실시간 커뮤니티</b><small>국회 생중계 보며 토론</small></a>
         <a class="hub-tile" href="#h-learn"><b>정치 배움터</b><small>정치가 어렵다면 여기서부터</small></a>
+        <a class="hub-tile" href="/game.html" data-ck="home-game"><b>청기홍기</b><small>한 판 하고 내 성향에 화력 보태기</small></a>
         <a class="hub-tile" href="#h-war"><b>성향 화력 대결</b><small>진보·중도·보수 오늘의 화력 · 여론조사 아님</small></a>
         <a class="hub-tile" href="/donate.html" data-ck="home-donate"><b>후원하기</b><small>광고 없이 운영 · 후원자의 벽</small></a>
         <a class="hub-tile ofc-cta-link" href="/office" data-ck="home-office"><b>의원실·단체장실</b><small>인증하고 민원·한마디에 직접 답하기</small></a>
       </div>
-      <section class="hub-sheet" id="h-hot" data-title="실시간 많이 찾는">
-      <section class="hot-box" id="hotBox" hidden>
-        <div class="hot-head"><h2>🔥 지금 많이 찾는 정치인</h2><span class="hot-time" id="hotTime"></span></div>
-        <ol class="hot-list" id="hotList"></ol>
-      </section>
-      <script>
-      (function () {
-        window.__pcN = window.__pcN || fetch('/data/pc-names.json').then(function (r) { return r.json(); });
-        Promise.all([fetch('/hot').then(function (r) { return r.json(); }), window.__pcN]).then(function (res) {
-          var names = res[1], list = document.getElementById('hotList');
-          var rows = (res[0].rows || []).filter(function (r) { return names[(r.path[1] === 'p' ? 'p:' : 'l:') + r.path.split('/')[2]]; });
-          if (rows.length < 5) return;
-          rows.forEach(function (r, i) {
-            var id = r.path.split('/')[2], li = document.createElement('li'), a = document.createElement('a');
-            a.href = r.path + '.html'; a.dataset.ck = 'home-hot';
-            var n = document.createElement('span'); n.className = 'hr-n'; n.textContent = i + 1;
-            var nm = document.createElement('span'); nm.className = 'hr-name'; nm.textContent = names[(r.path[1] === 'p' ? 'p:' : 'l:') + id];
-            var d = document.createElement('span'), up = r.was ? r.was - (i + 1) : 0;
-            d.className = 'hr-d ' + (!r.was ? 'new' : up > 0 ? 'up' : up < 0 ? 'down' : '');
-            d.textContent = !r.was ? 'NEW' : up > 0 ? '▲' + up : up < 0 ? '▼' + (-up) : '–';
-            a.appendChild(n); a.appendChild(nm); a.appendChild(d); li.appendChild(a); list.appendChild(li);
-          });
-          var t = new Date(); document.getElementById('hotTime').textContent = t.getHours() + ':' + String(t.getMinutes()).padStart(2, '0') + ' 기준';
-          document.getElementById('hotBox').hidden = false;
-        }).catch(function () {});
-      })();
-      </script><p class="hub-empty">지금 많이 찾는 순위를 모으는 중입니다. 잠시 뒤 다시 열어 주세요.</p>
-      </section>
       <section class="hub-sheet" id="h-issue" data-title="오늘의 핫이슈">
       <div class="rail-block">
         <div class="rail-head"><div><h2 class="rail-title">📰 오늘의 정치 핫이슈</h2><div class="rail-sub">10월 30일 · 국회 공식 기록에서 뽑은 숫자</div></div></div>
@@ -314,7 +313,7 @@
         </div>
         <p class="nw-note">한겨레·경향신문·오마이뉴스 / 조선일보·동아일보·데일리안 정치면. 성향은 흔히 쓰는 분류이고, 제목은 언론사가 쓴 그대로입니다.</p>
       </section>
-      <script src="/news.js?v=202610300048" defer></script><p class="hub-empty">뉴스를 모으는 중입니다.</p>
+      <script src="/news.js?v=202610300103" defer></script><p class="hub-empty">뉴스를 모으는 중입니다.</p>
         <a class="hub-more" href="/news.html">좌우 뉴스 전체 보기 →</a>
       </section>
       <section class="hub-sheet" id="h-talk" data-title="방금 올라온 한마디">
@@ -1766,7 +1765,7 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202610300048" defer></script>
-  <script src="/hub.js?v=202610300048" defer></script>
+  <script src="/war.js?v=202610300103" defer></script>
+  <script src="/hub.js?v=202610300103" defer></script>
 </body>
 </html>
