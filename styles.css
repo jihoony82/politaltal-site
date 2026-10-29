@@ -2187,7 +2187,12 @@ a:hover { text-decoration: underline; }
 .ofc-cta.on p { margin-bottom: 0; }
 /* 앱 안에서는 의원실 센터(웹 결제 B2B 요금 안내) 링크를 숨긴다 — 스토어 결제 규정과 엮이지 않게 */
 .in-app .ofc-cta, .in-app .pc-ofc-cta, .in-app .ofn { display: none !important; }
-/* 의원실 소식(Pro) — 소통 칸 맨 위. '의원실 제공' 꼬리표로 정치탈탈 글과 구분 */
+/* 의원실 소식(Pro) — 의정활동 칸 맨 위. '의원실 제공' 꼬리표로 정치탈탈 글과 구분. 글이 없으면 작은 빈자리 3칸 */
+.ofn-empty { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.ofn-empty div { height: 84px; border: 1.5px dashed #bfdbfe; border-radius: 10px; background: #f8fbff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 700; color: #64748b; }
+.ofn-empty i { font-style: normal; font-size: 20px; color: #93c5fd; }
+.ofn-note { font-size: 12.5px; color: var(--color-text-soft); line-height: 1.6; margin: 10px 0 0; word-break: keep-all; }
+.ofn-note a { color: #1d4ed8; font-weight: 800; text-decoration: none; white-space: nowrap; }
 .ofn { background: #fff; border: 1px solid #bfdbfe; border-radius: 14px; padding: 14px 16px; margin: 4px 0 12px; }
 .ofn[hidden] { display: none; }
 .ofn-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }

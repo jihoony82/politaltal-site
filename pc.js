@@ -100,9 +100,10 @@
     [].forEach.call(document.querySelectorAll("[data-ofc-on]"), function (e) { e.hidden = !on; });
     [].forEach.call(document.querySelectorAll("[data-ofc-off]"), function (e) { e.hidden = on; });
     var nb = $("ofcNews");
-    if (!nb || !o || !o.posts || !o.posts.length) return;          /* 의원실 소식(Pro) — 최신 1개, 나머지는 더 보기 */
+    if (!nb || !o || !o.posts || !o.posts.length) return;          /* 의원실 소식(Pro) — 최신 1개, 나머지는 더 보기. 없으면 빈자리 그대로 */
     $("ofnTitle").textContent = "📣 " + o.name + " 의원실 소식";
     var nl = $("ofnList"), nm = $("ofnMore");
+    nl.textContent = "";
     function card(p) {
       var c = el("article", "ofn-item"), d = new Date(p.at);
       c.appendChild(el("div", "ofn-date", (d.getMonth() + 1) + "월 " + d.getDate() + "일"));
@@ -134,7 +135,6 @@
       nm.hidden = false; nm.textContent = "의원실 소식 " + (o.posts.length - 1) + "개 더 보기";
       nm.onclick = function () { o.posts.slice(1).forEach(function (p) { nl.appendChild(card(p)); }); nm.hidden = true; };
     }
-    nb.hidden = false;
   }
 
   more.onclick = function () { all = true; draw(); };
