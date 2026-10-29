@@ -7,6 +7,9 @@
   "main": "worker.js",
   "compatibility_date": "2026-08-01",
   "observability": { "enabled": true },
+  // 워커 코드 실행 위치 = 서울. 한국 접속은 대개 홍콩(HKG) 데이터센터로 들어오는데, 홍콩은 Anthropic API 미지원 지역이라
+  // 의원실 AI 초안이 403 "Request not allowed"로 막혔다(10-29). 정적 자산은 그대로 가까운 곳에서 나간다.
+  "placement": { "region": "aws:ap-northeast-2" },
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
