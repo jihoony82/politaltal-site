@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="최민희 의원 프로필 — 더불어민주당 경기 남양주시갑 · 재선 · 1960년생·만 65세 · 소관 문화체육관광위원회 · 학력 이화여자대학교 인문과학대학 졸업(사학전공). 출석률·대표발의 법안·표결 참여·재산공개 등 제22대 국회 의정활동을 공공데이터로 확인하세요.">
   <meta name="twitter:image" content="https://politaltal.com/images/og/YS38221N.jpg">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610291045">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610291045">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610291045">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610291045">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610291418">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610291418">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610291418">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610291418">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610291045">
+  <link rel="stylesheet" href="/styles.css?v=202610291418">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610291045">
+  <link rel="manifest" href="/manifest.json?v=202610291418">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610291045">
+  <meta name="build-id" content="202610291418">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -217,6 +217,34 @@
         <div class="container">
           <a href="/" class="back-link">← 홈으로</a>
           
+          <header class="pv-head">
+            <div class="pv-row">
+              <img class="profile-avatar-img" src="/images/politicians/YS38221N.jpg" alt="최민희">
+              <div class="pv-info">
+                <h1>최민희 의원</h1>
+                <div class="pv-badge" data-ofc-on hidden>✅ 의원실 인증</div>
+                <div class="profile-meta">
+                  <span class="party-tag party-민주">더불어민주당</span>
+                  · 경기 남양주시갑
+                </div>
+                <div class="profile-meta">재선 · 문화체육관광위원회</div>
+              </div>
+              <button class="pv-fav" id="favBtn-YS38221N" onclick="toggleFav('YS38221N','최민희')" title="관심 의원 — 이 기기에만 저장(순위와 무관)">
+                <span class="heart">🤍</span><span class="fav-label">관심</span>
+              </button>
+            </div>
+            
+              <div class="glance-mini">
+                <div class="gm-grid">
+                  <div class="gm-item"><div class="gm-num">74<small>건</small></div><div class="gm-lbl">대표발의</div></div>
+                  <div class="gm-item"><div class="gm-num">8<small>%</small></div><div class="gm-lbl">통과율</div></div>
+                  <div class="gm-item"><div class="gm-num">99<small>%</small></div><div class="gm-lbl">표결참여</div></div>
+                  <div class="gm-item"><div class="gm-num">44<small>점</small></div><div class="gm-lbl">종합점수</div></div>
+                </div>
+                <div class="gm-note">정량지표 기준 · 의정활동의 질을 단정하지 않습니다</div>
+              </div>
+        
+          </header>
           <div class="hook-bar" id="hookBar"><div class="hk-line">📜 대표발의 74건 중 6건 그대로 통과 — <strong>23위</strong></div><div class="hk-line">🗳 본회의 표결 참여율 99.3% — <strong>상위 10위</strong></div><div class="hk-line hk-live" id="hotRank" hidden></div></div><script>
       fetch('/hot').then(function (r) { return r.json(); }).then(function (d) {
         var p = location.pathname.replace(/\.html$/, '').replace(/\/+$/, ''), i = -1;
@@ -227,6 +255,41 @@
       }).catch(function () {});
       </script>
 
+          <nav class="pv-nav" id="pvNav" aria-label="이 의원 페이지 바로가기">
+            <a href="#talk">소통</a><a href="#act">의정활동</a><a href="#assets">재산</a><a href="#bills">법안</a><a href="#contact">연락처</a>
+          </nav>
+
+          <section class="pv-sec" id="talk">
+            
+      <div class="pc-box" id="pcBox" data-t="p:YS38221N">
+        <div class="pc-head"><strong>💬 최민희 의원에게 한마디</strong><span class="pc-count" id="pcCount"></span>
+          <button type="button" class="pc-sort" id="pcSort" hidden></button></div>
+        <div class="pc-ofc" data-ofc-on hidden>✅ 인증된 의원실이 읽고 직접 답합니다</div>
+        <form class="pc-form" id="pcForm">
+          <input name="body" maxlength="300" required placeholder="응원도 쓴소리도 좋습니다 (300자)" aria-label="한마디">
+          <input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="pc-hp">
+          <button type="submit">남기기</button>
+        </form>
+        <p class="pc-msg" id="pcMsg" role="status"></p>
+        <div class="pc-list" id="pcList"></div>
+        <button type="button" class="pc-more" id="pcMore" hidden></button>
+        <p class="pc-rule">욕설·비방·허위사실·홍보 글은 숨겨집니다. 댓글은 작성자 개인 의견입니다.<span data-ofc-off> 의원실이 인증하기 전에는 당사자에게 전달되지 않습니다.</span><span data-ofc-on hidden> 의원실은 시민 글을 지울 수 없고 공식 답글로만 답합니다.</span> 삭제 요청: jihoony8282@naver.com</p>
+        <a class="pc-ofc-cta" href="/office" data-ofc-off>🏛 의원실이신가요? 인증하고 직접 답하기 →</a>
+      </div>
+      <div class="war-p" id="warP" data-t="p:YS38221N" data-f="[&quot;본회의 표결 참여율 99.3%&quot;, &quot;대표발의 74건 중 그대로 통과 6건&quot;, &quot;신고 재산 14억&quot;]">
+        <div class="wp-head">⚔️ 최민희 의원 — 내 성향에 화력을 보태세요</div>
+        <div class="wp-acts">
+          <button type="button" class="wp-cheer">👍 응원 <b>0</b></button>
+          <button type="button" class="wp-bomb">💣 팩트 폭탄 <b>0</b></button>
+        </div>
+        <div class="wp-facts" hidden></div>
+        <p class="wp-msg" role="status"></p>
+        <p class="wp-rule">응원·팩트 폭탄 모두 내 성향에 화력 +1 (하루 한 번씩). 팩트 폭탄은 국회·선관위 공개 기록 숫자만 던집니다.</p>
+      </div>
+      <script src="/pc.js?v=202610291418" defer></script>
+          </section>
+
+          <section class="pv-sec" id="act">
           
     <div class="member-bigdata">
       <div class="bd-header">
@@ -240,73 +303,11 @@
         <span class="bd-leg"><span class="bd-dot bd-dot-orange"></span>관심사</span>
       </div>
       <div class="bigdata-cloud">
-        <span class="bd-word bd-name bd-dark" style="transform:rotate(-3deg);" data-tip="최민희 의원 (더불어민주당)"><span class="bd-text">최민희</span></span><span class="bd-word bd-major bd-blue" style="transform:rotate(-6deg);" data-tip="소속 정당: 더불어민주당"><span class="bd-text">더불어민주당</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(6deg);" data-tip="22대 국회 대표발의 74건 (가결 6건, 가결률 8%)"><span class="bd-text">74건 발의</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="문화체육관광위원회 위원"><span class="bd-text">문체위 위원</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(-6deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">43</span></span><span class="bd-word bd-tiny bd-gray" style="transform:rotate(6deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">종합점수</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(0deg);" data-tip="본회의 표결 참여율 (715/720건)"><span class="bd-text">99% 출석</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(-6deg);" data-tip="22대 국회 재선"><span class="bd-text">재선 선수</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법"><span class="bd-text">정보통신망법 관심사</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="성별: 여"><span class="bd-text">여 성별</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(-3deg);" data-tip="신고 재산: 14억 1,450만원 (2025년)"><span class="bd-text">14억 145… 재산</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 방송법"><span class="bd-text">방송법 관심사</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="출생: 1960-12-03"><span class="bd-text">66세 나이</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 인공지능 발전과 신뢰 기반 조성 등에 관한 기본법"><span class="bd-text">인공지능 발전… 관심사</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(-3deg);" data-tip="대표발의 74건 중 본회의 통과 6건"><span class="bd-text">8% 가결률</span></span>
+        <span class="bd-word bd-name bd-dark" style="transform:rotate(-3deg);" data-tip="최민희 의원 (더불어민주당)"><span class="bd-text">최민희</span></span><span class="bd-word bd-major bd-blue" style="transform:rotate(-6deg);" data-tip="소속 정당: 더불어민주당"><span class="bd-text">더불어민주당</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(0deg);" data-tip="본회의 표결 참여율 (715/720건)"><span class="bd-text">99% 출석</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="문화체육관광위원회 위원"><span class="bd-text">문체위 위원</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(6deg);" data-tip="발의 키워드: 인공지능 발전과 신뢰 기반 조성 등에 관한 기본법"><span class="bd-text">인공지능 발전… 관심사</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(-6deg);" data-tip="발의 키워드: 정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법"><span class="bd-text">정보통신망법 관심사</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(3deg);" data-tip="대표발의 74건 중 본회의 통과 6건"><span class="bd-text">8% 가결률</span></span><span class="bd-word bd-tiny bd-gray" style="transform:rotate(-6deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">종합점수</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 방송법"><span class="bd-text">방송법 관심사</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="22대 국회 재선"><span class="bd-text">재선 선수</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(-3deg);" data-tip="성별: 여"><span class="bd-text">여 성별</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(0deg);" data-tip="22대 국회 대표발의 74건 (가결 6건, 가결률 8%)"><span class="bd-text">74건 발의</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(3deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">43</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="출생: 1960-12-03"><span class="bd-text">66세 나이</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="신고 재산: 14억 1,450만원 (2025년)"><span class="bd-text">14억 145… 재산</span></span>
       </div>
       <div class="bd-hint">💡 단어 위에 마우스를 올리면 자세한 정보가 나옵니다</div>
     </div>
     
-
-          
-      <div class="war-p" id="warP" data-t="p:YS38221N" data-f="[&quot;본회의 표결 참여율 99.3%&quot;, &quot;대표발의 74건 중 그대로 통과 6건&quot;, &quot;신고 재산 14억&quot;]">
-        <div class="wp-head">⚔️ 최민희 의원 — 내 성향에 화력을 보태세요</div>
-        <div class="wp-acts">
-          <button type="button" class="wp-cheer">👍 응원 <b>0</b></button>
-          <button type="button" class="wp-bomb">💣 팩트 폭탄 <b>0</b></button>
-        </div>
-        <div class="wp-facts" hidden></div>
-        <p class="wp-msg" role="status"></p>
-        <p class="wp-rule">응원·팩트 폭탄 모두 내 성향에 화력 +1 (하루 한 번씩). 팩트 폭탄은 국회·선관위 공개 기록 숫자만 던집니다.</p>
-      </div>
-      <div class="pc-box" id="pcBox" data-t="p:YS38221N">
-        <div class="pc-head"><strong>💬 최민희 의원에게 한마디</strong><span class="pc-count" id="pcCount"></span>
-          <button type="button" class="pc-sort" id="pcSort" hidden></button></div>
-        <form class="pc-form" id="pcForm">
-          <input name="body" maxlength="300" required placeholder="응원도 쓴소리도 좋습니다 (300자)" aria-label="한마디">
-          <input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="pc-hp">
-          <button type="submit">남기기</button>
-        </form>
-        <p class="pc-msg" id="pcMsg" role="status"></p>
-        <div class="pc-list" id="pcList"></div>
-        <button type="button" class="pc-more" id="pcMore" hidden></button>
-        <p class="pc-rule">욕설·비방·허위사실·홍보 글은 숨겨집니다. 댓글은 작성자 개인 의견이며 당사자에게 전달되지는 않습니다. 삭제 요청: jihoony8282@naver.com</p>
-      </div>
-      <script src="/pc.js?v=202610291045" defer></script>
-          <div class="profile-card">
-            <div class="profile-head">
-              <img class="profile-avatar-img" src="/images/politicians/YS38221N.jpg" alt="최민희">
-              <div style="flex: 1; min-width: 200px;">
-                <h1 class="profile-name" style="margin:0;">최민희 의원</h1>
-                <div class="profile-meta">
-                  <span class="party-tag party-민주">더불어민주당</span>
-                  · 경기 남양주시갑
-                </div>
-                <div class="profile-meta">재선 · 문화체육관광위원회</div>
-                <div class="profile-meta">🎓 이화여자대학교 인문과학대학 졸업(사학전공)</div>
-                <div class="profile-tags">
-                  
-                  <span class="tag">지역구</span>
-                </div>
-                <div style="margin-top:12px;">
-                  <button class="fav-btn" id="favBtn-YS38221N" onclick="toggleFav('YS38221N','최민희')">
-                    <span class="heart">🤍</span>
-                    <span class="fav-label">관심 의원 등록</span>
-                  </button>
-                  <div class="fav-note">본인 기기에만 저장됩니다 (전체 인기도/순위와 무관)</div>
-                </div>
-              </div>
-              
-              <div class="glance-mini">
-                <div class="gm-grid">
-                  <div class="gm-item"><div class="gm-num">74<small>건</small></div><div class="gm-lbl">대표발의</div></div>
-                  <div class="gm-item"><div class="gm-num">8<small>%</small></div><div class="gm-lbl">통과율</div></div>
-                  <div class="gm-item"><div class="gm-num">99<small>%</small></div><div class="gm-lbl">표결참여</div></div>
-                  <div class="gm-item"><div class="gm-num">44<small>점</small></div><div class="gm-lbl">종합점수</div></div>
-                </div>
-                <div class="gm-note">정량지표 기준 · 의정활동의 질을 단정하지 않습니다</div>
-              </div>
-        
-            </div>
-          </div>
 
           <script>
             // 관심 의원 (localStorage 기반 개인 즐겨찾기)
@@ -328,11 +329,11 @@
                 if (favs[mona]) {
                   btn.classList.add('active');
                   heart.textContent = '❤️';
-                  label.textContent = '관심 의원 등록됨';
+                  label.textContent = '관심 중';
                 } else {
                   btn.classList.remove('active');
                   heart.textContent = '🤍';
-                  label.textContent = '관심 의원 등록';
+                  label.textContent = '관심';
                 }
               }
 
@@ -346,34 +347,19 @@
 
               render();
             })();
+            // 바로가기 탭: 지금 보고 있는 칸에 불
+            (function() {
+              const nav = document.getElementById('pvNav');
+              if (!nav || !('IntersectionObserver' in window)) return;
+              const links = [].slice.call(nav.querySelectorAll('a'));
+              const io = new IntersectionObserver(function(es) {
+                es.forEach(function(e) {
+                  if (e.isIntersecting) links.forEach(function(a) { a.setAttribute('aria-current', a.getAttribute('href') === '#' + e.target.id ? 'true' : 'false'); });
+                });
+              }, { rootMargin: '-45% 0px -50% 0px' });
+              links.forEach(function(a) { const sec = document.querySelector(a.getAttribute('href')); if (sec) io.observe(sec); });
+            })();
           </script>
-
-          <div class="stat-card">
-            <h2>💰 재산 공개 (2025년)</h2>
-            
-        <div style="text-align:center;margin:16px 0;padding:20px;background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%);border-radius:12px;">
-          <div style="font-size:11px;color:#1e3a8a;font-weight:600;margin-bottom:4px;">신고 재산 (2025년 3월)</div>
-          <div style="font-size:28px;font-weight:800;color:#1e3a8a;letter-spacing:-1px;">
-            14억 1,450만원
-          </div>
-          <div style="font-size:11px;color:#1e3a8a;margin-top:6px;line-height:1.6;">
-            전체 평균(33억 6,590만원) 대비 <strong>0.4배</strong> ⬇ · 재산 순위 <strong>160위</strong> / 280명<br>전체 중앙값 16억 3,965만원 · 단순 평균만 보면 상위 13명에 왜곡됨
-          </div>
-          
-        </div>
-        <div class="source-note">출처: 공직자윤리위원회 정기재산변동신고 (2025.3, 국회공보 제2025-51호) · 정제: 정보공개센터(opengirok)</div>
-        
-    <a href="https://www.peti.go.kr/peOptpListOptp.do" target="_blank" rel="noopener" class="ext-link-card">
-      <span class="ext-icon">📑</span>
-      <div class="ext-info">
-        <div class="ext-title">최민희 의원 상세 재산공개</div>
-        <div class="ext-desc">공직윤리시스템(peti.go.kr) → 이름으로 검색</div>
-      </div>
-      <span class="ext-arrow">↗</span>
-    </a>
-    
-        
-          </div>
 
           <div class="stat-card">
             <h2>🎯 실성적표
@@ -454,12 +440,45 @@
             <div class="source-note" style="margin-top: 12px;">출처: 열린국회정보 OpenAPI · 공공누리 제1유형</div>
           </div>
 
+          </section>
+
+          <section class="pv-sec" id="assets">
+          <div class="stat-card">
+            <h2>💰 재산 공개 (2025년)</h2>
+            
+        <div style="text-align:center;margin:16px 0;padding:20px;background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%);border-radius:12px;">
+          <div style="font-size:11px;color:#1e3a8a;font-weight:600;margin-bottom:4px;">신고 재산 (2025년 3월)</div>
+          <div style="font-size:28px;font-weight:800;color:#1e3a8a;letter-spacing:-1px;">
+            14억 1,450만원
+          </div>
+          <div style="font-size:11px;color:#1e3a8a;margin-top:6px;line-height:1.6;">
+            전체 평균(33억 6,590만원) 대비 <strong>0.4배</strong> ⬇ · 재산 순위 <strong>160위</strong> / 280명<br>전체 중앙값 16억 3,965만원 · 단순 평균만 보면 상위 13명에 왜곡됨
+          </div>
+          
+        </div>
+        <div class="source-note">출처: 공직자윤리위원회 정기재산변동신고 (2025.3, 국회공보 제2025-51호) · 정제: 정보공개센터(opengirok)</div>
+        
+    <a href="https://www.peti.go.kr/peOptpListOptp.do" target="_blank" rel="noopener" class="ext-link-card">
+      <span class="ext-icon">📑</span>
+      <div class="ext-info">
+        <div class="ext-title">최민희 의원 상세 재산공개</div>
+        <div class="ext-desc">공직윤리시스템(peti.go.kr) → 이름으로 검색</div>
+      </div>
+      <span class="ext-arrow">↗</span>
+    </a>
+    
+        
+          </div>
+          </section>
+
+          <section class="pv-sec" id="bills">
           <div class="stat-card">
             <h2>📜 대표발의 법안 (74건)
               <span class="data-info" data-tooltip="제22대 국회 임기 동안 이 의원이 대표발의한 모든 법안. 카드 클릭 시 상세 페이지로 이동.">ⓘ</span>
             </h2>
             <div class="bill-mini-summary"><span class="bms-chip bms-green">🟢 가결 6</span><span class="bms-chip bms-blue">🔵 대안반영 27</span><span class="bms-chip bms-amber">🟡 계류 40</span><span class="bms-chip bms-gray">⚫ 기타 1</span></div><div class="bill-filter-bar" id="billFilter-YS38221N"><button class="bill-filter active" data-filter="all">전체 74</button><button class="bill-filter" data-filter="passed">가결 6</button><button class="bill-filter" data-filter="reflected">대안반영 27</button><button class="bill-filter" data-filter="pending">계류 40</button><button class="bill-filter" data-filter="other">기타 1</button></div><div class="bill-mini-list" id="billList-YS38221N" data-shown="20"><a class="bill-mini-card" data-status="pending" href="/bills/2219347.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">한국방송공사법안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2219347</span>    <span class="bmc-date">2026-06-18</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2219343.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">시청각미디어서비스법안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2219343</span>    <span class="bmc-date">2026-06-18</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2217983.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">방송법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2217983</span>    <span class="bmc-date">2026-03-31</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2217823.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">방송법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2217823</span>    <span class="bmc-date">2026-03-27</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2217562.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">전기통신사업법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2217562</span>    <span class="bmc-date">2026-03-18</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2217530.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">방송법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2217530</span>    <span class="bmc-date">2026-03-17</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="passed" href="/bills/2216371.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-green"><span class="term-tip" data-tip="본회의 표결을 통과한 경우. 법률로 확정됨.">가결</span></span>  </div>  <div class="bmc-title">양자과학기술 및 양자산업 육성에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2216371</span>    <span class="bmc-date">2026-01-28</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2216077.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">언론중재 및 피해구제 등에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2216077</span>    <span class="bmc-date">2026-01-15</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2215639.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2215639</span>    <span class="bmc-date">2025-12-26</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2215604.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2215604</span>    <span class="bmc-date">2025-12-24</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2215299.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2215299</span>    <span class="bmc-date">2025-12-16</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2215298.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">인공지능 발전과 신뢰 기반 조성 등에 관한 기본법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2215298</span>    <span class="bmc-date">2025-12-16</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2214215.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">방송법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2214215</span>    <span class="bmc-date">2025-11-13</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2213684.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2213684</span>    <span class="bmc-date">2025-10-23</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2212957.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2212957</span>    <span class="bmc-date">2025-09-15</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2212749.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">인공지능 발전과 신뢰 기반 조성 등에 관한 기본법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2212749</span>    <span class="bmc-date">2025-09-05</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2212675.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">인공지능 발전과 신뢰 기반 조성 등에 관한 기본법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2212675</span>    <span class="bmc-date">2025-09-03</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2212674.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">전원개발촉진법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2212674</span>    <span class="bmc-date">2025-09-03</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2212582.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">신문 등의 진흥에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2212582</span>    <span class="bmc-date">2025-09-01</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2212578.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">전기통신사업법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2212578</span>    <span class="bmc-date">2025-09-01</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="passed" href="/bills/2212102.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-green"><span class="term-tip" data-tip="본회의 표결을 통과한 경우. 법률로 확정됨.">가결</span></span>  </div>  <div class="bmc-title">원자력시설 등의 방호 및 방사능 방재 대책법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2212102</span>    <span class="bmc-date">2025-08-11</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2211927.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">정보보호산업의 진흥에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2211927</span>    <span class="bmc-date">2025-08-01</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2211795.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">인공지능 발전과 신뢰 기반 조성 등에 관한 기본법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2211795</span>    <span class="bmc-date">2025-07-29</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2211766.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">인공지능 발전과 신뢰 기반 조성 등에 관한 기본법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2211766</span>    <span class="bmc-date">2025-07-28</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="other" href="/bills/2211722.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-gray"><span class="term-tip" data-tip="발의자가 스스로 거두어들인 경우.">철회</span></span>  </div>  <div class="bmc-title">공공데이터의 제공 및 이용 활성화에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2211722</span>    <span class="bmc-date">2025-07-25</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2211720.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">인공지능 발전과 신뢰 기반 조성 등에 관한 기본법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2211720</span>    <span class="bmc-date">2025-07-25</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2211205.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">공직선거법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2211205</span>    <span class="bmc-date">2025-07-02</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2211185.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">위치정보의 보호 및 이용 등에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2211185</span>    <span class="bmc-date">2025-07-01</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2211130.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">전기통신사업법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2211130</span>    <span class="bmc-date">2025-06-27</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2210957.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">인공지능산업 육성 및 강국 도약을 위한 특별법안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2210957</span>    <span class="bmc-date">2025-06-20</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2210939.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">디지털포용법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2210939</span>    <span class="bmc-date">2025-06-19</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2210937.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2210937</span>    <span class="bmc-date">2025-06-19</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2210936.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">개인정보 보호법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2210936</span>    <span class="bmc-date">2025-06-19</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2210712.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">국회에서의 증언·감정 등에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2210712</span>    <span class="bmc-date">2025-06-11</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2210597.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">전기통신사업법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2210597</span>    <span class="bmc-date">2025-05-26</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2210490.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">고위공직자범죄수사처 설치 및 운영에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2210490</span>    <span class="bmc-date">2025-05-13</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2210472.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">고위공직자범죄수사처 설치 및 운영에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2210472</span>    <span class="bmc-date">2025-05-12</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2210443.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">고위공직자범죄수사처 설치 및 운영에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2210443</span>    <span class="bmc-date">2025-05-09</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2210404.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">고위공직자범죄수사처 설치 및 운영에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2210404</span>    <span class="bmc-date">2025-05-08</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2210159.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">공직자윤리법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2210159</span>    <span class="bmc-date">2025-04-28</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2210145.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">정부기관 및 공공법인 등의 광고시행에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2210145</span>    <span class="bmc-date">2025-04-25</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2210140.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">방송통신위원회의 설치 및 운영에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2210140</span>    <span class="bmc-date">2025-04-25</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2209881.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">정부조직법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2209881</span>    <span class="bmc-date">2025-04-16</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="passed" href="/bills/2209858.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-green"><span class="term-tip" data-tip="본회의 표결을 통과한 경우. 법률로 확정됨.">가결</span></span>  </div>  <div class="bmc-title">울산과학기술원법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2209858</span>    <span class="bmc-date">2025-04-16</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="passed" href="/bills/2209850.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-green"><span class="term-tip" data-tip="본회의 표결을 통과한 경우. 법률로 확정됨.">가결</span></span>  </div>  <div class="bmc-title">대구경북과학기술원법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2209850</span>    <span class="bmc-date">2025-04-15</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="passed" href="/bills/2209847.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-green"><span class="term-tip" data-tip="본회의 표결을 통과한 경우. 법률로 확정됨.">가결</span></span>  </div>  <div class="bmc-title">한국과학기술원법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2209847</span>    <span class="bmc-date">2025-04-15</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="passed" href="/bills/2209846.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-green"><span class="term-tip" data-tip="본회의 표결을 통과한 경우. 법률로 확정됨.">가결</span></span>  </div>  <div class="bmc-title">광주과학기술원법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2209846</span>    <span class="bmc-date">2025-04-15</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2209635.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">공직선거법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2209635</span>    <span class="bmc-date">2025-04-07</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2207651.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">형법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2207651</span>    <span class="bmc-date">2025-01-20</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2207246.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">국회의원의 국민소환에 관한 법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2207246</span>    <span class="bmc-date">2025-01-06</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2206787.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">방송법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2206787</span>    <span class="bmc-date">2024-12-20</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2206784.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">한국교육방송공사법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2206784</span>    <span class="bmc-date">2024-12-20</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2206778.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">방송문화진흥회법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2206778</span>    <span class="bmc-date">2024-12-20</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2205827.html">  <div class="bmc-head">    <span class="bmc-cat">안전</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">원자력안전법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2205827</span>    <span class="bmc-date">2024-11-25</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2205569.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">인공지능 산업 육성 및 신뢰 기반 조성 등에 관한 법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2205569</span>    <span class="bmc-date">2024-11-14</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2205405.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">방송법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2205405</span>    <span class="bmc-date">2024-11-08</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2205402.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">사면법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2205402</span>    <span class="bmc-date">2024-11-08</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2203897.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">불법온라인사행행위 방지를 위한 특별법안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2203897</span>    <span class="bmc-date">2024-09-11</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2203750.html">  <div class="bmc-head">    <span class="bmc-cat">안전</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">원자력안전 정보공개 및 소통에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2203750</span>    <span class="bmc-date">2024-09-06</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2203741.html">  <div class="bmc-head">    <span class="bmc-cat">안전</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">원자력안전법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2203741</span>    <span class="bmc-date">2024-09-06</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2203739.html">  <div class="bmc-head">    <span class="bmc-cat">안전</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">원자력안전위원회의 설치 및 운영에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2203739</span>    <span class="bmc-date">2024-09-06</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2203707.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">전기통신사업법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2203707</span>    <span class="bmc-date">2024-09-05</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2203706.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2203706</span>    <span class="bmc-date">2024-09-05</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2203697.html">  <div class="bmc-head">    <span class="bmc-cat">세제</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">조세특례제한법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2203697</span>    <span class="bmc-date">2024-09-05</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2203678.html">  <div class="bmc-head">    <span class="bmc-cat">안전</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">재난 및 안전관리 기본법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2203678</span>    <span class="bmc-date">2024-09-05</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2203660.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">방송통신발전 기본법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2203660</span>    <span class="bmc-date">2024-09-04</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2201780.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">방송통신위원회의 설치 및 운영에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201780</span>    <span class="bmc-date">2024-07-16</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2201240.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">부정청탁 및 금품등 수수의 금지에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201240</span>    <span class="bmc-date">2024-07-01</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2200265.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">한국교육방송공사법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2200265</span>    <span class="bmc-date">2024-06-10</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2200261.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">방송문화진흥회법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2200261</span>    <span class="bmc-date">2024-06-10</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2200257.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">방송법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2200257</span>    <span class="bmc-date">2024-06-10</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2200229.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">방송통신위원회의 설치 및 운영에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2200229</span>    <span class="bmc-date">2024-06-10</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2200181.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">방송통신위원회의 설치 및 운영에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2200181</span>    <span class="bmc-date">2024-06-07</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2200140.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">방송통신위원회의 설치 및 운영에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2200140</span>    <span class="bmc-date">2024-06-05</span>    <span class="bmc-arrow">→</span>  </div></a></div><button class="bill-more-btn" id="billMore-YS38221N" onclick="showMoreBills('YS38221N')">더 보기 (54건 더)</button>
           </div>
+          </section>
 
           
     <div class="ad-slot atl-ad">
@@ -478,13 +497,27 @@
     </div>
     
 
+          <section class="pv-sec" id="contact">
           <div class="stat-card">
-            <h2>📞 연락처</h2>
+            <h2>👤 프로필·연락처</h2>
+            <div class="stat-row"><span class="stat-label">학력</span><span class="stat-value" style="font-size:13px;font-weight:500;">이화여자대학교 인문과학대학 졸업(사학전공)</span></div>
+            <div class="stat-row"><span class="stat-label">당선</span><span class="stat-value" style="font-size:13px;font-weight:500;">지역구</span></div>
+            
             <div class="stat-row"><span class="stat-label">이메일</span><span class="stat-value" style="font-size:13px;font-weight:500;">choimh867@gmail.com</span></div>
             <div class="stat-row"><span class="stat-label">전화</span><span class="stat-value" style="font-size:13px;font-weight:500;">02-784-4291</span></div>
             <div class="stat-row"><span class="stat-label">사무실</span><span class="stat-value" style="font-size:13px;font-weight:500;">의원회관 527호</span></div>
             <div class="stat-row"><span class="stat-label">홈페이지</span><span class="stat-value"><a href="https://www.facebook.com/minhee.official  " target="_blank" rel="noopener">바로가기 →</a></span></div>
           </div>
+          <div class="ofc-cta" data-ofc-off>
+            <b>🏛 최민희 의원실이신가요?</b>
+            <p>의원회관 대표번호로 인증하면 위 시민 한마디에 <strong>의원실 이름으로 공식 답글</strong>을 달 수 있습니다. 인증과 답글은 무료입니다.</p>
+            <a href="/office">의원실 인증하기 →</a>
+          </div>
+          <div class="ofc-cta on" data-ofc-on hidden>
+            <b>✅ 정치탈탈 인증 의원실</b>
+            <p>최민희 의원실이 의원회관 대표번호로 인증을 마쳤습니다. 시민 한마디에 의원실이 직접 답합니다.</p>
+          </div>
+          </section>
 
           <div class="share-row">
     <button type="button" class="share-btn" onclick="ptShare(this)">
@@ -735,6 +768,6 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202610291045" defer></script>
+  <script src="/war.js?v=202610291418" defer></script>
 </body>
 </html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:true,android:true},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(/^[/](community|post|login|data([.]html)?$)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency|supporters)/.test(location.pathname)))location.replace('/');}</script>
+  <title>의원실 센터 — 시민 한마디에 의원실이 직접 답하세요 | 정치탈탈</title>
+  <meta name="description" content="의원회관 대표번호로 인증한 의원실은 정치탈탈 의원 페이지의 시민 한마디에 공식 답글을 달 수 있습니다. 인증·답글 무료, 공문 불필요.">
+  <meta name="keywords" content="정치탈탈,국회의원,의정활동,출석률,발의 법안,표결,재산공개,지역구,공공데이터,22대 국회,국회의원 검색,내 지역구 의원">
+  <meta name="author" content="정치탈탈">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://politaltal.com/office">
+
+  <!-- 검색엔진 사이트 소유 확인 (각 사이트에서 등록 후 content 값 채우기) -->
+  <meta name="naver-site-verification" content="9e3ca58898c588a94375445bf3e90634c27da43d">
+  <meta name="google-site-verification" content="3T1zR-6vdABc-R7XTfG9TFbnljB_3DYZQroa1B6pbiE">
+  <meta name="msvalidate.01" content="50D545291AE8CB679E6A71ED05D18AC4">
+  <!-- ↑ 빙(Bing) 웹마스터: https://www.bing.com/webmasters 등록 후 받은 코드 -->
+  <!-- ↑ 다음(Daum)은 verification 메타 없음. https://register.search.daum.net 사이트 URL만 등록 -->
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="정치탈탈">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="의원실 센터 — 시민 한마디에 의원실이 직접 답하세요 | 정치탈탈">
+  <meta property="og:description" content="의원회관 대표번호로 인증한 의원실은 정치탈탈 의원 페이지의 시민 한마디에 공식 답글을 달 수 있습니다. 인증·답글 무료, 공문 불필요.">
+  <meta property="og:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="정치탈탈 - 국회의원 의정활동 대시보드">
+  <meta property="og:url" content="https://politaltal.com/office">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="의원실 센터 — 시민 한마디에 의원실이 직접 답하세요 | 정치탈탈">
+  <meta name="twitter:description" content="의원회관 대표번호로 인증한 의원실은 정치탈탈 의원 페이지의 시민 한마디에 공식 답글을 달 수 있습니다. 인증·답글 무료, 공문 불필요.">
+  <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610291418">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610291418">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610291418">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610291418">
+  <meta name="theme-color" content="#0a2540">
+  <link rel="stylesheet" href="/styles.css?v=202610291418">
+  <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
+  <link rel="manifest" href="/manifest.json?v=202610291418">
+  <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="build-id" content="202610291418">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="정치탈탈">
+
+  <!-- Cloudflare Web Analytics -->
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "26dbbaa3ad4d4e4a95991d64553fa612"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+  <!-- 후원 진행 배너 (사이트 최상단) — 매일 다른 감정 카피 -->
+  <div class="fundraiser-bar">
+    <div class="container fb-inner">
+      <div class="fb-copy">
+        <span class="fb-kicker">정치탈탈 후원</span>
+        <span class="fb-line" id="fbLine">
+          <strong>정치인은 4년에 한 번 옵니다.</strong> 그들의 매일은 우리가 봅니다.
+        </span>
+      </div>
+      <div class="fb-progress-wrap">
+        <div class="fb-progress-track">
+          <div class="fb-progress-fill" id="fbFill" style="width: 2%;"></div>
+          <span class="fb-progress-text" id="fbSeat">창립 후원자석 100석</span>
+        </div>
+        <div class="fb-progress-stats">
+          <span class="fb-raised" id="fbLeft">먼저 온 100명이 창립 후원자</span>
+          <span class="fb-pct" id="fbPledge">후원금은 전액 좋은 일에</span>
+        </div>
+      </div>
+      <a href="/donate.html" class="fb-donate-btn">☕ 후원하기</a>
+    </div>
+  </div>
+  <script>
+    // 후원 카피 매일 회전 (날짜 기준 → 모든 사용자에게 같은 메시지)
+    (function() {
+      const COPIES = [
+        ['정치인은 4년에 한 번 옵니다.', '그들의 매일은 우리가 봅니다.'],
+        ['투표한 의원, 그 다음은', '잊고 계셨나요?'],
+        ['선거 다음 날부터,', '우리는 추적을 시작합니다.'],
+        ['300명의 발의·표결·재산.', '잊지 않고 기록합니다.'],
+        ['그들의 무기는 잊혀짐.', '우리의 무기는 기록입니다.'],
+        ['당신의 커피값은', '전액 국민을 위한 좋은 일에 쓰입니다.'],
+        ['발의 20,238건, 통과 726건.', '우리는 그 차이를 봅니다.'],
+      ];
+      try {
+        const day = Math.floor(Date.now() / 86400000);
+        const c = COPIES[day % COPIES.length];
+        const el = document.getElementById('fbLine');
+        if (el && c) {
+          el.innerHTML = '<strong>' + c[0] + '</strong> ' + c[1];
+        }
+      } catch (e) {}
+    })();
+    // 후원자의 벽 실제 숫자(점등 수·최근 점등) — 상단 띠와 페이지 끝 후원 카드(.sup-live)가 같이 쓴다
+    (function () {
+      var ago = function (t) { var m = Math.floor((Date.now() - t) / 6e4); return m < 1 ? '방금' : m < 60 ? m + '분 전' : m < 1440 ? Math.floor(m / 60) + '시간 전' : Math.floor(m / 1440) + '일 전'; };
+      var wall = fetch('/wall/list?brief=1').then(function (r) { return r.json(); }).catch(function () { return {}; });
+      wall.then(function (d) {
+        var bar = document.querySelector('.fundraiser-bar');
+        if (!d.ok || !bar || !bar.offsetParent) return;
+        var lit = Math.min(d.n || 0, 100), s = d.last, el = document.getElementById('fbLine');
+        document.getElementById('fbFill').style.width = Math.max(lit, 2) + '%';
+        document.getElementById('fbSeat').textContent = '창립 후원자석 ' + lit + ' / 100';
+        document.getElementById('fbLeft').textContent = lit < 100 ? '창립 후원자석 ' + (100 - lit) + '석 남음' : '창립 후원자석 마감';
+        if (s && Date.now() - s.at < 3 * 864e5) {
+          var b = document.createElement('strong');
+          b.textContent = '🔔 ' + s.name + '님이 제' + s.no + '석에 불을 켰습니다';
+          el.textContent = ''; el.appendChild(b);
+          el.appendChild(document.createTextNode(' ' + ago(s.at) + (lit < 100 ? ' · 창립석 ' + (100 - lit) + '석 남음' : '')));
+        }
+      });
+      document.addEventListener('DOMContentLoaded', function () {
+        var live = [].slice.call(document.querySelectorAll('.sup-live'));
+        if (!live.length) return;
+        var hot = fetch('/hot?p=' + encodeURIComponent(location.pathname)).then(function (r) { return r.json(); }).catch(function () { return {}; });
+        Promise.all([hot, wall]).then(function (v) {
+          var parts = [];
+          if (v[0].n >= 10) parts.push('오늘 이 페이지 조회 ' + v[0].n.toLocaleString('ko-KR') + '회');
+          if (v[1].ok) parts.push(v[1].n < 100 ? '창립 후원자석 ' + (100 - v[1].n) + '석 남음' : '후원자 ' + v[1].n + '명이 함께합니다');
+          if (!parts.length) return;
+          live.forEach(function (p) { p.textContent = parts.join(' · '); p.hidden = false; });
+        });
+      });
+    })();
+  </script>
+
+  <header class="app-header">
+    <div class="container">
+      <a href="/" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
+        <span>정치탈탈</span>
+      </a>
+      <div class="header-actions">
+        <a href="/donate.html" class="header-donate"
+           title="당신의 커피 한 잔이 정치 감시의 눈이 됩니다 👀 (월 1,000원~)">
+          <span class="hd-heart">♥</span><span class="hd-text">커피 한 잔</span>
+        </a>
+        <a href="/login.html" id="headerAuthBtn"
+           onclick="if(!location.pathname.startsWith('/login')){this.href='/login.html?return='+encodeURIComponent(location.pathname+location.search+location.hash);}"
+           style="font-size:12px;font-weight:700;padding:6px 12px;
+                                      background:var(--color-primary);color:white;
+                                      border-radius:6px;text-decoration:none;
+                                      display:flex;align-items:center;gap:6px;">
+          로그인
+        </a>
+      </div>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
+    </div>
+  </header>
+  <main>
+    <div class="container" style="max-width:720px;">
+      <a href="/" class="back-link">← 홈으로</a>
+
+      <section class="of-hero">
+        <div class="of-kicker">🏛 의원실 센터</div>
+        <h1>국민이 의원님께 남긴 말,<br>이제 의원실이 직접 답하세요</h1>
+        <p>정치탈탈의 의원 페이지에는 시민이 의원님께 남긴 한마디가 쌓입니다.
+          의원회관 대표번호로 인증한 의원실은 그 한마디에 <strong>의원실 이름으로 공식 답글</strong>을 달 수 있습니다.</p>
+        <div class="of-cta">
+          <a class="of-btn" href="/office/app">의원실 인증하기</a>
+          <a class="of-btn ghost" href="/office/app">인증한 의원실 로그인</a>
+        </div>
+        <div class="of-nums" id="ofNums" hidden>
+          <div><b id="ofVisits">-</b><span>지난 30일 정치탈탈 방문</span></div>
+          <div><b id="ofPol">-</b><span>지난 30일 의원 페이지 조회</span></div>
+        </div>
+      </section>
+
+      <h2 class="of-h">무료로 바로 쓰는 것</h2>
+      <div class="of-grid">
+        <div class="of-card"><i>✅</i><b>의원실 인증 배지</b><p>의원 페이지 이름 옆과 한마디 칸에 '의원실 인증'이 붙습니다.</p></div>
+        <div class="of-card"><i>💬</i><b>공식 답글</b><p>시민 한마디 아래에 'OOO 의원실' 이름으로 답합니다. 답글은 파란 칸으로 따로 보입니다.</p></div>
+        <div class="of-card"><i>📌</i><b>고정 · 우선 신고</b><p>좋은 질문은 맨 위에 고정하고, 욕설·허위사실은 운영자에게 우선 신고합니다.</p></div>
+        <div class="of-card"><i>📊</i><b>의원실 대시보드</b><p>답 안 한 한마디, 이 의원 페이지 조회수, 팀원 3명까지 휴대폰으로 관리합니다.</p></div>
+      </div>
+
+      <h2 class="of-h">인증은 이렇게 합니다 <small>공문은 필요 없습니다</small></h2>
+      <ol class="of-steps">
+        <li><b>담당자 휴대폰 확인</b><p>보좌진·비서진 누구나, 본인 휴대폰 문자로 받은 번호를 넣습니다.</p></li>
+        <li><b>의원회관 대표번호로 오는 전화</b><p>국회가 공개한 그 의원실 대표번호로 자동 전화가 갑니다. 전화에서 불러 주는 숫자 6자리를 넣으면 됩니다. 번호는 신청자가 바꿀 수 없습니다.</p></li>
+        <li><b>정치탈탈 확인</b><p>운영자가 한 번 더 보고 승인합니다(보통 하루 안). 첫 신청자가 의원실 관리자가 되어 팀원을 초대합니다.</p></li>
+      </ol>
+      <p class="of-note">담당자가 자주 바뀌는 만큼 6개월마다 대표번호 전화로 한 번 더 확인합니다. 임기가 끝나면 자동으로 해지됩니다.</p>
+
+      <h2 class="of-h">요금</h2>
+      <div class="of-plans">
+        <div class="of-plan">
+          <div class="of-pname">무료</div>
+          <div class="of-price">0원</div>
+          <ul><li>의원실 인증 배지</li><li>시민 한마디 공식 답글</li><li>고정 3개 · 우선 신고</li><li>대시보드 · 팀원 3명</li></ul>
+        </div>
+        <div class="of-plan pro">
+          <div class="of-pname">Pro <span>곧 열립니다</span></div>
+          <div class="of-price">월 299,000원</div>
+          <div class="of-sub">1년 결제 시 10개월 값(2,990,000원)</div>
+          <ul>
+            <li><b>의원실 소식</b> — 의정활동 사진·영상을 의원 페이지 맨 위에</li>
+            <li><b>주간 민심 리포트</b> — 지역·주제별로 시민 한마디를 정리해 매주</li>
+            <li><b>AI 답글 초안</b> — 의원실 말투로 초안, 담당자가 고쳐서 올림</li>
+            <li><b>담당자 배정</b> · 팀원 5명</li>
+            <li><b>의정보고 자료</b> — 카드뉴스·쇼츠 대본·보고서 초안(차례로 추가)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="of-fund">
+        <b>💳 정치자금으로 결제할 수 있게 준비합니다</b>
+        <ul>
+          <li>정치자금 카드(매달 자동결제) 또는 정치자금 계좌 이체</li>
+          <li>공급자 <strong>코코요</strong> 명의 세금계산서 발행</li>
+          <li>회계 증빙용 거래명세서 · 이용확인서(서비스 내용·기간) · 영수증을 대시보드에서 내려받기</li>
+        </ul>
+        <p>정치자금 지출 처리 여부는 의원실 회계책임자 또는 중앙선거관리위원회(국번 없이 1390)에 확인해 주세요.</p>
+      </div>
+
+      <h2 class="of-h">지키는 원칙</h2>
+      <ul class="of-rules">
+        <li><b>의원실은 시민 글을 지울 수 없습니다.</b> 비판도 그대로 남고, 의원실은 공식 답글로 답합니다. 욕설·허위사실은 운영자가 판단합니다.</li>
+        <li><b>돈을 내도 순위·점수·노출은 같습니다.</b> 정치탈탈의 모든 숫자는 국회·선관위 공개 기록에서만 나옵니다.</li>
+        <li><b>모든 정당, 모든 의원실에 똑같이 엽니다.</b> 인증과 공식 답글은 무료입니다.</li>
+        <li><b>선거운동 기간에는</b> 의원실 소식(Pro) 게시를 쉽니다.</li>
+      </ul>
+
+      <h2 class="of-h">자주 묻는 것</h2>
+      <details class="of-faq"><summary>누가 신청하나요?</summary><p>보좌관·비서관·비서 등 의원실 직원 누구나 신청할 수 있습니다. 의원회관 대표번호 전화를 받을 수 있으면 됩니다.</p></details>
+      <details class="of-faq"><summary>이미 다른 직원이 인증했어요.</summary><p>의원실마다 인증은 한 번이면 됩니다. 처음 인증한 관리자에게 대시보드 '팀'에서 초대해 달라고 하세요.</p></details>
+      <details class="of-faq"><summary>시민 한마디는 누가 쓰나요?</summary><p>로그인 없이 누구나 씁니다. 욕설·링크는 막히고, 신고가 쌓이면 숨겨집니다. 작성자 개인정보는 저장하지 않습니다.</p></details>
+      <details class="of-faq"><summary>지역구 의원 말고 지자체장도 되나요?</summary><p>지금은 국회의원실부터 엽니다. 시·도지사, 시장·군수·구청장실은 연락처를 확인하는 대로 차례로 엽니다.</p></details>
+      <p class="of-contact">문의 jihoony8282@naver.com · 운영 코코요</p>
+    </div>
+    <style>
+    .of-hero { background: linear-gradient(135deg, #0a2540 0%, #1c3d5a 100%); color: #fff; border-radius: 20px; padding: 28px 22px 22px; margin: 6px 0 26px; }
+    .of-kicker { font-size: 13px; font-weight: 800; opacity: .85; }
+    .of-hero h1 { font-size: 25px; line-height: 1.35; letter-spacing: -0.6px; margin: 10px 0 12px; font-weight: 900; }
+    .of-hero p { font-size: 14.5px; line-height: 1.7; opacity: .92; }
+    .of-cta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+    .of-btn { flex: 1; min-width: 150px; text-align: center; background: #fff; color: #0a2540; border-radius: 12px; padding: 13px 10px; font-weight: 900; font-size: 15px; text-decoration: none; }
+    .of-btn.ghost { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.6); }
+    .of-nums { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+    .of-nums[hidden] { display: none; }
+    .of-nums div { background: rgba(255,255,255,.1); border-radius: 12px; padding: 10px 12px; }
+    .of-nums b { display: block; font-size: 22px; font-weight: 900; }
+    .of-nums span { font-size: 11.5px; opacity: .8; }
+    .of-h { font-size: 18px; font-weight: 900; margin: 26px 0 12px; letter-spacing: -0.3px; }
+    .of-h small { font-size: 12.5px; font-weight: 700; color: var(--color-accent); margin-left: 6px; }
+    .of-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .of-card { background: #fff; border: 1px solid var(--color-border); border-radius: 14px; padding: 14px; }
+    .of-card i { font-style: normal; font-size: 22px; }
+    .of-card b { display: block; font-size: 14.5px; margin: 6px 0 4px; }
+    .of-card p { font-size: 12.5px; color: var(--color-text-soft); line-height: 1.6; }
+    .of-steps { list-style: none; counter-reset: s; display: grid; gap: 10px; }
+    .of-steps li { counter-increment: s; background: #fff; border: 1px solid var(--color-border); border-radius: 14px; padding: 14px 14px 14px 52px; position: relative; }
+    .of-steps li::before { content: counter(s); position: absolute; left: 14px; top: 14px; width: 26px; height: 26px; border-radius: 50%; background: var(--color-primary); color: #fff; font-weight: 900; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+    .of-steps b { font-size: 14.5px; }
+    .of-steps p { font-size: 13px; color: var(--color-text-soft); line-height: 1.6; margin-top: 3px; }
+    .of-note { font-size: 12.5px; color: var(--color-text-soft); margin-top: 10px; line-height: 1.6; }
+    .of-plans { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; align-items: start; }
+    .of-plan { background: #fff; border: 1px solid var(--color-border); border-radius: 16px; padding: 16px; }
+    .of-plan.pro { border: 2px solid var(--color-primary); }
+    .of-pname { font-size: 13px; font-weight: 800; color: var(--color-text-soft); }
+    .of-pname span { font-size: 11px; background: #fef3c7; color: #92400e; border-radius: 999px; padding: 2px 8px; margin-left: 4px; }
+    .of-price { font-size: 22px; font-weight: 900; margin: 4px 0 2px; }
+    .of-sub { font-size: 12px; color: var(--color-text-soft); }
+    .of-plan ul { margin: 10px 0 0 18px; font-size: 13px; line-height: 1.75; }
+    .of-fund { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 14px; padding: 16px; margin-top: 12px; }
+    .of-fund b { font-size: 14.5px; }
+    .of-fund ul { margin: 8px 0 8px 18px; font-size: 13px; line-height: 1.75; }
+    .of-fund p { font-size: 12px; color: var(--color-text-soft); line-height: 1.6; }
+    .of-rules { list-style: none; display: grid; gap: 8px; }
+    .of-rules li { background: #fff; border-left: 4px solid var(--color-primary); border-radius: 0 12px 12px 0; padding: 11px 14px; font-size: 13.5px; line-height: 1.65; }
+    .of-faq { background: #fff; border: 1px solid var(--color-border); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; }
+    .of-faq summary { font-weight: 800; font-size: 14px; cursor: pointer; }
+    .of-faq p { font-size: 13px; color: var(--color-text-soft); line-height: 1.7; margin-top: 8px; }
+    .of-contact { font-size: 12.5px; color: var(--color-text-soft); text-align: center; margin: 22px 0 8px; }
+    @media (max-width: 560px) { .of-grid, .of-plans { grid-template-columns: 1fr; } .of-hero h1 { font-size: 22px; } }
+    </style>
+    <script>
+    fetch('/ofc/pub').then(function (r) { return r.json(); }).then(function (d) {
+      if (!d.ok || !d.visits30) return;
+      document.getElementById('ofVisits').textContent = d.visits30.toLocaleString('ko-KR') + '회';
+      document.getElementById('ofPol').textContent = d.pol30.toLocaleString('ko-KR') + '회';
+      document.getElementById('ofNums').hidden = false;
+    }).catch(function () {});
+    </script>
+    </main>
+  <nav class="bottom-nav">
+    <a href="/" class="">
+      <span class="icon">🏠</span>홈
+    </a>
+    <a href="/people.html" class="">
+      <span class="icon">👤</span>정치인
+    </a>
+    <a href="/pledges.html" class="">
+      <span class="icon">📜</span>공약·법안
+    </a>
+    <a href="/community.html" class="">
+      <span class="icon">💬</span>커뮤니티
+    </a>
+    <a href="/history.html" class="">
+      <span class="icon">📼</span>비사
+    </a>
+  </nav>
+  <script>
+    // 정치 용어 tooltip — 모바일 tap-to-show, 다시 탭하면 닫기
+    document.addEventListener('click', function(e) {
+      const t = e.target.closest('.term-tip');
+      if (t) {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          if (x !== t) x.classList.remove('tt-active');
+        });
+        t.classList.toggle('tt-active');
+        e.stopPropagation();
+      } else {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          x.classList.remove('tt-active');
+        });
+      }
+    });
+  </script>
+  <script>/* 방문 집계: 페이지 주소·유입 사이트 이름만 보낸다(쿠키·식별값 없음) → site/worker.js /t */
+  try { navigator.sendBeacon("/t", JSON.stringify({ p: location.pathname, r: document.referrer ? new URL(document.referrer).host : "" })); } catch (e) {}
+  /* 띠 클릭 집계: data-ck 가 붙은 링크만, 이름표(key)만 보낸다 */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("[data-ck]");
+    if (a) try { navigator.sendBeacon("/t", JSON.stringify({ c: a.getAttribute("data-ck") })); } catch (x) {}
+  });
+  /* 유튜브 띠: 채널 최신 영상(매일 수집) — 지금 보는 정치인 이름이 제목에 있으면 맨 앞으로 */
+  (function () {
+    var row = document.getElementById("ytRow");
+    if (!row) return;
+    fetch("/data/stories_videos.json").then(function (r) { return r.json(); }).then(function (d) {
+      var v = (d.latest || []).slice();
+      if (!v.length) return;
+      var name = /^[/](politician|local)[/]/.test(location.pathname) ? document.title.split(" ")[0] : "";
+      if (name.length >= 2) v = v.filter(function (x) { return (x.mine = x.title.indexOf(name) >= 0); }).concat(v.filter(function (x) { return !x.mine; }));
+      v.slice(0, 8).forEach(function (x) {
+        var a = document.createElement("a"), img = document.createElement("img"), t = document.createElement("span");
+        a.className = "yt-card"; a.href = "https://www.youtube.com/watch?v=" + encodeURIComponent(x.id); a.target = "_blank"; a.rel = "noopener";
+        a.setAttribute("data-ck", "yt-video");
+        img.loading = "lazy"; img.alt = ""; img.src = "https://i.ytimg.com/vi/" + encodeURIComponent(x.id) + "/mqdefault.jpg";
+        a.appendChild(img);
+        if (x.mine) { var m = document.createElement("em"); m.textContent = name + " 영상"; a.appendChild(m); }
+        t.textContent = x.title; a.appendChild(t); row.appendChild(a);
+      });
+      row.hidden = false;
+    }).catch(function () {});
+  })();
+  </script>
+  <script>
+  /* ── 정치탈탈 앱 전용: 의정 속보 푸시 등록 (웹에서는 아무것도 안 함) ── */
+  (function() {
+    var Cap = window.Capacitor;
+    var inApp = !!(Cap && Cap.isNativePlatform && Cap.isNativePlatform())
+                || /PolitaltalApp/.test(navigator.userAgent || "");
+    if (!inApp || !Cap || !Cap.Plugins || !Cap.Plugins.PushNotifications) return;
+    var PN = Cap.Plugins.PushNotifications;
+    var platform = (Cap.getPlatform && Cap.getPlatform()) || "unknown";
+    var PUSH_API = "";   // 같은 오리진 /push/* (site/worker.js)
+
+    function postToken(value) {
+      try {
+        fetch(PUSH_API + "/push/register", {
+          method: "POST", headers: { "content-type": "application/json" },
+          body: JSON.stringify({ token: value, platform: platform, topics: "all" })
+        }).catch(function() {});
+      } catch (e) {}
+    }
+
+    // 딥링크: 알림 탭 → 해당 URL로 이동
+    PN.addListener("pushNotificationActionPerformed", function(ev) {
+      try {
+        var url = ev && ev.notification && ev.notification.data && ev.notification.data.url;
+        if (url) window.location.href = url;
+      } catch (e) {}
+    });
+    PN.addListener("registration", function(t) { if (t && t.value) postToken(t.value); });
+    PN.addListener("registrationError", function() {});
+
+    function start() {
+      // 안드로이드 알림 채널(중요도 높음) — send_push.py 의 channel_id 와 일치
+      if (platform === "android" && PN.createChannel) {
+        PN.createChannel({ id: "politaltal_news", name: "의정 속보",
+          description: "본회의 처리·신규 발의 속보", importance: 5, visibility: 1 }).catch(function() {});
+      }
+      PN.checkPermissions().then(function(p) {
+        if (p.receive === "granted") { PN.register(); return; }
+        // 첫 방문 1회만 권한 요청(거부 후 매번 묻지 않도록 플래그)
+        if (localStorage.getItem("pt_push_asked") === "1" && p.receive === "denied") return;
+        localStorage.setItem("pt_push_asked", "1");
+        PN.requestPermissions().then(function(r) { if (r.receive === "granted") PN.register(); });
+      }).catch(function() {});
+    }
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start);
+  })();
+  </script>
+  <script src="/war.js?v=202610291418" defer></script>
+</body>
+</html>

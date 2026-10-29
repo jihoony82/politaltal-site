@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="백승아 의원 프로필 — 더불어민주당 비례대표 · 초선 · 1985년생·만 41세 · 소관 교육위원회 · 학력 춘천교육대학교 초등교육학과 졸업. 출석률·대표발의 법안·표결 참여·재산공개 등 제22대 국회 의정활동을 공공데이터로 확인하세요.">
   <meta name="twitter:image" content="https://politaltal.com/images/og/MDC3257K.jpg">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610291045">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610291045">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610291045">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610291045">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610291418">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610291418">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610291418">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610291418">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610291045">
+  <link rel="stylesheet" href="/styles.css?v=202610291418">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610291045">
+  <link rel="manifest" href="/manifest.json?v=202610291418">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610291045">
+  <meta name="build-id" content="202610291418">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -217,6 +217,34 @@
         <div class="container">
           <a href="/" class="back-link">← 홈으로</a>
           
+          <header class="pv-head">
+            <div class="pv-row">
+              <img class="profile-avatar-img" src="/images/politicians/MDC3257K.jpg" alt="백승아">
+              <div class="pv-info">
+                <h1>백승아 의원</h1>
+                <div class="pv-badge" data-ofc-on hidden>✅ 의원실 인증</div>
+                <div class="profile-meta">
+                  <span class="party-tag party-민주">더불어민주당</span>
+                  · 비례대표
+                </div>
+                <div class="profile-meta">초선 · 교육위원회</div>
+              </div>
+              <button class="pv-fav" id="favBtn-MDC3257K" onclick="toggleFav('MDC3257K','백승아')" title="관심 의원 — 이 기기에만 저장(순위와 무관)">
+                <span class="heart">🤍</span><span class="fav-label">관심</span>
+              </button>
+            </div>
+            
+              <div class="glance-mini">
+                <div class="gm-grid">
+                  <div class="gm-item"><div class="gm-num">53<small>건</small></div><div class="gm-lbl">대표발의</div></div>
+                  <div class="gm-item"><div class="gm-num">6<small>%</small></div><div class="gm-lbl">통과율</div></div>
+                  <div class="gm-item"><div class="gm-num">92<small>%</small></div><div class="gm-lbl">표결참여</div></div>
+                  <div class="gm-item"><div class="gm-num">36<small>점</small></div><div class="gm-lbl">종합점수</div></div>
+                </div>
+                <div class="gm-note">정량지표 기준 · 의정활동의 질을 단정하지 않습니다</div>
+              </div>
+        
+          </header>
           <div class="hook-bar" id="hookBar"><div class="hk-line">💰 재산 5억 — 국회의원 280명 중 <strong>242위</strong></div><div class="hk-line">📜 대표발의 53건 중 그대로 통과 3건(5.7%) — 국회 평균 <strong>3.6%</strong></div><div class="hk-line hk-live" id="hotRank" hidden></div></div><script>
       fetch('/hot').then(function (r) { return r.json(); }).then(function (d) {
         var p = location.pathname.replace(/\.html$/, '').replace(/\/+$/, ''), i = -1;
@@ -227,6 +255,41 @@
       }).catch(function () {});
       </script>
 
+          <nav class="pv-nav" id="pvNav" aria-label="이 의원 페이지 바로가기">
+            <a href="#talk">소통</a><a href="#act">의정활동</a><a href="#assets">재산</a><a href="#bills">법안</a><a href="#contact">연락처</a>
+          </nav>
+
+          <section class="pv-sec" id="talk">
+            
+      <div class="pc-box" id="pcBox" data-t="p:MDC3257K">
+        <div class="pc-head"><strong>💬 백승아 의원에게 한마디</strong><span class="pc-count" id="pcCount"></span>
+          <button type="button" class="pc-sort" id="pcSort" hidden></button></div>
+        <div class="pc-ofc" data-ofc-on hidden>✅ 인증된 의원실이 읽고 직접 답합니다</div>
+        <form class="pc-form" id="pcForm">
+          <input name="body" maxlength="300" required placeholder="응원도 쓴소리도 좋습니다 (300자)" aria-label="한마디">
+          <input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="pc-hp">
+          <button type="submit">남기기</button>
+        </form>
+        <p class="pc-msg" id="pcMsg" role="status"></p>
+        <div class="pc-list" id="pcList"></div>
+        <button type="button" class="pc-more" id="pcMore" hidden></button>
+        <p class="pc-rule">욕설·비방·허위사실·홍보 글은 숨겨집니다. 댓글은 작성자 개인 의견입니다.<span data-ofc-off> 의원실이 인증하기 전에는 당사자에게 전달되지 않습니다.</span><span data-ofc-on hidden> 의원실은 시민 글을 지울 수 없고 공식 답글로만 답합니다.</span> 삭제 요청: jihoony8282@naver.com</p>
+        <a class="pc-ofc-cta" href="/office" data-ofc-off>🏛 의원실이신가요? 인증하고 직접 답하기 →</a>
+      </div>
+      <div class="war-p" id="warP" data-t="p:MDC3257K" data-f="[&quot;본회의 표결 참여율 91.5%&quot;, &quot;대표발의 53건 중 그대로 통과 3건&quot;, &quot;신고 재산 5억&quot;]">
+        <div class="wp-head">⚔️ 백승아 의원 — 내 성향에 화력을 보태세요</div>
+        <div class="wp-acts">
+          <button type="button" class="wp-cheer">👍 응원 <b>0</b></button>
+          <button type="button" class="wp-bomb">💣 팩트 폭탄 <b>0</b></button>
+        </div>
+        <div class="wp-facts" hidden></div>
+        <p class="wp-msg" role="status"></p>
+        <p class="wp-rule">응원·팩트 폭탄 모두 내 성향에 화력 +1 (하루 한 번씩). 팩트 폭탄은 국회·선관위 공개 기록 숫자만 던집니다.</p>
+      </div>
+      <script src="/pc.js?v=202610291418" defer></script>
+          </section>
+
+          <section class="pv-sec" id="act">
           
     <div class="member-bigdata">
       <div class="bd-header">
@@ -240,73 +303,11 @@
         <span class="bd-leg"><span class="bd-dot bd-dot-orange"></span>관심사</span>
       </div>
       <div class="bigdata-cloud">
-        <span class="bd-word bd-name bd-dark" style="transform:rotate(-6deg);" data-tip="백승아 의원 (더불어민주당)"><span class="bd-text">백승아</span></span><span class="bd-word bd-major bd-blue" style="transform:rotate(6deg);" data-tip="소속 정당: 더불어민주당"><span class="bd-text">더불어민주당</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(0deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">36</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(-6deg);" data-tip="발의 키워드: 유아교육법"><span class="bd-text">유아교육법 관심사</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(0deg);" data-tip="본회의 표결 참여율 (659/720건)"><span class="bd-text">92% 출석</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(0deg);" data-tip="22대 국회 대표발의 53건 (가결 3건, 가결률 6%)"><span class="bd-text">53건 발의</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(-3deg);" data-tip="성별: 여"><span class="bd-text">여 성별</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(-3deg);" data-tip="22대 국회 초선"><span class="bd-text">초선 선수</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="교육위원회 위원"><span class="bd-text">교육위 위원</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="출생: 1985-02-25"><span class="bd-text">41세 나이</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 교원의 지위 향상 및 교육활동 보호를 위한 특별법"><span class="bd-text">교원의 지위 … 관심사</span></span><span class="bd-word bd-medium bd-blue" style="transform:rotate(-3deg);" data-tip="학력: 춘천교육대학교 (약력 자동 추출)"><span class="bd-text">춘천교육대학교 학력</span></span><span class="bd-word bd-tiny bd-gray" style="transform:rotate(6deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">종합점수</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="신고 재산: 5억 4,575만원 (2025년)"><span class="bd-text">5억 4575… 재산</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(-6deg);" data-tip="대표발의 53건 중 본회의 통과 3건"><span class="bd-text">6% 가결률</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 초·중등교육법"><span class="bd-text">초·중등교육법 관심사</span></span>
+        <span class="bd-word bd-name bd-dark" style="transform:rotate(-6deg);" data-tip="백승아 의원 (더불어민주당)"><span class="bd-text">백승아</span></span><span class="bd-word bd-major bd-blue" style="transform:rotate(0deg);" data-tip="소속 정당: 더불어민주당"><span class="bd-text">더불어민주당</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 유아교육법"><span class="bd-text">유아교육법 관심사</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 초·중등교육법"><span class="bd-text">초·중등교육법 관심사</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(3deg);" data-tip="신고 재산: 5억 4,575만원 (2025년)"><span class="bd-text">5억 4575… 재산</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(0deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">36</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="22대 국회 초선"><span class="bd-text">초선 선수</span></span><span class="bd-word bd-tiny bd-gray" style="transform:rotate(-3deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">종합점수</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(0deg);" data-tip="본회의 표결 참여율 (659/720건)"><span class="bd-text">92% 출석</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="교육위원회 위원"><span class="bd-text">교육위 위원</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(-6deg);" data-tip="발의 키워드: 교원의 지위 향상 및 교육활동 보호를 위한 특별법"><span class="bd-text">교원의 지위 … 관심사</span></span><span class="bd-word bd-medium bd-blue" style="transform:rotate(6deg);" data-tip="학력: 춘천교육대학교 (약력 자동 추출)"><span class="bd-text">춘천교육대학교 학력</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(-3deg);" data-tip="22대 국회 대표발의 53건 (가결 3건, 가결률 6%)"><span class="bd-text">53건 발의</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(-3deg);" data-tip="대표발의 53건 중 본회의 통과 3건"><span class="bd-text">6% 가결률</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(-3deg);" data-tip="출생: 1985-02-25"><span class="bd-text">41세 나이</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(-3deg);" data-tip="성별: 여"><span class="bd-text">여 성별</span></span>
       </div>
       <div class="bd-hint">💡 단어 위에 마우스를 올리면 자세한 정보가 나옵니다</div>
     </div>
     
-
-          
-      <div class="war-p" id="warP" data-t="p:MDC3257K" data-f="[&quot;본회의 표결 참여율 91.5%&quot;, &quot;대표발의 53건 중 그대로 통과 3건&quot;, &quot;신고 재산 5억&quot;]">
-        <div class="wp-head">⚔️ 백승아 의원 — 내 성향에 화력을 보태세요</div>
-        <div class="wp-acts">
-          <button type="button" class="wp-cheer">👍 응원 <b>0</b></button>
-          <button type="button" class="wp-bomb">💣 팩트 폭탄 <b>0</b></button>
-        </div>
-        <div class="wp-facts" hidden></div>
-        <p class="wp-msg" role="status"></p>
-        <p class="wp-rule">응원·팩트 폭탄 모두 내 성향에 화력 +1 (하루 한 번씩). 팩트 폭탄은 국회·선관위 공개 기록 숫자만 던집니다.</p>
-      </div>
-      <div class="pc-box" id="pcBox" data-t="p:MDC3257K">
-        <div class="pc-head"><strong>💬 백승아 의원에게 한마디</strong><span class="pc-count" id="pcCount"></span>
-          <button type="button" class="pc-sort" id="pcSort" hidden></button></div>
-        <form class="pc-form" id="pcForm">
-          <input name="body" maxlength="300" required placeholder="응원도 쓴소리도 좋습니다 (300자)" aria-label="한마디">
-          <input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="pc-hp">
-          <button type="submit">남기기</button>
-        </form>
-        <p class="pc-msg" id="pcMsg" role="status"></p>
-        <div class="pc-list" id="pcList"></div>
-        <button type="button" class="pc-more" id="pcMore" hidden></button>
-        <p class="pc-rule">욕설·비방·허위사실·홍보 글은 숨겨집니다. 댓글은 작성자 개인 의견이며 당사자에게 전달되지는 않습니다. 삭제 요청: jihoony8282@naver.com</p>
-      </div>
-      <script src="/pc.js?v=202610291045" defer></script>
-          <div class="profile-card">
-            <div class="profile-head">
-              <img class="profile-avatar-img" src="/images/politicians/MDC3257K.jpg" alt="백승아">
-              <div style="flex: 1; min-width: 200px;">
-                <h1 class="profile-name" style="margin:0;">백승아 의원</h1>
-                <div class="profile-meta">
-                  <span class="party-tag party-민주">더불어민주당</span>
-                  · 비례대표
-                </div>
-                <div class="profile-meta">초선 · 교육위원회</div>
-                <div class="profile-meta">🎓 춘천교육대학교 초등교육학과 졸업</div>
-                <div class="profile-tags">
-                  
-                  <span class="tag">비례대표</span>
-                </div>
-                <div style="margin-top:12px;">
-                  <button class="fav-btn" id="favBtn-MDC3257K" onclick="toggleFav('MDC3257K','백승아')">
-                    <span class="heart">🤍</span>
-                    <span class="fav-label">관심 의원 등록</span>
-                  </button>
-                  <div class="fav-note">본인 기기에만 저장됩니다 (전체 인기도/순위와 무관)</div>
-                </div>
-              </div>
-              
-              <div class="glance-mini">
-                <div class="gm-grid">
-                  <div class="gm-item"><div class="gm-num">53<small>건</small></div><div class="gm-lbl">대표발의</div></div>
-                  <div class="gm-item"><div class="gm-num">6<small>%</small></div><div class="gm-lbl">통과율</div></div>
-                  <div class="gm-item"><div class="gm-num">92<small>%</small></div><div class="gm-lbl">표결참여</div></div>
-                  <div class="gm-item"><div class="gm-num">36<small>점</small></div><div class="gm-lbl">종합점수</div></div>
-                </div>
-                <div class="gm-note">정량지표 기준 · 의정활동의 질을 단정하지 않습니다</div>
-              </div>
-        
-            </div>
-          </div>
 
           <script>
             // 관심 의원 (localStorage 기반 개인 즐겨찾기)
@@ -328,11 +329,11 @@
                 if (favs[mona]) {
                   btn.classList.add('active');
                   heart.textContent = '❤️';
-                  label.textContent = '관심 의원 등록됨';
+                  label.textContent = '관심 중';
                 } else {
                   btn.classList.remove('active');
                   heart.textContent = '🤍';
-                  label.textContent = '관심 의원 등록';
+                  label.textContent = '관심';
                 }
               }
 
@@ -346,34 +347,19 @@
 
               render();
             })();
+            // 바로가기 탭: 지금 보고 있는 칸에 불
+            (function() {
+              const nav = document.getElementById('pvNav');
+              if (!nav || !('IntersectionObserver' in window)) return;
+              const links = [].slice.call(nav.querySelectorAll('a'));
+              const io = new IntersectionObserver(function(es) {
+                es.forEach(function(e) {
+                  if (e.isIntersecting) links.forEach(function(a) { a.setAttribute('aria-current', a.getAttribute('href') === '#' + e.target.id ? 'true' : 'false'); });
+                });
+              }, { rootMargin: '-45% 0px -50% 0px' });
+              links.forEach(function(a) { const sec = document.querySelector(a.getAttribute('href')); if (sec) io.observe(sec); });
+            })();
           </script>
-
-          <div class="stat-card">
-            <h2>💰 재산 공개 (2025년)</h2>
-            
-        <div style="text-align:center;margin:16px 0;padding:20px;background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%);border-radius:12px;">
-          <div style="font-size:11px;color:#1e3a8a;font-weight:600;margin-bottom:4px;">신고 재산 (2025년 3월)</div>
-          <div style="font-size:28px;font-weight:800;color:#1e3a8a;letter-spacing:-1px;">
-            5억 4,575만원
-          </div>
-          <div style="font-size:11px;color:#1e3a8a;margin-top:6px;line-height:1.6;">
-            전체 평균(33억 6,590만원) 대비 <strong>0.2배</strong> ⬇ · 재산 순위 <strong>242위</strong> / 280명<br>전체 중앙값 16억 3,965만원 · 단순 평균만 보면 상위 13명에 왜곡됨
-          </div>
-          
-        </div>
-        <div class="source-note">출처: 공직자윤리위원회 정기재산변동신고 (2025.3, 국회공보 제2025-51호) · 정제: 정보공개센터(opengirok)</div>
-        
-    <a href="https://www.peti.go.kr/peOptpListOptp.do" target="_blank" rel="noopener" class="ext-link-card">
-      <span class="ext-icon">📑</span>
-      <div class="ext-info">
-        <div class="ext-title">백승아 의원 상세 재산공개</div>
-        <div class="ext-desc">공직윤리시스템(peti.go.kr) → 이름으로 검색</div>
-      </div>
-      <span class="ext-arrow">↗</span>
-    </a>
-    
-        
-          </div>
 
           <div class="stat-card">
             <h2>🎯 실성적표
@@ -454,12 +440,45 @@
             <div class="source-note" style="margin-top: 12px;">출처: 열린국회정보 OpenAPI · 공공누리 제1유형</div>
           </div>
 
+          </section>
+
+          <section class="pv-sec" id="assets">
+          <div class="stat-card">
+            <h2>💰 재산 공개 (2025년)</h2>
+            
+        <div style="text-align:center;margin:16px 0;padding:20px;background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%);border-radius:12px;">
+          <div style="font-size:11px;color:#1e3a8a;font-weight:600;margin-bottom:4px;">신고 재산 (2025년 3월)</div>
+          <div style="font-size:28px;font-weight:800;color:#1e3a8a;letter-spacing:-1px;">
+            5억 4,575만원
+          </div>
+          <div style="font-size:11px;color:#1e3a8a;margin-top:6px;line-height:1.6;">
+            전체 평균(33억 6,590만원) 대비 <strong>0.2배</strong> ⬇ · 재산 순위 <strong>242위</strong> / 280명<br>전체 중앙값 16억 3,965만원 · 단순 평균만 보면 상위 13명에 왜곡됨
+          </div>
+          
+        </div>
+        <div class="source-note">출처: 공직자윤리위원회 정기재산변동신고 (2025.3, 국회공보 제2025-51호) · 정제: 정보공개센터(opengirok)</div>
+        
+    <a href="https://www.peti.go.kr/peOptpListOptp.do" target="_blank" rel="noopener" class="ext-link-card">
+      <span class="ext-icon">📑</span>
+      <div class="ext-info">
+        <div class="ext-title">백승아 의원 상세 재산공개</div>
+        <div class="ext-desc">공직윤리시스템(peti.go.kr) → 이름으로 검색</div>
+      </div>
+      <span class="ext-arrow">↗</span>
+    </a>
+    
+        
+          </div>
+          </section>
+
+          <section class="pv-sec" id="bills">
           <div class="stat-card">
             <h2>📜 대표발의 법안 (53건)
               <span class="data-info" data-tooltip="제22대 국회 임기 동안 이 의원이 대표발의한 모든 법안. 카드 클릭 시 상세 페이지로 이동.">ⓘ</span>
             </h2>
             <div class="bill-mini-summary"><span class="bms-chip bms-green">🟢 가결 3</span><span class="bms-chip bms-blue">🔵 대안반영 16</span><span class="bms-chip bms-amber">🟡 계류 33</span><span class="bms-chip bms-gray">⚫ 기타 1</span></div><div class="bill-filter-bar" id="billFilter-MDC3257K"><button class="bill-filter active" data-filter="all">전체 53</button><button class="bill-filter" data-filter="passed">가결 3</button><button class="bill-filter" data-filter="reflected">대안반영 16</button><button class="bill-filter" data-filter="pending">계류 33</button><button class="bill-filter" data-filter="other">기타 1</button></div><div class="bill-mini-list" id="billList-MDC3257K" data-shown="20"><a class="bill-mini-card" data-status="pending" href="/bills/2221739.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">학교보건법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2221739</span>    <span class="bmc-date">2026-10-01</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2221715.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">고등교육법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2221715</span>    <span class="bmc-date">2026-10-01</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2221714.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">교원의 지위 향상 및 교육활동 보호를 위한 특별법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2221714</span>    <span class="bmc-date">2026-10-01</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2221711.html">  <div class="bmc-head">    <span class="bmc-cat">디지털·통신</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2221711</span>    <span class="bmc-date">2026-10-01</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2220066.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">교원의 지위 향상 및 교육활동 보호를 위한 특별법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2220066</span>    <span class="bmc-date">2026-07-21</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2219781.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">초·중등교육법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2219781</span>    <span class="bmc-date">2026-07-06</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2218313.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">재외국민의 교육지원 등에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2218313</span>    <span class="bmc-date">2026-04-14</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2217623.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">교원의 지위 향상 및 교육활동 보호를 위한 특별법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2217623</span>    <span class="bmc-date">2026-03-19</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2217620.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">유아교육법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2217620</span>    <span class="bmc-date">2026-03-19</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2217619.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">초·중등교육법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2217619</span>    <span class="bmc-date">2026-03-19</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2217587.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">학교 밖 청소년 지원에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2217587</span>    <span class="bmc-date">2026-03-18</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2214524.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">평생교육법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2214524</span>    <span class="bmc-date">2025-11-25</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2212934.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">국가교육위원회 설치 및 운영에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2212934</span>    <span class="bmc-date">2025-09-12</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2212721.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">경계선 지능 학생 교육지원에 관한 법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2212721</span>    <span class="bmc-date">2025-09-05</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2212352.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">교원의 지위 향상 및 교육활동 보호를 위한 특별법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2212352</span>    <span class="bmc-date">2025-08-25</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2211525.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">유아교육법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2211525</span>    <span class="bmc-date">2025-07-17</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2211057.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">초·중등교육법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2211057</span>    <span class="bmc-date">2025-06-24</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2211056.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">학교폭력예방 및 대책에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2211056</span>    <span class="bmc-date">2025-06-24</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2209204.html">  <div class="bmc-head">    <span class="bmc-cat">세제</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">소득세법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2209204</span>    <span class="bmc-date">2025-03-20</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2207478.html">  <div class="bmc-head">    <span class="bmc-cat">복지</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">아동학대범죄의 처벌 등에 관한 특례법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2207478</span>    <span class="bmc-date">2025-01-13</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2207474.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">일제하 일본군위안부 피해자에 대한 보호ㆍ지원 및 기념사업 등에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2207474</span>    <span class="bmc-date">2025-01-13</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2206718.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">국가교육위원회 설치 및 운영에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2206718</span>    <span class="bmc-date">2024-12-19</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2206516.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">계엄법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2206516</span>    <span class="bmc-date">2024-12-16</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2206345.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">교원의 지위 향상 및 교육활동 보호를 위한 특별법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2206345</span>    <span class="bmc-date">2024-12-10</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="other" href="/bills/2206296.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-gray"><span class="term-tip" data-tip="발의자가 스스로 거두어들인 경우.">철회</span></span>  </div>  <div class="bmc-title">계엄법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2206296</span>    <span class="bmc-date">2024-12-09</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2206130.html">  <div class="bmc-head">    <span class="bmc-cat">노동</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">남녀고용평등과 일·가정 양립 지원에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2206130</span>    <span class="bmc-date">2024-12-02</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2205803.html">  <div class="bmc-head">    <span class="bmc-cat">노동</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">남녀고용평등과 일·가정 양립 지원에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2205803</span>    <span class="bmc-date">2024-11-22</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="passed" href="/bills/2205400.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-green"><span class="term-tip" data-tip="본회의 표결을 통과한 경우. 법률로 확정됨.">가결</span></span>  </div>  <div class="bmc-title">유아교육법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2205400</span>    <span class="bmc-date">2024-11-08</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2205397.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">초·중등교육법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2205397</span>    <span class="bmc-date">2024-11-08</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="passed" href="/bills/2205320.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-green"><span class="term-tip" data-tip="본회의 표결을 통과한 경우. 법률로 확정됨.">가결</span></span>  </div>  <div class="bmc-title">학교폭력예방 및 대책에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2205320</span>    <span class="bmc-date">2024-11-06</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2205262.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">성폭력범죄의 처벌 등에 관한 특례법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2205262</span>    <span class="bmc-date">2024-11-05</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2204826.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">장애인 등에 대한 특수교육법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2204826</span>    <span class="bmc-date">2024-10-22</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2204352.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">학술진흥법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2204352</span>    <span class="bmc-date">2024-09-26</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2204349.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">직업교육훈련 촉진법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2204349</span>    <span class="bmc-date">2024-09-26</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2204183.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">공교육 정상화 촉진 및 선행교육 규제에 관한 특별법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2204183</span>    <span class="bmc-date">2024-09-23</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2204046.html">  <div class="bmc-head">    <span class="bmc-cat">세제</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">지방세법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2204046</span>    <span class="bmc-date">2024-09-13</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2203822.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">학생맞춤통합지원법안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2203822</span>    <span class="bmc-date">2024-09-09</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2203258.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">학교보건법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2203258</span>    <span class="bmc-date">2024-08-27</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="passed" href="/bills/2203200.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-green"><span class="term-tip" data-tip="본회의 표결을 통과한 경우. 법률로 확정됨.">가결</span></span>  </div>  <div class="bmc-title">폐교재산의 활용촉진을 위한 특별법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2203200</span>    <span class="bmc-date">2024-08-26</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2202329.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">학교안전사고 예방 및 보상에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2202329</span>    <span class="bmc-date">2024-07-29</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2201832.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">지방교육자치에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201832</span>    <span class="bmc-date">2024-07-17</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2201831.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">교육공무원법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201831</span>    <span class="bmc-date">2024-07-17</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2201830.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">사립학교법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201830</span>    <span class="bmc-date">2024-07-17</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2201802.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">교육공무원법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201802</span>    <span class="bmc-date">2024-07-16</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2201801.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">정당법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201801</span>    <span class="bmc-date">2024-07-16</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2201800.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">공직선거법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201800</span>    <span class="bmc-date">2024-07-16</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2201799.html">  <div class="bmc-head">    <span class="bmc-cat">기타</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">정치자금법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201799</span>    <span class="bmc-date">2024-07-16</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2201628.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">교원의 지위 향상 및 교육활동 보호를 위한 특별법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201628</span>    <span class="bmc-date">2024-07-11</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2201509.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">초·중등교육법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201509</span>    <span class="bmc-date">2024-07-09</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2201446.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">초·중등교육법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201446</span>    <span class="bmc-date">2024-07-08</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="pending" href="/bills/2201443.html">  <div class="bmc-head">    <span class="bmc-cat">복지</span>    <span class="bmc-badge bmc-amber"><span class="term-tip" data-tip="아직 심사가 진행 중인 법안. 임기 끝까지 처리 안 되면 자동 폐기.">계류 중</span></span>  </div>  <div class="bmc-title">아동복지법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201443</span>    <span class="bmc-date">2024-07-05</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2201441.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">초·중등교육법 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201441</span>    <span class="bmc-date">2024-07-05</span>    <span class="bmc-arrow">→</span>  </div></a><a class="bill-mini-card" data-status="reflected" href="/bills/2201440.html">  <div class="bmc-head">    <span class="bmc-cat">교육</span>    <span class="bmc-badge bmc-blue"><span class="term-tip" data-tip="다른 법안에 흡수돼 따로 폐기된 경우. 사실상 반영된 케이스로 봅니다.">대안 반영</span></span>  </div>  <div class="bmc-title">학교폭력예방 및 대책에 관한 법률 일부개정법률안</div>  <div class="bmc-foot">    <span class="bmc-no">의안 2201440</span>    <span class="bmc-date">2024-07-05</span>    <span class="bmc-arrow">→</span>  </div></a></div><button class="bill-more-btn" id="billMore-MDC3257K" onclick="showMoreBills('MDC3257K')">더 보기 (33건 더)</button>
           </div>
+          </section>
 
           
     <div class="ad-slot atl-ad">
@@ -478,13 +497,27 @@
     </div>
     
 
+          <section class="pv-sec" id="contact">
           <div class="stat-card">
-            <h2>📞 연락처</h2>
+            <h2>👤 프로필·연락처</h2>
+            <div class="stat-row"><span class="stat-label">학력</span><span class="stat-value" style="font-size:13px;font-weight:500;">춘천교육대학교 초등교육학과 졸업</span></div>
+            <div class="stat-row"><span class="stat-label">당선</span><span class="stat-value" style="font-size:13px;font-weight:500;">비례대표</span></div>
+            
             <div class="stat-row"><span class="stat-label">이메일</span><span class="stat-value" style="font-size:13px;font-weight:500;">bsa_teacher@naver.com</span></div>
             <div class="stat-row"><span class="stat-label">전화</span><span class="stat-value" style="font-size:13px;font-weight:500;">02-784-8570</span></div>
             <div class="stat-row"><span class="stat-label">사무실</span><span class="stat-value" style="font-size:13px;font-weight:500;">의원회관 835호</span></div>
             <div class="stat-row"><span class="stat-label">홈페이지</span><span class="stat-value"><a href="https://litt.ly/bak.seung.a" target="_blank" rel="noopener">바로가기 →</a></span></div>
           </div>
+          <div class="ofc-cta" data-ofc-off>
+            <b>🏛 백승아 의원실이신가요?</b>
+            <p>의원회관 대표번호로 인증하면 위 시민 한마디에 <strong>의원실 이름으로 공식 답글</strong>을 달 수 있습니다. 인증과 답글은 무료입니다.</p>
+            <a href="/office">의원실 인증하기 →</a>
+          </div>
+          <div class="ofc-cta on" data-ofc-on hidden>
+            <b>✅ 정치탈탈 인증 의원실</b>
+            <p>백승아 의원실이 의원회관 대표번호로 인증을 마쳤습니다. 시민 한마디에 의원실이 직접 답합니다.</p>
+          </div>
+          </section>
 
           <div class="share-row">
     <button type="button" class="share-btn" onclick="ptShare(this)">
@@ -735,6 +768,6 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202610291045" defer></script>
+  <script src="/war.js?v=202610291418" defer></script>
 </body>
 </html>

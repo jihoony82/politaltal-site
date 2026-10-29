@@ -2148,6 +2148,45 @@ a:hover { text-decoration: underline; }
 .pc-rule { display: none; font-size: 11px; color: var(--color-text-soft); line-height: 1.6; margin: 10px 0 0; }
 .pc-box.open .pc-rule, .pc-box:focus-within .pc-rule { display: block; }
 .in-app .pc-box, .in-app .pcr { display: none !important; }
+/* 의원실 공식 답글·고정(10-29) — 시민 글과 한눈에 구분되게 파란 칸 */
+[data-ofc-on][hidden], [data-ofc-off][hidden] { display: none !important; }
+.pc-ofc { display: inline-block; font-size: 12px; font-weight: 800; color: #1d4ed8; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 999px; padding: 3px 10px; margin: -2px 0 10px; }
+.pc-item.pc-off { background: #f0f6ff; border: 1px solid #c7dbff; border-radius: 10px; padding: 10px 12px; margin: 6px 0; }
+.pc-item.pc-off p { white-space: pre-line; }
+.pc-ofc-name { color: var(--color-primary); font-weight: 800; }
+.pc-ofc-tag { font-size: 10.5px; font-weight: 800; color: #fff; background: #2563eb; border-radius: 999px; padding: 1px 7px; }
+.pc-pin { font-size: 11px; font-weight: 800; color: #b45309; margin-bottom: 3px; }
+.pc-ofc-cta { display: block; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--color-border); font-size: 12.5px; font-weight: 700; color: var(--color-text-soft); text-decoration: none; }
+.pc-ofc-cta:hover { color: var(--color-primary); }
+/* 의원 페이지(10-29 재배치): 프로필 → 훅 → 바로가기 → 소통 → 의정활동 → 재산 → 법안 → 연락처. 모바일 첫 화면에 한마디 입력칸이 보이게 프로필을 줄였다 */
+.pv-head { background: #fff; border-radius: 16px; padding: 16px; box-shadow: var(--shadow-sm); margin: 4px 0 10px; }
+.pv-row { display: flex; gap: 14px; align-items: flex-start; }
+.pv-head .profile-avatar-img, .pv-head .profile-avatar { width: 68px; height: 86px; }
+.pv-info { flex: 1; min-width: 0; }
+.pv-info h1 { font-size: 21px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.25; margin: 0; }
+.pv-badge { display: inline-block; margin: 4px 0 0; font-size: 11.5px; font-weight: 800; color: #1d4ed8; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 999px; padding: 2px 9px; }
+.pv-info .profile-meta { margin-top: 3px; line-height: 1.5; }
+.pv-fav { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 2px; background: #fff; border: 1.5px solid var(--color-border); border-radius: 12px; padding: 7px 9px; font: 700 11px/1.2 inherit; color: var(--color-text-soft); cursor: pointer; }
+.pv-fav .heart { font-size: 18px; }
+.pv-fav.active { border-color: var(--color-accent); color: var(--color-accent); background: #fff4f0; }
+.pv-head .glance-mini { width: 100%; margin-top: 12px; }
+.pv-head .gm-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.pv-head .gm-item { padding: 8px 2px; }
+.pv-head .gm-num { font-size: 17px; }
+.pv-nav { position: sticky; top: calc(64px + env(safe-area-inset-top)); z-index: 40; display: flex; gap: 2px; margin: 0 -20px 12px; padding: 8px 14px;
+  background: rgba(255,255,255,.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--color-border); }
+.pv-nav a { flex: 1; text-align: center; padding: 8px 2px; border-radius: 999px; font-size: 13.5px; font-weight: 700; color: var(--color-text-soft); text-decoration: none; white-space: nowrap; }
+.pv-nav a[aria-current="true"] { background: var(--color-primary); color: #fff; }
+.pv-sec { padding: 0; scroll-margin-top: calc(124px + env(safe-area-inset-top)); }
+.in-app .pv-nav { top: env(safe-area-inset-top); }
+.ofc-cta { background: #f8fafc; border: 1px dashed #94a3b8; border-radius: 14px; padding: 16px; margin: 0 0 12px; }
+.ofc-cta b { font-size: 15px; }
+.ofc-cta p { font-size: 13px; color: var(--color-text-soft); line-height: 1.6; margin: 6px 0 10px; }
+.ofc-cta a { display: inline-block; background: var(--color-primary); color: #fff; border-radius: 10px; padding: 9px 14px; font-size: 13.5px; font-weight: 800; text-decoration: none; }
+.ofc-cta.on { background: #eff6ff; border: 1px solid #bfdbfe; }
+.ofc-cta.on p { margin-bottom: 0; }
+/* 앱 안에서는 의원실 센터(웹 결제 B2B 요금 안내) 링크를 숨긴다 — 스토어 결제 규정과 엮이지 않게 */
+.in-app .ofc-cta, .in-app .pc-ofc-cta { display: none !important; }
 /* 홈: 지금 많이 찾는 정치인(실검) · 오늘의 핫이슈 · 정치 비사 레일 */
 .hot-box { background: #fff; border: 1px solid var(--color-border); border-radius: 14px; padding: 14px 16px 10px; margin: 16px 0 14px; }
 .hot-box[hidden], .hook-bar[hidden], .hk-live[hidden] { display: none; }

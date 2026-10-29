@@ -1,4 +1,4 @@
-/* 정치인 한마디: 댓글·답글·공감 — prototype/generate.py 의 PC_JS 에서 만든다. 저장은 worker.js /pc/* */
+/* 정치인 한마디: 댓글·답글·공감 + 인증된 의원실 공식 답글 — prototype/generate.py 의 PC_JS 에서 만든다. 저장은 worker.js /pc/* · 의원실은 /ofc/* */
 (function () {
   var box = document.getElementById("pcBox");
   if (!box) return;
@@ -19,6 +19,7 @@
     var m = Math.floor((Date.now() - ts) / 60000);
     return m < 1 ? "방금" : m < 60 ? m + "분 전" : m < 1440 ? Math.floor(m / 60) + "시간 전" : Math.floor(m / 1440) + "일 전";
   }
+  function answered(r) { return (kids[r.id] || []).some(function (c) { return c.off; }); }
 
   function post(text, parent, button, out, done) {
     button.disabled = true; out.textContent = "";
@@ -33,8 +34,14 @@
   }
 
   function item(r, isReply) {
-    var it = el("div", (isReply ? "pc-item pc-reply" : "pc-item") + (r.team ? " t-" + r.team : "")), acts = el("div", "pc-acts"), n = (kids[r.id] || []).length;
-    var meta = el("div", "pc-meta", ({ b: "🔵 ", w: "⚪ ", r: "🔴 " }[r.team] || "") + r.nick);
+    var cls = isReply ? "pc-item pc-reply" : "pc-item";
+    if (r.off) cls += " pc-off"; else if (r.team) cls += " t-" + r.team;
+    if (r.pin && !isReply) cls += " pc-pinned";
+    var it = el("div", cls), acts = el("div", "pc-acts"), n = (kids[r.id] || []).length;
+    if (r.pin && !isReply) it.appendChild(el("div", "pc-pin", "📌 의원실이 고정한 글"));
+    var meta = el("div", "pc-meta");
+    if (r.off) { meta.appendChild(el("b", "pc-ofc-name", r.nick)); meta.appendChild(el("span", "pc-ofc-tag", "✅ 공식 답글")); }
+    else meta.appendChild(document.createTextNode(({ b: "🔵 ", w: "⚪ ", r: "🔴 " }[r.team] || "") + r.nick));
     if (r.badge) { var bd = el("a", "pc-sup", r.badge <= 100 ? "☕ 창립 후원자" : "☕ 후원자"); bd.href = "/supporters.html"; bd.title = "후원자의 벽 제" + r.badge + "석"; meta.appendChild(bd); }
     meta.appendChild(document.createTextNode("· " + ago(r.at)));
     it.appendChild(meta);
@@ -45,7 +52,7 @@
         .catch(function () { like.disabled = false; });
     });
     acts.appendChild(like);
-    if (!isReply) acts.appendChild(btn("pc-act", "답글" + (n ? " " + n : ""), function () { shown[r.id] = !shown[r.id]; draw(); }));
+    if (!isReply) acts.appendChild(btn("pc-act", shown[r.id] ? "답글 접기" : "답글" + (n ? " " + n : ""), function () { shown[r.id] = !shown[r.id]; draw(); }));
     var rep = btn("pc-report", "신고", function () {
       if (!confirm("이 글을 신고할까요?")) return;
       send("/pc/report", { id: r.id }).then(function () { rep.textContent = "신고됨"; rep.disabled = true; }).catch(function () {});
@@ -62,6 +69,10 @@
         wrap.appendChild(f); wrap.appendChild(out);
       }
       it.appendChild(wrap);
+    } else if (!isReply && answered(r)) {                     /* 답글을 접어 두어도 의원실 공식 답글은 보인다 */
+      var ow = el("div", "pc-replies");
+      (kids[r.id] || []).filter(function (c) { return c.off; }).forEach(function (c) { ow.appendChild(item(c, true)); });
+      it.appendChild(ow);
     }
     return it;
   }
@@ -70,7 +81,11 @@
     list.textContent = "";
     if (!tops.length) list.appendChild(el("div", "pc-empty", open ? "아직 한마디가 없습니다. 첫 번째로 남겨 보세요." : "아직 한마디가 없습니다."));
     var view = tops.slice();
-    if (byLikes || !all) view.sort(function (a, b) { return b.likes - a.likes || b.id - a.id; });   // 접힌 상태의 대표 글 = 공감 많은 글
+    // 고정한 글 → (접힌 상태) 의원실이 답한 글 → 공감 많은 글. 펼치면 최신순(또는 공감순)
+    view.sort(function (a, b) {
+      return (b.pin || 0) - (a.pin || 0) || (!all ? answered(b) - answered(a) : 0) ||
+        (byLikes || !all ? b.likes - a.likes : 0) || b.id - a.id;
+    });
     (all ? view : view.slice(0, 1)).forEach(function (r) { list.appendChild(item(r, false)); });
     box.className = all ? "pc-box open" : "pc-box";
     more.hidden = all || tops.length <= 1;
@@ -78,6 +93,12 @@
     count.textContent = total ? total.toLocaleString("ko-KR") + "개" : "";
     sortBtn.hidden = !all || tops.length < 2;
     sortBtn.textContent = byLikes ? "최신순으로 보기" : "공감순으로 보기";
+  }
+
+  function office(o) {                                          /* 인증된 의원실이 있으면 배지·안내를 바꾼다 */
+    var on = !!o;
+    [].forEach.call(document.querySelectorAll("[data-ofc-on]"), function (e) { e.hidden = !on; });
+    [].forEach.call(document.querySelectorAll("[data-ofc-off]"), function (e) { e.hidden = on; });
   }
 
   more.onclick = function () { all = true; draw(); };
@@ -92,6 +113,7 @@
     tops = d.rows.filter(function (r) { return !r.parent; });                     // 최신순으로 내려온다
     d.rows.slice().reverse().forEach(function (r) { if (r.parent) (kids[r.parent] = kids[r.parent] || []).push(r); });   // 답글은 오래된 순
     if (!open) { form.hidden = true; msg.textContent = ERR.closed; }
+    office(d.office);
     draw();
   }).catch(function () {});
 })();

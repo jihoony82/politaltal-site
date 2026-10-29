@@ -36,19 +36,19 @@
   <meta name="twitter:description" content="이민근 안산시장(국민의힘) 프로필 — 민선 9기 (2026-07-01 ~ 2030-06-30) 경기 안산시 · 1969년생·만 57세 · 학력 한양대학교 행정ㆍ자치대학원 졸업 (지방자치학석사). 선거공약·득표율을 중앙선거관리위원회 공공데이터로 확인하세요.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610291045">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610291045">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610291045">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610291045">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610291418">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610291418">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610291418">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610291418">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610291045">
+  <link rel="stylesheet" href="/styles.css?v=202610291418">
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610291045">
+  <link rel="manifest" href="/manifest.json?v=202610291418">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610291045">
+  <meta name="build-id" content="202610291418">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -195,40 +195,6 @@
   <main>
     <div class="container" style="max-width:680px;">
       <a href="/local.html" class="back-link">← 지자체장 목록</a>
-      <div class="hook-bar" id="hookBar" hidden><div class="hk-line hk-live" id="hotRank" hidden></div></div><script>
-      fetch('/hot').then(function (r) { return r.json(); }).then(function (d) {
-        var p = location.pathname.replace(/\.html$/, '').replace(/\/+$/, ''), i = -1;
-        (d.rows || []).forEach(function (r, k) { if (r.path === p && i < 0) i = k; });
-        if (i < 0) return;
-        var e = document.getElementById('hotRank'); e.textContent = '👀 지금 많이 찾는 정치인 ' + (i + 1) + '위' + (i ? '' : ' — 오늘 가장 뜨거운 이름');
-        e.hidden = false; document.getElementById('hookBar').hidden = false;
-      }).catch(function () {});
-      </script>
-      
-      <div class="war-p" id="warP" data-t="l:100162786" data-f="[&quot;지난 선거 득표율 50.4%&quot;]">
-        <div class="wp-head">⚔️ 이민근 안산시장 — 내 성향에 화력을 보태세요</div>
-        <div class="wp-acts">
-          <button type="button" class="wp-cheer">👍 응원 <b>0</b></button>
-          <button type="button" class="wp-bomb">💣 팩트 폭탄 <b>0</b></button>
-        </div>
-        <div class="wp-facts" hidden></div>
-        <p class="wp-msg" role="status"></p>
-        <p class="wp-rule">응원·팩트 폭탄 모두 내 성향에 화력 +1 (하루 한 번씩). 팩트 폭탄은 국회·선관위 공개 기록 숫자만 던집니다.</p>
-      </div>
-      <div class="pc-box" id="pcBox" data-t="l:100162786">
-        <div class="pc-head"><strong>💬 이민근 안산시장에게 한마디</strong><span class="pc-count" id="pcCount"></span>
-          <button type="button" class="pc-sort" id="pcSort" hidden></button></div>
-        <form class="pc-form" id="pcForm">
-          <input name="body" maxlength="300" required placeholder="응원도 쓴소리도 좋습니다 (300자)" aria-label="한마디">
-          <input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="pc-hp">
-          <button type="submit">남기기</button>
-        </form>
-        <p class="pc-msg" id="pcMsg" role="status"></p>
-        <div class="pc-list" id="pcList"></div>
-        <button type="button" class="pc-more" id="pcMore" hidden></button>
-        <p class="pc-rule">욕설·비방·허위사실·홍보 글은 숨겨집니다. 댓글은 작성자 개인 의견이며 당사자에게 전달되지는 않습니다. 삭제 요청: jihoony8282@naver.com</p>
-      </div>
-      <script src="/pc.js?v=202610291045" defer></script>
       <div class="lh-hero">
         <div class="lh-hero-row">
           
@@ -257,6 +223,42 @@
           <div><b>당시 직업</b> 안산시장</div>
         </div>
       </details>
+      <div class="hook-bar" id="hookBar" hidden><div class="hk-line hk-live" id="hotRank" hidden></div></div><script>
+      fetch('/hot').then(function (r) { return r.json(); }).then(function (d) {
+        var p = location.pathname.replace(/\.html$/, '').replace(/\/+$/, ''), i = -1;
+        (d.rows || []).forEach(function (r, k) { if (r.path === p && i < 0) i = k; });
+        if (i < 0) return;
+        var e = document.getElementById('hotRank'); e.textContent = '👀 지금 많이 찾는 정치인 ' + (i + 1) + '위' + (i ? '' : ' — 오늘 가장 뜨거운 이름');
+        e.hidden = false; document.getElementById('hookBar').hidden = false;
+      }).catch(function () {});
+      </script>
+      
+      <div class="pc-box" id="pcBox" data-t="l:100162786">
+        <div class="pc-head"><strong>💬 이민근 안산시장에게 한마디</strong><span class="pc-count" id="pcCount"></span>
+          <button type="button" class="pc-sort" id="pcSort" hidden></button></div>
+        <div class="pc-ofc" data-ofc-on hidden>✅ 인증된 의원실이 읽고 직접 답합니다</div>
+        <form class="pc-form" id="pcForm">
+          <input name="body" maxlength="300" required placeholder="응원도 쓴소리도 좋습니다 (300자)" aria-label="한마디">
+          <input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="pc-hp">
+          <button type="submit">남기기</button>
+        </form>
+        <p class="pc-msg" id="pcMsg" role="status"></p>
+        <div class="pc-list" id="pcList"></div>
+        <button type="button" class="pc-more" id="pcMore" hidden></button>
+        <p class="pc-rule">욕설·비방·허위사실·홍보 글은 숨겨집니다. 댓글은 작성자 개인 의견입니다.<span data-ofc-off> 의원실이 인증하기 전에는 당사자에게 전달되지 않습니다.</span><span data-ofc-on hidden> 의원실은 시민 글을 지울 수 없고 공식 답글로만 답합니다.</span> 삭제 요청: jihoony8282@naver.com</p>
+        
+      </div>
+      <div class="war-p" id="warP" data-t="l:100162786" data-f="[&quot;지난 선거 득표율 50.4%&quot;]">
+        <div class="wp-head">⚔️ 이민근 안산시장 — 내 성향에 화력을 보태세요</div>
+        <div class="wp-acts">
+          <button type="button" class="wp-cheer">👍 응원 <b>0</b></button>
+          <button type="button" class="wp-bomb">💣 팩트 폭탄 <b>0</b></button>
+        </div>
+        <div class="wp-facts" hidden></div>
+        <p class="wp-msg" role="status"></p>
+        <p class="wp-rule">응원·팩트 폭탄 모두 내 성향에 화력 +1 (하루 한 번씩). 팩트 폭탄은 국회·선관위 공개 기록 숫자만 던집니다.</p>
+      </div>
+      <script src="/pc.js?v=202610291418" defer></script>
 
       <div class="section-title" style="margin-top:20px;">📜 선거공약</div>
       
@@ -614,6 +616,6 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202610291045" defer></script>
+  <script src="/war.js?v=202610291418" defer></script>
 </body>
 </html>
