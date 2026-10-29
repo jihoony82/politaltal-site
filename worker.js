@@ -1174,7 +1174,7 @@ async function ofcAi(env, system, user) {
     return text ? { ok: true, text } : { ok: false, error: "ai_fail" };
   } catch (e) {
     if (e instanceof Anthropic.RateLimitError) return { ok: false, error: "ai_busy" };
-    if (e instanceof Anthropic.APIError) { console.log("ofc ai", e.status, e.message); return { ok: false, error: "ai_fail" }; }
+    if (e instanceof Anthropic.APIError) { console.log("ofc ai", e.status, e.message); return { ok: false, error: "ai_fail", detail: `${e.constructor.name} ${e.status} ${e.message}`.slice(0, 300) }; }   // detail 은 관리자 ai_test 에만 나간다
     throw e;
   }
 }
