@@ -36,20 +36,20 @@
   <meta name="twitter:description" content="공공데이터로 검증하는 제22대 국회 300명의 진짜 의정활동. 내가 뽑은 의원, 진짜 일하고 있나요?">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610300037">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610300037">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610300037">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610300037">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610300048">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610300048">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610300048">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610300048">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610300037">
+  <link rel="stylesheet" href="/styles.css?v=202610300048">
   <script>document.documentElement.classList.add("hub-js")</script><!-- 박스→카드: JS 없는 검색로봇은 전체 내용을 그대로 읽는다 -->
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610300037">
+  <link rel="manifest" href="/manifest.json?v=202610300048">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610300037">
+  <meta name="build-id" content="202610300048">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -207,29 +207,10 @@
     </div>
   </header>
   <main>
-    <section class="hero war" id="warBox">
-
+    <section class="home-top">
       <div class="container">
-        <div class="war-title"><b>대한민국의 미래,<br>여러분의 선택은?</b></div>
-        
-        <div class="war-score">
-          <div class="ws-side"><span>🔵 진보 성향</span><b id="fireB">0</b></div>
-          <div class="ws-mid"><span class="vs">VS</span><small>⚪ 중도 <b id="fireW">0</b></small></div>
-          <div class="ws-side"><span>🔴 보수 성향</span><b id="fireR">0</b></div>
-        </div>
-        <div class="war-bar" aria-hidden="true"><i class="b"></i><i class="w"></i><i class="r"></i></div>
-        <p class="war-today" id="warToday"></p>
-        <p class="war-cap"><span id="warY"></span>누적 화력(시작 점수 포함) = 출석 투표·응원·팩트 폭탄·게임·댓글·후원·화력 지원 · 여론조사 아님</p>
-        <div class="war-pick" role="group" aria-label="내 편 고르기">
-          <button type="button" data-team="b">🔵 진보</button><button type="button" data-team="w">⚪ 중도</button><button type="button" data-team="r">🔴 보수</button>
-        </div>
-        <p class="war-me" id="warMe">👆 편을 고르면 매일 들어올 때마다 내 표가 1표씩 쌓여요</p>
-        <div class="war-acts">
-          <a href="/game.html" data-ck="war-game">🏳 청기홍기 한 판</a>
-          <a href="/donate.html" data-ck="war-donate">☕ 후원 = 화력 +100</a>
-          <a href="/fire.html" data-ck="war-shop">🔥 화력 지원</a>
-        </div>
-
+        <h1 class="ht-title">내가 뽑은 정치인,<br>진짜 일하고 있나요?</h1>
+        <p class="ht-sub">국회의원 300명 · 시·도지사·시장·군수·구청장 243명을 공식 기록으로</p>
         <!-- 최상단 검색 (네이버 스타일) -->
         <div class="hero-search">
           <div class="hero-search-box">
@@ -256,39 +237,40 @@
       <!-- 박스 허브(대표 10-29): 아래로 늘어놓지 않고 주제별 박스 → 누르면 전체 화면 카드, 뒤로가기로 돌아온다 -->
       <a class="hub-tile wide hero" href="/sinmungo.html" data-ck="home-sm" style="margin-top:14px;"><span class="hi">📮</span><b>정치탈탈 신문고</b>
         <small>국회의원 300명 · 시도지사·시장·군수·구청장 243명에게 민원·청원을 직접 — 인증된 곳이 공식 답변합니다</small><span class="hub-cta">민원·청원 넣기 ›</span></a>
-      <h2 class="hub-h">🔥 지금 뜨는</h2>
+      <h2 class="hub-h">지금 뜨는</h2>
       <div class="hub-grid">
-        <a class="hub-tile" href="#h-hot"><span class="hi">🔝</span><b>실시간 많이 찾는</b><small>지금 사람들이 몰려 보는 정치인 순위</small></a>
-        <a class="hub-tile" href="#h-issue"><span class="hi">📰</span><b>오늘의 핫이슈</b><small>국회 공식 기록에서 뽑은 오늘의 숫자</small></a>
-        <a class="hub-tile" href="#h-news"><span class="hi">🗞</span><b>좌우 뉴스</b><small>같은 사건, 진보·보수 언론은 어떻게 썼나</small></a>
-        <a class="hub-tile" href="#h-talk"><span class="hi">💬</span><b>방금 올라온 한마디</b><small>시민이 정치인에게 남긴 말</small></a>
-        <a class="hub-tile" href="#h-hist"><span class="hi">📼</span><b>정치 비사·영상</b><small>교과서엔 한 줄, 그날의 기록 · 의원 리뷰</small></a>
-        <a class="hub-tile" href="/game.html" data-ck="home-game"><span class="hi">🏳</span><b>청기홍기</b><small>한 판 하고 내 성향에 화력 보태기</small></a>
+        <a class="hub-tile" href="#h-hot"><b>실시간 많이 찾는</b><small>지금 사람들이 몰려 보는 정치인 순위</small></a>
+        <a class="hub-tile" href="#h-issue"><b>오늘의 핫이슈</b><small>국회 공식 기록에서 뽑은 오늘의 숫자</small></a>
+        <a class="hub-tile" href="#h-news"><b>좌우 뉴스</b><small>같은 사건, 진보·보수 언론은 어떻게 썼나</small></a>
+        <a class="hub-tile" href="#h-talk"><b>방금 올라온 한마디</b><small>시민이 정치인에게 남긴 말</small></a>
+        <a class="hub-tile" href="#h-hist"><b>정치 비사·영상</b><small>교과서엔 한 줄, 그날의 기록 · 의원 리뷰</small></a>
+        <a class="hub-tile" href="/game.html" data-ck="home-game"><b>청기홍기</b><small>한 판 하고 내 성향에 화력 보태기</small></a>
       </div>
-      <h2 class="hub-h">🏛 정치인 찾기</h2>
+      <h2 class="hub-h">정치인 찾기</h2>
       <div class="hub-grid">
-        <a class="hub-tile" href="#h-mem"><span class="hi">👥</span><b>국회의원 300명</b><small>주제별로 골라 보기 · 전체 목록</small></a>
-        <a class="hub-tile" href="#h-local"><span class="hi">🗺</span><b>우리 동네 단체장</b><small>민선 9기 시·도지사·시장·군수·구청장</small></a>
-        <a class="hub-tile" href="/region.html" data-ck="home-region"><span class="hi">📍</span><b>내 지역구 의원</b><small>시·군·구로 찾기</small></a>
-        <a class="hub-tile" href="#h-pres"><span class="hi">🇰🇷</span><b>역대 대통령</b><small>제13대~제21대 공약 원문</small></a>
+        <a class="hub-tile" href="#h-mem"><b>국회의원 300명</b><small>주제별로 골라 보기 · 전체 목록</small></a>
+        <a class="hub-tile" href="#h-local"><b>우리 동네 단체장</b><small>민선 9기 시·도지사·시장·군수·구청장</small></a>
+        <a class="hub-tile" href="/region.html" data-ck="home-region"><b>내 지역구 의원</b><small>시·군·구로 찾기</small></a>
+        <a class="hub-tile" href="#h-pres"><b>역대 대통령</b><small>제13대~제21대 공약 원문</small></a>
       </div>
-      <h2 class="hub-h">📊 숫자로 보는 국회</h2>
+      <h2 class="hub-h">숫자로 보는 국회</h2>
       <div class="hub-grid">
-        <a class="hub-tile" href="#h-rank"><span class="hi">🏆</span><b>진짜 일하는 의원</b><small>발의·통과·출석·재산 순위</small></a>
-        <a class="hub-tile" href="#h-data"><span class="hi">📈</span><b>국회 데이터</b><small>정당별 격차·표결·한눈에 보기</small></a>
-        <a class="hub-tile" href="/money.html" data-ck="home-money"><span class="hi">💰</span><b>재산 공개</b><small>국회의원 재산 순위</small></a>
-        <a class="hub-tile" href="/bills.html" data-ck="home-bills"><span class="hi">⚖️</span><b>법안 검색</b><small>22대 발의 법안 2만 건</small></a>
-        <a class="hub-tile" href="/pledges.html" data-ck="home-pledges"><span class="hi">📜</span><b>공약 기록</b><small>대통령·단체장 공약 원문</small></a>
-        <a class="hub-tile" href="/match.html" data-ck="home-match"><span class="hi">🎯</span><b>나와 닮은 의원</b><small>7개 질문 성향 매칭</small></a>
+        <a class="hub-tile" href="#h-rank"><b>진짜 일하는 의원</b><small>발의·통과·출석·재산 순위</small></a>
+        <a class="hub-tile" href="#h-data"><b>국회 데이터</b><small>정당별 격차·표결·한눈에 보기</small></a>
+        <a class="hub-tile" href="/money.html" data-ck="home-money"><b>재산 공개</b><small>국회의원 재산 순위</small></a>
+        <a class="hub-tile" href="/bills.html" data-ck="home-bills"><b>법안 검색</b><small>22대 발의 법안 2만 건</small></a>
+        <a class="hub-tile" href="/pledges.html" data-ck="home-pledges"><b>공약 기록</b><small>대통령·단체장 공약 원문</small></a>
+        <a class="hub-tile" href="/match.html" data-ck="home-match"><b>나와 닮은 의원</b><small>7개 질문 성향 매칭</small></a>
       </div>
-      <h2 class="hub-h">🙋 참여·배우기</h2>
+      <h2 class="hub-h">참여·배우기</h2>
       <div class="hub-grid">
-        <a class="hub-tile" href="/community" data-ck="home-community"><span class="hi">🔴</span><b>실시간 커뮤니티</b><small>국회 생중계 보며 토론</small></a>
-        <a class="hub-tile" href="#h-learn"><span class="hi">📚</span><b>정치 배움터</b><small>정치가 어렵다면 여기서부터</small></a>
-        <a class="hub-tile" href="/donate.html" data-ck="home-donate"><span class="hi">💝</span><b>후원하기</b><small>광고 없이 운영 · 후원자의 벽</small></a>
-        <a class="hub-tile ofc-cta-link" href="/office" data-ck="home-office"><span class="hi">🏛</span><b>의원실·단체장실</b><small>인증하고 민원·한마디에 직접 답하기</small></a>
+        <a class="hub-tile" href="/community" data-ck="home-community"><b>실시간 커뮤니티</b><small>국회 생중계 보며 토론</small></a>
+        <a class="hub-tile" href="#h-learn"><b>정치 배움터</b><small>정치가 어렵다면 여기서부터</small></a>
+        <a class="hub-tile" href="#h-war"><b>성향 화력 대결</b><small>진보·중도·보수 오늘의 화력 · 여론조사 아님</small></a>
+        <a class="hub-tile" href="/donate.html" data-ck="home-donate"><b>후원하기</b><small>광고 없이 운영 · 후원자의 벽</small></a>
+        <a class="hub-tile ofc-cta-link" href="/office" data-ck="home-office"><b>의원실·단체장실</b><small>인증하고 민원·한마디에 직접 답하기</small></a>
       </div>
-      <section class="hub-sheet" id="h-hot" data-title="🔝 실시간 많이 찾는">
+      <section class="hub-sheet" id="h-hot" data-title="실시간 많이 찾는">
       <section class="hot-box" id="hotBox" hidden>
         <div class="hot-head"><h2>🔥 지금 많이 찾는 정치인</h2><span class="hot-time" id="hotTime"></span></div>
         <ol class="hot-list" id="hotList"></ol>
@@ -316,13 +298,13 @@
       })();
       </script><p class="hub-empty">지금 많이 찾는 순위를 모으는 중입니다. 잠시 뒤 다시 열어 주세요.</p>
       </section>
-      <section class="hub-sheet" id="h-issue" data-title="📰 오늘의 핫이슈">
+      <section class="hub-sheet" id="h-issue" data-title="오늘의 핫이슈">
       <div class="rail-block">
         <div class="rail-head"><div><h2 class="rail-title">📰 오늘의 정치 핫이슈</h2><div class="rail-sub">10월 30일 · 국회 공식 기록에서 뽑은 숫자</div></div></div>
         <div class="iss-rail"><a class="iss-card" href="/bills/2221213.html" data-ck="home-issue"><span class="iss-k">⚔️ 찬반 갈린 법안</span><strong class="iss-big">반대 82표</strong><span class="iss-t">고위공직자범죄수사처 설치 및 운영에 관한 법률 개정안 · 찬성 137표로 통과</span></a><a class="iss-card" href="/bills/2221265.html" data-ck="home-issue"><span class="iss-k">⚔️ 찬반 갈린 법안</span><strong class="iss-big">반대 77표</strong><span class="iss-t">대통령 등의 경호에 관한 법률 개정안 · 찬성 162표로 통과</span></a><a class="iss-card" href="/live.html" data-ck="home-issue"><span class="iss-k">🏛 최근 2주 본회의</span><strong class="iss-big">74건 통과</strong><span class="iss-t">내 생활에 걸리는 법이 있을까요?</span></a><a class="iss-card" href="/history.html#v=4oeKL_Z0LJg" data-ck="home-issue"><span class="iss-k">📼 새 정치 비사</span><strong class="iss-big">▶ 영상</strong><span class="iss-t">2,525명이 투표했고 2,524표가 한 사람에게 갔다</span></a><a class="iss-card" href="/money.html" data-ck="home-issue"><span class="iss-k">💰 국회의원 재산 1위</span><strong class="iss-big">1,368억</strong><span class="iss-t">안철수 의원 · 꼴찌는 얼마일까요?</span></a><a class="iss-card" href="/politician/JC14718Q.html" data-ck="home-issue"><span class="iss-k">📜 대표발의 1위</span><strong class="iss-big">358건</strong><span class="iss-t">윤준병 의원 · 그대로 통과한 건 5건</span></a></div>
       </div>
       </section>
-      <section class="hub-sheet" id="h-news" data-title="🗞 좌우 뉴스">
+      <section class="hub-sheet" id="h-news" data-title="좌우 뉴스">
       <section class="nw-box" id="nwBox" hidden>
         <div class="nw-head"><h2>🗞 같은 날, 다른 헤드라인</h2><a href="/news.html" data-ck="home-news-all">전체 &rsaquo;</a></div>
         <div id="nwPairs"></div>
@@ -332,10 +314,10 @@
         </div>
         <p class="nw-note">한겨레·경향신문·오마이뉴스 / 조선일보·동아일보·데일리안 정치면. 성향은 흔히 쓰는 분류이고, 제목은 언론사가 쓴 그대로입니다.</p>
       </section>
-      <script src="/news.js?v=202610300037" defer></script><p class="hub-empty">뉴스를 모으는 중입니다.</p>
+      <script src="/news.js?v=202610300048" defer></script><p class="hub-empty">뉴스를 모으는 중입니다.</p>
         <a class="hub-more" href="/news.html">좌우 뉴스 전체 보기 →</a>
       </section>
-      <section class="hub-sheet" id="h-talk" data-title="💬 방금 올라온 한마디">
+      <section class="hub-sheet" id="h-talk" data-title="방금 올라온 한마디">
       <div class="pcr" id="pcRecent" hidden>
         <div class="pcr-head">💬 방금 올라온 한마디</div>
         <div id="pcrList"></div>
@@ -362,7 +344,7 @@
       </script><p class="hub-empty">최근 7일 새 한마디가 없습니다. 정치인 페이지에서 첫 한마디를 남겨 주세요.</p>
         <a class="hub-more" href="/community">커뮤니티로 →</a>
       </section>
-      <section class="hub-sheet" id="h-hist" data-title="📼 정치 비사·영상">
+      <section class="hub-sheet" id="h-hist" data-title="정치 비사·영상">
       <div class="rail-block">
         <div class="rail-head"><div><h2 class="rail-title">📼 정치 비사</h2><div class="rail-sub">교과서엔 한 줄, 그날의 기록은 훨씬 길다 · 27편</div></div>
           <a href="/history.html" class="rail-more">전체 &rsaquo;</a></div>
@@ -370,7 +352,7 @@
       </div>
         <a class="hub-more" href="/history.html">영상 전체 이어 보기 →</a>
       </section>
-      <section class="hub-sheet" id="h-mem" data-title="👥 국회의원 300명">
+      <section class="hub-sheet" id="h-mem" data-title="국회의원 300명">
       <!-- 레일 1: 로테이션 주제 (새로고침/당겨서새로고침마다 다른 주제) -->
       <div class="ptr-ind" id="ptrIndicator"></div>
       <div class="rail-block">
@@ -447,7 +429,7 @@
 </script>
         <a class="hub-more" href="/list.html">의원 300명 전체 목록 →</a>
       </section>
-      <section class="hub-sheet" id="h-local" data-title="🗺 우리 동네 단체장">
+      <section class="hub-sheet" id="h-local" data-title="우리 동네 단체장">
       <!-- 레일 2: 우리 동네 단체장 -->
       <div class="rail-block">
         <div class="rail-head">
@@ -519,7 +501,7 @@
       </div>
         <a class="hub-more" href="/local.html">단체장 243명 전체 →</a>
       </section>
-      <section class="hub-sheet" id="h-pres" data-title="🇰🇷 역대 대통령">
+      <section class="hub-sheet" id="h-pres" data-title="역대 대통령">
       <!-- 레일 3: 역대 대통령 -->
       <div class="rail-block">
         <div class="rail-head">
@@ -561,7 +543,7 @@
       </div>
         <a class="hub-more" href="/presidents.html">역대 대통령 전체 →</a>
       </section>
-      <section class="hub-sheet" id="h-rank" data-title="🏆 진짜 일하는 의원">
+      <section class="hub-sheet" id="h-rank" data-title="진짜 일하는 의원">
       <!-- 두 축: 의원 검증 + 실시간 커뮤니티 (정체성 한눈에) -->
       <div class="home-pillars">
         <a href="/list.html" class="pillar pillar-verify">
@@ -1246,7 +1228,7 @@
         </script>
       </section>
       </section>
-      <section class="hub-sheet" id="h-data" data-title="📈 국회 데이터">
+      <section class="hub-sheet" id="h-data" data-title="국회 데이터">
       
       <a href="/live.html" class="live-banner">
         <span class="lb-dot"></span>
@@ -1278,7 +1260,35 @@
 
       <section class="treemap-section"><div class="rbs-head"><div><div class="section-title">📊 위원회별 활동 (상위 12)</div><div class="section-sub">사각형 면적 = 발의 건수 · 색상 = 가결·대안반영 비율</div></div><a href="/bills.html" class="rbs-more">전체 검색 →</a></div><div class="treemap"><div class="tm-row" style="flex-grow:4625;"><a class="tm-cell" href="/bills.html" style="flex-grow:2747;background:#84cc16;color:#fff;" title="행정안전위원회 · 발의 2747건 · 가결+대안반영 609건 (22.2%)">  <div class="tm-cell-inner">    <div class="tm-name">행정안전위</div>    <div class="tm-meta">2,747건 · 22%</div>  </div></a><a class="tm-cell" href="/bills.html" style="flex-grow:1878;background:#f59e0b;color:#fff;" title="법제사법위원회 · 발의 1878건 · 가결+대안반영 323건 (17.2%)">  <div class="tm-cell-inner">    <div class="tm-name">법제사법위</div>    <div class="tm-meta">1,878건 · 17%</div>  </div></a></div><div class="tm-row" style="flex-grow:5351;"><a class="tm-cell" href="/bills.html" style="flex-grow:1819;background:#f59e0b;color:#fff;" title="기후에너지환경노동위원회 · 발의 1819건 · 가결+대안반영 339건 (18.6%)">  <div class="tm-cell-inner">    <div class="tm-name">기후에너지환경노동위</div>    <div class="tm-meta">1,819건 · 19%</div>  </div></a><a class="tm-cell" href="/bills.html" style="flex-grow:1818;background:#84cc16;color:#fff;" title="보건복지위원회 · 발의 1818건 · 가결+대안반영 513건 (28.2%)">  <div class="tm-cell-inner">    <div class="tm-name">보건복지위</div>    <div class="tm-meta">1,818건 · 28%</div>  </div></a><a class="tm-cell" href="/bills.html" style="flex-grow:1714;background:#f59e0b;color:#fff;" title="국토교통위원회 · 발의 1714건 · 가결+대안반영 367건 (21.4%)">  <div class="tm-cell-inner">    <div class="tm-name">국토교통위</div>    <div class="tm-meta">1,714건 · 21%</div>  </div></a></div><div class="tm-row" style="flex-grow:4483;"><a class="tm-cell" href="/bills.html" style="flex-grow:1590;background:#94a3b8;color:#fff;" title="재정경제기획위원회 · 발의 1590건 · 가결+대안반영 70건 (4.4%)">  <div class="tm-cell-inner">    <div class="tm-name">재정경제기획위</div>    <div class="tm-meta">1,590건 · 4%</div>  </div></a><a class="tm-cell" href="/bills.html" style="flex-grow:1584;background:#f59e0b;color:#fff;" title="정무위원회 · 발의 1584건 · 가결+대안반영 290건 (18.3%)">  <div class="tm-cell-inner">    <div class="tm-name">정무위</div>    <div class="tm-meta">1,584건 · 18%</div>  </div></a><a class="tm-cell" href="/bills.html" style="flex-grow:1309;background:#22c55e;color:#fff;" title="농림축산식품해양수산위원회 · 발의 1309건 · 가결+대안반영 522건 (39.9%)">  <div class="tm-cell-inner">    <div class="tm-name">농림축산식품해양수산위</div>    <div class="tm-meta">1,309건 · 40%</div>  </div></a></div><div class="tm-row" style="flex-grow:3455;"><a class="tm-cell" href="/bills.html" style="flex-grow:985;background:#22c55e;color:#fff;" title="산업통상자원중소벤처기업위원회 · 발의 985건 · 가결+대안반영 296건 (30.1%)">  <div class="tm-cell-inner">    <div class="tm-name">산업통상자원중소벤처기업위</div>    <div class="tm-meta">985건 · 30%</div>  </div></a><a class="tm-cell" href="/bills.html" style="flex-grow:911;background:#84cc16;color:#fff;" title="교육위원회 · 발의 911건 · 가결+대안반영 220건 (24.1%)">  <div class="tm-cell-inner">    <div class="tm-name">교육위</div>    <div class="tm-meta">911건 · 24%</div>  </div></a><a class="tm-cell" href="/bills.html" style="flex-grow:821;background:#16a34a;color:#fff;" title="과학기술정보방송통신위원회 · 발의 821건 · 가결+대안반영 333건 (40.6%)">  <div class="tm-cell-inner">    <div class="tm-name">과학기술정보방송통신위</div>    <div class="tm-meta">821건 · 41%</div>  </div></a><a class="tm-cell" href="/bills.html" style="flex-grow:738;background:#84cc16;color:#fff;" title="문화체육관광위원회 · 발의 738건 · 가결+대안반영 212건 (28.7%)">  <div class="tm-cell-inner">    <div class="tm-name">문화체육관광위</div>    <div class="tm-meta">738건 · 29%</div>  </div></a></div></div><div class="tm-legend">  <span class="tm-legend-item"><span class="tm-swatch" style="background:#94a3b8;"></span>~15% 낮음</span>  <span class="tm-legend-item"><span class="tm-swatch" style="background:#f59e0b;"></span>15-22%</span>  <span class="tm-legend-item"><span class="tm-swatch" style="background:#84cc16;"></span>22-30%</span>  <span class="tm-legend-item"><span class="tm-swatch" style="background:#22c55e;"></span>30-40%</span>  <span class="tm-legend-item"><span class="tm-swatch" style="background:#16a34a;"></span>40%+ 활발</span></div><p style="font-size:11px;color:var(--color-text-soft);margin-top:8px;line-height:1.6;">※ 가결+대안반영 비율. 평균 가결률은 약 3-5%지만 대안반영(다른 법안에 흡수)을 포함하면 위원회별 차이가 커짐.</p></section>
       </section>
-      <section class="hub-sheet" id="h-learn" data-title="📚 정치 배움터">
+      <section class="hub-sheet" id="h-war" data-title="성향 화력 대결">
+    <div class="hero war" id="warBox">
+
+      <div class="container">
+        <div class="war-title"><b>대한민국의 미래,<br>여러분의 선택은?</b></div>
+        
+        <div class="war-score">
+          <div class="ws-side"><span>🔵 진보 성향</span><b id="fireB">0</b></div>
+          <div class="ws-mid"><span class="vs">VS</span><small>⚪ 중도 <b id="fireW">0</b></small></div>
+          <div class="ws-side"><span>🔴 보수 성향</span><b id="fireR">0</b></div>
+        </div>
+        <div class="war-bar" aria-hidden="true"><i class="b"></i><i class="w"></i><i class="r"></i></div>
+        <p class="war-today" id="warToday"></p>
+        <p class="war-cap"><span id="warY"></span>누적 화력(시작 점수 포함) = 출석 투표·응원·팩트 폭탄·게임·댓글·후원·화력 지원 · 여론조사 아님</p>
+        <div class="war-pick" role="group" aria-label="내 편 고르기">
+          <button type="button" data-team="b">🔵 진보</button><button type="button" data-team="w">⚪ 중도</button><button type="button" data-team="r">🔴 보수</button>
+        </div>
+        <p class="war-me" id="warMe">👆 편을 고르면 매일 들어올 때마다 내 표가 1표씩 쌓여요</p>
+        <div class="war-acts">
+          <a href="/game.html" data-ck="war-game">🏳 청기홍기 한 판</a>
+          <a href="/donate.html" data-ck="war-donate">☕ 후원 = 화력 +100</a>
+          <a href="/fire.html" data-ck="war-shop">🔥 화력 지원</a>
+        </div>
+
+      </div>
+    </div>
+      <p class="hub-note">진보·중도·보수는 누르는 사람이 스스로 고른 성향입니다. 정치인을 정당으로 나누지 않으며 여론조사가 아닙니다.</p>
+      </section>
+      <section class="hub-sheet" id="h-learn" data-title="정치 배움터">
       <section>
         <div class="section-title">🧭 둘러보기</div>
         <div class="section-sub">관심 있는 방식으로 의원을 탐색하세요</div>
@@ -1756,7 +1766,7 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202610300037" defer></script>
-  <script src="/hub.js?v=202610300037" defer></script>
+  <script src="/war.js?v=202610300048" defer></script>
+  <script src="/hub.js?v=202610300048" defer></script>
 </body>
 </html>
