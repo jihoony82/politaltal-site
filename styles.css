@@ -67,9 +67,9 @@ body { background: linear-gradient(115deg, #dce6ff 0%, #f1f5ff 36%, #ffffff 50%,
   rgba(220,38,38,.88) 64%, rgba(185,28,28,.95) 100%), url('/videos/hero-city.jpg') center 50% / cover no-repeat; padding: 22px 0 26px; }
 .hero.war::before { display: none; }
 .war-title { text-align: center; margin-bottom: 14px; }
-.war-title b { display: inline-block; background: var(--color-primary); color: #fff; font-size: 19px; font-weight: 900; letter-spacing: -.4px;
-  padding: 9px 18px; border-radius: 999px; box-shadow: 0 6px 18px rgba(0,0,0,.25); }
-.war-title small { display: block; margin-top: 8px; font-size: 13px; font-weight: 800; color: var(--color-primary); }
+.war-title small { display: block; font: 800 10.5px/1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .32em; color: rgba(10,37,64,.62); margin-bottom: 7px; }
+.war-title b { display: block; font-family: 'Noto Serif KR', 'Pretendard Variable', serif; font-size: clamp(23px, 6.4vw, 30px); font-weight: 900; letter-spacing: -.5px;
+  color: var(--color-primary); text-shadow: 0 1px 0 rgba(255,255,255,.7); }
 .war-score { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 6px; }
 .ws-side { color: #fff; text-align: center; text-shadow: 0 2px 8px rgba(0,0,0,.3); }
 .ws-side span { font-size: 13px; font-weight: 800; }
