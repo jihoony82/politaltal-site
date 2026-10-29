@@ -177,9 +177,17 @@
         <div id="ofApps"></div>
         <div class="label" style="margin:16px 0 4px;">인증된 의원실 <span id="ofN"></span></div>
         <div id="ofList"></div>
+        <div class="label" style="margin:18px 0 4px;">💳 Pro 결제 <span id="obWait" class="wl-badge" style="display:none;"></span></div>
+        <div style="display:flex;gap:6px;margin:4px 0 8px;"><input id="obBank" maxlength="120" placeholder="의원실에 보여 줄 입금 계좌(예: 은행 계좌번호 예금주 코코요)" style="flex:1;min-width:0;">
+          <button class="reset" onclick="obBankSave()">저장</button></div>
+        <div id="obBills"></div>
+        <div class="label" style="margin:18px 0 4px;">📣 의원실 소식 <button class="reset" id="obQuiet" style="margin-left:6px;" onclick="obQuiet()">–</button></div>
+        <div id="obPosts"></div>
         <div class="note">
           ※ <strong>전화 확인 끝</strong> = 의원회관 대표번호로 건 ARS 번호를 맞힌 신청입니다. 이름·직책이 이상하지 않은지 보고 승인하세요(필요하면 대표번호로 직접 전화).<br>
-          ※ 승인하면 신청자가 그 의원실 관리자가 되고 문자로 알립니다. 사칭·남용이 보이면 인증된 의원실에서 <strong>정지</strong>하세요(공식 답글은 남고 새 답글만 막힙니다).
+          ※ 승인하면 신청자가 그 의원실 관리자가 되고 문자로 알립니다. 사칭·남용이 보이면 인증된 의원실에서 <strong>정지</strong>하세요(공식 답글은 남고 새 답글만 막힙니다).<br>
+          ※ Pro 계좌이체: 통장에 입금이 찍히면 <strong>입금 확인</strong> → Pro 가 열리고 신청자에게 문자. 세금계산서는 홈택스에서 발행한 뒤 <strong>세금계산서 발행</strong>을 눌러 표시만 하세요.<br>
+          ※ 선거운동 기간에는 <strong>의원실 소식 멈춤</strong>을 켜세요(쓰기·보이기 모두 멈춤). 시범 의원실에는 <strong>Pro 30일</strong>로 무료 기간을 줄 수 있습니다.
         </div>
       </div>
 
@@ -520,7 +528,7 @@
       LG_ROWS = d.rows;
       $('lgKey').style.display = 'none'; $('lgBody').style.display = '';
       lgRender();
-      stLoad(key); ssLoad(); wlLoad(key); pcLoad(key); slLoad(key); smLoad(key); ofLoad(key);
+      stLoad(key); ssLoad(); wlLoad(key); pcLoad(key); slLoad(key); smLoad(key); ofLoad(key); obLoad(key);
       return d;
     }
 
@@ -553,18 +561,64 @@
         const head = mk(it, 'wl-meta', '');
         const a = document.createElement('a'); a.href = '/politician/' + o.t.slice(2); a.target = '_blank'; a.textContent = o.name + ' 의원실'; head.appendChild(a);
         head.appendChild(document.createTextNode(` · 팀 ${o.mem}명 · 공식 답글 ${o.replies}개 · 인증 ${when(o.verified_at)}${o.status === 'off' ? ' · ⛔ 정지' : ''}`));
+        if (o.pro_until > Date.now()) mk(it, 'wl-meta', '⭐ Pro ' + new Date(o.pro_until).toLocaleDateString('ko-KR') + '까지');
         const acts = document.createElement('div'); acts.className = 'item-actions';
+        const g = document.createElement('button'); g.className = 'unhide'; g.textContent = 'Pro 30일';
+        g.onclick = () => ofAct({ op:'ofc_grant', t:o.t, days:30 }, o.name + ' 의원실에 Pro 30일을 무료로 줄까요?'); acts.appendChild(g);
         const b = document.createElement('button'); b.className = o.status === 'off' ? 'unhide' : 'hide'; b.textContent = o.status === 'off' ? '정지 풀기' : '정지';
         b.onclick = () => ofAct({ op:'ofc_off', t:o.t, off: o.status !== 'off' }, o.status === 'off' ? '정지를 풀까요?' : '이 의원실을 정지할까요? 새 공식 답글을 달 수 없게 됩니다.');
         acts.appendChild(b); it.appendChild(acts); list.appendChild(it);
       }
     }
+    // Pro 결제·의원실 소식
+    let OB_QUIET = false;
+    async function obLoad(key) {
+      const d = await lgApi({ op:'ofc_bills' }, key);
+      if (!d.ok) return;
+      OB_QUIET = d.quiet; $('obQuiet').textContent = d.quiet ? '⛔ 소식 멈춤 중 — 다시 열기' : '선거 기간: 소식 멈춤';
+      if (document.activeElement !== $('obBank')) $('obBank').value = d.bank || '';
+      const mk = (box, cls, text) => { const x = document.createElement('div'); x.className = cls; x.textContent = text; box.appendChild(x); return x; };
+      const btn = (acts, cls, text, fn) => { const x = document.createElement('button'); x.className = cls; x.textContent = text; x.onclick = fn; acts.appendChild(x); };
+      const won = n => n.toLocaleString('ko-KR') + '원', dt = t => new Date(t).toLocaleDateString('ko-KR');
+      const wait = d.rows.filter(r => r.status === 'wait').length;
+      $('obWait').style.display = wait ? '' : 'none'; $('obWait').textContent = '입금 대기 ' + wait;
+      const box = $('obBills'); box.textContent = '';
+      if (!d.rows.length) mk(box, 'st-sub', '아직 결제가 없습니다.');
+      for (const r of d.rows.slice(0, 30)) {
+        const it = document.createElement('div'); it.className = 'wl-item' + (r.status === 'wait' ? ' wait' : r.status === 'cancel' ? ' hidden-item' : '');
+        mk(it, 'wl-meta', `${r.name} 의원실 · ${r.kind === 'card' ? '💳 카드' : '🏦 계좌'} ${r.months}개월 · ${won(r.amount)} · ${{ wait:'입금 대기', paid:'결제 완료', cancel:'취소' }[r.status] || r.status} · ${dt(r.paid_at || r.created_at)}`);
+        mk(it, 'wl-msg', `${r.payer ? '입금자 ' + r.payer + ' · ' : ''}받는 곳 ${r.buyer || '-'}${r.biz ? ' (' + r.biz + ')' : ''}${r.email ? ' · ' + r.email : ''}${r.tax ? ' · 세금계산서 발행 ' + dt(r.tax) : ''}`);
+        const acts = document.createElement('div'); acts.className = 'item-actions';
+        if (r.status === 'wait') {
+          btn(acts, 'unhide', '입금 확인', () => ofAct({ op:'ofc_bill_paid', id:r.id }, `${r.name} 의원실 ${won(r.amount)} 입금(입금자 ${r.payer})을 확인했나요? Pro 가 ${r.months}개월 열립니다.`));
+          btn(acts, 'delete', '취소', () => ofAct({ op:'ofc_bill_cancel', id:r.id }, '이 신청을 취소할까요?'));
+        }
+        if (r.status === 'paid') btn(acts, r.tax ? 'hide' : 'unhide', r.tax ? '세금계산서 표시 지우기' : '세금계산서 발행', () => ofAct({ op:'ofc_bill_tax', id:r.id, on: !r.tax }, r.tax ? '발행 표시를 지울까요?' : '홈택스에서 세금계산서를 발행했나요?'));
+        if (acts.children.length) it.appendChild(acts);
+        box.appendChild(it);
+      }
+      const pb = $('obPosts'); pb.textContent = '';
+      if (!d.posts.length) mk(pb, 'st-sub', '아직 올라온 소식이 없습니다.');
+      for (const p of d.posts.slice(0, 20)) {
+        const it = document.createElement('div'); it.className = 'wl-item' + (p.status === 'hidden' ? ' hidden-item' : '');
+        const head = mk(it, 'wl-meta', '');
+        const a = document.createElement('a'); a.href = '/politician/' + p.t.slice(2) + '#talk'; a.target = '_blank'; a.textContent = p.name + ' 의원실'; head.appendChild(a);
+        head.appendChild(document.createTextNode(` · ${dt(p.created_at)} · 사진 ${JSON.parse(p.photos).length}장${p.yt ? ' · 영상' : ''}${p.status === 'hidden' ? ' · 숨김' : ''}`));
+        mk(it, 'wl-msg', p.body);
+        const acts = document.createElement('div'); acts.className = 'item-actions';
+        btn(acts, p.status === 'hidden' ? 'unhide' : 'hide', p.status === 'hidden' ? '다시 보이기' : '숨기기', () => ofAct({ op:'ofc_post_hide', id:p.id, hide: p.status !== 'hidden' }, p.status === 'hidden' ? '다시 보이게 할까요?' : '이 소식을 숨길까요?'));
+        it.appendChild(acts); pb.appendChild(it);
+      }
+    }
+    async function obBankSave() { const d = await lgApi({ op:'ofc_bank', text: $('obBank').value }); alert(d.ok ? '저장했습니다.' : '실패: ' + (d.error || '')); obLoad(); }
+    async function obQuiet() { await ofAct({ op:'ofc_quiet', off: !OB_QUIET }, OB_QUIET ? '의원실 소식을 다시 열까요?' : '선거운동 기간이라 의원실 소식 쓰기·보이기를 멈출까요?'); }
     async function ofAct(body, ask) {
       if (!confirm(ask)) return;
       const d = await lgApi(body);
       if (!d.ok) alert('실패: ' + (d.error || ''));
       else if (body.op === 'ofc_ok') alert(d.sms ? '승인했고 문자로 알렸습니다.' : '승인했습니다(문자 키가 없어 문자는 못 보냄 — 직접 알려 주세요).');
-      ofLoad();
+      else if (body.op === 'ofc_bill_paid') alert(d.sms ? 'Pro 를 열었고 문자로 알렸습니다.' : 'Pro 를 열었습니다(문자는 못 보냄 — 직접 알려 주세요).');
+      ofLoad(); obLoad();
     }
 
     // ── 정치인 한마디: 신고 받은 글 먼저, 숨기기·다시 공개·삭제, 댓글 받기 열고 닫기 ──

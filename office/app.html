@@ -118,10 +118,65 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
 .plan .pr { font-size: 20px; font-weight: 900; margin: 2px 0 6px; }
 .plan ul { margin-left: 18px; font-size: 13.5px; line-height: 1.8; }
 .soon { font-size: 11px; background: #fef3c7; color: #92400e; border-radius: 999px; padding: 2px 8px; margin-left: 4px; vertical-align: middle; }
+/* 2단계: Pro 안내·소식·리포트·요금·서류 */
+.upsell { background: linear-gradient(135deg, #0a2540, #1c3d5a); color: #fff; border-radius: 16px; padding: 18px; margin: 12px 0; }
+.upsell b { font-size: 16px; } .upsell p { font-size: 13.5px; opacity: .9; line-height: 1.65; margin: 6px 0 12px; }
+.upsell .btn { background: #fff; color: var(--p); }
+.pro-tag { font-size: 11px; font-weight: 900; background: #fde68a; color: #78350f; border-radius: 999px; padding: 2px 8px; vertical-align: middle; }
+.thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 8px 0; }
+.thumbs div { position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: #e2e8f0; }
+.thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumbs button { position: absolute; top: 3px; right: 3px; width: 24px; height: 24px; border-radius: 50%; border: 0; background: rgba(0,0,0,.6); color: #fff; font-size: 13px; line-height: 24px; padding: 0; }
+.filebtn { display: inline-flex; align-items: center; gap: 6px; border: 1.5px dashed #94a3b8; border-radius: 12px; padding: 10px 14px; font-size: 14px; font-weight: 700; color: var(--soft); background: #fff; cursor: pointer; }
+.filebtn input { display: none; }
+.np { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin: 10px 0; }
+.np .body { font-size: 14.5px; }
+.np .yt { display: block; margin-top: 8px; font-size: 13px; font-weight: 700; color: var(--blue); }
+.week { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 4px; }
+.week b { font-size: 15px; }
+.week button { border: 1.5px solid var(--line); background: #fff; border-radius: 10px; width: 40px; height: 36px; font-size: 16px; font-weight: 800; }
+.delta { font-size: 12px; font-weight: 800; margin-left: 4px; }
+.delta.up { color: var(--ok); } .delta.down { color: var(--red); }
+.split { display: flex; height: 14px; border-radius: 7px; overflow: hidden; background: var(--line); margin: 8px 0 6px; }
+.split i { display: block; height: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--soft); }
+.words { display: flex; flex-wrap: wrap; gap: 6px; }
+.words span { background: var(--blue-bg); color: var(--blue); border-radius: 999px; padding: 4px 10px; font-size: 13px; font-weight: 700; }
+.top5 li { list-style: none; padding: 8px 0; border-top: 1px solid #f1f5f9; font-size: 14px; line-height: 1.55; }
+.top5 li:first-child { border-top: 0; }
+.top5 small { display: block; color: var(--soft); font-size: 12px; }
+.aisum { white-space: pre-line; font-size: 14px; line-height: 1.75; background: #f8fafc; border-radius: 12px; padding: 12px 14px; margin-top: 10px; }
+.radios { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.radios label { border: 1.5px solid var(--line); border-radius: 12px; padding: 12px; font-size: 14px; font-weight: 800; text-align: center; cursor: pointer; }
+.radios label small { display: block; font-weight: 600; color: var(--soft); font-size: 12px; margin-top: 2px; }
+.radios input { display: none; }
+.radios label.on { border-color: var(--p); background: #f1f5f9; }
+.bankbox { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 12px 14px; margin-top: 10px; font-size: 14px; line-height: 1.7; }
+.bill { padding: 12px 0; border-top: 1px solid #f1f5f9; }
+.bill:first-child { border-top: 0; }
+.bill .bt { display: flex; justify-content: space-between; font-size: 14px; font-weight: 800; }
+.bill .bs { font-size: 12.5px; color: var(--soft); margin-top: 2px; }
+.bill .acts { margin-top: 8px; }
+.asg { font-size: 11px; font-weight: 800; background: #ede9fe; color: #5b21b6; border-radius: 999px; padding: 1px 8px; }
+.selrow { display: flex; gap: 6px; align-items: center; margin-top: 8px; font-size: 13px; color: var(--soft); }
+.selrow select { border: 1.5px solid var(--line); border-radius: 10px; padding: 6px 8px; font-size: 14px; background: #fff; }
+/* 증빙 서류(같은 화면 위) — 인쇄할 때는 서류만 */
+#docSheet { position: fixed; inset: 0; z-index: 50; background: #fff; overflow-y: auto; padding: calc(12px + env(safe-area-inset-top)) 16px 40px; }
+#docSheet .dbar { display: flex; gap: 8px; justify-content: flex-end; max-width: 720px; margin: 0 auto 8px; }
+.doc { max-width: 720px; margin: 0 auto; color: #111; line-height: 1.6; font-family: -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
+.doc h1 { font-size: 26px; text-align: center; letter-spacing: 8px; margin: 10px 0 4px; }
+.doc .sub { text-align: center; color: #555; margin-bottom: 18px; }
+.doc table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+.doc th, .doc td { border: 1px solid #999; padding: 8px 10px; font-size: 14px; text-align: left; vertical-align: top; }
+.doc th { background: #f3f4f6; width: 32%; } .doc .num { text-align: right; }
+.doc h3 { margin: 20px 0 6px; font-size: 16px; } .doc p { font-size: 14px; margin: 8px 0; } .doc ol { padding-left: 20px; font-size: 14px; }
+.doc .sup { border: 1px solid #999; padding: 10px 12px; font-size: 13.5px; margin-top: 16px; }
+.doc .src { font-size: 12px; color: #666; margin-top: 18px; }
+@media print { body.doc-open > *:not(#docSheet) { display: none !important; } body.doc-open { padding: 0; } #docSheet { position: static; padding: 0; } #docSheet .dbar { display: none; } }
 /* 아래 탭 */
 .tabs { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); z-index: 20; }
 .tabs .wrap { display: flex; padding: 0; }
-.tabs button { flex: 1; background: none; border: 0; padding: 9px 0 10px; font-size: 11.5px; font-weight: 800; color: var(--soft); display: flex; flex-direction: column; align-items: center; gap: 2px; position: relative; }
+.tabs button { flex: 1; min-width: 0; background: none; border: 0; padding: 9px 0 10px; font-size: 11px; font-weight: 800; color: var(--soft); display: flex; flex-direction: column; align-items: center; gap: 2px; position: relative; }
 .tabs button i { font-style: normal; font-size: 20px; line-height: 1.1; }
 .tabs button[aria-current="true"] { color: var(--p); }
 .tabs .dot { position: absolute; top: 5px; left: calc(50% + 8px); background: var(--red); color: #fff; font-size: 10.5px; border-radius: 999px; padding: 0 5px; line-height: 16px; min-width: 16px; }
@@ -185,8 +240,8 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
       <h1>📞 대표번호로 전화가 갑니다</h1>
       <p class="lead" id="apCallLead"></p>
       <div class="card">
-        <label class="field"><span>전화에서 불러 준 6자리</span>
-          <div class="row"><input id="apCode" class="code" inputmode="numeric" maxlength="6" placeholder="······"><button class="btn blue" id="apOk">확인</button></div></label>
+        <label class="field"><span>전화에서 불러 준 4자리</span>
+          <div class="row"><input id="apCode" class="code" inputmode="numeric" maxlength="4" placeholder="····"><button class="btn blue" id="apOk">확인</button></div></label>
         <button class="btn line full" id="apRecall">전화 다시 받기</button>
         <p class="msg" id="apMsg3" role="status"></p>
       </div>
@@ -222,6 +277,7 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
         <div class="kv"><span>최근 7일 새 한마디</span><b id="hC7">-</b></div>
         <div class="kv"><span>전체 한마디</span><b id="hC">-</b></div>
         <div class="kv"><span>인증 유효</span><b id="hUntil">-</b></div>
+        <div class="kv"><span>요금제</span><b id="hPlan">-</b></div>
         <a class="btn line full" id="hPage" style="margin-top:12px;" target="_blank" rel="noopener">우리 의원 페이지 보기 ↗</a>
       </div>
       <div class="card">
@@ -239,9 +295,55 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
         <button data-f="open" aria-pressed="true">답 안 함 <span></span></button>
         <button data-f="all" aria-pressed="false">전체 <span></span></button>
         <button data-f="pin" aria-pressed="false">고정 <span></span></button>
+        <button data-f="mine" aria-pressed="false" id="chipMine" hidden>내 담당 <span></span></button>
       </div>
       <div id="iList"></div>
       <p class="note">의원실은 시민 글을 지우거나 숨길 수 없습니다. 욕설·허위사실은 '우선 신고'를 누르면 운영자가 24시간 안에 판단합니다.</p>
+    </div>
+
+    <div id="tNews" hidden>
+      <div id="nUpsell"></div>
+      <div class="card" id="nCompose" hidden>
+        <h2>의원실 소식 올리기 <span class="pro-tag">PRO</span></h2>
+        <p class="note" style="margin-top:0;">의원 페이지 '소통' 칸 맨 위에 '의원실 제공'으로 보입니다. 의정활동 사진·영상·일정을 알리세요.</p>
+        <label class="field"><span>내용</span><textarea id="nBody" maxlength="1000" placeholder="예: 오늘 교육위원회에서 특수교육 인력 확충 법안을 설명했습니다."></textarea></label>
+        <div class="cnt" id="nCnt" style="font-size:12px;color:var(--soft);text-align:right;">0 / 1000</div>
+        <div class="thumbs" id="nThumbs"></div>
+        <label class="filebtn" id="nPick">📷 사진 고르기(4장까지)<input type="file" id="nFile" accept="image/*" multiple></label>
+        <label class="field"><span>유튜브 영상 주소 <small style="font-weight:500;color:var(--soft);">선택</small></span><input id="nYt" placeholder="https://youtu.be/..."></label>
+        <button class="btn blue full" id="nGo">소식 올리기</button>
+        <p class="msg" id="nMsg" role="status"></p>
+      </div>
+      <p class="note" id="nQuiet" hidden>선거운동 기간이라 의원실 소식을 쉬고 있습니다. 기간이 끝나면 다시 열립니다.</p>
+      <div id="nList"></div>
+    </div>
+
+    <div id="tReport" hidden>
+      <div id="rUpsell"></div>
+      <div id="rBody" hidden>
+        <div class="week"><button id="rPrev" aria-label="지난주">‹</button><b id="rWeek"></b><button id="rNext" aria-label="다음 주">›</button></div>
+        <div class="card">
+          <h2>시민 한마디</h2>
+          <div class="nums"><div><b id="rC">-</b><span>새 한마디</span></div><div><b id="rAns">-</b><span>답한 비율</span></div><div><b id="rHrs">-</b><span>평균 답 시간</span></div></div>
+          <div class="split" id="rTeam"></div>
+          <div class="legend"><span>🔵 진보 성향</span><span>⚪ 중도</span><span>🔴 보수 성향</span><span>◻️ 고르지 않음</span></div>
+          <p class="note">성향은 글쓴이가 정치탈탈에서 스스로 고른 것입니다. 여론조사가 아닙니다.</p>
+        </div>
+        <div class="card">
+          <h2>페이지 조회 <span id="rV" style="font-size:15px;"></span></h2>
+          <div class="bars" id="rBars"></div>
+          <div class="kv" style="margin-top:10px;"><span>👍 응원 · 💣 팩트 폭탄</span><b id="rWar">-</b></div>
+        </div>
+        <div class="card"><h2>많이 나온 낱말</h2><div class="words" id="rWords"></div></div>
+        <div class="card"><h2>공감 많은 한마디</h2><ol class="top5" id="rTop"></ol></div>
+        <div class="card">
+          <h2>AI 민심 요약 <span class="pro-tag">PRO</span></h2>
+          <button class="btn line full" id="rAi">이 주 한마디를 AI로 요약하기</button>
+          <div class="aisum" id="rAiText" hidden></div>
+          <p class="note">요약은 참고용입니다. 원문은 한마디함에서 확인하세요.</p>
+        </div>
+        <button class="btn line full" id="rPrint">리포트 인쇄·PDF로 저장</button>
+      </div>
     </div>
 
     <div id="tTeam" hidden>
@@ -262,17 +364,48 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
 
     <div id="tPlan" hidden>
       <div class="card">
-        <h2>지금 요금제: <span id="plName">무료</span></h2>
+        <h2>지금 요금제</h2>
+        <div id="plNow" style="font-size:15px;font-weight:800;"></div>
+        <div class="note" id="plSub"></div>
+      </div>
+      <div class="card" id="plCard" hidden>
+        <h2>카드로 매달 자동결제</h2>
+        <p class="note" style="margin-top:0;">월 299,000원(부가세 포함). 정치자금 카드로도 결제할 수 있습니다. 첫 달은 바로 결제되고 매달 같은 날 결제됩니다. 언제든 해지할 수 있고, 낸 기간은 그대로 씁니다.</p>
+        <label class="field"><span>결제 알림 받을 휴대폰</span><input id="plPhone" type="tel" inputmode="numeric" maxlength="13" placeholder="010-0000-0000"></label>
+        <button class="btn blue full" id="plCardGo">카드 결제창 열기</button>
+        <button class="btn line full" id="plStop" hidden>자동결제 해지</button>
+        <p class="msg" id="plCardMsg" role="status"></p>
+      </div>
+      <div class="card">
+        <h2>계좌이체(정치자금 계좌)</h2>
+        <div class="radios" id="plMonths">
+          <label class="on"><input type="radio" name="m" value="1" checked>1개월<small>299,000원</small></label>
+          <label><input type="radio" name="m" value="12">12개월<small>2,990,000원 · 2개월 무료</small></label>
+        </div>
+        <label class="field"><span>입금자명</span><input id="plPayer" maxlength="20" placeholder="통장에 찍히는 이름"></label>
+        <label class="field"><span>세금계산서·영수증 받을 곳</span><input id="plBuyer" maxlength="40" placeholder="예: 국회의원 홍길동 사무소"></label>
+        <label class="field"><span>사업자·고유번호 <small style="font-weight:500;color:var(--soft);">선택</small></span><input id="plBiz" maxlength="20" inputmode="numeric"></label>
+        <label class="field"><span>이메일 <small style="font-weight:500;color:var(--soft);">선택 · 세금계산서 받을 곳</small></span><input id="plEmail" type="email" maxlength="80"></label>
+        <button class="btn full" id="plBankGo">계좌이체로 신청</button>
+        <p class="msg" id="plBankMsg" role="status"></p>
+        <div class="bankbox" id="plBank" hidden></div>
+      </div>
+      <div class="card">
+        <h2>결제 내역·증빙 서류</h2>
+        <div id="plBills"></div>
+        <p class="note">견적서·거래명세서·이용확인서·영수증은 눌러서 인쇄하거나 PDF로 저장하세요. 세금계산서는 코코요가 홈택스에서 발행해 위 이메일로 보내 드립니다.</p>
+      </div>
+      <div class="card">
+        <h2>무료와 Pro</h2>
         <div class="plan">
           <b>무료</b><div class="pr">0원</div>
           <ul><li>의원실 인증 배지</li><li>시민 한마디 공식 답글</li><li>고정 3개 · 우선 신고</li><li>대시보드 · 팀원 3명</li></ul>
         </div>
         <div class="plan pro">
-          <b>Pro</b><span class="soon">곧 열립니다</span><div class="pr">월 299,000원</div>
-          <ul><li>의원실 소식(사진·영상)을 의원 페이지 맨 위에</li><li>주간 민심 리포트</li><li>AI 답글 초안</li><li>담당자 배정 · 팀원 5명</li><li>의정보고 자료(카드뉴스·쇼츠 대본·보고서 초안)</li></ul>
-          <p class="note">1년 결제 시 10개월 값. 정치자금 카드·정치자금 계좌 이체로 결제하고 코코요 명의 세금계산서·거래명세서·이용확인서를 드립니다. 정치자금 지출 처리 여부는 회계책임자 또는 중앙선관위(1390)에 확인해 주세요.</p>
+          <b>Pro</b><div class="pr">월 299,000원 <small style="font-size:12px;color:var(--soft);">부가세 포함</small></div>
+          <ul><li>의원실 소식(사진·영상)을 의원 페이지 맨 위에</li><li>주간 민심 리포트 + 월요일 아침 요약 문자</li><li>AI 답글 초안 · AI 민심 요약</li><li>담당자 배정 · 팀원 5명</li></ul>
+          <p class="note">1년 결제 시 10개월 값. 정치자금 지출 처리 여부는 회계책임자 또는 중앙선관위(국번 없이 1390)에 확인해 주세요. Pro 여부와 상관없이 정치탈탈의 순위·점수·노출은 같습니다.</p>
         </div>
-        <p class="note">Pro를 먼저 써 보고 싶으면 jihoony8282@naver.com 으로 의원실 이름을 보내 주세요.</p>
       </div>
     </div>
   </section>
@@ -283,6 +416,8 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
 <nav class="tabs" id="tabs" hidden><div class="wrap">
   <button data-tab="tHome" aria-current="true"><i>🏠</i>홈</button>
   <button data-tab="tInbox"><i>💬</i>한마디<span class="dot" id="tabDot" hidden></span></button>
+  <button data-tab="tNews"><i>📣</i>소식</button>
+  <button data-tab="tReport"><i>📊</i>리포트</button>
   <button data-tab="tTeam"><i>👥</i>팀</button>
   <button data-tab="tPlan"><i>💳</i>요금</button>
 </div></nav>
@@ -306,8 +441,13 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
     exists: "이미 인증된 의원실입니다. 그 의원실 관리자에게 대시보드 '팀'에서 초대해 달라고 하세요.", off: "이 의원실은 지금 인증할 수 없습니다. 이메일로 문의해 주세요.",
     review: "이미 전화 확인을 마치고 승인을 기다리는 신청이 있습니다.", login: "로그인이 풀렸습니다. 다시 로그인해 주세요.",
     member: "이 의원실 팀이 아닙니다.", reverify: "6개월 재인증이 필요합니다. 관리자가 대표번호 전화로 다시 확인해 주세요.",
-    term: "임기가 끝난 의원실이라 답글을 달 수 없습니다.", owner: "관리자만 할 수 있습니다.", seats: "팀원 자리가 다 찼습니다.", pin_max: "고정은 3개까지입니다. 하나를 풀고 다시 고정해 주세요."
+    term: "임기가 끝난 의원실이라 답글을 달 수 없습니다.", owner: "관리자만 할 수 있습니다.", seats: "팀원 자리가 다 찼습니다.", pin_max: "고정은 3개까지입니다. 하나를 풀고 다시 고정해 주세요.",
+    pro: "Pro 에서 쓸 수 있습니다. '요금' 탭에서 시작하세요.", quiet: "선거운동 기간이라 의원실 소식을 쉬고 있습니다.", media_off: "사진 올리기를 준비 중입니다. 글과 유튜브 주소로 먼저 올려 주세요.",
+    ai_off: "AI 초안을 준비 중입니다.", ai_busy: "AI 가 바쁩니다. 잠시 뒤 다시 눌러 주세요.", ai_refused: "이 글에는 AI 초안을 만들 수 없습니다. 직접 써 주세요.", ai_fail: "AI 초안을 만들지 못했습니다. 다시 눌러 주세요.",
+    few: "한마디가 3개 이상 모여야 요약합니다.", active: "이미 카드 자동결제 중입니다.", pg_off: "카드 결제를 준비 중입니다. 계좌이체로 신청해 주세요.", pg: "결제창을 열지 못했습니다. 잠시 뒤 다시 눌러 주세요."
   };
+  var won = function (n) { return Number(n || 0).toLocaleString("ko-KR") + "원"; };
+  var isPro = function () { return CUR && CUR.plan === "pro"; };
   function say(box, d, okText) { box.className = "msg " + (d.ok ? "ok" : "err"); box.textContent = d.ok ? (okText || "") : (ERR[d.error] || "다시 시도해 주세요."); }
   var digits = function (v) { return String(v || "").replace(/\D/g, ""); };
   var telFmt = function (t) { return t.length === 10 && t.slice(0, 2) === "02" ? t.replace(/^(02)(\d{4})(\d{4})$/, "$1-$2-$3") : t.replace(/^(02|0\d\d)(\d{3,4})(\d{4})$/, "$1-$2-$3"); };
@@ -392,7 +532,7 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
     var tb = $("apTel"); tb.textContent = "";
     tb.appendChild(document.createTextNode("확인 전화가 갈 번호 "));
     tb.appendChild(el("b", "", telFmt(info[3])));
-    tb.appendChild(el("div", "", "국회가 공개한 의원회관 대표번호입니다. 신청 뒤 이 번호로 자동 전화가 가고, 숫자 6자리를 불러 줍니다."));
+    tb.appendChild(el("div", "", "국회가 공개한 의원회관 대표번호입니다. 신청 뒤 이 번호로 자동 전화가 가고, 숫자 4자리를 불러 줍니다."));
     $("apMsg").textContent = "";
     applyStep(2);
   }
@@ -412,7 +552,7 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
     });
   };
   function toCall() {
-    $("apCallLead").textContent = TELS[pickT][0] + " 의원실 대표번호 " + telFmt(TELS[pickT][3]) + "로 지금 전화가 갑니다. 받으시면 숫자 6자리를 두 번 불러 드립니다.";
+    $("apCallLead").textContent = TELS[pickT][0] + " 의원실 대표번호 " + telFmt(TELS[pickT][3]) + "로 지금 전화가 갑니다. 받으시면 숫자 4자리를 세 번 불러 드립니다.";
     $("apMsg3").textContent = "";
     applyStep(3);
   }
@@ -443,9 +583,12 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
     $("hTitle").textContent = CUR.oname + " 의원실";
     $("hPage").href = "/politician/" + CUR.t.slice(2);
     $("hUntil").textContent = day(CUR.until) + "까지";
+    $("hPlan").textContent = isPro() ? "Pro · " + day(CUR.pro_until) + "까지" : "무료";
+    $("chipMine").hidden = !isPro();
     banner();
     show("vDash");
-    INBOX = null; loadHome(); loadInbox(); tab(TAB);
+    if (/[?&]paid=/.test(location.search)) { TAB = "tPlan"; history.replaceState(null, "", location.pathname); }
+    INBOX = null; TEAM = null; loadHome(); loadInbox(); tab(TAB);
   }
   function banner() {
     var b = $("dBanner"); b.textContent = "";
@@ -477,9 +620,12 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
   }
   function tab(id) {
     TAB = id;
-    ["tHome", "tInbox", "tTeam", "tPlan"].forEach(function (t) { $(t).hidden = t !== id; });
+    ["tHome", "tInbox", "tNews", "tReport", "tTeam", "tPlan"].forEach(function (t) { $(t).hidden = t !== id; });
     [].forEach.call(document.querySelectorAll(".tabs button"), function (b) { b.setAttribute("aria-current", b.dataset.tab === id ? "true" : "false"); });
     if (id === "tTeam") loadTeam();
+    if (id === "tNews") loadNews();
+    if (id === "tReport") { RW = 0; loadReport(); }
+    if (id === "tPlan") loadPlan();
     window.scrollTo(0, 0);
   }
   [].forEach.call(document.querySelectorAll(".tabs button"), function (b) { b.onclick = function () { tab(b.dataset.tab); }; });
@@ -508,12 +654,16 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
       var tops = [], kids = {};
       d.rows.forEach(function (r) { if (r.parent) (kids[r.parent] = kids[r.parent] || []).unshift(r); else tops.push(r); });
       tops.forEach(function (r) { r.kids = kids[r.id] || []; r.done = r.kids.some(function (c) { return c.off; }); });
-      INBOX = tops; drawInbox();
+      INBOX = tops; ME_ID = d.me;
+      if (d.pro && !TEAM) api("/ofc/team?t=" + encodeURIComponent(CUR.t)).then(function (x) { if (x.ok) { TEAM = x.rows; drawInbox(); } });
+      drawInbox();
     });
   }
+  var TEAM = null, ME_ID = 0;
+  var teamName = function (id) { return ((TEAM || []).filter(function (m) { return m.id === id; })[0] || { name: "팀원" }).name; };
   function counts() {
-    var c = { open: 0, all: INBOX.length, pin: 0 };
-    INBOX.forEach(function (r) { if (!r.done) c.open++; if (r.pin) c.pin++; });
+    var c = { open: 0, all: INBOX.length, pin: 0, mine: 0 };
+    INBOX.forEach(function (r) { if (!r.done) c.open++; if (r.pin) c.pin++; if (r.asg && r.asg === ME_ID && !r.done) c.mine++; });
     return c;
   }
   [].forEach.call(document.querySelectorAll(".chips button"), function (b) {
@@ -531,10 +681,10 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
     $("hOpenT").appendChild(el("small", "", c.open ? "공식 답글은 의원 페이지에 파란 칸으로 바로 보입니다" : "새 한마디가 오면 여기 숫자가 올라갑니다"));
     $("hGo").hidden = !c.open;
     $("tabDot").hidden = !c.open; $("tabDot").textContent = c.open > 99 ? "99+" : c.open;
-    var rows = INBOX.filter(function (r) { return FILTER === "all" || (FILTER === "open" ? !r.done : r.pin); });
+    var rows = INBOX.filter(function (r) { return FILTER === "all" || (FILTER === "open" ? !r.done : FILTER === "mine" ? r.asg === ME_ID && !r.done : r.pin); });
     if (FILTER !== "pin") rows.sort(function (a, b) { return (b.pin || 0) - (a.pin || 0) || b.id - a.id; });
     list.textContent = "";
-    if (!rows.length) list.appendChild(el("p", "empty", FILTER === "open" ? "답할 한마디가 없습니다 👍" : FILTER === "pin" ? "고정한 한마디가 없습니다." : "아직 한마디가 없습니다."));
+    if (!rows.length) list.appendChild(el("p", "empty", FILTER === "open" || FILTER === "mine" ? "답할 한마디가 없습니다 👍" : FILTER === "pin" ? "고정한 한마디가 없습니다." : "아직 한마디가 없습니다."));
     rows.slice(0, 200).forEach(function (r) { list.appendChild(thread(r)); });
   }
   function thread(r) {
@@ -544,6 +694,7 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
     if (Date.now() - r.at < 86400e3 && !r.done) meta.appendChild(el("span", "tag new", "새 글"));
     if (r.pin) meta.appendChild(el("span", "tag pin", "📌 고정"));
     if (r.orep) meta.appendChild(el("span", "tag rep", "🚩 " + r.orep + " 신고함"));
+    if (r.asg) meta.appendChild(el("span", "asg", "👤 " + teamName(r.asg) + " 담당"));
     box.appendChild(meta);
     box.appendChild(el("p", "body", r.body));
     if (r.kids.length) {
@@ -579,7 +730,17 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
         go.disabled = true;
         api("/ofc/reply", { t: CUR.t, parent: r.id, body: ta.value }).then(function (d) { go.disabled = false; if (d.ok) loadInbox(); else say(out, d); });
       };
-      f.appendChild(ta); f.appendChild(cnt); f.appendChild(go); f.appendChild(out); slot.appendChild(f); ta.focus();
+      var ai = el("button", "btn line sm", "✨ AI 초안 받기" + (isPro() ? "" : " (Pro)")); ai.type = "button"; ai.style.marginBottom = "8px";
+      ai.onclick = function () {
+        if (!isPro()) { say(out, { ok: false, error: "pro" }); return; }
+        ai.disabled = true; ai.textContent = "✨ 초안 쓰는 중…";
+        api("/ofc/draft", { t: CUR.t, id: r.id }).then(function (d) {
+          ai.disabled = false; ai.textContent = "✨ 다른 초안 받기";
+          if (!d.ok) { say(out, d); return; }
+          ta.value = d.text; ta.oninput(); out.className = "msg ok"; out.textContent = "AI 초안입니다. 꼭 읽고 고친 뒤 올려 주세요.";
+        });
+      };
+      f.appendChild(ai); f.appendChild(ta); f.appendChild(cnt); f.appendChild(go); f.appendChild(out); slot.appendChild(f); ta.focus();
     };
     bPin.onclick = function () {
       bPin.disabled = true;
@@ -599,7 +760,15 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
       slot.appendChild(w);
     };
     acts.appendChild(bReply); acts.appendChild(bPin); if (!r.orep) acts.appendChild(bRep);
-    box.appendChild(acts); box.appendChild(slot);
+    box.appendChild(acts);
+    if (isPro() && TEAM && TEAM.length > 1) {                     // 담당자 배정(Pro)
+      var row = el("label", "selrow"), sel = el("select");
+      row.appendChild(document.createTextNode("담당"));
+      [{ id: 0, name: "없음" }].concat(TEAM).forEach(function (m) { var o = el("option", "", m.name); o.value = m.id; o.selected = (r.asg || 0) === m.id; sel.appendChild(o); });
+      sel.onchange = function () { api("/ofc/assign", { t: CUR.t, id: r.id, mem: +sel.value }).then(function (d) { if (d.ok) loadInbox(); else alert(ERR[d.error] || "바꾸지 못했습니다."); }); };
+      row.appendChild(sel); box.appendChild(row);
+    }
+    box.appendChild(slot);
     return box;
   }
 
@@ -630,6 +799,233 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
       b.disabled = false;
       say($("tmMsg"), d, d.sms ? "초대 문자를 보냈습니다." : "초대했습니다. 그 번호로 이 화면에서 로그인하면 됩니다.");
       if (d.ok) { $("tmName").value = ""; $("tmPhone").value = ""; loadTeam(); }
+    });
+  };
+
+  function upsell(box, what) {
+    box.textContent = "";
+    if (isPro()) return;
+    var u = el("div", "upsell"), go = el("button", "btn sm", "Pro 시작하기");
+    u.appendChild(el("b", "", what + "은(는) Pro 기능입니다"));
+    u.appendChild(el("p", "", "의원실 소식(사진·영상), 주간 민심 리포트와 월요일 아침 요약 문자, AI 답글 초안, 담당자 배정, 팀원 5명. 월 299,000원(부가세 포함), 정치자금 카드·계좌로 결제할 수 있습니다."));
+    go.type = "button"; go.onclick = function () { tab("tPlan"); }; u.appendChild(go); box.appendChild(u);
+  }
+
+  // 소식(Pro) — 사진은 폰에서 1600px·JPEG 로 줄여서 올린다
+  var PICS = [];
+  function drawPics() {
+    var box = $("nThumbs"); box.textContent = "";
+    PICS.forEach(function (p, i) {
+      var d = el("div"), img = el("img"), x = el("button", "", "×"); img.src = p.url; img.alt = ""; x.type = "button";
+      x.onclick = function () { PICS.splice(i, 1); drawPics(); }; d.appendChild(img); d.appendChild(x); box.appendChild(d);
+    });
+    $("nPick").hidden = PICS.length >= 4;
+  }
+  function shrink(file) {
+    return new Promise(function (ok, no) {
+      var img = new Image(), u = URL.createObjectURL(file);
+      img.onload = function () {
+        var k = Math.min(1, 1600 / Math.max(img.width, img.height)), c = document.createElement("canvas");
+        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(u);
+        c.toBlob(function (b) { b ? ok(b) : no(); }, "image/jpeg", 0.82);
+      };
+      img.onerror = function () { URL.revokeObjectURL(u); no(); };
+      img.src = u;
+    });
+  }
+  $("nFile").onchange = function () {
+    var files = [].slice.call(this.files, 0, 4 - PICS.length), out = $("nMsg"); this.value = "";
+    out.className = "msg"; out.textContent = files.length ? "사진 올리는 중…" : "";
+    files.reduce(function (p, f) {
+      return p.then(function () { return shrink(f); }).then(function (blob) {
+        return fetch("/ofc/upload?t=" + encodeURIComponent(CUR.t), { method: "POST", credentials: "same-origin", headers: { "content-type": "image/jpeg" }, body: blob })
+          .then(function (r) { return r.json(); }).then(function (d) {
+            if (!d.ok) throw d;
+            PICS.push({ key: d.key, url: URL.createObjectURL(blob) }); drawPics();
+          });
+      });
+    }, Promise.resolve()).then(function () { out.textContent = ""; }).catch(function (d) { say(out, d && d.error ? d : { ok: false, error: "net" }); });
+  };
+  $("nBody").oninput = function () { $("nCnt").textContent = this.value.length + " / 1000"; };
+  $("nGo").onclick = function () {
+    var b = this, out = $("nMsg");
+    if ($("nBody").value.trim().length < 2) { out.className = "msg err"; out.textContent = "내용을 적어 주세요."; return; }
+    b.disabled = true;
+    api("/ofc/post", { t: CUR.t, body: $("nBody").value, photos: PICS.map(function (p) { return p.key; }), yt: $("nYt").value.trim() }).then(function (d) {
+      b.disabled = false;
+      say(out, d, "올렸습니다. 의원 페이지 소통 칸 맨 위에 보입니다.");
+      if (d.ok) { $("nBody").value = ""; $("nYt").value = ""; $("nCnt").textContent = "0 / 1000"; PICS = []; drawPics(); loadNews(); }
+    });
+  };
+  function loadNews() {
+    upsell($("nUpsell"), "의원실 소식");
+    $("nCompose").hidden = !isPro() || !CUR.live;
+    if (!isPro()) { $("nList").textContent = ""; return; }
+    api("/ofc/posts?t=" + encodeURIComponent(CUR.t)).then(function (d) {
+      if (!d.ok) return;
+      $("nQuiet").hidden = !d.quiet; if (d.quiet) $("nCompose").hidden = true;
+      $("nPick").style.display = d.media ? "" : "none";
+      var list = $("nList"); list.textContent = "";
+      if (!d.rows.length) list.appendChild(el("p", "empty", "아직 올린 소식이 없습니다."));
+      d.rows.forEach(function (p) {
+        var c = el("div", "np"), m = el("div", "meta");
+        m.appendChild(el("b", "", day(p.at))); if (p.status === "hidden") m.appendChild(el("span", "tag rep", "운영자가 숨김"));
+        var x = el("button", "x", "지우기"); x.type = "button"; x.style.cssText = "margin-left:auto;background:none;border:0;color:var(--red);font-weight:700;font-size:12px;";
+        x.onclick = function () { if (confirm("이 소식을 지울까요?")) api("/ofc/post/del", { t: CUR.t, id: p.id }).then(loadNews); };
+        m.appendChild(x); c.appendChild(m); c.appendChild(el("p", "body", p.body));
+        if (p.photos.length) { var th = el("div", "thumbs"); p.photos.forEach(function (k) { var d2 = el("div"), i = el("img"); i.src = "/ofc/m/" + k; i.alt = ""; i.loading = "lazy"; d2.appendChild(i); th.appendChild(d2); }); c.appendChild(th); }
+        if (p.yt) { var a = el("a", "yt", "▶ 유튜브 영상"); a.href = "https://youtu.be/" + p.yt; a.target = "_blank"; a.rel = "noopener"; c.appendChild(a); }
+        list.appendChild(c);
+      });
+    });
+  }
+
+  // 리포트(Pro)
+  var RW = 0, REP = null;
+  $("rPrev").onclick = function () { if (RW < 26) { RW++; loadReport(); } };
+  $("rNext").onclick = function () { if (RW > 0) { RW--; loadReport(); } };
+  function delta(now, before) {
+    var d = el("span", "delta"); if (!before) return d;                 // 지난주가 0 이면 % 를 내지 않는다
+    var p = before ? Math.round((now - before) / before * 100) : 100; d.className = "delta " + (p >= 0 ? "up" : "down"); d.textContent = (p >= 0 ? "▲" : "▼") + Math.abs(p) + "%";
+    return d;
+  }
+  function loadReport() {
+    upsell($("rUpsell"), "주간 민심 리포트");
+    $("rBody").hidden = !isPro();
+    if (!isPro()) return;
+    $("rNext").disabled = RW === 0;
+    api("/ofc/weekly?t=" + encodeURIComponent(CUR.t) + "&w=" + RW).then(function (d) {
+      if (!d.ok) return;
+      REP = d;
+      var f = function (n) { return Number(n || 0).toLocaleString("ko-KR"); }, md = function (s) { return +s.slice(5, 7) + "." + +s.slice(8); };
+      $("rWeek").textContent = (RW === 0 ? "이번 주 " : RW === 1 ? "지난주 " : "") + md(d.days[0]) + " ~ " + md(d.days[6]);
+      $("rC").textContent = f(d.comments); $("rC").appendChild(delta(d.comments, d.before));
+      $("rAns").textContent = d.comments ? Math.round(d.answered / d.comments * 100) + "%" : "-";
+      $("rHrs").textContent = d.hours == null ? "-" : d.hours < 1 ? "1시간 안" : d.hours + "시간";
+      var tm = $("rTeam"), tot = d.team.b + d.team.w + d.team.r + d.team[""]; tm.textContent = "";
+      [["b", "#1d4ed8"], ["w", "#cbd5e1"], ["r", "#dc2626"], ["", "#f1f5f9"]].forEach(function (x) { if (tot && d.team[x[0]]) { var i = el("i"); i.style.cssText = "width:" + d.team[x[0]] / tot * 100 + "%;background:" + x[1]; i.title = d.team[x[0]] + "명"; tm.appendChild(i); } });
+      $("rV").textContent = f(d.views) + "회 "; $("rV").appendChild(delta(d.views, d.views_before));
+      var max = Math.max.apply(null, d.series.concat([1])), bars = $("rBars"); bars.textContent = "";
+      d.series.forEach(function (n, i) { var b = el("i"); b.style.height = Math.max(2, n / max * 100) + "%"; b.title = d.days[i] + " " + n + "회"; bars.appendChild(b); });
+      $("rWar").textContent = f(d.cheer) + " · " + f(d.bomb);
+      var w = $("rWords"); w.textContent = "";
+      if (!d.words.length) w.appendChild(el("span", "", "한마디가 더 모이면 보입니다"));
+      d.words.forEach(function (x) { w.appendChild(el("span", "", x.w + " " + x.n)); });
+      var top = $("rTop"); top.textContent = "";
+      if (!d.top.length) top.appendChild(el("li", "", "이 주에는 한마디가 없습니다."));
+      d.top.forEach(function (r) { var li = el("li", "", r.body); li.appendChild(el("small", "", "♥ " + r.likes + " · " + (r.done ? "✅ 답함" : "답 안 함"))); top.appendChild(li); });
+      $("rAiText").hidden = !d.ai; $("rAiText").textContent = d.ai || "";
+      $("rAi").hidden = !d.ai_on || RW > 1; $("rAi").textContent = d.ai ? "AI 요약 다시 만들기" : "이 주 한마디를 AI로 요약하기";
+      if (d.ai && RW === 1) $("rAi").hidden = true;
+    });
+  }
+  $("rAi").onclick = function () {
+    var b = this; b.disabled = true; b.textContent = "요약하는 중…";
+    api("/ofc/weekly/ai", { t: CUR.t, w: RW }).then(function (d) {
+      b.disabled = false; b.textContent = "AI 요약 다시 만들기";
+      if (!d.ok) { $("rAiText").hidden = false; $("rAiText").textContent = ERR[d.error] || "요약하지 못했습니다."; return; }
+      $("rAiText").hidden = false; $("rAiText").textContent = d.text;
+    });
+  };
+  $("rPrint").onclick = function () {
+    if (!REP) return;
+    var d = REP, rows = [["새 한마디", d.comments + "개 (지난 주 " + d.before + "개)"], ["답한 비율", d.comments ? Math.round(d.answered / d.comments * 100) + "%" : "-"],
+      ["평균 답 시간", d.hours == null ? "-" : d.hours + "시간"], ["페이지 조회", d.views + "회 (지난 주 " + d.views_before + "회)"], ["응원 · 팩트 폭탄", d.cheer + " · " + d.bomb],
+      ["글쓴이 성향(스스로 고름)", "진보 " + d.team.b + " · 중도 " + d.team.w + " · 보수 " + d.team.r + " · 고르지 않음 " + d.team[""]],
+      ["많이 나온 낱말", d.words.map(function (x) { return x.w + "(" + x.n + ")"; }).join(", ") || "-"]];
+    printDoc("주간 민심 리포트", d.oname + " 의원실 · " + d.days[0] + " ~ " + d.days[6],
+      "<table>" + rows.map(function (r) { return "<tr><th>" + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td></tr>"; }).join("") + "</table>" +
+      "<h3>공감 많은 한마디</h3><ol>" + d.top.map(function (r) { return "<li>" + esc(r.body) + " <small>(♥ " + r.likes + (r.done ? " · 답함" : "") + ")</small></li>"; }).join("") + "</ol>" +
+      (d.ai ? "<h3>AI 민심 요약(참고용)</h3><p style='white-space:pre-line'>" + esc(d.ai) + "</p>" : "") +
+      "<p class='src'>출처: 정치탈탈(politaltal.com) 자체 집계. 성향은 글쓴이가 스스로 고른 것이며 여론조사가 아닙니다.</p>", false);
+  };
+
+  // 요금 · 결제 · 증빙 서류
+  var BILL = null;
+  var esc = function (v) { return String(v == null ? "" : v).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+  var SUPPLIER = "<b>코코요(COCOYO)</b> · 대표 김지훈<br>사업자등록번호 629-34-01289 · 통신판매업 제2025-서울성북-1358호<br>서울특별시 성북구 돌곶이로40길 46 · jihoony8282@naver.com";
+  function printDoc(title, sub, html, supplier) {           // 같은 화면 위에 서류를 띄운다(팝업 차단·앱 안에서도 열리게) → 인쇄·PDF 저장
+    var old = $("docSheet"); if (old) old.remove();
+    var d = el("div"); d.id = "docSheet";
+    d.innerHTML = "<div class='dbar'><button type='button' class='btn sm' id='docPrint'>인쇄 · PDF로 저장</button><button type='button' class='btn line sm' id='docClose'>닫기</button></div>" +
+      "<div class='doc'><h1>" + esc(title) + "</h1><div class='sub'>" + esc(sub) + "</div>" + html +
+      (supplier ? "<div class='sup'>공급자<br>" + SUPPLIER + "</div>" : "") + "</div>";
+    document.body.appendChild(d); document.body.classList.add("doc-open"); window.scrollTo(0, 0);
+    $("docPrint").onclick = function () { window.print(); };
+    $("docClose").onclick = function () { d.remove(); document.body.classList.remove("doc-open"); };
+  }
+  function docNo(b) { return "PT-" + new Date((b.paid_at || b.created_at) + 9 * 3600e3).toISOString().slice(0, 10).replace(/-/g, "") + "-" + b.id; }
+  function money(b) { var supply = Math.round(b.amount / 1.1); return { supply: supply, vat: b.amount - supply }; }
+  function billDoc(b, kind) {
+    var m = money(b), item = "정치탈탈 의원실 Pro " + b.months + "개월 이용권", buyer = esc(b.buyer || BILL.profile.name || (BILL.oname + " 의원실"));
+    var period = b.from_at ? day(b.from_at) + " ~ " + day(b.to_at - 864e5) : "입금 확인일부터 " + b.months + "개월";
+    var amt = "<table><tr><th>품목</th><td>" + esc(item) + "</td></tr><tr><th>공급가액</th><td class='num'>" + won(m.supply) + "</td></tr>" +
+      "<tr><th>부가세</th><td class='num'>" + won(m.vat) + "</td></tr><tr><th>합계</th><td class='num'><b>" + won(b.amount) + "</b></td></tr></table>";
+    var head = "<table><tr><th>문서 번호</th><td>" + docNo(b) + "</td></tr><tr><th>공급받는 자</th><td>" + buyer + (b.biz ? "<br>사업자·고유번호 " + esc(b.biz) : "") + "</td></tr>";
+    if (kind === "quote") printDoc("견 적 서", "작성일 " + day(Date.now()), head + "<tr><th>유효기간</th><td>작성일부터 30일</td></tr></table>" + amt +
+      (BILL.bank ? "<h3>입금 계좌</h3><p>" + esc(BILL.bank) + "<br>입금자명: " + esc(b.payer) + "</p>" : "") +
+      "<p class='src'>서비스: 정치탈탈(politaltal.com) 의원실 센터 Pro — 의원실 소식 게시, 주간 민심 리포트, AI 답글 초안, 담당자 배정, 팀원 5명.</p>", true);
+    if (kind === "stmt") printDoc("거 래 명 세 서", "거래일 " + day(b.paid_at), head + "<tr><th>결제 방법</th><td>" + (b.kind === "card" ? "카드" : "계좌이체") + "</td></tr></table>" + amt, true);
+    if (kind === "use") printDoc("이 용 확 인 서", "발급일 " + day(Date.now()), head + "<tr><th>서비스</th><td>정치탈탈(politaltal.com) 의원실 센터 Pro</td></tr>" +
+      "<tr><th>이용 기간</th><td>" + period + "</td></tr><tr><th>서비스 내용</th><td>의원 페이지 '의원실 소식' 게시(사진·영상), 시민 한마디 주간 민심 리포트, AI 답글 초안, 담당자 배정, 팀원 5명</td></tr>" +
+      "<tr><th>이용 금액</th><td>" + won(b.amount) + " (부가세 포함)</td></tr></table><p>위 의원실이 위 기간 동안 위 서비스를 이용하고 있음을 확인합니다.</p>", true);
+    if (kind === "rcpt") printDoc("영 수 증", "결제일 " + day(b.paid_at), head + "<tr><th>결제 방법</th><td>" + (b.kind === "card" ? "카드" : "계좌이체") + "</td></tr></table>" + amt +
+      "<p>위 금액을 정히 영수합니다.</p>" + (b.tax ? "<p class='src'>세금계산서 발행일 " + day(b.tax) + "</p>" : ""), true);
+  }
+  [].forEach.call(document.querySelectorAll("#plMonths label"), function (l) {
+    l.onclick = function () { [].forEach.call(document.querySelectorAll("#plMonths label"), function (x) { x.className = x === l ? "on" : ""; }); };
+  });
+  function loadPlan() {
+    api("/ofc/billing?t=" + encodeURIComponent(CUR.t)).then(function (d) {
+      if (!d.ok) return;
+      BILL = d;
+      var pro = d.pro_until > Date.now();
+      $("plNow").textContent = pro ? "✅ Pro · " + day(d.pro_until) + "까지" : "무료";
+      $("plSub").textContent = d.sub ? "카드 자동결제 중 — 매달 같은 날 299,000원이 결제됩니다." : pro ? "기간이 끝나면 무료로 돌아갑니다(올린 소식은 그때부터 보이지 않습니다)." : "";
+      $("plCard").hidden = !d.card || !d.owner;
+      $("plCardGo").hidden = !!d.sub; $("plPhone").parentNode.hidden = !!d.sub; $("plStop").hidden = !d.sub;
+      if (d.profile.name && !$("plBuyer").value) { $("plBuyer").value = d.profile.name; $("plBiz").value = d.profile.no || ""; $("plEmail").value = d.profile.email || ""; }
+      var wait = d.bills.filter(function (b) { return b.kind === "bank" && b.status === "wait"; })[0], bb = $("plBank");
+      bb.hidden = !wait; bb.textContent = "";
+      if (wait) {
+        bb.appendChild(el("b", "", "입금 기다리는 중 · " + won(wait.amount) + "(" + wait.months + "개월)"));
+        bb.appendChild(el("div", "", d.bank ? "입금 계좌: " + d.bank : "입금 계좌는 담당자가 문자·이메일로 바로 알려 드립니다."));
+        bb.appendChild(el("div", "", "입금자명: " + wait.payer + " — 입금이 확인되면 Pro 가 열리고 문자로 알려 드립니다."));
+      }
+      var list = $("plBills"); list.textContent = "";
+      if (!d.bills.length) list.appendChild(el("p", "empty", "아직 결제 내역이 없습니다."));
+      d.bills.forEach(function (b) {
+        var row = el("div", "bill"), t = el("div", "bt"), st = { wait: "입금 대기", paid: "결제 완료", cancel: "취소" }[b.status] || b.status;
+        t.appendChild(el("span", "", (b.kind === "card" ? "💳 카드" : "🏦 계좌이체") + " · " + b.months + "개월")); t.appendChild(el("span", "", won(b.amount)));
+        row.appendChild(t);
+        row.appendChild(el("div", "bs", st + " · " + day(b.paid_at || b.created_at) + (b.from_at ? " · 이용 " + day(b.from_at) + "~" + day(b.to_at - 864e5) : "") + (b.tax ? " · 세금계산서 발행됨" : "")));
+        var a = el("div", "acts");
+        var docs = b.status === "wait" ? [["quote", "견적서"]] : b.status === "paid" ? [["stmt", "거래명세서"], ["use", "이용확인서"], ["rcpt", "영수증"]] : [];
+        docs.forEach(function (x) { var k = el("button", "btn line sm", x[1]); k.type = "button"; k.onclick = function () { billDoc(b, x[0]); }; a.appendChild(k); });
+        if (docs.length) row.appendChild(a);
+        list.appendChild(row);
+      });
+    });
+  }
+  $("plCardGo").onclick = function () {
+    var b = this; b.disabled = true;
+    api("/ofc/pro/card", { t: CUR.t, phone: digits($("plPhone").value) }).then(function (d) {
+      b.disabled = false;
+      if (d.ok) { location.href = d.payurl; return; }
+      say($("plCardMsg"), d);
+    });
+  };
+  $("plStop").onclick = function () {
+    if (!confirm("카드 자동결제를 해지할까요? 이미 낸 기간은 그대로 씁니다.")) return;
+    api("/ofc/pro/stop", { t: CUR.t }).then(function (d) { say($("plCardMsg"), d, "해지했습니다."); loadPlan(); });
+  };
+  $("plBankGo").onclick = function () {
+    var b = this, m = +document.querySelector("#plMonths input:checked").value; b.disabled = true;
+    api("/ofc/pro/bank", { t: CUR.t, months: m, payer: $("plPayer").value, buyer: $("plBuyer").value, biz: $("plBiz").value, email: $("plEmail").value }).then(function (d) {
+      b.disabled = false;
+      say($("plBankMsg"), d, "신청했습니다. 아래 계좌로 입금해 주세요. 견적서가 필요하면 결제 내역에서 받으세요.");
+      if (d.ok) loadPlan();
     });
   };
 

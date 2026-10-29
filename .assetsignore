@@ -9,3 +9,5 @@ node_modules
 .assetsignore
 worker.js
 wrangler.jsonc
+package.json
+package-lock.json

@@ -16,5 +16,7 @@
   // 앱 푸시 토큰 + 후원 장부(ledger 테이블) 저장소. database_id 를 비워 두면 배포 때 wrangler가 자동 생성·연결한다.
   // 좌우 뉴스 RSS 를 20분마다 모은다(worker.js scheduled → newsFetch)
   "triggers": { "crons": ["*/20 * * * *"] },
-  "d1_databases": [{ "binding": "PUSH_DB", "database_name": "politaltal-push" }]
+  "d1_databases": [{ "binding": "PUSH_DB", "database_name": "politaltal-push" }],
+  // 의원실 소식 사진(worker.js /ofc/upload·/ofc/m/*). 버킷은 wrangler r2 bucket create 로 만들어 둠(10-29)
+  "r2_buckets": [{ "binding": "OFC_MEDIA", "bucket_name": "politaltal-ofc-media" }]
 }
