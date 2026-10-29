@@ -530,18 +530,18 @@ async function wallReady(env) {
 // 받는 사람 = 후원자의 벽에서 '문자 받기'에 동의하고 번호를 남긴 사람만. 문자마다 수신 거부 링크(/wall/stop)를 붙인다 — 누르면 번호를 지운다.
 const SMS_FROM = (env) => String(env.SOLAPI_SENDER || "01040104968").replace(/\D/g, "");
 const smsOn = (env) => !!(env.SOLAPI_API_KEY && env.SOLAPI_API_SECRET);
-async function smsSend(env, to, text) {
+async function smsSend(env, to, text, extra = {}) {          // extra = { type: 'VOICE', voiceOptions } 등 메시지 필드 덮어쓰기
   if (!smsOn(env)) return { ok: false, error: "off" };
   const date = new Date().toISOString(), salt = [...crypto.getRandomValues(new Uint8Array(16))].map((x) => x.toString(16).padStart(2, "0")).join("");
   const k = await crypto.subtle.importKey("raw", new TextEncoder().encode(env.SOLAPI_API_SECRET), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
   const sig = [...new Uint8Array(await crypto.subtle.sign("HMAC", k, new TextEncoder().encode(date + salt)))].map((x) => x.toString(16).padStart(2, "0")).join("");
   let bytes = 0; for (const ch of text) bytes += ch.charCodeAt(0) > 127 ? 2 : 1;
-  const type = bytes <= 90 ? "SMS" : "LMS";
+  const type = extra.type || (bytes <= 90 ? "SMS" : "LMS");
   try {
     const r = await fetch("https://api.solapi.com/messages/v4/send-many/detail", {
       method: "POST",
       headers: { Authorization: `HMAC-SHA256 apiKey=${env.SOLAPI_API_KEY}, date=${date}, salt=${salt}, signature=${sig}`, "content-type": "application/json" },
-      body: JSON.stringify({ messages: [{ to, from: SMS_FROM(env), text, type, ...(type === "LMS" ? { subject: "정치탈탈" } : {}) }] }),
+      body: JSON.stringify({ messages: [{ to, from: SMS_FROM(env), text, ...(type === "LMS" ? { subject: "정치탈탈" } : {}), ...extra, type }] }),
     });
     const j = await r.json().catch(() => ({}));
     const fail = (j.failedMessageList || [])[0];
@@ -670,6 +670,9 @@ async function pcReady(env) {
   ]);
   await env.PUSH_DB.prepare("ALTER TABLE pc ADD COLUMN badge INTEGER NOT NULL DEFAULT 0").run().catch(() => {});   // 후원자 자리 번호(0=없음)
   await env.PUSH_DB.prepare("ALTER TABLE pc ADD COLUMN team TEXT NOT NULL DEFAULT ''").run().catch(() => {});        // 글쓴이 진영 b·w·r
+  await env.PUSH_DB.prepare("ALTER TABLE pc ADD COLUMN off INTEGER NOT NULL DEFAULT 0").run().catch(() => {});       // 1 = 인증된 의원실 공식 답글(/ofc/reply)
+  await env.PUSH_DB.prepare("ALTER TABLE pc ADD COLUMN pin INTEGER NOT NULL DEFAULT 0").run().catch(() => {});       // 의원실이 고정한 시각(0=아님)
+  await env.PUSH_DB.prepare("ALTER TABLE pc ADD COLUMN orep TEXT NOT NULL DEFAULT ''").run().catch(() => {});        // 의원실 우선 신고 사유
   await env.PUSH_DB.prepare("INSERT OR IGNORE INTO kv (k, v) VALUES ('pc_salt', ?)").bind(crypto.randomUUID() + crypto.randomUUID()).run();
   PC_SALT = (await env.PUSH_DB.prepare("SELECT v FROM kv WHERE k = 'pc_salt'").first()).v;
   PC_READY = true;
@@ -694,10 +697,10 @@ async function handlePc(request, env, url) {
     if (!PC_TARGET.test(t)) return pj({ ok: false, error: "invalid" }, 400);
     // ponytail: 댓글·답글 합쳐 최근 300개만 내려보낸다 — 넘어서면 '이전 댓글 더 보기'(페이지 나눔)를 붙일 것
     const { results } = await env.PUSH_DB.prepare(
-      "SELECT id, parent, nick, body, likes, badge, team, created_at AS at, EXISTS(SELECT 1 FROM pc_likes l WHERE l.cid = pc.id AND l.ip_hash = ?) AS liked " +
+      "SELECT id, parent, nick, body, likes, badge, team, off, pin, created_at AS at, EXISTS(SELECT 1 FROM pc_likes l WHERE l.cid = pc.id AND l.ip_hash = ?) AS liked " +
       "FROM pc WHERE target = ? AND status = 'visible' ORDER BY id DESC LIMIT 300").bind(who, t).all();
     const { n } = await env.PUSH_DB.prepare("SELECT COUNT(*) AS n FROM pc WHERE target = ? AND status = 'visible'").bind(t).first();
-    return pj({ ok: true, open: await pcOpen(env), total: n, rows: results });
+    return pj({ ok: true, open: await pcOpen(env), total: n, rows: results, office: await ofcPublic(env, t, url.origin) });
   }
   if (request.method !== "POST" || request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
   const b = await request.json().catch(() => ({}));
@@ -738,8 +741,280 @@ async function handlePc(request, env, url) {
   if (path === "/pc/report" && Number.isInteger(b.id)) {
     const ins = await env.PUSH_DB.prepare("INSERT OR IGNORE INTO pc_reports (cid, ip_hash) VALUES (?, ?)").bind(b.id, who).run();
     if (ins.meta.changes) await env.PUSH_DB.prepare(
-      "UPDATE pc SET reports = reports + 1, status = CASE WHEN reports + 1 >= 3 THEN 'hidden' ELSE status END WHERE id = ?").bind(b.id).run();
+      "UPDATE pc SET reports = reports + 1, status = CASE WHEN reports + 1 >= 3 AND off = 0 THEN 'hidden' ELSE status END WHERE id = ?").bind(b.id).run();
     return pj({ ok: true });
+  }
+  return pj({ ok: false, error: "not found" }, 404);
+}
+
+// ── 의원실 센터 (/ofc/*) ──────────────────────────────────────────────
+// 설계 = 10_의원실센터_설계.md. 인증 = 담당자 휴대폰 문자 + 의원회관 공식 대표번호(열린국회 공개값, data/office-tel.json — 신청자가 못 바꿈)로 거는 ARS + 운영자 승인.
+// 공문은 받지 않는다(대표 10-29). 의원실은 시민 글을 지우거나 숨길 수 없다 — 공식 답글·고정·우선 신고만.
+// 세션 = 문자로 확인한 휴대폰(쿠키 ofc, HttpOnly). 어느 의원실 팀인지는 ofc_mem.
+const OFC_T = /^p:[A-Za-z0-9]{4,12}$/;
+const OFC_PHONE = /^01[016789]\d{7,8}$/;
+const OFC_SEATS = { free: 3, pro: 5 };
+const OFC_REVERIFY = 180 * 86400e3;                       // 6개월마다 ARS 다시(임기 중 담당자가 바뀌는 일이 잦다)
+const OFC_REP = ["욕설·비방", "허위사실", "개인정보 노출", "도배·광고", "기타"];
+let OFC_READY = false, OFC_TEL = null, OFC_TEL_AT = 0;
+async function ofcReady(env) {
+  if (OFC_READY) return;
+  await pcReady(env);
+  const db = env.PUSH_DB;
+  await db.batch([
+    db.prepare("CREATE TABLE IF NOT EXISTS ofc (t TEXT PRIMARY KEY, name TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'ok', verified_at INTEGER NOT NULL, plan TEXT NOT NULL DEFAULT 'free', pro_until INTEGER NOT NULL DEFAULT 0, created_at INTEGER NOT NULL)"),
+    db.prepare("CREATE TABLE IF NOT EXISTS ofc_app (id INTEGER PRIMARY KEY AUTOINCREMENT, t TEXT NOT NULL, phone TEXT NOT NULL, name TEXT NOT NULL, role TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'call', ars_at INTEGER NOT NULL DEFAULT 0, created_at INTEGER NOT NULL)"),
+    db.prepare("CREATE TABLE IF NOT EXISTS ofc_mem (id INTEGER PRIMARY KEY AUTOINCREMENT, t TEXT NOT NULL, phone TEXT NOT NULL, name TEXT NOT NULL, role TEXT NOT NULL DEFAULT 'staff', status TEXT NOT NULL DEFAULT 'ok', created_at INTEGER NOT NULL, last_at INTEGER NOT NULL DEFAULT 0, UNIQUE (t, phone))"),
+    db.prepare("CREATE TABLE IF NOT EXISTS ofc_code (k TEXT PRIMARY KEY, h TEXT NOT NULL, at INTEGER NOT NULL, tries INTEGER NOT NULL DEFAULT 0)"),
+    db.prepare("CREATE TABLE IF NOT EXISTS ofc_sess (h TEXT PRIMARY KEY, phone TEXT NOT NULL, exp INTEGER NOT NULL)"),
+    db.prepare("CREATE TABLE IF NOT EXISTS ofc_cnt (day TEXT NOT NULL, k TEXT NOT NULL, n INTEGER NOT NULL, PRIMARY KEY (day, k))"),
+  ]);
+  OFC_READY = true;
+}
+async function ofcTel(env, origin) {                      // {"p:코드": [이름, 정당, 지역구, 대표번호 숫자]} — 현직만(임기 끝나면 빠져 자동으로 막힌다)
+  if (!OFC_TEL || Date.now() - OFC_TEL_AT > 3600e3) {
+    try { OFC_TEL = await (await env.ASSETS.fetch(new Request(origin + "/data/office-tel.json"))).json(); OFC_TEL_AT = Date.now(); }
+    catch (e) { OFC_TEL = OFC_TEL || {}; }
+  }
+  return OFC_TEL;
+}
+const ofcRand = (n) => [...crypto.getRandomValues(new Uint8Array(n))].map((x) => x.toString(16).padStart(2, "0")).join("");
+const ofcMask = (p) => String(p).replace(/^(\d{3})\d+(\d{4})$/, "$1-****-$2");
+const ofcText = (v, max) => String(v || "").replace(/[\u0000-\u0009\u000b-\u001f<>]/g, " ").replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim().slice(0, max);
+async function ofcCount(env, k, max) {                    // 오늘 k 를 한 번 더 — max 를 넘으면 false
+  const r = await env.PUSH_DB.prepare("INSERT INTO ofc_cnt (day, k, n) VALUES (?, ?, 1) ON CONFLICT(day, k) DO UPDATE SET n = n + 1 RETURNING n").bind(kstDay(), k).first();
+  return r.n <= max;
+}
+async function ofcRecent(env, k, gap) {
+  const r = await env.PUSH_DB.prepare("SELECT at FROM ofc_code WHERE k = ?").bind(k).first();
+  return !!r && Date.now() - r.at < gap;
+}
+async function ofcIssue(env, k) {
+  const code = String(crypto.getRandomValues(new Uint32Array(1))[0] % 1e6).padStart(6, "0");
+  await env.PUSH_DB.prepare("INSERT OR REPLACE INTO ofc_code (k, h, at, tries) VALUES (?, ?, ?, 0)").bind(k, await sha16(PC_SALT + k + code), Date.now()).run();
+  return code;
+}
+async function ofcCheck(env, k, code, ttl) {              // "ok" | "expired" | "tries" | "wrong" — 5번 틀리면 새 번호를 받아야 한다
+  const r = await env.PUSH_DB.prepare("SELECT h, at, tries FROM ofc_code WHERE k = ?").bind(k).first();
+  if (!r || Date.now() - r.at > ttl) return "expired";
+  if (r.tries >= 5) return "tries";
+  if (r.h !== await sha16(PC_SALT + k + String(code || "").replace(/\D/g, ""))) {
+    await env.PUSH_DB.prepare("UPDATE ofc_code SET tries = tries + 1 WHERE k = ?").bind(k).run();
+    return "wrong";
+  }
+  await env.PUSH_DB.prepare("DELETE FROM ofc_code WHERE k = ?").bind(k).run();
+  return "ok";
+}
+async function ofcSess(env, request) {
+  const tok = ((request.headers.get("cookie") || "").match(/(?:^|;\s*)ofc=([a-f0-9]{32})/) || [])[1];
+  if (!tok) return null;
+  const s = await env.PUSH_DB.prepare("SELECT phone FROM ofc_sess WHERE h = ? AND exp > ?").bind(await sha16(tok), Date.now()).first();
+  return s ? s.phone : null;
+}
+async function ofcMem(env, phone, t, tels) {               // 팀원 + 의원실 상태. live=false 면 읽기만(재인증·임기 끝·운영자 정지)
+  const m = await env.PUSH_DB.prepare(
+    "SELECT m.id, m.name, m.role, o.name AS oname, o.status AS ost, o.verified_at, o.plan, o.pro_until FROM ofc_mem m JOIN ofc o ON o.t = m.t " +
+    "WHERE m.t = ? AND m.phone = ? AND m.status = 'ok'").bind(t, phone).first();
+  if (!m) return null;
+  m.why = m.ost !== "ok" ? "off" : !tels[t] ? "term" : Date.now() - m.verified_at > OFC_REVERIFY ? "reverify" : "";
+  m.live = !m.why;
+  m.until = m.verified_at + OFC_REVERIFY;
+  return m;
+}
+async function ofcPublic(env, t, origin) {                 // 정치인 페이지에 '의원실 인증' 배지를 달지
+  if (!OFC_T.test(t)) return null;
+  await ofcReady(env);
+  const o = await env.PUSH_DB.prepare("SELECT name FROM ofc WHERE t = ? AND status = 'ok' AND verified_at > ?").bind(t, Date.now() - OFC_REVERIFY).first();
+  return o && (await ofcTel(env, origin))[t] ? { name: o.name } : null;
+}
+function ofcCookie(res, v, age) {
+  res.headers.append("set-cookie", `ofc=${v}; Path=/ofc; HttpOnly; Secure; SameSite=Lax; Max-Age=${age}`);
+  return res;
+}
+
+async function handleOfc(request, env, url) {
+  if (!env.PUSH_DB) return pj({ ok: false, error: "store not provisioned" }, 503);
+  await ofcReady(env);
+  const db = env.PUSH_DB, now = Date.now(), path = url.pathname.replace(/\/+$/, ""), post = request.method === "POST";
+  if (post && request.headers.get("origin") !== url.origin) return pj({ ok: false, error: "origin" }, 403);
+  const b = post ? await request.json().catch(() => ({})) : {};
+  const tels = await ofcTel(env, url.origin);
+  const dev = env.OFC_DEV === "1" && !smsOn(env);          // 로컬 점검 전용 — 문자·전화 대신 응답에 번호를 실어 준다(운영엔 이 값이 없다)
+  const ip = await sha16(PC_SALT + (request.headers.get("cf-connecting-ip") || "local"));
+
+  if (path === "/ofc/pub") {                                 // 안내 페이지 숫자 — 지난 30일 방문·의원 페이지 조회(정치탈탈 자체 집계, 개인 식별 없음)
+    await statsReady(env);
+    const v = await db.prepare("SELECT COALESCE(SUM(CASE WHEN kind = 'visit' THEN n END), 0) AS visits, COALESCE(SUM(CASE WHEN kind = 'path' AND key LIKE '/politician/%' THEN n END), 0) AS pol " +
+      "FROM stats WHERE day >= ? AND day < ? AND kind IN ('visit', 'path')").bind(kstDay(30), kstDay(0)).first();
+    const o = await db.prepare("SELECT COUNT(*) AS n FROM ofc WHERE status = 'ok' AND verified_at > ?").bind(now - OFC_REVERIFY).first();
+    return new Response(JSON.stringify({ ok: true, visits30: v.visits, pol30: v.pol, offices: o.n }),
+      { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=600" } });
+  }
+  if (path === "/ofc/otp" && post) {                         // 휴대폰 문자 인증번호
+    const phone = String(b.phone || "").replace(/\D/g, ""), k = "sms:" + phone;
+    if (!OFC_PHONE.test(phone)) return pj({ ok: false, error: "phone" }, 400);
+    if (!smsOn(env) && !dev) return pj({ ok: false, error: "sms_off" }, 503);
+    if (await ofcRecent(env, k, 60e3)) return pj({ ok: false, error: "wait" }, 429);
+    if (!(await ofcCount(env, k, 10)) || !(await ofcCount(env, "smsip:" + ip, 20)) || !(await ofcCount(env, "sms", 500))) return pj({ ok: false, error: "slow" }, 429);
+    const code = await ofcIssue(env, k);
+    if (dev) return pj({ ok: true, dev: code });
+    const r = await smsSend(env, phone, `[정치탈탈 의원실 센터] 인증번호 ${code}\n5분 안에 입력해 주세요.`);
+    return r.ok ? pj({ ok: true }) : pj({ ok: false, error: "send" }, 502);
+  }
+  if (path === "/ofc/login" && post) {
+    const phone = String(b.phone || "").replace(/\D/g, "");
+    if (!OFC_PHONE.test(phone)) return pj({ ok: false, error: "phone" }, 400);
+    const r = await ofcCheck(env, "sms:" + phone, b.code, 5 * 60e3);
+    if (r !== "ok") return pj({ ok: false, error: r }, 400);
+    const tok = ofcRand(16);
+    await db.batch([
+      db.prepare("INSERT INTO ofc_sess (h, phone, exp) VALUES (?, ?, ?)").bind(await sha16(tok), phone, now + 30 * 86400e3),
+      db.prepare("DELETE FROM ofc_sess WHERE exp < ?").bind(now),
+      db.prepare("UPDATE ofc_mem SET last_at = ? WHERE phone = ?").bind(now, phone),
+    ]);
+    return ofcCookie(pj({ ok: true }), tok, 30 * 86400);
+  }
+  if (path === "/ofc/logout" && post) {
+    const tok = ((request.headers.get("cookie") || "").match(/(?:^|;\s*)ofc=([a-f0-9]{32})/) || [])[1];
+    if (tok) await db.prepare("DELETE FROM ofc_sess WHERE h = ?").bind(await sha16(tok)).run();
+    return ofcCookie(pj({ ok: true }), "", 0);
+  }
+
+  const phone = await ofcSess(env, request);
+  if (!phone) return pj({ ok: false, error: "login" }, 401);
+
+  if (path === "/ofc/me") {
+    const out = [];
+    for (const { t } of (await db.prepare("SELECT t FROM ofc_mem WHERE phone = ? AND status = 'ok'").bind(phone).all()).results) {
+      const m = await ofcMem(env, phone, t, tels);
+      if (m) out.push({ t, me: m.name, role: m.role, oname: m.oname, plan: m.plan, live: m.live, why: m.why, until: m.until });
+    }
+    const apps = (await db.prepare("SELECT id, t, name, role, status, created_at FROM ofc_app WHERE phone = ? AND status IN ('call', 'review', 'no') ORDER BY id DESC LIMIT 5")
+      .bind(phone).all()).results;
+    return pj({ ok: true, phone: ofcMask(phone), mem: out, apps });
+  }
+  if (path === "/ofc/apply" && post) {                       // 인증 신청 — 다음 단계는 대표번호 ARS
+    const t = String(b.t || ""), name = ofcText(b.name, 20), role = ofcText(b.role, 20);
+    if (!OFC_T.test(t) || !tels[t] || name.length < 2 || role.length < 2) return pj({ ok: false, error: "invalid" }, 400);
+    const o = await db.prepare("SELECT status, verified_at FROM ofc WHERE t = ?").bind(t).first();
+    if (o && (o.status !== "ok" || now - o.verified_at < OFC_REVERIFY)) return pj({ ok: false, error: o.status === "ok" ? "exists" : "off" }, 409);   // 이미 인증된 의원실 = 그 의원실 관리자에게 초대받기
+    if (await db.prepare("SELECT id FROM ofc_app WHERE t = ? AND phone = ? AND status = 'review'").bind(t, phone).first()) return pj({ ok: false, error: "review" }, 409);
+    const { n } = await db.prepare("SELECT COUNT(*) AS n FROM ofc_app WHERE phone = ? AND created_at > ?").bind(phone, now - 86400e3).first();
+    if (n >= 3) return pj({ ok: false, error: "slow" }, 429);
+    await db.prepare("DELETE FROM ofc_app WHERE t = ? AND phone = ? AND status IN ('call', 'no')").bind(t, phone).run();
+    const r = await db.prepare("INSERT INTO ofc_app (t, phone, name, role, created_at) VALUES (?, ?, ?, ?, ?)").bind(t, phone, name, role, now).run();
+    return pj({ ok: true, id: r.meta.last_row_id });
+  }
+  if (path === "/ofc/call" && post) {                        // 의원회관 대표번호로 ARS — 번호는 우리 명단에서만(신청자가 못 바꾼다)
+    const t = String(b.t || ""), tel = OFC_T.test(t) && tels[t] && tels[t][3];
+    if (!tel) return pj({ ok: false, error: "invalid" }, 400);
+    const app = await db.prepare("SELECT id FROM ofc_app WHERE t = ? AND phone = ? AND status = 'call'").bind(t, phone).first();
+    const m = app ? null : await ofcMem(env, phone, t, tels);
+    if (!app && !(m && m.role === "owner" && m.why === "reverify")) return pj({ ok: false, error: "invalid" }, 400);
+    if (!smsOn(env) && !dev) return pj({ ok: false, error: "sms_off" }, 503);
+    const k = "ars:" + t + ":" + phone;
+    if (await ofcRecent(env, k, 180e3)) return pj({ ok: false, error: "wait" }, 429);
+    // 의원실에 장난 전화가 가지 않게: 의원실마다 하루 3통, 신청자마다 하루 3통, 전체 하루 40통
+    if (!(await ofcCount(env, "ars:" + t, 3)) || !(await ofcCount(env, "arsph:" + phone, 3)) || !(await ofcCount(env, "ars", 40))) return pj({ ok: false, error: "slow" }, 429);
+    const code = await ofcIssue(env, k);
+    if (dev) return pj({ ok: true, dev: code });
+    const say = code.split("").join(", ");
+    const r = await smsSend(env, tel, `인증번호는 ${say} 입니다. 다시 한 번 알려 드립니다. ${say} 입니다.`, {
+      type: "VOICE", voiceOptions: { voiceType: "FEMALE",
+        headerMessage: `안녕하세요. 정치탈탈입니다. ${tels[t][0]} 의원실 직원분이 요청하신 의원실 인증 전화입니다.`,
+        tailMessage: "요청하지 않으셨다면 끊으셔도 됩니다. 감사합니다." } });
+    return r.ok ? pj({ ok: true }) : pj({ ok: false, error: "send" }, 502);
+  }
+  if (path === "/ofc/callcheck" && post) {
+    const t = String(b.t || "");
+    if (!OFC_T.test(t)) return pj({ ok: false, error: "invalid" }, 400);
+    const r = await ofcCheck(env, "ars:" + t + ":" + phone, b.code, 10 * 60e3);
+    if (r !== "ok") return pj({ ok: false, error: r }, 400);
+    const app = await db.prepare("SELECT id FROM ofc_app WHERE t = ? AND phone = ? AND status = 'call'").bind(t, phone).first();
+    if (app) {
+      await db.prepare("UPDATE ofc_app SET status = 'review', ars_at = ? WHERE id = ?").bind(now, app.id).run();
+      return pj({ ok: true, next: "review" });
+    }
+    const m = await ofcMem(env, phone, t, tels);
+    if (m && m.role === "owner" && m.why === "reverify") {
+      await db.prepare("UPDATE ofc SET verified_at = ? WHERE t = ?").bind(now, t).run();
+      return pj({ ok: true, next: "live" });
+    }
+    return pj({ ok: false, error: "invalid" }, 400);
+  }
+
+  // ↓ 여기부터는 그 의원실 팀원만
+  const t = String((post ? b.t : url.searchParams.get("t")) || "");
+  const m = OFC_T.test(t) ? await ofcMem(env, phone, t, tels) : null;
+  if (!m) return pj({ ok: false, error: "member" }, 403);
+
+  if (path === "/ofc/stats") {                               // 홈 탭 — 이 의원 페이지 조회수(정치탈탈 집계)·한마디 수
+    await statsReady(env);
+    const key = "/politician/" + t.slice(2);
+    const sum = (kind, d) => db.prepare("SELECT COALESCE(SUM(n), 0) AS n FROM stats WHERE kind = ? AND key = ? AND day >= ?").bind(kind, key, kstDay(d)).first().then((r) => r.n);
+    const [v0, v7, v30, u7] = await Promise.all([sum("path", 0), sum("path", 6), sum("path", 29), sum("hot", 6)]);
+    const series = (await db.prepare("SELECT day, n FROM stats WHERE kind = 'path' AND key = ? AND day >= ? ORDER BY day").bind(key, kstDay(13)).all()).results;
+    const c = await db.prepare("SELECT COALESCE(SUM(created_at > ?), 0) AS d7, COUNT(*) AS n FROM pc WHERE target = ? AND parent = 0 AND off = 0 AND status = 'visible'")
+      .bind(now - 7 * 86400e3, t).first();
+    return pj({ ok: true, views: { today: v0, d7: v7, d30: v30 }, people7: u7, series, comments: c });
+  }
+  if (path === "/ofc/inbox") {                               // 한마디함 — 시민 글(답글 포함). 의원실은 숨긴 글을 볼 수도, 지울 수도 없다
+    const rows = (await db.prepare(
+      "SELECT id, parent, nick, body, likes, badge, team, off, pin, orep, created_at AS at FROM pc WHERE target = ? AND status = 'visible' ORDER BY id DESC LIMIT 800")
+      .bind(t).all()).results;
+    return pj({ ok: true, oname: m.oname, live: m.live, why: m.why, rows });
+  }
+  if (path === "/ofc/team") {
+    const rows = (await db.prepare("SELECT id, name, role, phone, last_at FROM ofc_mem WHERE t = ? AND status = 'ok' ORDER BY role = 'owner' DESC, id").bind(t).all()).results
+      .map((x) => ({ ...x, phone: ofcMask(x.phone), me: x.id === m.id }));
+    return pj({ ok: true, rows, seats: OFC_SEATS[m.plan] || 3, owner: m.role === "owner" });
+  }
+  if (!post) return pj({ ok: false, error: "not found" }, 404);
+
+  if (path === "/ofc/reply") {                               // 공식 답글 — 시민 글 아래 한 단계, 이름 = 'OOO 의원실'
+    if (!m.live) return pj({ ok: false, error: m.why }, 403);
+    const body = ofcText(b.body, 600);
+    if (!Number.isInteger(b.parent) || body.length < 2 || body.length > 500) return pj({ ok: false, error: "invalid" }, 400);
+    if (!(await db.prepare("SELECT id FROM pc WHERE id = ? AND target = ? AND parent = 0 AND off = 0 AND status = 'visible'").bind(b.parent, t).first()))
+      return pj({ ok: false, error: "invalid" }, 400);
+    const nick = m.oname + " 의원실";
+    const r = await db.prepare("INSERT INTO pc (target, nick, body, ip_hash, created_at, parent, off) VALUES (?, ?, ?, ?, ?, ?, 1)")
+      .bind(t, nick, body, "ofc:" + m.id, now, b.parent).run();
+    return pj({ ok: true, row: { id: r.meta.last_row_id, parent: b.parent, nick, body, likes: 0, off: 1, at: now } });
+  }
+  if (path === "/ofc/del" && Number.isInteger(b.id)) {      // 지울 수 있는 것은 우리 의원실 답글뿐
+    const r = await db.prepare("DELETE FROM pc WHERE id = ? AND target = ? AND off = 1").bind(b.id, t).run();
+    if (r.meta.changes) await db.batch([db.prepare("DELETE FROM pc_likes WHERE cid = ?").bind(b.id), db.prepare("DELETE FROM pc_reports WHERE cid = ?").bind(b.id)]);
+    return pj({ ok: !!r.meta.changes });
+  }
+  if (path === "/ofc/pin" && Number.isInteger(b.id)) {      // 시민 글 고정(맨 위, 3개까지)
+    if (!m.live) return pj({ ok: false, error: m.why }, 403);
+    if (b.on) {
+      const { n } = await db.prepare("SELECT COUNT(*) AS n FROM pc WHERE target = ? AND pin > 0 AND status = 'visible'").bind(t).first();
+      if (n >= 3) return pj({ ok: false, error: "pin_max" }, 409);
+    }
+    const r = await db.prepare("UPDATE pc SET pin = ? WHERE id = ? AND target = ? AND parent = 0 AND off = 0").bind(b.on ? now : 0, b.id, t).run();
+    return pj({ ok: !!r.meta.changes });
+  }
+  if (path === "/ofc/report" && Number.isInteger(b.id) && OFC_REP.includes(b.why)) {   // 우선 신고 — 운영자가 보고 판단(의원실이 직접 숨기지 않는다)
+    const r = await db.prepare("UPDATE pc SET orep = ? WHERE id = ? AND target = ? AND off = 0").bind(b.why, b.id, t).run();
+    return pj({ ok: !!r.meta.changes });
+  }
+  if (path === "/ofc/invite") {
+    if (m.role !== "owner" || m.ost !== "ok") return pj({ ok: false, error: "owner" }, 403);
+    const p = String(b.phone || "").replace(/\D/g, ""), name = ofcText(b.name, 20);
+    if (!OFC_PHONE.test(p) || name.length < 2) return pj({ ok: false, error: "invalid" }, 400);
+    const { n } = await db.prepare("SELECT COUNT(*) AS n FROM ofc_mem WHERE t = ? AND status = 'ok' AND phone != ?").bind(t, p).first();
+    if (n >= (OFC_SEATS[m.plan] || 3)) return pj({ ok: false, error: "seats" }, 409);
+    await db.prepare("INSERT INTO ofc_mem (t, phone, name, role, created_at) VALUES (?, ?, ?, 'staff', ?) ON CONFLICT(t, phone) DO UPDATE SET status = 'ok', name = excluded.name")
+      .bind(t, p, name, now).run();
+    const s = smsOn(env) ? await smsSend(env, p, `[정치탈탈] ${name}님, ${m.oname} 의원실 팀에 초대됐습니다.\n이 번호로 로그인하세요: politaltal.com/office/app`) : { ok: false };
+    return pj({ ok: true, sms: s.ok });
+  }
+  if (path === "/ofc/kick" && Number.isInteger(b.id)) {
+    if (m.role !== "owner") return pj({ ok: false, error: "owner" }, 403);
+    const r = await db.prepare("UPDATE ofc_mem SET status = 'off' WHERE id = ? AND t = ? AND role != 'owner'").bind(b.id, t).run();
+    return pj({ ok: !!r.meta.changes });
   }
   return pj({ ok: false, error: "not found" }, 404);
 }
@@ -815,7 +1090,7 @@ async function handleLedger(request, env, url) {
     if (body.op === "pc_list") {
       await pcReady(env);
       const { results } = await env.PUSH_DB.prepare(
-        "SELECT id, target, parent, nick, body, status, reports, likes, created_at FROM pc ORDER BY (status = 'visible' AND reports > 0) DESC, id DESC LIMIT 200").all();
+        "SELECT id, target, parent, nick, body, status, reports, likes, off, orep, created_at FROM pc ORDER BY (status = 'visible' AND orep != '') DESC, (status = 'visible' AND reports > 0) DESC, id DESC LIMIT 200").all();
       return pj({ ok: true, open: await pcOpen(env), rows: results });
     }
     if (body.op === "pc_act" && Number.isInteger(body.id) && ["hide", "show", "delete"].includes(body.action)) {
@@ -830,6 +1105,41 @@ async function handleLedger(request, env, url) {
         db.prepare("DELETE FROM pc_reports WHERE cid IN (SELECT id FROM pc WHERE id = ? OR parent = ?)").bind(id, id),
         db.prepare("DELETE FROM pc WHERE id = ? OR parent = ?").bind(id, id)]);
       return pj({ ok: true });
+    }
+    if (body.op === "ofc_list") {
+      await ofcReady(env);
+      const db = env.PUSH_DB, tels = await ofcTel(env, url.origin);
+      const apps = (await db.prepare("SELECT id, t, phone, name, role, status, ars_at, created_at FROM ofc_app WHERE status IN ('call', 'review') ORDER BY status = 'review' DESC, id DESC LIMIT 100").all()).results
+        .map((a) => ({ ...a, who: (tels[a.t] || [a.t])[0], tel: (tels[a.t] || [])[3] || "" }));
+      const offices = (await db.prepare("SELECT o.t, o.name, o.status, o.verified_at, o.plan, (SELECT COUNT(*) FROM ofc_mem m WHERE m.t = o.t AND m.status = 'ok') AS mem, " +
+        "(SELECT COUNT(*) FROM pc WHERE pc.target = o.t AND pc.off = 1) AS replies FROM ofc o ORDER BY o.verified_at DESC").all()).results;
+      return pj({ ok: true, apps, offices });
+    }
+    if (body.op === "ofc_ok" && Number.isInteger(body.id)) {         // ARS 를 통과한 신청만 — 신청자가 그 의원실 관리자(owner)가 된다
+      await ofcReady(env);
+      const db = env.PUSH_DB, a = await db.prepare("SELECT * FROM ofc_app WHERE id = ? AND status = 'review'").bind(body.id).first();
+      const who = a && (await ofcTel(env, url.origin))[a.t];
+      if (!who) return pj({ ok: false, error: "invalid" }, 400);
+      const now = Date.now();
+      await db.batch([
+        db.prepare("INSERT INTO ofc (t, name, verified_at, created_at) VALUES (?, ?, ?, ?) ON CONFLICT(t) DO UPDATE SET status = 'ok', name = excluded.name, verified_at = excluded.verified_at")
+          .bind(a.t, who[0], a.ars_at, now),
+        db.prepare("INSERT INTO ofc_mem (t, phone, name, role, created_at) VALUES (?, ?, ?, 'owner', ?) ON CONFLICT(t, phone) DO UPDATE SET status = 'ok', role = 'owner', name = excluded.name")
+          .bind(a.t, a.phone, a.name, now),
+        db.prepare("UPDATE ofc_app SET status = 'ok' WHERE id = ?").bind(a.id),
+      ]);
+      const sms = smsOn(env) ? await smsSend(env, a.phone, `[정치탈탈] ${who[0]} 의원실 인증이 끝났습니다.\n지금부터 시민 한마디에 공식 답글을 달 수 있습니다.\npolitaltal.com/office/app`) : { ok: false };
+      return pj({ ok: true, sms: sms.ok });
+    }
+    if (body.op === "ofc_no" && Number.isInteger(body.id)) {
+      await ofcReady(env);
+      const r = await env.PUSH_DB.prepare("UPDATE ofc_app SET status = 'no' WHERE id = ? AND status IN ('call', 'review')").bind(body.id).run();
+      return pj({ ok: !!r.meta.changes });
+    }
+    if (body.op === "ofc_off" && OFC_T.test(String(body.t)) && typeof body.off === "boolean") {   // 운영자 정지·해제(사칭·남용 때)
+      await ofcReady(env);
+      const r = await env.PUSH_DB.prepare("UPDATE ofc SET status = ? WHERE t = ?").bind(body.off ? "off" : "ok", body.t).run();
+      return pj({ ok: !!r.meta.changes });
     }
     if (body.op === "pc_open" && typeof body.open === "boolean") {
       await pcReady(env);
@@ -1187,7 +1497,8 @@ export default {
     if (url.pathname === "/hot") return handleHot(env, url).catch(() => pj({ ok: false, error: "server" }, 500));
     const api = url.pathname.startsWith("/push/") ? handlePush : url.pathname.startsWith("/ledger/") ? handleLedger
       : url.pathname.startsWith("/wall/") ? handleWall : url.pathname.startsWith("/pc/") ? handlePc
-      : url.pathname.startsWith("/pay/") ? handlePay : url.pathname.startsWith("/war/") ? handleWar : null;
+      : url.pathname.startsWith("/pay/") ? handlePay : url.pathname.startsWith("/war/") ? handleWar
+      : url.pathname.startsWith("/ofc/") ? handleOfc : null;
     if (api) {
       try { return await api(request, env, url); }
       catch (e) { return pj({ ok: false, error: "server" }, 500); }

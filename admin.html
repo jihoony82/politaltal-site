@@ -172,6 +172,18 @@
       </div>
 
       <div class="card">
+        <h2>🏛 의원실 인증 <span id="ofBadge" class="wl-badge" style="display:none;"></span></h2>
+        <div class="label" style="margin:0 0 4px;">승인 대기</div>
+        <div id="ofApps"></div>
+        <div class="label" style="margin:16px 0 4px;">인증된 의원실 <span id="ofN"></span></div>
+        <div id="ofList"></div>
+        <div class="note">
+          ※ <strong>전화 확인 끝</strong> = 의원회관 대표번호로 건 ARS 번호를 맞힌 신청입니다. 이름·직책이 이상하지 않은지 보고 승인하세요(필요하면 대표번호로 직접 전화).<br>
+          ※ 승인하면 신청자가 그 의원실 관리자가 되고 문자로 알립니다. 사칭·남용이 보이면 인증된 의원실에서 <strong>정지</strong>하세요(공식 답글은 남고 새 답글만 막힙니다).
+        </div>
+      </div>
+
+      <div class="card">
         <h2>💬 정치인 한마디(댓글) <span id="pcBadge" class="wl-badge" style="display:none;"></span>
           <button class="reset" style="margin-left:auto;" id="pcToggle" onclick="pcToggle()">–</button></h2>
         <div id="pcState" class="note" style="margin:0 0 6px;"></div>
@@ -508,8 +520,51 @@
       LG_ROWS = d.rows;
       $('lgKey').style.display = 'none'; $('lgBody').style.display = '';
       lgRender();
-      stLoad(key); ssLoad(); wlLoad(key); pcLoad(key); slLoad(key); smLoad(key);
+      stLoad(key); ssLoad(); wlLoad(key); pcLoad(key); slLoad(key); smLoad(key); ofLoad(key);
       return d;
+    }
+
+    // ── 의원실 인증: ARS 통과한 신청 승인·거절, 인증된 의원실 정지·해제 ──
+    async function ofLoad(key) {
+      const d = await lgApi({ op:'ofc_list' }, key);
+      if (!d.ok) return;
+      const when = t => new Date(t).toLocaleString('ko-KR', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' });
+      const tel = t => t.replace(/^(02|0\d\d)(\d{3,4})(\d{4})$/, '$1-$2-$3');
+      const mk = (box, cls, text) => { const x = document.createElement('div'); x.className = cls; x.textContent = text; box.appendChild(x); return x; };
+      const review = d.apps.filter(a => a.status === 'review').length;
+      $('ofBadge').style.display = review ? '' : 'none'; $('ofBadge').textContent = '승인 대기 ' + review;
+      const apps = $('ofApps'); apps.textContent = '';
+      if (!d.apps.length) mk(apps, 'st-sub', '대기 중인 신청이 없습니다.');
+      for (const a of d.apps) {
+        const it = document.createElement('div'); it.className = 'wl-item' + (a.status === 'review' ? ' wait' : '');
+        mk(it, 'wl-meta', `${a.who} 의원실 · ${a.status === 'review' ? '✅ 전화 확인 끝 ' + when(a.ars_at) : '⏳ 전화 확인 전'} · 신청 ${when(a.created_at)}`);
+        mk(it, 'wl-msg', `${a.name} (${a.role}) · ${a.phone.replace(/^(\d{3})(\d{3,4})(\d{4})$/, '$1-$2-$3')}`);
+        mk(it, 'wl-meta', '대표번호 ' + tel(a.tel));
+        const acts = document.createElement('div'); acts.className = 'item-actions';
+        if (a.status === 'review') { const ok = document.createElement('button'); ok.className = 'unhide'; ok.textContent = '승인'; ok.onclick = () => ofAct({ op:'ofc_ok', id:a.id }, a.who + ' 의원실 — ' + a.name + '님을 관리자로 승인할까요?'); acts.appendChild(ok); }
+        const no = document.createElement('button'); no.className = 'delete'; no.textContent = '거절'; no.onclick = () => ofAct({ op:'ofc_no', id:a.id }, '이 신청을 거절할까요?'); acts.appendChild(no);
+        it.appendChild(acts); apps.appendChild(it);
+      }
+      const list = $('ofList'); list.textContent = '';
+      $('ofN').textContent = d.offices.length ? d.offices.length + '곳' : '';
+      if (!d.offices.length) mk(list, 'st-sub', '아직 없습니다.');
+      for (const o of d.offices) {
+        const it = document.createElement('div'); it.className = 'wl-item' + (o.status === 'off' ? ' hidden-item' : '');
+        const head = mk(it, 'wl-meta', '');
+        const a = document.createElement('a'); a.href = '/politician/' + o.t.slice(2); a.target = '_blank'; a.textContent = o.name + ' 의원실'; head.appendChild(a);
+        head.appendChild(document.createTextNode(` · 팀 ${o.mem}명 · 공식 답글 ${o.replies}개 · 인증 ${when(o.verified_at)}${o.status === 'off' ? ' · ⛔ 정지' : ''}`));
+        const acts = document.createElement('div'); acts.className = 'item-actions';
+        const b = document.createElement('button'); b.className = o.status === 'off' ? 'unhide' : 'hide'; b.textContent = o.status === 'off' ? '정지 풀기' : '정지';
+        b.onclick = () => ofAct({ op:'ofc_off', t:o.t, off: o.status !== 'off' }, o.status === 'off' ? '정지를 풀까요?' : '이 의원실을 정지할까요? 새 공식 답글을 달 수 없게 됩니다.');
+        acts.appendChild(b); it.appendChild(acts); list.appendChild(it);
+      }
+    }
+    async function ofAct(body, ask) {
+      if (!confirm(ask)) return;
+      const d = await lgApi(body);
+      if (!d.ok) alert('실패: ' + (d.error || ''));
+      else if (body.op === 'ofc_ok') alert(d.sms ? '승인했고 문자로 알렸습니다.' : '승인했습니다(문자 키가 없어 문자는 못 보냄 — 직접 알려 주세요).');
+      ofLoad();
     }
 
     // ── 정치인 한마디: 신고 받은 글 먼저, 숨기기·다시 공개·삭제, 댓글 받기 열고 닫기 ──
@@ -519,7 +574,7 @@
       if (!d.ok) return;
       if (!PC_NAMES) { try { PC_NAMES = await (await fetch('/data/members-mini.json')).json(); } catch (e) { PC_NAMES = {}; } }
       PC_ROWS = d.rows; PC_OPEN = d.open;
-      const flagged = d.rows.filter(r => r.status === 'visible' && r.reports > 0).length;
+      const flagged = d.rows.filter(r => r.status === 'visible' && (r.reports > 0 || r.orep)).length;
       $('pcBadge').style.display = flagged ? '' : 'none'; $('pcBadge').textContent = '신고 ' + flagged;
       $('pcToggle').textContent = PC_OPEN ? '댓글 받기 닫기' : '댓글 받기 열기';
       $('pcState').textContent = PC_OPEN ? '지금 댓글을 받고 있습니다.' : '⚠ 댓글 받기를 닫아 두었습니다 — 새 글을 쓸 수 없습니다.';
@@ -536,8 +591,8 @@
           head.appendChild(a);
           head.appendChild(document.createTextNode(` · ${r.parent ? '↳ 답글 · ' : ''}${r.nick} · ${new Date(r.created_at).toLocaleString('ko-KR', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' })}`));
           add('wl-msg', r.body);
-          const st = add('wl-meta', `공감 ${r.likes} · 신고 ${r.reports}${r.status === 'hidden' ? ' · 숨김 상태' : ''}`);
-          if (r.reports) st.style.color = '#b91c1c';
+          const st = add('wl-meta', `${r.off ? '✅ 의원실 공식 답글 · ' : ''}공감 ${r.likes} · 신고 ${r.reports}${r.orep ? ' · 🏛 의원실 우선 신고: ' + r.orep : ''}${r.status === 'hidden' ? ' · 숨김 상태' : ''}`);
+          if (r.reports || r.orep) st.style.color = '#b91c1c';
           const acts = document.createElement('div'); acts.className = 'item-actions';
           const btn = (cls, text, action) => { const x = document.createElement('button'); x.className = cls; x.textContent = text; x.onclick = () => pcAct(r.id, action); acts.appendChild(x); };
           r.status === 'hidden' ? btn('unhide', '다시 공개', 'show') : btn('hide', '숨기기', 'hide');

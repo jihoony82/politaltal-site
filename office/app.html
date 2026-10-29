@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>의원실 센터 | 정치탈탈</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css">
+<!-- 의원실 센터 대시보드 — 손으로 관리하는 파일(admin.html 처럼 generate.py 가 만들지 않음). API = worker.js /ofc/*, 설계 = 10_의원실센터_설계.md
+     화면 원칙: 휴대폰 우선, 탭 4개(홈·한마디·팀·요금), 탭마다 할 일 하나. 시민 글은 지울 수 없고 공식 답글·고정·우선 신고만. -->
+<style>
+:root { --p: #0a2540; --blue: #2563eb; --blue-bg: #eff6ff; --blue-bd: #bfdbfe; --bg: #f4f6fa; --card: #fff; --line: #e2e8f0; --soft: #64748b; --red: #dc2626; --ok: #059669; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Pretendard Variable', Pretendard, -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--p); font-size: 15px; line-height: 1.5;
+  word-break: keep-all; overflow-wrap: break-word; -webkit-font-smoothing: antialiased; padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+[hidden] { display: none !important; }
+.wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+.top { background: var(--p); color: #fff; padding: calc(14px + env(safe-area-inset-top)) 0 14px; }
+.top .wrap { display: flex; align-items: center; gap: 10px; }
+.top .brand { font-weight: 900; font-size: 16px; color: #fff; text-decoration: none; }
+.top .who { flex: 1; min-width: 0; font-size: 12.5px; opacity: .85; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top .out { background: rgba(255,255,255,.14); border: 0; color: #fff; border-radius: 8px; padding: 6px 10px; font-size: 12.5px; font-weight: 700; }
+.top select { background: rgba(255,255,255,.14); color: #fff; border: 0; border-radius: 8px; padding: 6px 8px; font-size: 13px; max-width: 160px; }
+.top select option { color: var(--p); }
+h1 { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin: 22px 0 6px; line-height: 1.35; }
+h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
+.lead { font-size: 14px; color: var(--soft); line-height: 1.65; margin-bottom: 16px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin: 12px 0; }
+.field { display: block; margin: 10px 0; }
+.field span { display: block; font-size: 13px; font-weight: 800; margin-bottom: 6px; }
+.field input, .field select, textarea { width: 100%; border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 13px; font-size: 16px; background: #fff; }
+.field input:focus, textarea:focus { outline: 2px solid var(--blue); outline-offset: 0; border-color: transparent; }
+.row { display: flex; gap: 8px; }
+.row > input { flex: 1; min-width: 0; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; border-radius: 12px; padding: 13px 16px; font-weight: 800; font-size: 15px; background: var(--p); color: #fff; text-decoration: none; white-space: nowrap; }
+.btn.blue { background: var(--blue); }
+.btn.line { background: #fff; color: var(--p); border: 1.5px solid var(--line); }
+.btn.sm { padding: 8px 12px; font-size: 13px; border-radius: 10px; }
+.btn.full { width: 100%; }
+.btn:disabled { opacity: .5; cursor: default; }
+.msg { font-size: 13.5px; font-weight: 700; margin-top: 10px; min-height: 0; }
+.msg.err { color: var(--red); } .msg.ok { color: var(--ok); }
+.msg:empty { display: none; }
+.note { font-size: 12.5px; color: var(--soft); line-height: 1.65; margin-top: 10px; }
+.steps { display: flex; gap: 6px; margin: 16px 0 4px; }
+.steps i { flex: 1; height: 5px; border-radius: 3px; background: var(--line); }
+.steps i.on { background: var(--blue); }
+/* 의원 고르기 */
+.pick-list { margin-top: 8px; max-height: 320px; overflow-y: auto; }
+.pick { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; margin-bottom: 6px; }
+.pick img, .pol img { width: 40px; height: 50px; border-radius: 8px; object-fit: cover; object-position: center 20%; background: #e2e8f0; flex: 0 0 auto; }
+.pick b, .pol b { font-size: 15px; }
+.pick small, .pol small { display: block; font-size: 12.5px; color: var(--soft); }
+.pol { display: flex; align-items: center; gap: 12px; }
+.pol img { width: 52px; height: 64px; }
+.tel { background: var(--blue-bg); border: 1px solid var(--blue-bd); border-radius: 12px; padding: 12px; margin-top: 12px; font-size: 13.5px; line-height: 1.6; }
+.tel b { font-size: 17px; color: var(--blue); }
+.agree { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; line-height: 1.55; margin: 12px 0; }
+.agree input { width: 18px; height: 18px; margin-top: 1px; flex: 0 0 auto; }
+.code { letter-spacing: 6px; font-size: 22px !important; font-weight: 800; text-align: center; }
+.done { text-align: center; padding: 28px 16px; }
+.done .big { font-size: 44px; }
+/* 대시보드 */
+.banner { border-radius: 14px; padding: 12px 14px; margin: 12px 0; font-size: 13.5px; line-height: 1.6; background: #fff7ed; border: 1px solid #fed7aa; }
+.banner b { display: block; font-size: 14.5px; }
+.banner .btn { margin-top: 8px; }
+.todo { display: flex; align-items: center; gap: 12px; }
+.todo .n { font-size: 34px; font-weight: 900; color: var(--blue); line-height: 1; }
+.todo .t { flex: 1; font-size: 14px; font-weight: 700; }
+.todo .t small { display: block; font-weight: 500; color: var(--soft); font-size: 12.5px; }
+.nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.nums div { background: var(--bg); border-radius: 12px; padding: 10px 8px; text-align: center; }
+.nums b { display: block; font-size: 20px; font-weight: 900; }
+.nums span { font-size: 11.5px; color: var(--soft); font-weight: 700; }
+.bars { display: flex; align-items: flex-end; gap: 3px; height: 70px; margin-top: 14px; }
+.bars i { flex: 1; background: #c7d7f5; border-radius: 3px 3px 0 0; min-height: 2px; position: relative; }
+.bars i.today { background: var(--blue); }
+.bars-x { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--soft); margin-top: 4px; }
+.kv { display: flex; justify-content: space-between; font-size: 13.5px; padding: 7px 0; border-top: 1px solid #f1f5f9; }
+.kv:first-of-type { border-top: 0; }
+.kv span { color: var(--soft); }
+.tips { margin: 6px 0 0 18px; font-size: 13px; line-height: 1.75; color: var(--soft); }
+/* 한마디함 */
+.chips { display: flex; gap: 6px; margin: 14px 0 6px; overflow-x: auto; }
+.chips button { border: 1.5px solid var(--line); background: #fff; border-radius: 999px; padding: 7px 13px; font-size: 13.5px; font-weight: 800; white-space: nowrap; }
+.chips button[aria-pressed="true"] { background: var(--p); border-color: var(--p); color: #fff; }
+.th { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin: 10px 0; }
+.th.t-b { border-left: 4px solid #1d4ed8; } .th.t-r { border-left: 4px solid #dc2626; } .th.t-w { border-left: 4px solid #cbd5e1; }
+.meta { font-size: 12px; color: var(--soft); display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+.tag { font-size: 11px; font-weight: 800; border-radius: 999px; padding: 1px 8px; }
+.tag.pin { background: #fef3c7; color: #92400e; } .tag.rep { background: #fee2e2; color: #991b1b; } .tag.new { background: var(--blue-bg); color: var(--blue); }
+.body { font-size: 15px; line-height: 1.65; margin: 6px 0 2px; white-space: pre-line; }
+.reps { margin-top: 10px; display: grid; gap: 6px; }
+.rp { background: #f8fafc; border-radius: 10px; padding: 9px 11px; }
+.rp.off { background: var(--blue-bg); border: 1px solid var(--blue-bd); }
+.rp .body { font-size: 14px; margin: 3px 0 0; }
+.rp .x { margin-left: auto; background: none; border: 0; color: var(--red); font-size: 12px; font-weight: 700; }
+.acts { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+.acts .btn { flex: 1; min-width: 90px; }
+.compose { margin-top: 10px; }
+.compose textarea { min-height: 96px; resize: vertical; font-size: 15px; line-height: 1.6; }
+.compose .cnt { font-size: 12px; color: var(--soft); text-align: right; margin: 4px 0 8px; }
+.repsel { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.repsel button { border: 1px solid #fecaca; background: #fff; color: #991b1b; border-radius: 999px; padding: 6px 11px; font-size: 13px; font-weight: 700; }
+.empty { text-align: center; color: var(--soft); font-size: 14px; padding: 30px 10px; }
+/* 팀 */
+.mem { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid #f1f5f9; }
+.mem:first-child { border-top: 0; }
+.mem .nm { flex: 1; min-width: 0; }
+.mem .nm b { font-size: 14.5px; }
+.mem .nm small { display: block; font-size: 12px; color: var(--soft); }
+/* 요금 */
+.plan { border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-top: 10px; }
+.plan.pro { border: 2px solid var(--p); }
+.plan .pr { font-size: 20px; font-weight: 900; margin: 2px 0 6px; }
+.plan ul { margin-left: 18px; font-size: 13.5px; line-height: 1.8; }
+.soon { font-size: 11px; background: #fef3c7; color: #92400e; border-radius: 999px; padding: 2px 8px; margin-left: 4px; vertical-align: middle; }
+/* 아래 탭 */
+.tabs { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); z-index: 20; }
+.tabs .wrap { display: flex; padding: 0; }
+.tabs button { flex: 1; background: none; border: 0; padding: 9px 0 10px; font-size: 11.5px; font-weight: 800; color: var(--soft); display: flex; flex-direction: column; align-items: center; gap: 2px; position: relative; }
+.tabs button i { font-style: normal; font-size: 20px; line-height: 1.1; }
+.tabs button[aria-current="true"] { color: var(--p); }
+.tabs .dot { position: absolute; top: 5px; left: calc(50% + 8px); background: var(--red); color: #fff; font-size: 10.5px; border-radius: 999px; padding: 0 5px; line-height: 16px; min-width: 16px; }
+.foot { text-align: center; font-size: 12px; color: var(--soft); margin: 26px 0 10px; }
+.foot a { color: var(--soft); }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/office">🏛 의원실 센터</a>
+  <div class="who" id="who"></div>
+  <select id="pickOfc" aria-label="의원실 고르기" hidden></select>
+  <button class="out" id="logout" hidden>로그아웃</button>
+</div></header>
+
+<main class="wrap">
+  <p class="empty" id="loading">불러오는 중…</p>
+
+  <!-- 로그인(휴대폰 문자) -->
+  <section id="vLogin" hidden>
+    <h1>휴대폰으로 시작합니다</h1>
+    <p class="lead">처음이면 로그인 뒤 의원실 인증 신청으로 이어집니다. 이미 인증한 의원실 팀원은 바로 대시보드가 열립니다.</p>
+    <div class="card">
+      <label class="field"><span>내 휴대폰 번호</span>
+        <div class="row"><input id="lgPhone" type="tel" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" autocomplete="tel">
+          <button class="btn" id="lgSend">번호 받기</button></div></label>
+      <label class="field" id="lgCodeBox" hidden><span>문자로 받은 6자리</span>
+        <div class="row"><input id="lgCode" class="code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="······">
+          <button class="btn blue" id="lgOk">확인</button></div></label>
+      <p class="msg" id="lgMsg" role="status"></p>
+    </div>
+    <p class="note">번호는 의원실 팀 확인과 로그인에만 씁니다. 다른 곳에 보이거나 넘어가지 않습니다.</p>
+  </section>
+
+  <!-- 인증 신청 -->
+  <section id="vApply" hidden>
+    <div class="steps"><i id="st1"></i><i id="st2"></i><i id="st3"></i></div>
+    <div id="ap1">
+      <h1>어느 의원실인가요?</h1>
+      <p class="lead">의원 이름을 찾아 고르세요. 그 의원실의 의원회관 대표번호(국회 공개값)로 확인 전화가 갑니다.</p>
+      <div class="card">
+        <label class="field"><span>의원 이름</span><input id="apQ" placeholder="예: 홍길동" autocomplete="off"></label>
+        <div class="pick-list" id="apList"></div>
+      </div>
+    </div>
+    <div id="ap2" hidden>
+      <h1>신청하는 분</h1>
+      <div class="card">
+        <div class="pol" id="apPol"></div>
+        <div class="tel" id="apTel"></div>
+        <label class="field"><span>내 이름</span><input id="apName" maxlength="20" placeholder="실명" autocomplete="name"></label>
+        <label class="field"><span>직책</span><input id="apRole" maxlength="20" list="roles" placeholder="예: 보좌관"></label>
+        <datalist id="roles"><option value="보좌관"><option value="선임비서관"><option value="비서관"><option value="비서"><option value="인턴"></datalist>
+        <label class="agree"><input type="checkbox" id="apAgree"><span>이 의원실 직원이 맞고, 대표번호로 오는 전화를 받을 수 있습니다. 다른 사람을 사칭한 신청은 승인하지 않으며 법적 책임을 물을 수 있습니다.</span></label>
+        <button class="btn blue full" id="apGo">신청하고 대표번호로 전화 받기</button>
+        <button class="btn line full" id="apBack" style="margin-top:8px;">다른 의원 고르기</button>
+        <p class="msg" id="apMsg" role="status"></p>
+      </div>
+    </div>
+    <div id="ap3" hidden>
+      <h1>📞 대표번호로 전화가 갑니다</h1>
+      <p class="lead" id="apCallLead"></p>
+      <div class="card">
+        <label class="field"><span>전화에서 불러 준 6자리</span>
+          <div class="row"><input id="apCode" class="code" inputmode="numeric" maxlength="6" placeholder="······"><button class="btn blue" id="apOk">확인</button></div></label>
+        <button class="btn line full" id="apRecall">전화 다시 받기</button>
+        <p class="msg" id="apMsg3" role="status"></p>
+      </div>
+      <p class="note">전화는 1분 안에 갑니다. 대표번호를 다른 직원이 받았다면 숫자를 전달받아 넣어도 됩니다. 의원실마다 하루 3번까지 걸 수 있습니다.</p>
+    </div>
+    <div id="ap4" hidden>
+      <div class="card done">
+        <div class="big">✅</div>
+        <h1 style="margin-top:8px;">전화 확인을 마쳤습니다</h1>
+        <p class="lead" id="apDone">정치탈탈 운영자가 한 번 더 보고 승인합니다(보통 하루 안). 승인되면 문자로 알려 드리고, 이 화면을 다시 열면 바로 대시보드가 나옵니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 대시보드 -->
+  <section id="vDash" hidden>
+    <div id="dBanner"></div>
+
+    <div id="tHome">
+      <h1 id="hTitle"></h1>
+      <div class="card">
+        <div class="todo"><div class="n" id="hOpen">0</div><div class="t" id="hOpenT"></div><button class="btn blue sm" id="hGo">답하러 가기</button></div>
+      </div>
+      <div class="card">
+        <h2>우리 의원 페이지 조회</h2>
+        <div class="nums"><div><b id="hV0">-</b><span>오늘</span></div><div><b id="hV7">-</b><span>최근 7일</span></div><div><b id="hV30">-</b><span>최근 30일</span></div></div>
+        <div class="bars" id="hBars" aria-label="최근 14일 조회"></div>
+        <div class="bars-x"><span id="hX0"></span><span>오늘</span></div>
+        <p class="note">정치탈탈 자체 집계(검색로봇 제외). 같은 사람이 여러 번 보면 여러 번 셉니다. 최근 7일 이 페이지를 본 사람 약 <b id="hP7">-</b>명.</p>
+      </div>
+      <div class="card">
+        <h2>시민 한마디</h2>
+        <div class="kv"><span>최근 7일 새 한마디</span><b id="hC7">-</b></div>
+        <div class="kv"><span>전체 한마디</span><b id="hC">-</b></div>
+        <div class="kv"><span>인증 유효</span><b id="hUntil">-</b></div>
+        <a class="btn line full" id="hPage" style="margin-top:12px;" target="_blank" rel="noopener">우리 의원 페이지 보기 ↗</a>
+      </div>
+      <div class="card">
+        <h2>좋은 공식 답글</h2>
+        <ul class="tips">
+          <li>두세 문장이면 충분합니다. 질문에 먼저 답하고, 관련 법안·일정을 덧붙이세요.</li>
+          <li>비판에는 사실로 답하세요. 공식 답글은 시민 누구나 봅니다.</li>
+          <li>민원은 '의원실 대표번호로 연락 주세요'처럼 다음 길을 안내해 주세요.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="tInbox" hidden>
+      <div class="chips" role="group" aria-label="한마디 거르기">
+        <button data-f="open" aria-pressed="true">답 안 함 <span></span></button>
+        <button data-f="all" aria-pressed="false">전체 <span></span></button>
+        <button data-f="pin" aria-pressed="false">고정 <span></span></button>
+      </div>
+      <div id="iList"></div>
+      <p class="note">의원실은 시민 글을 지우거나 숨길 수 없습니다. 욕설·허위사실은 '우선 신고'를 누르면 운영자가 24시간 안에 판단합니다.</p>
+    </div>
+
+    <div id="tTeam" hidden>
+      <div class="card">
+        <h2>팀원 <small id="tmSeats" style="font-size:13px;color:var(--soft);"></small></h2>
+        <div id="tmList"></div>
+      </div>
+      <div class="card" id="tmInvite" hidden>
+        <h2>팀원 초대</h2>
+        <label class="field"><span>이름</span><input id="tmName" maxlength="20"></label>
+        <label class="field"><span>휴대폰</span><input id="tmPhone" type="tel" inputmode="numeric" maxlength="13" placeholder="010-0000-0000"></label>
+        <button class="btn full" id="tmGo">초대하기</button>
+        <p class="msg" id="tmMsg" role="status"></p>
+        <p class="note">초대한 번호로 로그인하면 바로 이 대시보드가 열립니다. 사람이 바뀌면 '내보내기' 후 새로 초대하세요.</p>
+      </div>
+      <p class="note" id="tmStaff" hidden>팀원 초대·내보내기는 의원실 관리자가 합니다.</p>
+    </div>
+
+    <div id="tPlan" hidden>
+      <div class="card">
+        <h2>지금 요금제: <span id="plName">무료</span></h2>
+        <div class="plan">
+          <b>무료</b><div class="pr">0원</div>
+          <ul><li>의원실 인증 배지</li><li>시민 한마디 공식 답글</li><li>고정 3개 · 우선 신고</li><li>대시보드 · 팀원 3명</li></ul>
+        </div>
+        <div class="plan pro">
+          <b>Pro</b><span class="soon">곧 열립니다</span><div class="pr">월 299,000원</div>
+          <ul><li>의원실 소식(사진·영상)을 의원 페이지 맨 위에</li><li>주간 민심 리포트</li><li>AI 답글 초안</li><li>담당자 배정 · 팀원 5명</li><li>의정보고 자료(카드뉴스·쇼츠 대본·보고서 초안)</li></ul>
+          <p class="note">1년 결제 시 10개월 값. 정치자금 카드·정치자금 계좌 이체로 결제하고 코코요 명의 세금계산서·거래명세서·이용확인서를 드립니다. 정치자금 지출 처리 여부는 회계책임자 또는 중앙선관위(1390)에 확인해 주세요.</p>
+        </div>
+        <p class="note">Pro를 먼저 써 보고 싶으면 jihoony8282@naver.com 으로 의원실 이름을 보내 주세요.</p>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot"><a href="/office">의원실 센터 안내</a> · <a href="/privacy.html">개인정보처리방침</a> · 문의 jihoony8282@naver.com</p>
+</main>
+
+<nav class="tabs" id="tabs" hidden><div class="wrap">
+  <button data-tab="tHome" aria-current="true"><i>🏠</i>홈</button>
+  <button data-tab="tInbox"><i>💬</i>한마디<span class="dot" id="tabDot" hidden></span></button>
+  <button data-tab="tTeam"><i>👥</i>팀</button>
+  <button data-tab="tPlan"><i>💳</i>요금</button>
+</div></nav>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function show(id) { ["loading", "vLogin", "vApply", "vDash"].forEach(function (v) { $(v).hidden = v !== id; }); $("tabs").hidden = id !== "vDash"; }
+  function api(path, body) {
+    var o = body ? { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) } : {};
+    o.credentials = "same-origin";
+    return fetch(path, o).then(function (r) { return r.json().catch(function () { return { ok: false, error: "server" }; }); })
+      .catch(function () { return { ok: false, error: "net" }; });
+  }
+  var ERR = {
+    phone: "휴대폰 번호를 확인해 주세요.", sms_off: "문자·전화 인증을 준비하고 있습니다. 잠시 뒤 다시 시도하거나 jihoony8282@naver.com 으로 알려 주세요.",
+    wait: "방금 보냈습니다. 잠시 뒤에 다시 눌러 주세요.", slow: "오늘 가능한 횟수를 넘었습니다. 내일 다시 하거나 이메일로 알려 주세요.",
+    send: "보내지 못했습니다. 잠시 뒤 다시 눌러 주세요.", wrong: "번호가 맞지 않습니다.", expired: "번호 유효 시간이 지났습니다. 다시 받아 주세요.",
+    tries: "5번 틀렸습니다. 번호를 새로 받아 주세요.", invalid: "입력을 확인해 주세요.", net: "연결이 끊겼습니다. 다시 눌러 주세요.", server: "잠시 문제가 생겼습니다. 다시 눌러 주세요.",
+    exists: "이미 인증된 의원실입니다. 그 의원실 관리자에게 대시보드 '팀'에서 초대해 달라고 하세요.", off: "이 의원실은 지금 인증할 수 없습니다. 이메일로 문의해 주세요.",
+    review: "이미 전화 확인을 마치고 승인을 기다리는 신청이 있습니다.", login: "로그인이 풀렸습니다. 다시 로그인해 주세요.",
+    member: "이 의원실 팀이 아닙니다.", reverify: "6개월 재인증이 필요합니다. 관리자가 대표번호 전화로 다시 확인해 주세요.",
+    term: "임기가 끝난 의원실이라 답글을 달 수 없습니다.", owner: "관리자만 할 수 있습니다.", seats: "팀원 자리가 다 찼습니다.", pin_max: "고정은 3개까지입니다. 하나를 풀고 다시 고정해 주세요."
+  };
+  function say(box, d, okText) { box.className = "msg " + (d.ok ? "ok" : "err"); box.textContent = d.ok ? (okText || "") : (ERR[d.error] || "다시 시도해 주세요."); }
+  var digits = function (v) { return String(v || "").replace(/\D/g, ""); };
+  var telFmt = function (t) { return t.length === 10 && t.slice(0, 2) === "02" ? t.replace(/^(02)(\d{4})(\d{4})$/, "$1-$2-$3") : t.replace(/^(02|0\d\d)(\d{3,4})(\d{4})$/, "$1-$2-$3"); };
+  var day = function (ts) { var d = new Date(ts); return d.getFullYear() + "." + (d.getMonth() + 1) + "." + d.getDate(); };
+  function ago(ts) {
+    var m = Math.floor((Date.now() - ts) / 60000);
+    return m < 1 ? "방금" : m < 60 ? m + "분 전" : m < 1440 ? Math.floor(m / 60) + "시간 전" : Math.floor(m / 1440) + "일 전";
+  }
+  var TELS = null;
+  function tels() { return TELS ? Promise.resolve(TELS) : fetch("/data/office-tel.json").then(function (r) { return r.json(); }).then(function (d) { TELS = d; return d; }); }
+  function polCard(box, t, info) {
+    box.textContent = "";
+    var img = el("img"); img.alt = ""; img.src = "/images/politicians/" + t.slice(2) + ".jpg"; img.onerror = function () { img.style.visibility = "hidden"; };
+    var tx = el("div"); tx.appendChild(el("b", "", info[0] + " 의원")); tx.appendChild(el("small", "", (info[1] || "무소속") + " · " + info[2]));
+    box.appendChild(img); box.appendChild(tx);
+  }
+
+  // ── 시작: 누구인가 ──
+  var ME = null, CUR = null;
+  function boot() {
+    api("/ofc/me").then(function (d) {
+      if (!d.ok) { show("vLogin"); $("who").textContent = ""; $("logout").hidden = true; return; }
+      ME = d; $("logout").hidden = false;
+      if (d.mem.length) { dash(); return; }
+      $("who").textContent = d.phone;
+      var rv = d.apps.filter(function (a) { return a.status === "review"; })[0];
+      if (rv) { applyStep(4); show("vApply"); return; }
+      var call = d.apps.filter(function (a) { return a.status === "call"; })[0];
+      tels().then(function (T) {
+        if (call && T[call.t]) { pickT = call.t; polCard($("apPol"), call.t, T[call.t]); toCall(); } else applyStep(1);
+        show("vApply");
+      });
+    });
+  }
+  $("logout").onclick = function () { api("/ofc/logout", {}).then(function () { location.reload(); }); };
+
+  // ── 로그인 ──
+  $("lgSend").onclick = function () {
+    var b = this; b.disabled = true;
+    api("/ofc/otp", { phone: digits($("lgPhone").value) }).then(function (d) {
+      b.disabled = false; say($("lgMsg"), d, "문자로 6자리를 보냈습니다. 5분 안에 넣어 주세요.");
+      if (d.dev) $("lgCode").value = d.dev;                     // 로컬 점검 전용(운영엔 안 옴)
+      if (d.ok) { $("lgCodeBox").hidden = false; $("lgCode").focus(); b.textContent = "다시 받기"; }
+    });
+  };
+  $("lgOk").onclick = function () {
+    var b = this; b.disabled = true;
+    api("/ofc/login", { phone: digits($("lgPhone").value), code: digits($("lgCode").value) }).then(function (d) {
+      b.disabled = false; say($("lgMsg"), d);
+      if (d.ok) boot();
+    });
+  };
+  $("lgCode").addEventListener("input", function () { if (digits(this.value).length === 6) $("lgOk").click(); });
+
+  // ── 인증 신청 ──
+  var pickT = "";
+  function applyStep(n) {
+    [1, 2, 3, 4].forEach(function (i) { $("ap" + i).hidden = i !== n; });
+    [1, 2, 3].forEach(function (i) { $("st" + i).className = i <= Math.min(n, 3) ? "on" : ""; });
+    window.scrollTo(0, 0);
+  }
+  var lastQ = null;
+  $("apQ").addEventListener("input", function () {
+    var q = this.value.trim(), list = $("apList");
+    if (q === lastQ) return;                                     // 한글 입력을 마칠 때(결과를 누르는 순간) 같은 글자로 또 불려 목록이 다시 그려지면 누른 것이 사라진다
+    lastQ = q;
+    tels().then(function (T) {
+      list.textContent = "";
+      if (!q) return;
+      Object.keys(T).filter(function (t) { return T[t][0].indexOf(q) >= 0; }).slice(0, 12).forEach(function (t) {
+        var b = el("button", "pick"); b.type = "button"; polCard(b, t, T[t]);
+        b.onclick = function () { choose(t); };
+        list.appendChild(b);
+      });
+      if (!list.children.length) list.appendChild(el("p", "note", "찾는 의원이 없습니다. 현직 국회의원만 신청할 수 있습니다."));
+    });
+  });
+  function choose(t) {
+    pickT = t;
+    var info = TELS[t];
+    polCard($("apPol"), t, info);
+    var tb = $("apTel"); tb.textContent = "";
+    tb.appendChild(document.createTextNode("확인 전화가 갈 번호 "));
+    tb.appendChild(el("b", "", telFmt(info[3])));
+    tb.appendChild(el("div", "", "국회가 공개한 의원회관 대표번호입니다. 신청 뒤 이 번호로 자동 전화가 가고, 숫자 6자리를 불러 줍니다."));
+    $("apMsg").textContent = "";
+    applyStep(2);
+  }
+  $("apBack").onclick = function () { applyStep(1); };
+  $("apGo").onclick = function () {
+    var b = this, out = $("apMsg");
+    if (!$("apAgree").checked) { out.className = "msg err"; out.textContent = "확인란에 체크해 주세요."; return; }
+    b.disabled = true;
+    api("/ofc/apply", { t: pickT, name: $("apName").value, role: $("apRole").value }).then(function (d) {
+      if (!d.ok) { b.disabled = false; say(out, d); return; }
+      return api("/ofc/call", { t: pickT }).then(function (c) {
+        b.disabled = false;
+        if (!c.ok) { say(out, c); return; }
+        if (c.dev) $("apCode").value = c.dev;
+        toCall();
+      });
+    });
+  };
+  function toCall() {
+    $("apCallLead").textContent = TELS[pickT][0] + " 의원실 대표번호 " + telFmt(TELS[pickT][3]) + "로 지금 전화가 갑니다. 받으시면 숫자 6자리를 두 번 불러 드립니다.";
+    $("apMsg3").textContent = "";
+    applyStep(3);
+  }
+  $("apRecall").onclick = function () {
+    var b = this; b.disabled = true;
+    api("/ofc/call", { t: pickT }).then(function (d) { b.disabled = false; say($("apMsg3"), d, "다시 걸었습니다."); if (d.dev) $("apCode").value = d.dev; });
+  };
+  $("apOk").onclick = function () {
+    var b = this; b.disabled = true;
+    api("/ofc/callcheck", { t: pickT, code: digits($("apCode").value) }).then(function (d) {
+      b.disabled = false;
+      if (!d.ok) { say($("apMsg3"), d); return; }
+      if (d.next === "live") { boot(); return; }              // 6개월 재인증 — 승인 없이 바로
+      applyStep(4);
+    });
+  };
+
+  // ── 대시보드 ──
+  var TAB = "tHome", INBOX = null, FILTER = "open";
+  function dash() {
+    var mem = ME.mem, sel = $("pickOfc"), saved = "";
+    try { saved = localStorage.getItem("ofc_t") || ""; } catch (e) {}
+    CUR = mem.filter(function (m) { return m.t === saved; })[0] || mem[0];
+    sel.hidden = mem.length < 2; sel.textContent = "";
+    mem.forEach(function (m) { var o = el("option", "", m.oname + " 의원실"); o.value = m.t; o.selected = m === CUR; sel.appendChild(o); });
+    sel.onchange = function () { try { localStorage.setItem("ofc_t", sel.value); } catch (e) {} dash(); };
+    $("who").textContent = CUR.me + " · " + (CUR.role === "owner" ? "관리자" : "팀원");
+    $("hTitle").textContent = CUR.oname + " 의원실";
+    $("hPage").href = "/politician/" + CUR.t.slice(2);
+    $("hUntil").textContent = day(CUR.until) + "까지";
+    banner();
+    show("vDash");
+    INBOX = null; loadHome(); loadInbox(); tab(TAB);
+  }
+  function banner() {
+    var b = $("dBanner"); b.textContent = "";
+    if (CUR.live) return;
+    var box = el("div", "banner"), msg = {
+      reverify: ["6개월 재인증이 필요합니다", CUR.role === "owner" ? "의원회관 대표번호로 전화를 한 번 더 받으면 바로 다시 답글을 달 수 있습니다." : "관리자가 대표번호 전화로 다시 확인하면 답글을 달 수 있습니다. 그동안 한마디는 읽을 수 있습니다."],
+      term: ["임기가 끝난 의원실입니다", "공식 답글은 더 달 수 없습니다. 지난 답글은 그대로 남습니다."],
+      off: ["인증이 멈춰 있습니다", "운영자가 이 의원실 인증을 멈췄습니다. jihoony8282@naver.com 으로 문의해 주세요."]
+    }[CUR.why] || ["확인이 필요합니다", ""];
+    box.appendChild(el("b", "", msg[0])); box.appendChild(document.createTextNode(msg[1]));
+    if (CUR.why === "reverify" && CUR.role === "owner") {
+      var go = el("button", "btn sm", "대표번호로 전화 받기");
+      go.onclick = function () {
+        go.disabled = true;
+        tels().then(function (T) {
+          pickT = CUR.t;
+          return api("/ofc/call", { t: CUR.t }).then(function (d) {
+            go.disabled = false;
+            if (!d.ok) { box.appendChild(el("div", "msg err", ERR[d.error] || "다시 시도해 주세요.")); return; }
+            polCard($("apPol"), CUR.t, T[CUR.t]);
+            if (d.dev) $("apCode").value = d.dev;
+            show("vApply"); toCall();
+          });
+        });
+      };
+      box.appendChild(el("br")); box.appendChild(go);
+    }
+    b.appendChild(box);
+  }
+  function tab(id) {
+    TAB = id;
+    ["tHome", "tInbox", "tTeam", "tPlan"].forEach(function (t) { $(t).hidden = t !== id; });
+    [].forEach.call(document.querySelectorAll(".tabs button"), function (b) { b.setAttribute("aria-current", b.dataset.tab === id ? "true" : "false"); });
+    if (id === "tTeam") loadTeam();
+    window.scrollTo(0, 0);
+  }
+  [].forEach.call(document.querySelectorAll(".tabs button"), function (b) { b.onclick = function () { tab(b.dataset.tab); }; });
+  $("hGo").onclick = function () { FILTER = "open"; drawInbox(); tab("tInbox"); };
+
+  function loadHome() {
+    api("/ofc/stats?t=" + encodeURIComponent(CUR.t)).then(function (d) {
+      if (!d.ok) return;
+      var f = function (n) { return Number(n || 0).toLocaleString("ko-KR"); };
+      $("hV0").textContent = f(d.views.today); $("hV7").textContent = f(d.views.d7); $("hV30").textContent = f(d.views.d30);
+      $("hP7").textContent = f(d.people7); $("hC7").textContent = f(d.comments.d7) + "개"; $("hC").textContent = f(d.comments.n) + "개";
+      var by = {}; d.series.forEach(function (r) { by[r.day] = r.n; });
+      var days = [], now = Date.now() + 9 * 3600e3;
+      for (var i = 13; i >= 0; i--) days.push(new Date(now - i * 86400e3).toISOString().slice(0, 10));
+      var max = Math.max.apply(null, days.map(function (k) { return by[k] || 0; }).concat([1])), bars = $("hBars");
+      bars.textContent = "";
+      days.forEach(function (k, i) { var b = el("i", i === 13 ? "today" : ""); b.style.height = Math.max(2, (by[k] || 0) / max * 100) + "%"; b.title = k + " " + (by[k] || 0) + "회"; bars.appendChild(b); });
+      $("hX0").textContent = days[0].slice(5).replace("-", ".");
+    });
+  }
+
+  // 한마디함
+  function loadInbox() {
+    api("/ofc/inbox?t=" + encodeURIComponent(CUR.t)).then(function (d) {
+      if (!d.ok) { $("iList").textContent = ""; $("iList").appendChild(el("p", "empty", ERR[d.error] || "불러오지 못했습니다.")); return; }
+      var tops = [], kids = {};
+      d.rows.forEach(function (r) { if (r.parent) (kids[r.parent] = kids[r.parent] || []).unshift(r); else tops.push(r); });
+      tops.forEach(function (r) { r.kids = kids[r.id] || []; r.done = r.kids.some(function (c) { return c.off; }); });
+      INBOX = tops; drawInbox();
+    });
+  }
+  function counts() {
+    var c = { open: 0, all: INBOX.length, pin: 0 };
+    INBOX.forEach(function (r) { if (!r.done) c.open++; if (r.pin) c.pin++; });
+    return c;
+  }
+  [].forEach.call(document.querySelectorAll(".chips button"), function (b) {
+    b.onclick = function () { FILTER = b.dataset.f; drawInbox(); };
+  });
+  function drawInbox() {
+    if (!INBOX) return;
+    var c = counts(), list = $("iList");
+    [].forEach.call(document.querySelectorAll(".chips button"), function (b) {
+      b.setAttribute("aria-pressed", b.dataset.f === FILTER ? "true" : "false"); b.querySelector("span").textContent = c[b.dataset.f];
+    });
+    $("hOpen").textContent = c.open;
+    $("hOpenT").textContent = "";
+    $("hOpenT").appendChild(document.createTextNode(c.open ? "답 안 한 한마디" : "모든 한마디에 답했습니다"));
+    $("hOpenT").appendChild(el("small", "", c.open ? "공식 답글은 의원 페이지에 파란 칸으로 바로 보입니다" : "새 한마디가 오면 여기 숫자가 올라갑니다"));
+    $("hGo").hidden = !c.open;
+    $("tabDot").hidden = !c.open; $("tabDot").textContent = c.open > 99 ? "99+" : c.open;
+    var rows = INBOX.filter(function (r) { return FILTER === "all" || (FILTER === "open" ? !r.done : r.pin); });
+    if (FILTER !== "pin") rows.sort(function (a, b) { return (b.pin || 0) - (a.pin || 0) || b.id - a.id; });
+    list.textContent = "";
+    if (!rows.length) list.appendChild(el("p", "empty", FILTER === "open" ? "답할 한마디가 없습니다 👍" : FILTER === "pin" ? "고정한 한마디가 없습니다." : "아직 한마디가 없습니다."));
+    rows.slice(0, 200).forEach(function (r) { list.appendChild(thread(r)); });
+  }
+  function thread(r) {
+    var box = el("div", "th" + (r.team ? " t-" + r.team : "")), meta = el("div", "meta");
+    meta.appendChild(el("b", "", ({ b: "🔵 ", w: "⚪ ", r: "🔴 " }[r.team] || "") + r.nick));
+    meta.appendChild(el("span", "", ago(r.at) + (r.likes ? " · ♥ " + r.likes : "")));
+    if (Date.now() - r.at < 86400e3 && !r.done) meta.appendChild(el("span", "tag new", "새 글"));
+    if (r.pin) meta.appendChild(el("span", "tag pin", "📌 고정"));
+    if (r.orep) meta.appendChild(el("span", "tag rep", "🚩 " + r.orep + " 신고함"));
+    box.appendChild(meta);
+    box.appendChild(el("p", "body", r.body));
+    if (r.kids.length) {
+      var reps = el("div", "reps");
+      r.kids.forEach(function (c) {
+        var rp = el("div", "rp" + (c.off ? " off" : "")), m = el("div", "meta");
+        m.appendChild(el("b", "", c.off ? "✅ " + c.nick : c.nick)); m.appendChild(el("span", "", ago(c.at)));
+        if (c.off) {
+          var x = el("button", "x", "지우기"); x.type = "button";
+          x.onclick = function () {
+            if (!confirm("이 공식 답글을 지울까요? 의원 페이지에서도 사라집니다.")) return;
+            api("/ofc/del", { t: CUR.t, id: c.id }).then(function (d) { if (d.ok) loadInbox(); else alert(ERR[d.error] || "지우지 못했습니다."); });
+          };
+          m.appendChild(x);
+        }
+        rp.appendChild(m); rp.appendChild(el("p", "body", c.body)); reps.appendChild(rp);
+      });
+      box.appendChild(reps);
+    }
+    var acts = el("div", "acts"), slot = el("div");
+    var bReply = el("button", "btn blue sm", r.done ? "💬 답글 더 쓰기" : "💬 공식 답글"); bReply.type = "button";
+    var bPin = el("button", "btn line sm", r.pin ? "📌 고정 풀기" : "📌 고정"); bPin.type = "button";
+    var bRep = el("button", "btn line sm", "🚩 우선 신고"); bRep.type = "button";
+    bReply.disabled = bPin.disabled = !CUR.live;
+    bReply.onclick = function () {
+      slot.textContent = "";
+      var f = el("div", "compose"), ta = el("textarea"), cnt = el("div", "cnt", "0 / 500"), go = el("button", "btn blue full", CUR.oname + " 의원실 이름으로 올리기"), out = el("p", "msg");
+      ta.maxLength = 500; ta.placeholder = "시민 누구나 보는 공식 답글입니다. 두세 문장이면 충분합니다.";
+      ta.oninput = function () { cnt.textContent = ta.value.length + " / 500"; };
+      go.type = "button";
+      go.onclick = function () {
+        if (ta.value.trim().length < 2) { out.className = "msg err"; out.textContent = "답글을 적어 주세요."; return; }
+        go.disabled = true;
+        api("/ofc/reply", { t: CUR.t, parent: r.id, body: ta.value }).then(function (d) { go.disabled = false; if (d.ok) loadInbox(); else say(out, d); });
+      };
+      f.appendChild(ta); f.appendChild(cnt); f.appendChild(go); f.appendChild(out); slot.appendChild(f); ta.focus();
+    };
+    bPin.onclick = function () {
+      bPin.disabled = true;
+      api("/ofc/pin", { t: CUR.t, id: r.id, on: !r.pin }).then(function (d) { bPin.disabled = false; if (d.ok) loadInbox(); else alert(ERR[d.error] || "바꾸지 못했습니다."); });
+    };
+    bRep.onclick = function () {
+      slot.textContent = "";
+      var w = el("div", "repsel");
+      ["욕설·비방", "허위사실", "개인정보 노출", "도배·광고", "기타"].forEach(function (why) {
+        var b = el("button", "", why); b.type = "button";
+        b.onclick = function () {
+          api("/ofc/report", { t: CUR.t, id: r.id, why: why }).then(function (d) { if (d.ok) loadInbox(); else alert(ERR[d.error] || "신고하지 못했습니다."); });
+        };
+        w.appendChild(b);
+      });
+      slot.appendChild(el("p", "note", "이유를 고르면 운영자에게 바로 갑니다. 운영자가 보고 숨길지 판단합니다."));
+      slot.appendChild(w);
+    };
+    acts.appendChild(bReply); acts.appendChild(bPin); if (!r.orep) acts.appendChild(bRep);
+    box.appendChild(acts); box.appendChild(slot);
+    return box;
+  }
+
+  // 팀
+  function loadTeam() {
+    api("/ofc/team?t=" + encodeURIComponent(CUR.t)).then(function (d) {
+      if (!d.ok) return;
+      var list = $("tmList"); list.textContent = "";
+      $("tmSeats").textContent = d.rows.length + " / " + d.seats + "명";
+      d.rows.forEach(function (m) {
+        var row = el("div", "mem"), nm = el("div", "nm");
+        nm.appendChild(el("b", "", m.name + (m.me ? " (나)" : "")));
+        nm.appendChild(el("small", "", (m.role === "owner" ? "관리자" : "팀원") + " · " + m.phone + (m.last_at ? " · 최근 " + ago(m.last_at) : " · 아직 로그인 안 함")));
+        row.appendChild(nm);
+        if (d.owner && m.role !== "owner") {
+          var k = el("button", "btn line sm", "내보내기"); k.type = "button";
+          k.onclick = function () { if (confirm(m.name + "님을 팀에서 내보낼까요?")) api("/ofc/kick", { t: CUR.t, id: m.id }).then(loadTeam); };
+          row.appendChild(k);
+        }
+        list.appendChild(row);
+      });
+      $("tmInvite").hidden = !d.owner; $("tmStaff").hidden = d.owner;
+    });
+  }
+  $("tmGo").onclick = function () {
+    var b = this; b.disabled = true;
+    api("/ofc/invite", { t: CUR.t, name: $("tmName").value, phone: digits($("tmPhone").value) }).then(function (d) {
+      b.disabled = false;
+      say($("tmMsg"), d, d.sms ? "초대 문자를 보냈습니다." : "초대했습니다. 그 번호로 이 화면에서 로그인하면 됩니다.");
+      if (d.ok) { $("tmName").value = ""; $("tmPhone").value = ""; loadTeam(); }
+    });
+  };
+
+  boot();
+})();
+</script>
+</body>
+</html>
