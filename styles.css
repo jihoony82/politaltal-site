@@ -2186,7 +2186,29 @@ a:hover { text-decoration: underline; }
 .ofc-cta.on { background: #eff6ff; border: 1px solid #bfdbfe; }
 .ofc-cta.on p { margin-bottom: 0; }
 /* 앱 안에서는 의원실 센터(웹 결제 B2B 요금 안내) 링크를 숨긴다 — 스토어 결제 규정과 엮이지 않게 */
-.in-app .ofc-cta, .in-app .pc-ofc-cta { display: none !important; }
+.in-app .ofc-cta, .in-app .pc-ofc-cta, .in-app .ofn { display: none !important; }
+/* 의원실 소식(Pro) — 소통 칸 맨 위. '의원실 제공' 꼬리표로 정치탈탈 글과 구분 */
+.ofn { background: #fff; border: 1px solid #bfdbfe; border-radius: 14px; padding: 14px 16px; margin: 4px 0 12px; }
+.ofn[hidden] { display: none; }
+.ofn-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.ofn-head b { font-size: 15.5px; }
+.ofn-head span { font-size: 11px; font-weight: 800; color: #1d4ed8; background: #eff6ff; border-radius: 999px; padding: 2px 8px; white-space: nowrap; }
+.ofn-item + .ofn-item { border-top: 1px solid #eef2f7; margin-top: 12px; padding-top: 12px; }
+.ofn-date { font-size: 12px; color: var(--color-text-soft); font-weight: 700; }
+.ofn-body { font-size: 14.5px; line-height: 1.7; margin: 4px 0 0; white-space: pre-line; word-break: keep-all; overflow-wrap: anywhere; }
+.ofn-body.clamp { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.ofn-open { background: none; border: 0; padding: 2px 0; font: 700 13px inherit; color: var(--color-text-soft); cursor: pointer; }
+.ofn-photos { display: grid; gap: 4px; margin-top: 10px; border-radius: 10px; overflow: hidden; }
+.ofn-photos.n2, .ofn-photos.n3, .ofn-photos.n4 { grid-template-columns: 1fr 1fr; }
+.ofn-photos.n3 a:first-child { grid-column: 1 / -1; }
+.ofn-photos img { width: 100%; height: 100%; max-height: 220px; object-fit: cover; object-position: center 30%; display: block; aspect-ratio: 4 / 3; background: #e2e8f0; }
+.ofn-photos.n1 img { aspect-ratio: 16 / 9; }
+.ofn-vbtn { margin-top: 8px; background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; border-radius: 10px; padding: 8px 12px; font: 800 13px inherit; cursor: pointer; }
+.ofn-video { margin-top: 10px; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #0f172a; }
+.ofn-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+.ofn-yt { width: 100%; height: 100%; border: 0; background: #0f172a center / cover; cursor: pointer; position: relative; }
+.ofn-yt::after { content: '▶'; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 64px; height: 44px; border-radius: 12px; background: rgba(220,38,38,.92); color: #fff; font-size: 20px; line-height: 44px; }
+.ofn-more { width: 100%; margin-top: 10px; background: #f8fafc; border: 1px solid var(--color-border); border-radius: 10px; padding: 9px; font: 700 13px inherit; cursor: pointer; color: var(--color-text); }
 /* 홈: 지금 많이 찾는 정치인(실검) · 오늘의 핫이슈 · 정치 비사 레일 */
 .hot-box { background: #fff; border: 1px solid var(--color-border); border-radius: 14px; padding: 14px 16px 10px; margin: 16px 0 14px; }
 .hot-box[hidden], .hook-bar[hidden], .hk-live[hidden] { display: none; }

@@ -99,6 +99,42 @@
     var on = !!o;
     [].forEach.call(document.querySelectorAll("[data-ofc-on]"), function (e) { e.hidden = !on; });
     [].forEach.call(document.querySelectorAll("[data-ofc-off]"), function (e) { e.hidden = on; });
+    var nb = $("ofcNews");
+    if (!nb || !o || !o.posts || !o.posts.length) return;          /* 의원실 소식(Pro) — 최신 1개, 나머지는 더 보기 */
+    $("ofnTitle").textContent = "📣 " + o.name + " 의원실 소식";
+    var nl = $("ofnList"), nm = $("ofnMore");
+    function card(p) {
+      var c = el("article", "ofn-item"), d = new Date(p.at);
+      c.appendChild(el("div", "ofn-date", (d.getMonth() + 1) + "월 " + d.getDate() + "일"));
+      var body = el("p", "ofn-body", p.body); c.appendChild(body);
+      if (p.body.length > 110 || p.body.split("\n").length > 3) { body.className += " clamp"; var mb = btn("ofn-open", "더 보기", function () { body.className = "ofn-body"; mb.remove(); }); c.appendChild(mb); }
+      if (p.photos.length) {
+        var g = el("div", "ofn-photos n" + p.photos.length);
+        p.photos.forEach(function (u) { var a = el("a"), i = el("img"); a.href = u; a.target = "_blank"; a.rel = "noopener"; i.src = u; i.alt = o.name + " 의원실 소식 사진"; i.loading = "lazy"; a.appendChild(i); g.appendChild(a); });
+        c.appendChild(g);
+      }
+      if (p.yt && p.photos.length) {                               /* 사진이 있으면 영상은 접어 둔다(한마디 칸이 밀리지 않게) */
+        var vb = btn("ofn-vbtn", "▶ 의원실 영상 보기", function () {
+          var w2 = el("div", "ofn-video"), f2 = el("iframe"); f2.src = "https://www.youtube-nocookie.com/embed/" + p.yt + "?autoplay=1&playsinline=1"; f2.title = "의원실 영상";
+          f2.allow = "autoplay; encrypted-media; picture-in-picture"; f2.allowFullscreen = true; w2.appendChild(f2); vb.replaceWith(w2);
+        });
+        c.appendChild(vb);
+      } else if (p.yt) {
+        var v = btn("ofn-yt", "", function () {
+          var f = el("iframe"); f.src = "https://www.youtube-nocookie.com/embed/" + p.yt + "?autoplay=1&playsinline=1"; f.title = "의원실 영상";
+          f.allow = "autoplay; encrypted-media; picture-in-picture"; f.allowFullscreen = true; v.replaceWith(f);
+        });
+        v.style.backgroundImage = "url(https://i.ytimg.com/vi/" + p.yt + "/hqdefault.jpg)"; v.setAttribute("aria-label", "의원실 영상 재생");
+        var w = el("div", "ofn-video"); w.appendChild(v); c.appendChild(w);
+      }
+      return c;
+    }
+    nl.appendChild(card(o.posts[0]));
+    if (o.posts.length > 1) {
+      nm.hidden = false; nm.textContent = "의원실 소식 " + (o.posts.length - 1) + "개 더 보기";
+      nm.onclick = function () { o.posts.slice(1).forEach(function (p) { nl.appendChild(card(p)); }); nm.hidden = true; };
+    }
+    nb.hidden = false;
   }
 
   more.onclick = function () { all = true; draw(); };
