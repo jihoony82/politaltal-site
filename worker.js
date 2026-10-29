@@ -881,6 +881,36 @@ async function handleOfc(request, env, url) {
     return new Response(JSON.stringify({ ok: true, visits30: v.visits, pol30: v.pol, offices: o.n }),
       { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=600" } });
   }
+  if (path.startsWith("/ofc/embed/") && !post) {             // 공식 성적표 위젯 — 공개 자료라 누구나 붙일 수 있다(의원실 홈페이지 iframe). 10분 캐시
+    const hit = await caches.default.match(request);
+    if (hit) return hit;
+    const t = "p:" + path.slice(11), f = await ofcFacts(env, url.origin, t);
+    if (!f) return new Response("not found", { status: 404 });
+    const ok = tels[t] && await db.prepare("SELECT 1 FROM ofc WHERE t = ? AND status = 'ok' AND verified_at > ?").bind(t, now - OFC_REVERIFY).first();
+    const c = await db.prepare("SELECT COUNT(*) AS n, (SELECT COUNT(*) FROM pc WHERE target = ?1 AND off = 1 AND status = 'visible') AS r " +
+      "FROM pc WHERE target = ?1 AND parent = 0 AND off = 0 AND status = 'visible'").bind(t).first();
+    const last = f.list.filter((x) => OFC_PASS.includes(x[3])).sort((a, x) => (x[4] > a[4] ? 1 : -1))[0];
+    const page = `${url.origin}/politician/${t.slice(2)}`;
+    const res = new Response(`<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>${esc(f.name)} 의원 성적표 | 정치탈탈</title><style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;background:transparent;color:#0a2540;word-break:keep-all}
+a.c{display:block;max-width:420px;background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px;text-decoration:none;color:inherit}
+.h{display:flex;gap:12px;align-items:center}.h img{width:56px;height:56px;border-radius:50%;object-fit:cover;background:#f1f5f9}.h b{font-size:18px;font-weight:900}
+.h small{display:block;font-size:12.5px;color:#64748b;margin-top:2px}.v{display:inline-block;font-size:11px;font-weight:800;color:#1d4ed8;background:#eff6ff;border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:2px}
+.g{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:14px 0 10px}.g div{background:#f4f6fa;border-radius:10px;padding:9px 2px;text-align:center}
+.g b{display:block;font-size:19px;font-weight:900}.g span{font-size:11px;color:#64748b}.l{font-size:13px;line-height:1.5;margin-top:6px}.l em{font-style:normal;color:#64748b}
+.go{margin-top:12px;background:#0a2540;color:#fff;border-radius:10px;padding:10px;text-align:center;font-size:14px;font-weight:800}.s{font-size:11px;color:#94a3b8;margin-top:8px;text-align:center}
+</style></head><body><a class="c" href="${page}" target="_blank" rel="noopener">
+<div class="h"><img src="/images/politicians/${esc(t.slice(2))}.jpg" alt="" onerror="this.style.visibility='hidden'"><div><b>${esc(f.name)} 의원</b>${ok ? '<span class="v">✅ 의원실 인증</span>' : ""}
+<small>${esc(f.party)} · ${esc(f.district)}${f.term ? " · " + esc(f.term) : ""}</small></div></div>
+<div class="g"><div><b>${f.bills}</b><span>대표발의</span></div><div><b>${f.passed}</b><span>그대로 통과</span></div><div><b>${Math.round(f.part_rate)}%</b><span>표결 참여</span></div><div><b>${f.overall}</b><span>종합 점수</span></div></div>
+${last ? `<p class="l"><em>최근 통과</em> 「${esc(last[1])}」 ${esc(last[4].slice(0, 7).replace("-", "."))}</p>` : ""}
+<p class="l"><em>시민 한마디</em> ${c.n.toLocaleString("ko-KR")}개${c.r ? ` · 의원실 답글 ${c.r.toLocaleString("ko-KR")}개` : ""}</p>
+<div class="go">정치탈탈에서 성적표 전체 보기 →</div><p class="s">국회 공개 데이터 · ${esc(f.at)} 기준 · 정치탈탈 집계</p></a></body></html>`,
+      { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=600", "x-content-type-options": "nosniff" } });
+    await caches.default.put(request, res.clone());
+    return res;
+  }
   if (path === "/ofc/otp" && post) {                         // 휴대폰 문자 인증번호
     const phone = String(b.phone || "").replace(/\D/g, ""), k = "sms:" + phone;
     if (!OFC_PHONE.test(phone)) return pj({ ok: false, error: "phone" }, 400);
@@ -1183,6 +1213,59 @@ async function ofcWeekly(env) {
   }
 }
 
+// ── 의원실 센터 3단계: 성적표 위젯·의정보고 자료(카드뉴스·쇼츠 대본·보고서 초안) ──
+// 의원 숫자 = generate.py 가 매일 쓰는 data/facts/코드.json(국회 공개 데이터), 소통 숫자 = D1(정치탈탈 집계)
+const OFC_PASS = ["원안가결", "수정가결"], OFC_REFL = ["대안반영폐기", "수정안반영폐기"];
+async function ofcFacts(env, origin, t) {
+  if (!OFC_T.test(t)) return null;
+  try { const r = await env.ASSETS.fetch(new Request(`${origin}/data/facts/${t.slice(2)}.json`)); return r.ok ? await r.json() : null; }
+  catch (e) { return null; }
+}
+async function ofcKitData(env, origin, t, months) {        // months 0 = 22대 국회 전체
+  const f = await ofcFacts(env, origin, t);
+  if (!f) return null;
+  await statsReady(env);
+  const db = env.PUSH_DB, from = months ? new Date(ofcAddMonths(Date.now() + 9 * 3600e3, -months)).toISOString().slice(0, 10) : "2024-05-30";
+  const fromTs = Date.parse(from + "T00:00:00+09:00"), L = f.list.map(([no, name, pd, res, rd]) => ({ no, name, pd, res, rd }));
+  const c = await db.prepare("SELECT COUNT(*) AS n, COALESCE(SUM(EXISTS(SELECT 1 FROM pc r WHERE r.parent = pc.id AND r.off = 1)), 0) AS ans, " +
+    "(SELECT COUNT(*) FROM pc WHERE target = ?1 AND off = 1 AND status = 'visible' AND created_at >= ?2) AS rep " +
+    "FROM pc WHERE target = ?1 AND parent = 0 AND off = 0 AND status = 'visible' AND created_at >= ?2").bind(t, fromTs).first();
+  const v = await db.prepare("SELECT COALESCE(SUM(CASE WHEN kind = 'path' THEN n END), 0) AS views, COALESCE(SUM(CASE WHEN kind = 'cheer' THEN n END), 0) AS cheer, " +
+    "COALESCE(SUM(CASE WHEN kind = 'bomb' THEN n END), 0) AS bomb FROM stats WHERE ((kind = 'path' AND key = ?) OR (kind IN ('cheer', 'bomb') AND key = ?)) AND day >= ?")
+    .bind("/politician/" + t.slice(2), t, from).first();
+  delete f.list;
+  return { f, months, from, to: kstDay(0),
+    proposed: L.filter((b) => b.pd >= from),
+    passed: L.filter((b) => OFC_PASS.includes(b.res) && b.rd >= from).sort((a, b) => (b.rd > a.rd ? 1 : -1)),
+    reflected: L.filter((b) => OFC_REFL.includes(b.res) && b.rd >= from),
+    talk: { comments: c.n, answered: c.ans, replies: c.rep, views: v.views, cheer: v.cheer, bomb: v.bomb } };
+}
+const OFC_KIT_SYS = "당신은 대한민국 국회의원실 보좌진입니다. 아래 '자료'(국회 공개 데이터와 정치탈탈 집계)만으로 의정활동 홍보물 초안을 씁니다. 의원실이 읽고 고쳐서 씁니다.\n" +
+  "- 자료에 없는 사실·숫자·성과·일정을 지어내지 마세요. 법안은 이름에서 알 수 있는 만큼만 말하고, 효과나 통과 뒤 바뀐 점을 단정하지 마세요.\n" +
+  "- '계류 중'인 법안을 통과된 것처럼 쓰지 마세요. '위원회 대안에 반영'은 따로 낸 법안의 내용이 위원회 대안에 담긴 것이라고 풀어 씁니다.\n" +
+  "- 순위·최고·1위 같은 말은 자료에 있을 때만 씁니다.\n" +
+  "- 다른 정당·정치인을 비방하거나 견주지 마세요. 지지 호소·투표 독려·'다시 뽑아 달라' 같은 선거운동 표현은 쓰지 마세요.\n" +
+  "- 쉬운 말, 존댓말, 짧은 문장. 꾸밈 기호(**, #)는 아래에서 시킨 것만 씁니다.\n\n";
+const OFC_KIT_ASK = {
+  shorts: "세로 쇼츠(40~60초) 대본을 쓰세요.\n- 장면 6~8개. 장면마다 '장면 1' 처럼 번호 줄, '[화면] …' 한 줄, '[자막] …' 한 줄(15자 안팎), '[말] …' 한두 문장.\n" +
+    "- 첫 장면은 3초 안에 숫자나 질문으로 궁금하게 엽니다.\n- 마지막 장면은 시민 의견을 듣겠다는 말로 맺습니다.\n- 맨 끝에 '제목: …', '설명: …' 두 줄을 붙입니다.",
+  report: "의정활동 보고서 초안의 글 부분을 쓰세요. 숫자 표와 법안 목록은 따로 붙으니 숫자·법안 이름을 길게 늘어놓지 마세요.\n" +
+    "- 네 단락. 단락마다 맨 앞에 '## 제목' 한 줄: ## 인사말 / ## 이 기간 의정활동 / ## 시민과의 소통 / ## 앞으로\n" +
+    "- '이 기간 의정활동'은 법안을 분야별로 묶고, 통과한 것과 새로 낸 것을 구분합니다.\n- '앞으로'는 구체 약속 대신 계속 힘쓰겠다는 정도로.\n- 전체 700~1000자.",
+};
+function ofcKitText(k) {                                    // AI 에 넘길 자료 — 사실만
+  const f = k.f, b = (x) => `「${x.name}」(${(x.rd || x.pd).slice(0, 7)})`;
+  return `자료 (${k.from} ~ ${k.to}${k.months ? `, 최근 ${k.months}개월` : ", 22대 국회 전체"})\n` +
+    `- 의원: ${f.name} 의원(${f.party}, ${f.district}${f.term ? ", " + f.term : ""})${f.committee ? `, 위원회: ${f.committee}` : ""}\n` +
+    `- 이 기간 대표발의 ${k.proposed.length}건, 본회의 통과(가결) ${k.passed.length}건, 위원회 대안에 반영 ${k.reflected.length}건\n` +
+    `- 22대 국회 전체: 대표발의 ${f.bills}건 중 그대로 통과 ${f.passed}건, 계류 중 ${f.pending}건, 본회의 표결 참여율 ${f.part_rate}%\n` +
+    `- 발의 법안 분야(22대 전체, 많은 순): ${f.cats.map(([c, n]) => `${c} ${n}건`).join(", ") || "없음"}\n` +
+    `- 이 기간 통과한 법안: ${k.passed.slice(0, 30).map(b).join(", ") || "없음"}\n` +
+    `- 이 기간 위원회 대안에 반영된 법안: ${k.reflected.slice(0, 20).map(b).join(", ") || "없음"}\n` +
+    `- 이 기간 새로 낸 법안: ${k.proposed.slice(0, 40).map((x) => `「${x.name}」(${x.res || "계류 중"})`).join(", ") || "없음"}\n` +
+    `- 정치탈탈 의원 페이지(이 기간): 시민 한마디 ${k.talk.comments}개, 의원실 공식 답글 ${k.talk.replies}개, 페이지 조회 ${k.talk.views}회`;
+}
+
 // /ofc/* 2단계 길 — handleOfc 가 팀원 확인(m)까지 마친 뒤 부른다. 처리하지 않으면 null
 async function handleOfc2(request, env, url, path, b, t, m, tels) {
   const db = env.PUSH_DB, now = Date.now(), post = request.method === "POST";
@@ -1223,7 +1306,23 @@ async function handleOfc2(request, env, url, path, b, t, m, tels) {
     const rows = (await db.prepare("SELECT id, body, photos, yt, status, created_at AS at FROM ofc_post WHERE t = ? ORDER BY id DESC LIMIT 50").bind(t).all()).results;
     return pj({ ok: true, rows: rows.map((r) => ({ ...r, photos: JSON.parse(r.photos) })), quiet: !!(await ofcKv(env, "ofc_posts_off")), media: !!env.OFC_MEDIA });
   }
+  const kitMonths = (v) => ([1, 3, 6, 12, 0].includes(+v) ? +v : 3);
+  if (path === "/ofc/kit") {                                 // 의정보고 자료(Pro) — 카드뉴스·보고서 표에 쓸 숫자와 법안 목록
+    const no = proOnly(); if (no) return no;
+    const k = await ofcKitData(env, url.origin, t, kitMonths(url.searchParams.get("months")));
+    return k ? pj({ ok: true, ...k, ai_on: !!env.ANTHROPIC_API_KEY, quiet: !!(await ofcKv(env, "ofc_posts_off")) }) : pj({ ok: false, error: "term" }, 404);
+  }
   if (!post) return null;
+
+  if (path === "/ofc/kit/ai" && OFC_KIT_ASK[b.kind]) {       // 쇼츠 대본·보고서 글 초안(Pro) — 자료에 있는 사실만으로
+    const no = proOnly(); if (no) return no;
+    if (!env.ANTHROPIC_API_KEY) return pj({ ok: false, error: "ai_off" }, 503);
+    const k = await ofcKitData(env, url.origin, t, kitMonths(b.months));
+    if (!k) return pj({ ok: false, error: "term" }, 404);
+    if (!(await ofcCount(env, "ai:" + t, 40))) return pj({ ok: false, error: "slow" }, 429);
+    const r = await ofcAi(env, OFC_KIT_SYS + OFC_KIT_ASK[b.kind], ofcKitText(k));
+    return r.ok ? pj({ ok: true, text: r.text.slice(0, 6000) }) : pj({ ok: false, error: r.error }, 503);
+  }
 
   if (path === "/ofc/pro/card") {                            // 카드 매달 자동결제 시작(첫 달은 등록하며 바로 결제)
     if (m.role !== "owner") return pj({ ok: false, error: "owner" }, 403);
@@ -1518,6 +1617,10 @@ async function handleLedger(request, env, url) {
     if (body.op === "ai_test") {                                     // Claude 키·모델 확인용 — 가짜 한마디로 초안 한 번(키 값은 내보내지 않고 모양만)
       const k = String(env.ANTHROPIC_API_KEY || "");
       if (body.shape) return pj({ ok: true, len: k.length, kind: k.trim().slice(0, 10), space: /\s/.test(k) });
+      if (OFC_KIT_ASK[body.kind] && OFC_T.test(String(body.t))) {     // 의정보고 AI(쇼츠·보고서)를 실제 의원 자료로 시험
+        const kd = await ofcKitData(env, url.origin, body.t, [1, 3, 6, 12, 0].includes(body.months) ? body.months : 3);
+        return kd ? pj(await ofcAi(env, OFC_KIT_SYS + OFC_KIT_ASK[body.kind], ofcKitText(kd))) : pj({ ok: false, error: "facts" }, 404);
+      }
       return pj(await ofcAi(env, OFC_DRAFT_SYS, "의원: 시험 의원(무소속, 서울 시험구)\n\n시민 한마디:\n우리 동네 버스 배차 간격이 너무 길어요. 개선 계획이 있나요?\n\n이 한마디에 달 의원실 공식 답글 초안을 써 주세요."));
     }
     if (body.op === "ofc_post_hide" && Number.isInteger(body.id) && typeof body.hide === "boolean") {

@@ -8,7 +8,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css">
 <!-- 의원실 센터 대시보드 — 손으로 관리하는 파일(admin.html 처럼 generate.py 가 만들지 않음). API = worker.js /ofc/*, 설계 = 10_의원실센터_설계.md
-     화면 원칙: 휴대폰 우선, 탭 4개(홈·한마디·팀·요금), 탭마다 할 일 하나. 시민 글은 지울 수 없고 공식 답글·고정·우선 신고만. -->
+     화면 원칙: 휴대폰 우선, 탭 6개(홈·한마디·알리기·리포트·팀·요금), 탭마다 할 일 하나. 시민 글은 지울 수 없고 공식 답글·고정·우선 신고만. -->
 <style>
 :root { --p: #0a2540; --blue: #2563eb; --blue-bg: #eff6ff; --blue-bd: #bfdbfe; --bg: #f4f6fa; --card: #fff; --line: #e2e8f0; --soft: #64748b; --red: #dc2626; --ok: #059669; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -173,6 +173,14 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
 .doc .sup { border: 1px solid #999; padding: 10px 12px; font-size: 13.5px; margin-top: 16px; }
 .doc .src { font-size: 12px; color: #666; margin-top: 18px; }
 @media print { body.doc-open > *:not(#docSheet) { display: none !important; } body.doc-open { padding: 0; } #docSheet { position: static; padding: 0; } #docSheet .dbar { display: none; } }
+/* 알리기 탭 — 카드뉴스·성적표 그림 미리보기 */
+.slide { margin: 14px 0 20px; }
+.slide canvas, .cvbox canvas { width: 100%; max-width: 380px; display: block; margin: 0 auto 8px; border-radius: 10px; border: 1px solid var(--line); }
+.slide textarea { min-height: 110px; font-size: 14px; line-height: 1.6; }
+.kta { min-height: 280px; font-size: 14px; line-height: 1.7; margin-top: 10px; }
+.wframe { width: 100%; max-width: 420px; height: 330px; border: 0; display: block; margin: 0 auto; }
+.note.warn { color: var(--red); font-weight: 700; }
+.row2 { display: flex; gap: 8px; margin-top: 8px; } .row2 .btn { flex: 1; }
 /* 아래 탭 */
 .tabs { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); z-index: 20; }
 .tabs .wrap { display: flex; padding: 0; }
@@ -302,6 +310,12 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
     </div>
 
     <div id="tNews" hidden>
+      <div class="chips" id="npChips" role="group" aria-label="알리기">
+        <button data-np="post" aria-pressed="true">의원실 소식</button>
+        <button data-np="kit" aria-pressed="false">의정보고 자료</button>
+        <button data-np="widget" aria-pressed="false">성적표 위젯</button>
+      </div>
+      <div id="npPost">
       <div id="nUpsell"></div>
       <div class="card" id="nCompose" hidden>
         <h2>의원실 소식 올리기 <span class="pro-tag">PRO</span></h2>
@@ -316,6 +330,63 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
       </div>
       <p class="note" id="nQuiet" hidden>선거운동 기간이라 의원실 소식을 쉬고 있습니다. 기간이 끝나면 다시 열립니다.</p>
       <div id="nList"></div>
+      </div>
+
+      <div id="npKit" hidden>
+        <div id="kUpsell"></div>
+        <div id="kBody" hidden>
+          <div class="chips" id="kMonths" role="group" aria-label="기간">
+            <button data-m="1" aria-pressed="false">1개월</button><button data-m="3" aria-pressed="true">3개월</button>
+            <button data-m="6" aria-pressed="false">6개월</button><button data-m="12" aria-pressed="false">1년</button><button data-m="0" aria-pressed="false">22대 전체</button>
+          </div>
+          <div class="card">
+            <h2>이 기간 의정활동 <span class="pro-tag">PRO</span></h2>
+            <div class="nums"><div><b id="kP">-</b><span>새로 낸 법안</span></div><div><b id="kOk">-</b><span>본회의 통과</span></div><div><b id="kC">-</b><span>시민 한마디</span></div></div>
+            <p class="note" id="kRange"></p>
+            <p class="note" id="kQuiet">선거일 전 일정 기간에는 의정활동 보고의 방법이 제한될 수 있습니다(공직선거법 제111조 등). 배포 전 회계책임자나 중앙선관위(국번 없이 1390)에 확인해 주세요.</p>
+          </div>
+          <div class="card">
+            <h2>카드뉴스</h2>
+            <p class="note" style="margin-top:0;">인스타그램·블로그용 세로 그림(1080×1350)입니다. 그림 아래 글을 고치면 바로 바뀝니다. 첫 줄은 제목, 다음 줄부터 내용입니다. '12건 — 설명'처럼 쓰면 큰 숫자로 그립니다.</p>
+            <div id="kSlides"></div>
+            <button class="btn blue full" id="kSaveAll">카드뉴스 모두 받기(PNG)</button>
+          </div>
+          <div class="card">
+            <h2>쇼츠 대본</h2>
+            <p class="note" style="margin-top:0;">이 기간 숫자와 법안으로 40~60초 세로 영상 대본을 씁니다. 장면마다 화면·자막·말로 나눠 드립니다.</p>
+            <button class="btn line full" id="kShortsGo">✨ AI로 쇼츠 대본 쓰기</button>
+            <textarea class="kta" id="kShorts" hidden></textarea>
+            <button class="btn line sm" id="kShortsCopy" hidden style="margin-top:8px;">대본 복사</button>
+            <p class="msg" id="kShortsMsg" role="status"></p>
+          </div>
+          <div class="card">
+            <h2>의정활동 보고서 초안</h2>
+            <p class="note" style="margin-top:0;">글은 고쳐 쓰고, 숫자 표와 법안 목록은 자동으로 붙습니다. '## '로 시작하는 줄은 소제목이 됩니다.</p>
+            <button class="btn line full" id="kRepAi">✨ AI로 글 초안 쓰기</button>
+            <textarea class="kta" id="kReport"></textarea>
+            <p class="msg" id="kRepMsg" role="status"></p>
+            <button class="btn full" id="kRepPrint" style="margin-top:10px;">보고서 인쇄·PDF로 저장</button>
+          </div>
+          <p class="note">AI 초안은 국회 공개 데이터의 숫자와 법안 이름만 보고 씁니다. 법안 내용·효과는 꼭 확인해서 고쳐 주세요.</p>
+        </div>
+      </div>
+
+      <div id="npWidget" hidden>
+        <div class="card">
+          <h2>홈페이지에 붙이는 성적표 <small style="font-size:12px;color:var(--ok);">무료</small></h2>
+          <p class="note" style="margin-top:0;">의원 홈페이지·당 홈페이지에 아래 코드를 붙이면 이 카드가 보입니다. 숫자는 매일 국회 공개 데이터로 바뀌고, 인증 배지와 시민 한마디 수도 함께 나옵니다.</p>
+          <iframe class="wframe" id="wFrame" title="성적표 위젯 미리보기" loading="lazy"></iframe>
+          <textarea id="wCode" readonly rows="4" style="font-size:12.5px;margin-top:10px;font-family:ui-monospace,Menlo,monospace;"></textarea>
+          <button class="btn line sm" id="wCopy" style="margin-top:8px;">코드 복사</button>
+        </div>
+        <div class="card">
+          <h2>블로그·SNS용 성적표 그림</h2>
+          <p class="note" style="margin-top:0;">네이버 블로그처럼 코드를 못 붙이는 곳에는 이 그림을 올리고 아래 주소를 링크로 붙이세요.</p>
+          <div class="cvbox"><canvas id="wCv" width="1080" height="1350"></canvas></div>
+          <div class="row2"><button class="btn blue" id="wSave">그림 받기(PNG)</button><button class="btn line" id="wLinkCopy">페이지 주소 복사</button></div>
+          <p class="note" id="wLink"></p>
+        </div>
+      </div>
     </div>
 
     <div id="tReport" hidden>
@@ -399,11 +470,11 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
         <h2>무료와 Pro</h2>
         <div class="plan">
           <b>무료</b><div class="pr">0원</div>
-          <ul><li>의원실 인증 배지</li><li>시민 한마디 공식 답글</li><li>고정 3개 · 우선 신고</li><li>대시보드 · 팀원 3명</li></ul>
+          <ul><li>의원실 인증 배지</li><li>시민 한마디 공식 답글</li><li>고정 3개 · 우선 신고</li><li>대시보드 · 팀원 3명</li><li>홈페이지 성적표 위젯 · 블로그용 성적표 그림</li></ul>
         </div>
         <div class="plan pro">
           <b>Pro</b><div class="pr">월 299,000원 <small style="font-size:12px;color:var(--soft);">부가세 포함</small></div>
-          <ul><li>의원실 소식(사진·영상)을 의원 페이지 맨 위에</li><li>주간 민심 리포트 + 월요일 아침 요약 문자</li><li>AI 답글 초안 · AI 민심 요약</li><li>담당자 배정 · 팀원 5명</li></ul>
+          <ul><li>의원실 소식(사진·영상)을 의원 페이지 맨 위에</li><li>의정보고 자료: 카드뉴스 · 쇼츠 대본 · 보고서 초안</li><li>주간 민심 리포트 + 월요일 아침 요약 문자</li><li>AI 답글 초안 · AI 민심 요약</li><li>담당자 배정 · 팀원 5명</li></ul>
           <p class="note">1년 결제 시 10개월 값. 정치자금 지출 처리 여부는 회계책임자 또는 중앙선관위(국번 없이 1390)에 확인해 주세요. Pro 여부와 상관없이 정치탈탈의 순위·점수·노출은 같습니다.</p>
         </div>
       </div>
@@ -416,7 +487,7 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
 <nav class="tabs" id="tabs" hidden><div class="wrap">
   <button data-tab="tHome" aria-current="true"><i>🏠</i>홈</button>
   <button data-tab="tInbox"><i>💬</i>한마디<span class="dot" id="tabDot" hidden></span></button>
-  <button data-tab="tNews"><i>📣</i>소식</button>
+  <button data-tab="tNews"><i>📣</i>알리기</button>
   <button data-tab="tReport"><i>📊</i>리포트</button>
   <button data-tab="tTeam"><i>👥</i>팀</button>
   <button data-tab="tPlan"><i>💳</i>요금</button>
@@ -588,7 +659,7 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
     banner();
     show("vDash");
     if (/[?&]paid=/.test(location.search)) { TAB = "tPlan"; history.replaceState(null, "", location.pathname); }
-    INBOX = null; TEAM = null; loadHome(); loadInbox(); tab(TAB);
+    INBOX = null; TEAM = null; NP = ""; KIT = null; loadHome(); loadInbox(); tab(TAB);
   }
   function banner() {
     var b = $("dBanner"); b.textContent = "";
@@ -623,7 +694,7 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
     ["tHome", "tInbox", "tNews", "tReport", "tTeam", "tPlan"].forEach(function (t) { $(t).hidden = t !== id; });
     [].forEach.call(document.querySelectorAll(".tabs button"), function (b) { b.setAttribute("aria-current", b.dataset.tab === id ? "true" : "false"); });
     if (id === "tTeam") loadTeam();
-    if (id === "tNews") loadNews();
+    if (id === "tNews") drawNews();
     if (id === "tReport") { RW = 0; loadReport(); }
     if (id === "tPlan") loadPlan();
     window.scrollTo(0, 0);
@@ -666,13 +737,13 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
     INBOX.forEach(function (r) { if (!r.done) c.open++; if (r.pin) c.pin++; if (r.asg && r.asg === ME_ID && !r.done) c.mine++; });
     return c;
   }
-  [].forEach.call(document.querySelectorAll(".chips button"), function (b) {
+  [].forEach.call(document.querySelectorAll("#tInbox .chips button"), function (b) {
     b.onclick = function () { FILTER = b.dataset.f; drawInbox(); };
   });
   function drawInbox() {
     if (!INBOX) return;
     var c = counts(), list = $("iList");
-    [].forEach.call(document.querySelectorAll(".chips button"), function (b) {
+    [].forEach.call(document.querySelectorAll("#tInbox .chips button"), function (b) {
       b.setAttribute("aria-pressed", b.dataset.f === FILTER ? "true" : "false"); b.querySelector("span").textContent = c[b.dataset.f];
     });
     $("hOpen").textContent = c.open;
@@ -807,7 +878,7 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
     if (isPro()) return;
     var u = el("div", "upsell"), go = el("button", "btn sm", "Pro 시작하기");
     u.appendChild(el("b", "", what + "은(는) Pro 기능입니다"));
-    u.appendChild(el("p", "", "의원실 소식(사진·영상), 주간 민심 리포트와 월요일 아침 요약 문자, AI 답글 초안, 담당자 배정, 팀원 5명. 월 299,000원(부가세 포함), 정치자금 카드·계좌로 결제할 수 있습니다."));
+    u.appendChild(el("p", "", "의원실 소식(사진·영상), 의정보고 자료(카드뉴스·쇼츠 대본·보고서 초안), 주간 민심 리포트와 월요일 아침 요약 문자, AI 답글 초안, 담당자 배정, 팀원 5명. 월 299,000원(부가세 포함), 정치자금 카드·계좌로 결제할 수 있습니다."));
     go.type = "button"; go.onclick = function () { tab("tPlan"); }; u.appendChild(go); box.appendChild(u);
   }
 
@@ -880,6 +951,199 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
       });
     });
   }
+
+  // 알리기 탭 — 의원실 소식(Pro) · 의정보고 자료(Pro) · 성적표 위젯(무료)
+  var NP = "";
+  [].forEach.call(document.querySelectorAll("#npChips button"), function (b) { b.onclick = function () { NP = b.dataset.np; drawNews(); }; });
+  function drawNews() {
+    if (!NP) NP = isPro() ? "post" : "widget";
+    [].forEach.call(document.querySelectorAll("#npChips button"), function (b) { b.setAttribute("aria-pressed", b.dataset.np === NP ? "true" : "false"); });
+    $("npPost").hidden = NP !== "post"; $("npKit").hidden = NP !== "kit"; $("npWidget").hidden = NP !== "widget";
+    (NP === "post" ? loadNews : NP === "kit" ? loadKit : loadWidget)();
+  }
+
+  // 카드 그림(1080×1350) — 카드뉴스·블로그용 성적표가 같이 쓴다. '12건 — 설명' 줄은 큰 숫자로, 넘치면 글자를 줄여 맞춘다
+  var FONT = "'Pretendard Variable', Pretendard, -apple-system, sans-serif";
+  var FONTS = document.fonts ? document.fonts.load("900 78px 'Pretendard Variable'").catch(function () {}) : Promise.resolve();
+  function wrapText(ctx, text, max) {
+    var out = [], line = "";
+    text.split(" ").forEach(function (w) {
+      var t = line ? line + " " + w : w;
+      if (ctx.measureText(t).width <= max) { line = t; return; }
+      if (line) out.push(line);
+      line = "";
+      if (ctx.measureText(w).width <= max) { line = w; return; }
+      w.split("").forEach(function (ch) { if (line && ctx.measureText(line + ch).width > max) { out.push(line); line = ch; } else line += ch; });   // 긴 낱말은 글자로 자른다
+    });
+    if (line) out.push(line);
+    return out;
+  }
+  function paint(cv, s, foot, page, photo) {
+    var ctx = cv.getContext("2d"), W = 1080, H = 1350, P = 96, dark = !!s.cover, hasPh = dark && photo && photo.complete && photo.naturalWidth;
+    cv.width = W; cv.height = H;
+    function run(k, draw, top) {                               // k = 글자 배율. 그리지 않고 높이만 잴 수도 있다
+      var y = 160 + (top || 0);
+      function txt(t, size, weight, color, lh) {
+        ctx.font = weight + " " + Math.round(size * k) + "px " + FONT; ctx.fillStyle = color;
+        wrapText(ctx, t, W - P * 2).forEach(function (ln) { y += size * k * lh; if (draw) ctx.fillText(ln, P, y); });
+      }
+      txt(s.kicker, 34, 800, dark ? "#93c5fd" : "#2563eb", 1.3); y += 28 * k;
+      txt(s.title, 78, 900, dark ? "#fff" : "#0a2540", 1.25); y += 48 * k;
+      s.lines.forEach(function (ln, i) {
+        ln = ln.trim(); if (!ln) return;
+        var st = ln.split(" — ");
+        if (dark) txt(ln, i ? 40 : 66, i ? 600 : 900, i ? "#cbd5e1" : "#fff", 1.4);
+        else if (st.length === 2) { txt(st[0], 104, 900, "#2563eb", 1.1); txt(st[1], 36, 700, "#64748b", 1.4); y += 30 * k; }
+        else { txt("· " + ln, 44, 700, "#0a2540", 1.4); y += 20 * k; }
+      });
+      return y;
+    }
+    var room = H - 150 - (hasPh ? 330 : 0), k = 1.3;          // 글이 적으면 크게, 넘치면 줄이고, 남는 자리는 위아래로 나눈다(표지는 위에서부터)
+    while (k > 0.5 && run(k, false) > room) k -= 0.05;
+    var top = dark ? 0 : Math.max(0, (room - run(k, false)) * 0.45);
+    ctx.fillStyle = dark ? "#0a2540" : "#fff"; ctx.fillRect(0, 0, W, H);
+    if (!dark) { ctx.fillStyle = "#2563eb"; ctx.fillRect(0, 0, W, 16); }
+    if (hasPh) {                                               // 표지 = 오른쪽 아래 둥근 사진
+      var r = 150, cx = W - P - r, cy = H - 150 - r, sz = Math.min(photo.naturalWidth, photo.naturalHeight);
+      ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.clip();
+      ctx.drawImage(photo, (photo.naturalWidth - sz) / 2, 0, sz, sz, cx - r, cy - r, r * 2, r * 2); ctx.restore();
+    }
+    run(k, true, top);
+    ctx.font = "600 26px " + FONT; ctx.fillStyle = "#94a3b8"; ctx.fillText(foot, P, H - 64);
+    if (page) { ctx.textAlign = "right"; ctx.fillText(page, W - P, H - 64); ctx.textAlign = "left"; }
+  }
+  function savePng(cv, name) {
+    cv.toBlob(function (b) {
+      var a = el("a"); a.href = URL.createObjectURL(b); a.download = name; document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+    }, "image/png");
+  }
+  function copyText(text, btn) {
+    var done = function () { var o = btn.textContent; btn.textContent = "복사했습니다 ✓"; setTimeout(function () { btn.textContent = o; }, 1500); };
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(done, function () {
+      var ta = el("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); done();
+    });
+  }
+  var md = function (s) { return +s.slice(5, 7) + "." + +s.slice(8, 10); };
+  var shortBill = function (n) { return n.replace(/\s*일부개정법률안$/, " 개정안").replace(/\s*전부개정법률안$/, " 전부개정안").replace(/법률안$/, "법안"); };
+
+  // 의정보고 자료(Pro)
+  var KIT = null, KM = 3, SLIDES = [], PHOTO = null;
+  [].forEach.call(document.querySelectorAll("#kMonths button"), function (b) { b.onclick = function () { KM = +b.dataset.m; KIT = null; loadKit(); }; });
+  function loadKit() {
+    upsell($("kUpsell"), "의정보고 자료");
+    $("kBody").hidden = !isPro();
+    if (!isPro()) return;
+    [].forEach.call(document.querySelectorAll("#kMonths button"), function (b) { b.setAttribute("aria-pressed", +b.dataset.m === KM ? "true" : "false"); });
+    if (KIT && KIT.t === CUR.t) return;                        // 탭을 오갈 때 고친 글이 날아가지 않게
+    api("/ofc/kit?t=" + encodeURIComponent(CUR.t) + "&months=" + KM).then(function (d) {
+      if (!d.ok) { $("kSlides").textContent = ""; $("kSlides").appendChild(el("p", "empty", ERR[d.error] || "불러오지 못했습니다.")); return; }
+      KIT = d; d.t = CUR.t;
+      var f = d.f, n = function (x) { return Number(x || 0).toLocaleString("ko-KR"); };
+      $("kP").textContent = n(d.proposed.length) + "건"; $("kOk").textContent = n(d.passed.length) + "건"; $("kC").textContent = n(d.talk.comments) + "개";
+      $("kRange").textContent = d.from.replace(/-/g, ".") + " ~ " + d.to.replace(/-/g, ".") + " · 위원회 대안에 반영 " + d.reflected.length + "건 · 의원실 답글 " + d.talk.replies +
+        "개 · 페이지 조회 " + n(d.talk.views) + "회 · 국회 자료 " + f.at + " 기준";
+      $("kQuiet").className = "note" + (d.quiet ? " warn" : "");
+      $("kShortsGo").hidden = $("kRepAi").hidden = !d.ai_on;
+      $("kShorts").hidden = $("kShortsCopy").hidden = true; $("kShortsMsg").textContent = ""; $("kRepMsg").textContent = "";
+      $("kReport").value = reportTpl(d);
+      if (!PHOTO || PHOTO.dataset.t !== CUR.t) { PHOTO = new Image(); PHOTO.dataset.t = CUR.t; PHOTO.onload = function () { if (SLIDES.length) paintSlide(0); }; PHOTO.src = "/images/politicians/" + CUR.t.slice(2) + ".jpg"; }
+      SLIDES = kitSlides(d); FONTS.then(drawSlides);
+    });
+  }
+  function kitSlides(d) {
+    var f = d.f, who = f.name + " 의원 의정보고", s = [], range = d.from.slice(0, 7).replace("-", ".") + " ~ " + d.to.slice(0, 7).replace("-", ".");
+    s.push({ cover: true, kicker: KM ? range : "제22대 국회", title: "의정활동 보고", lines: [f.name + " 의원", f.party + " · " + f.district] });
+    var st = [d.proposed.length + "건 — 새로 낸 법안(대표발의)"];
+    if (d.passed.length) st.push(d.passed.length + "건 — 본회의 통과");
+    if (d.reflected.length) st.push(d.reflected.length + "건 — 위원회 대안에 반영");
+    if (f.vote_total) st.push(Math.round(f.part_rate) + "% — 본회의 표결 참여율(22대 전체)");
+    s.push({ kicker: who, title: "숫자로 본 의정활동", lines: st });
+    if (d.passed.length) s.push({ kicker: who, title: "본회의를 통과한 법안", lines: d.passed.slice(0, 4).map(function (b) { return "「" + shortBill(b.name) + "」 " + md(b.rd) + " 통과"; })
+      .concat(d.passed.length > 4 ? ["외 " + (d.passed.length - 4) + "건"] : []) });
+    if (d.proposed.length) s.push({ kicker: who, title: "새로 낸 법안", lines: d.proposed.slice(0, 4).map(function (b) { return "「" + shortBill(b.name) + "」"; })
+      .concat(d.proposed.length > 4 ? ["외 " + (d.proposed.length - 4) + "건"] : []) });
+    var tk = [];
+    if (d.talk.comments) tk.push(d.talk.comments + "개 — 시민 한마디");
+    if (d.talk.replies) tk.push(d.talk.replies + "개 — 의원실 공식 답글");
+    tk.push("정치탈탈 '" + f.name + " 의원' 페이지에 의견을 남겨 주세요");
+    s.push({ kicker: who, title: "시민의 목소리를 듣습니다", lines: tk });
+    return s;
+  }
+  function paintSlide(i) {
+    var s = SLIDES[i];
+    paint(s.cv, s, "자료: 국회 공개 데이터(" + KIT.f.at + ") · 정치탈탈", (i + 1) + " / " + SLIDES.length, PHOTO);
+  }
+  function drawSlides() {
+    var box = $("kSlides"); box.textContent = "";
+    SLIDES.forEach(function (s, i) {
+      var w = el("div", "slide"), ta = el("textarea"), b = el("button", "btn line sm", (i + 1) + "번 그림 받기");
+      s.cv = el("canvas"); s.cv.setAttribute("aria-label", "카드뉴스 " + (i + 1) + "번");
+      ta.value = [s.title].concat(s.lines).join("\n"); ta.setAttribute("aria-label", (i + 1) + "번 카드 글");
+      ta.oninput = function () { var x = ta.value.split("\n"); s.title = x[0] || ""; s.lines = x.slice(1); paintSlide(i); };
+      b.type = "button"; b.onclick = function () { savePng(s.cv, "의정보고_" + KIT.f.name + "_" + (i + 1) + ".png"); };
+      w.appendChild(s.cv); w.appendChild(ta); w.appendChild(b); box.appendChild(w);
+      paintSlide(i);
+    });
+  }
+  $("kSaveAll").onclick = function () {                       // 브라우저가 한꺼번에 막지 않게 하나씩 띄엄띄엄
+    SLIDES.forEach(function (s, i) { setTimeout(function () { savePng(s.cv, "의정보고_" + KIT.f.name + "_" + (i + 1) + ".png"); }, i * 700); });
+  };
+  function reportTpl(d) {
+    var f = d.f, p = KM ? "최근 " + KM + "개월" : "제22대 국회 임기";
+    return "## 인사말\n안녕하십니까, " + f.name + " 의원입니다. " + p + " 동안의 의정활동을 보고드립니다.\n\n" +
+      "## 이 기간 의정활동\n이 기간 대표발의한 법안은 " + d.proposed.length + "건이고, 본회의를 통과한 법안은 " + d.passed.length + "건입니다." +
+      (d.reflected.length ? " " + d.reflected.length + "건은 위원회 대안에 내용이 담겼습니다." : "") + "\n\n" +
+      "## 시민과의 소통\n정치탈탈 의원 페이지에 남겨 주신 시민 한마디 " + d.talk.comments + "개를 읽고, " + d.talk.replies + "개에 의원실 이름으로 답했습니다.\n\n" +
+      "## 앞으로\n주신 의견을 의정활동에 담겠습니다. 감사합니다.";
+  }
+  function kitAi(kind, b, ta, out) {
+    var old = b.textContent; b.disabled = true; b.textContent = "✨ 쓰는 중… (30초쯤 걸립니다)";
+    api("/ofc/kit/ai", { t: CUR.t, kind: kind, months: KM }).then(function (d) {
+      b.disabled = false; b.textContent = old;
+      if (!d.ok) { say(out, d); return; }
+      ta.value = d.text; ta.hidden = false; out.className = "msg ok"; out.textContent = "AI 초안입니다. 사실과 표현을 꼭 확인하고 고쳐 쓰세요.";
+      if (kind === "shorts") $("kShortsCopy").hidden = false;
+    });
+  }
+  $("kShortsGo").onclick = function () { kitAi("shorts", this, $("kShorts"), $("kShortsMsg")); };
+  $("kShortsCopy").onclick = function () { copyText($("kShorts").value, this); };
+  $("kRepAi").onclick = function () { kitAi("report", this, $("kReport"), $("kRepMsg")); };
+  $("kRepPrint").onclick = function () {
+    var d = KIT; if (!d) return;
+    var f = d.f, n = function (x) { return Number(x || 0).toLocaleString("ko-KR"); };
+    var prose = $("kReport").value.split("\n").map(function (ln) { ln = ln.trim(); return !ln ? "" : /^##\s*/.test(ln) ? "<h3>" + esc(ln.replace(/^##\s*/, "")) + "</h3>" : "<p>" + esc(ln) + "</p>"; }).join("");
+    var rows = [["새로 낸 법안(대표발의)", d.proposed.length + "건"], ["본회의 통과", d.passed.length + "건"], ["위원회 대안에 반영", d.reflected.length + "건"],
+      ["22대 국회 전체 대표발의", f.bills + "건 (그대로 통과 " + f.passed + "건 · 계류 " + f.pending + "건)"]]
+      .concat(f.vote_total ? [["본회의 표결 참여율(22대 전체)", f.part_rate + "%"]] : [])
+      .concat([["시민 한마디 · 의원실 답글", n(d.talk.comments) + "개 · " + n(d.talk.replies) + "개"], ["정치탈탈 의원 페이지 조회", n(d.talk.views) + "회"]]);
+    var list = function (xs, fn, max) {
+      return "<ol>" + xs.slice(0, max).map(function (b) { return "<li>" + esc(b.name) + " <small>(" + esc(fn(b)) + ")</small></li>"; }).join("") + "</ol>" + (xs.length > max ? "<p>외 " + (xs.length - max) + "건</p>" : "");
+    };
+    printDoc("의 정 활 동 보 고", f.name + " 의원 · " + d.from.replace(/-/g, ".") + " ~ " + d.to.replace(/-/g, "."), prose +
+      "<h3>숫자로 본 의정활동</h3><table>" + rows.map(function (r) { return "<tr><th>" + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td></tr>"; }).join("") + "</table>" +
+      (d.passed.length ? "<h3>본회의를 통과한 법안</h3>" + list(d.passed, function (b) { return b.rd + " " + b.res; }, 50) : "") +
+      (d.reflected.length ? "<h3>위원회 대안에 반영된 법안</h3>" + list(d.reflected, function (b) { return b.rd; }, 50) : "") +
+      (d.proposed.length ? "<h3>새로 낸 법안</h3>" + list(d.proposed, function (b) { return b.pd + " 발의 · " + (b.res || "계류 중"); }, 60) : "") +
+      "<p class='src'>자료: 열린국회정보(국회 공개 데이터) " + f.at + " 기준. 시민 한마디·조회 수는 정치탈탈(politaltal.com) 집계.</p>", false);
+  };
+
+  // 성적표 위젯(무료) — 공개 자료라 누구나 붙일 수 있다
+  var WS = null;
+  function loadWidget() {
+    var code = CUR.t.slice(2), page = location.origin + "/politician/" + code;
+    if ($("wFrame").dataset.t !== CUR.t) { $("wFrame").src = "/ofc/embed/" + code; $("wFrame").dataset.t = CUR.t; }
+    $("wCode").value = '<iframe src="' + location.origin + "/ofc/embed/" + code + '" title="' + CUR.oname + ' 의원 성적표 - 정치탈탈" width="100%" height="330" style="border:0;max-width:420px" loading="lazy"></iframe>';
+    $("wLink").textContent = page;
+    fetch("/data/facts/" + code + ".json").then(function (r) { return r.json(); }).then(function (f) {
+      WS = { kicker: f.name + " 의원 성적표", title: "제22대 국회 의정활동", name: f.name,
+        lines: [f.bills + "건 — 대표발의", f.passed + "건 — 그대로 통과"].concat(f.vote_total ? [Math.round(f.part_rate) + "% — 본회의 표결 참여"] : []).concat([f.overall + "점 — 종합 점수(5개 지표 평균)"]) };
+      FONTS.then(function () { paint($("wCv"), WS, "자료: 국회 공개 데이터(" + f.at + ") · 정치탈탈 politaltal.com", ""); });
+    }).catch(function () {});
+  }
+  $("wCopy").onclick = function () { copyText($("wCode").value, this); };
+  $("wLinkCopy").onclick = function () { copyText($("wLink").textContent, this); };
+  $("wSave").onclick = function () { if (WS) savePng($("wCv"), "성적표_" + WS.name + ".png"); };
 
   // 리포트(Pro)
   var RW = 0, REP = null;
@@ -965,10 +1229,10 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
     var head = "<table><tr><th>문서 번호</th><td>" + docNo(b) + "</td></tr><tr><th>공급받는 자</th><td>" + buyer + (b.biz ? "<br>사업자·고유번호 " + esc(b.biz) : "") + "</td></tr>";
     if (kind === "quote") printDoc("견 적 서", "작성일 " + day(Date.now()), head + "<tr><th>유효기간</th><td>작성일부터 30일</td></tr></table>" + amt +
       (BILL.bank ? "<h3>입금 계좌</h3><p>" + esc(BILL.bank) + "<br>입금자명: " + esc(b.payer) + "</p>" : "") +
-      "<p class='src'>서비스: 정치탈탈(politaltal.com) 의원실 센터 Pro — 의원실 소식 게시, 주간 민심 리포트, AI 답글 초안, 담당자 배정, 팀원 5명.</p>", true);
+      "<p class='src'>서비스: 정치탈탈(politaltal.com) 의원실 센터 Pro — 의원실 소식 게시, 의정보고 자료(카드뉴스·쇼츠 대본·보고서 초안), 주간 민심 리포트, AI 답글 초안, 담당자 배정, 팀원 5명.</p>", true);
     if (kind === "stmt") printDoc("거 래 명 세 서", "거래일 " + day(b.paid_at), head + "<tr><th>결제 방법</th><td>" + (b.kind === "card" ? "카드" : "계좌이체") + "</td></tr></table>" + amt, true);
     if (kind === "use") printDoc("이 용 확 인 서", "발급일 " + day(Date.now()), head + "<tr><th>서비스</th><td>정치탈탈(politaltal.com) 의원실 센터 Pro</td></tr>" +
-      "<tr><th>이용 기간</th><td>" + period + "</td></tr><tr><th>서비스 내용</th><td>의원 페이지 '의원실 소식' 게시(사진·영상), 시민 한마디 주간 민심 리포트, AI 답글 초안, 담당자 배정, 팀원 5명</td></tr>" +
+      "<tr><th>이용 기간</th><td>" + period + "</td></tr><tr><th>서비스 내용</th><td>의원 페이지 '의원실 소식' 게시(사진·영상), 의정보고 자료(카드뉴스·쇼츠 대본·보고서 초안), 시민 한마디 주간 민심 리포트, AI 답글 초안, 담당자 배정, 팀원 5명</td></tr>" +
       "<tr><th>이용 금액</th><td>" + won(b.amount) + " (부가세 포함)</td></tr></table><p>위 의원실이 위 기간 동안 위 서비스를 이용하고 있음을 확인합니다.</p>", true);
     if (kind === "rcpt") printDoc("영 수 증", "결제일 " + day(b.paid_at), head + "<tr><th>결제 방법</th><td>" + (b.kind === "card" ? "카드" : "계좌이체") + "</td></tr></table>" + amt +
       "<p>위 금액을 정히 영수합니다.</p>" + (b.tax ? "<p class='src'>세금계산서 발행일 " + day(b.tax) + "</p>" : ""), true);
