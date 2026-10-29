@@ -172,7 +172,7 @@
       </div>
 
       <div class="card">
-        <h2>🏛 의원실 인증 <span id="ofBadge" class="wl-badge" style="display:none;"></span></h2>
+        <h2>🏛 의원실·단체장실 인증 <span id="ofBadge" class="wl-badge" style="display:none;"></span></h2>
         <div class="label" style="margin:0 0 4px;">승인 대기</div>
         <div id="ofApps"></div>
         <div class="label" style="margin:16px 0 4px;">인증된 의원실 <span id="ofN"></span></div>
@@ -183,10 +183,14 @@
         <div id="obBills"></div>
         <div class="label" style="margin:18px 0 4px;">📣 의원실 소식 <button class="reset" id="obQuiet" style="margin-left:6px;" onclick="obQuiet()">–</button></div>
         <div id="obPosts"></div>
+        <div class="label" style="margin:18px 0 4px;">📮 신문고 <span id="sgBadge" class="wl-badge" style="display:none;"></span></div>
+        <div id="sgList"></div>
         <div class="note">
           ※ <strong>전화 확인 끝</strong> = 의원회관 대표번호로 건 ARS 번호를 맞힌 신청입니다. 이름·직책이 이상하지 않은지 보고 승인하세요(필요하면 대표번호로 직접 전화).<br>
           ※ 승인하면 신청자가 그 의원실 관리자가 되고 문자로 알립니다. 사칭·남용이 보이면 인증된 의원실에서 <strong>정지</strong>하세요(공식 답글은 남고 새 답글만 막힙니다).<br>
           ※ Pro 계좌이체: 통장에 입금이 찍히면 <strong>입금 확인</strong> → Pro 가 열리고 신청자에게 문자. 세금계산서는 홈택스에서 발행한 뒤 <strong>세금계산서 발행</strong>을 눌러 표시만 하세요.<br>
+          ※ <strong>단체장실</strong> 신청(⏳ 비서실 번호 필요)은 그 시·군·구 공식 홈페이지에서 <em>비서실</em> 번호를 찾아 넣고 <strong>번호 등록</strong> → 신청자에게 '이제 전화 인증' 문자가 갑니다. 대표 콜센터(120 등) 번호는 넣지 마세요.<br>
+          ※ 신문고: 신고 3건이면 자동으로 숨겨집니다(답변 완료 글은 제외). 우선 신고·신고 글이 위에 옵니다 — 보고 <strong>숨기기</strong>나 <strong>그대로 두기</strong>.<br>
           ※ 선거운동 기간에는 <strong>의원실 소식 멈춤</strong>을 켜세요(쓰기·보이기 모두 멈춤). 시범 의원실에는 <strong>Pro 30일</strong>로 무료 기간을 줄 수 있습니다.
         </div>
       </div>
@@ -528,7 +532,7 @@
       LG_ROWS = d.rows;
       $('lgKey').style.display = 'none'; $('lgBody').style.display = '';
       lgRender();
-      stLoad(key); ssLoad(); wlLoad(key); pcLoad(key); slLoad(key); smLoad(key); ofLoad(key); obLoad(key);
+      stLoad(key); ssLoad(); wlLoad(key); pcLoad(key); slLoad(key); smLoad(key); ofLoad(key); obLoad(key); sgLoad(key);
       return d;
     }
 
@@ -545,11 +549,21 @@
       if (!d.apps.length) mk(apps, 'st-sub', '대기 중인 신청이 없습니다.');
       for (const a of d.apps) {
         const it = document.createElement('div'); it.className = 'wl-item' + (a.status === 'review' ? ' wait' : '');
-        mk(it, 'wl-meta', `${a.who} 의원실 · ${a.status === 'review' ? '✅ 전화 확인 끝 ' + when(a.ars_at) : '⏳ 전화 확인 전'} · 신청 ${when(a.created_at)}`);
+        const isL = a.t.startsWith('l:');
+        mk(it, 'wl-meta', `${a.who}${isL ? ' (' + a.place + ')' : ''} · ${a.status === 'review' ? '✅ 전화 확인 끝 ' + when(a.ars_at) : a.tel ? '⏳ 전화 확인 전' : '⏳ 비서실 번호 필요'} · 신청 ${when(a.created_at)}`);
         mk(it, 'wl-msg', `${a.name} (${a.role}) · ${a.phone.replace(/^(\d{3})(\d{3,4})(\d{4})$/, '$1-$2-$3')}`);
-        mk(it, 'wl-meta', '대표번호 ' + tel(a.tel));
+        mk(it, 'wl-meta', (isL ? '비서실 ' : '대표번호 ') + (a.tel ? tel(a.tel) : '아직 없음'));
+        if (isL) {                                                   // 단체장실: 운영자가 공식 홈페이지에서 비서실 번호를 확인해 넣는다
+          const row = document.createElement('div'); row.style.cssText = 'display:flex;gap:6px;margin:6px 0;flex-wrap:wrap;';
+          const inp = document.createElement('input'); inp.placeholder = '비서실 번호(예: 02-2133-0000)'; inp.value = a.tel ? tel(a.tel) : ''; inp.style.cssText = 'flex:1;min-width:160px;';
+          const sv = document.createElement('button'); sv.className = 'reset'; sv.textContent = '번호 등록';
+          sv.onclick = async () => { const r = await lgApi({ op:'ofc_ltel', t:a.t, tel: inp.value }); alert(r.ok ? '등록했습니다' + (r.sent ? ` — 신청자 ${r.sent}명에게 문자를 보냈습니다.` : '.') : '실패: ' + (r.error || '')); ofLoad(); };
+          const lk = document.createElement('a'); lk.textContent = '🔎 비서실 번호 찾기'; lk.target = '_blank'; lk.rel = 'noopener';
+          lk.href = 'https://search.naver.com/search.naver?query=' + encodeURIComponent(a.place + ' ' + a.who.replace(/^\S+\s/, '').replace(/실$/, '') + ' 비서실 전화번호');
+          row.appendChild(inp); row.appendChild(sv); row.appendChild(lk); it.appendChild(row);
+        }
         const acts = document.createElement('div'); acts.className = 'item-actions';
-        if (a.status === 'review') { const ok = document.createElement('button'); ok.className = 'unhide'; ok.textContent = '승인'; ok.onclick = () => ofAct({ op:'ofc_ok', id:a.id }, a.who + ' 의원실 — ' + a.name + '님을 관리자로 승인할까요?'); acts.appendChild(ok); }
+        if (a.status === 'review') { const ok = document.createElement('button'); ok.className = 'unhide'; ok.textContent = '승인'; ok.onclick = () => ofAct({ op:'ofc_ok', id:a.id }, a.who + ' — ' + a.name + '님을 관리자로 승인할까요?'); acts.appendChild(ok); }
         const no = document.createElement('button'); no.className = 'delete'; no.textContent = '거절'; no.onclick = () => ofAct({ op:'ofc_no', id:a.id }, '이 신청을 거절할까요?'); acts.appendChild(no);
         it.appendChild(acts); apps.appendChild(it);
       }
@@ -559,7 +573,7 @@
       for (const o of d.offices) {
         const it = document.createElement('div'); it.className = 'wl-item' + (o.status === 'off' ? ' hidden-item' : '');
         const head = mk(it, 'wl-meta', '');
-        const a = document.createElement('a'); a.href = '/politician/' + o.t.slice(2); a.target = '_blank'; a.textContent = o.name + ' 의원실'; head.appendChild(a);
+        const a = document.createElement('a'); a.href = (o.t.startsWith('l:') ? '/local/' : '/politician/') + o.t.slice(2); a.target = '_blank'; a.textContent = o.name + (o.t.startsWith('l:') ? ' 단체장실' : ' 의원실'); head.appendChild(a);
         head.appendChild(document.createTextNode(` · 팀 ${o.mem}명 · 공식 답글 ${o.replies}개 · 인증 ${when(o.verified_at)}${o.status === 'off' ? ' · ⛔ 정지' : ''}`));
         if (o.pro_until > Date.now()) mk(it, 'wl-meta', '⭐ Pro ' + new Date(o.pro_until).toLocaleDateString('ko-KR') + '까지');
         const acts = document.createElement('div'); acts.className = 'item-actions';
@@ -612,6 +626,28 @@
     }
     async function obBankSave() { const d = await lgApi({ op:'ofc_bank', text: $('obBank').value }); alert(d.ok ? '저장했습니다.' : '실패: ' + (d.error || '')); obLoad(); }
     async function obQuiet() { await ofAct({ op:'ofc_quiet', off: !OB_QUIET }, OB_QUIET ? '의원실 소식을 다시 열까요?' : '선거운동 기간이라 의원실 소식 쓰기·보이기를 멈출까요?'); }
+    // 📮 신문고 — 우선 신고·시민 신고·숨김 먼저. 숨기기·다시 공개
+    async function sgLoad(key) {
+      const d = await lgApi({ op:'sm_list' }, key);
+      const box = $('sgList'); if (!d.ok || !box) return;
+      box.textContent = '';
+      const flag = d.rows.filter(r => r.orep || r.reports || r.hidden).length;
+      $('sgBadge').style.display = flag ? '' : 'none'; $('sgBadge').textContent = '확인 ' + flag;
+      if (!d.rows.length) { const x = document.createElement('div'); x.className = 'st-sub'; x.textContent = '아직 들어온 민원이 없습니다.'; box.appendChild(x); return; }
+      for (const r of d.rows.slice(0, 40)) {
+        const it = document.createElement('div'); it.className = 'wl-item' + (r.hidden ? ' hidden-item' : (r.orep || r.reports) ? ' wait' : '');
+        const m = document.createElement('div'); m.className = 'wl-meta';
+        m.textContent = `${r.label} · [${r.cat}] ${r.pub ? '공개' : '🔒비공개'} · ${({ new:'접수', seen:'확인 중', done:'답변 완료' })[r.status] || r.status} · 🤝${r.likes}` +
+          (r.orep ? ` · 🚩우선 신고(${r.orep})` : '') + (r.reports ? ` · 시민 신고 ${r.reports}` : '') + (r.hidden ? ' · 숨김' : '');
+        const t = document.createElement('div'); t.className = 'wl-msg'; t.textContent = r.title + ' — ' + r.body.slice(0, 160);
+        const acts = document.createElement('div'); acts.className = 'item-actions';
+        const b = document.createElement('button'); b.className = r.hidden ? 'unhide' : 'hide'; b.textContent = r.hidden ? '다시 공개' : '숨기기';
+        b.onclick = async () => { if (!confirm(r.hidden ? '다시 공개할까요?' : '이 글을 숨길까요? 의원실·단체장실 신문고함에는 남습니다.')) return; await lgApi({ op:'sm_hide', id:r.id, hide: !r.hidden }); sgLoad(); };
+        acts.appendChild(b);
+        if (!r.hidden && (r.orep || r.reports)) { const k = document.createElement('button'); k.className = 'unhide'; k.textContent = '그대로 두기'; k.onclick = async () => { await lgApi({ op:'sm_hide', id:r.id, hide:false }); sgLoad(); }; acts.appendChild(k); }
+        it.appendChild(m); it.appendChild(t); it.appendChild(acts); box.appendChild(it);
+      }
+    }
     async function ofAct(body, ask) {
       if (!confirm(ask)) return;
       const d = await lgApi(body);
