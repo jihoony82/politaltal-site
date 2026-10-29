@@ -1094,7 +1094,8 @@ h2 { font-size: 16px; font-weight: 900; margin: 0 0 10px; }
     return "## 인사말\n안녕하십니까, " + f.name + " 의원입니다. " + p + " 동안의 의정활동을 보고드립니다.\n\n" +
       "## 이 기간 의정활동\n이 기간 대표발의한 법안은 " + d.proposed.length + "건이고, 본회의를 통과한 법안은 " + d.passed.length + "건입니다." +
       (d.reflected.length ? " " + d.reflected.length + "건은 위원회 대안에 내용이 담겼습니다." : "") + "\n\n" +
-      "## 시민과의 소통\n정치탈탈 의원 페이지에 남겨 주신 시민 한마디 " + d.talk.comments + "개를 읽고, " + d.talk.replies + "개에 의원실 이름으로 답했습니다.\n\n" +
+      "## 시민과의 소통\n" + (d.talk.comments >= 10 ? "정치탈탈 의원 페이지에 남겨 주신 시민 한마디 " + d.talk.comments + "개를 읽고, " + d.talk.replies + "개에 의원실 이름으로 답했습니다."
+        : "정치탈탈 의원 페이지에서 시민 여러분의 의견을 받고 있습니다. 남겨 주시는 한마디에 의원실이 직접 답하겠습니다.") + "\n\n" +
       "## 앞으로\n주신 의견을 의정활동에 담겠습니다. 감사합니다.";
   }
   function kitAi(kind, b, ta, out) {
