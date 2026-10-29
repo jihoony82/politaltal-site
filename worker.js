@@ -364,6 +364,8 @@ async function handleWar(request, env, url) {
     // 점수판은 누적(매일 0시에 지우지 않는다 — 대표 10-29). 오늘 몫은 today 로 따로
     const tot = await env.PUSH_DB.prepare("SELECT key, SUM(n) AS n FROM stats WHERE kind = 'war' GROUP BY key").all();
     out.total = Object.fromEntries(tot.results.map((x) => [x.key, x.n]));
+    // 시작 점수(대표 10-29: 진보·보수 1,250 · 중도 670) — 화면 설명에 '시작 점수 포함'으로 밝혀 둔다. 일별 기록(today·yday)엔 안 넣는다
+    for (const [k, v] of Object.entries({ b: 1250, w: 670, r: 1250 })) out.total[k] = (out.total[k] || 0) + v;
     const uid = url.searchParams.get("uid") || "";
     if (uid) out.me = await warMe(env, uid);
     const t = url.searchParams.get("t") || "";
