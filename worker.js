@@ -827,6 +827,12 @@ async function ofcPublic(env, t, origin) {                 // 정치인 페이�
   const o = await env.PUSH_DB.prepare("SELECT name FROM ofc WHERE t = ? AND status = 'ok' AND verified_at > ?").bind(t, Date.now() - OFC_REVERIFY).first();
   return o && (await ofcTel(env, origin))[t] ? { name: o.name } : null;
 }
+async function ofcVoice(env, to, who, code) {             // ARS 인증 전화. 머리말(headerMessage)은 쓰지 않는다 — 넣으면 받는 사람이 번호를 눌러야 본문이 나오는 경우가 있다(솔라피 안내)
+  const say = code.split("").join(", ");
+  return smsSend(env, to, `안녕하세요. 정치탈탈입니다. ${who} 의원실 직원분이 요청하신 의원실 인증 전화입니다. ` +
+    `인증번호는 ${say} 입니다. 다시 한 번 알려 드립니다. ${say} 입니다. 마지막으로 한 번 더, ${say} 입니다. ` +
+    "요청하지 않으셨다면 끊으셔도 됩니다. 감사합니다.", { type: "VOICE", voiceOptions: { voiceType: "FEMALE" } });
+}
 function ofcCookie(res, v, age) {
   res.headers.append("set-cookie", `ofc=${v}; Path=/ofc; HttpOnly; Secure; SameSite=Lax; Max-Age=${age}`);
   return res;
@@ -918,11 +924,7 @@ async function handleOfc(request, env, url) {
     if (!(await ofcCount(env, "ars:" + t, 3)) || !(await ofcCount(env, "arsph:" + phone, 3)) || !(await ofcCount(env, "ars", 40))) return pj({ ok: false, error: "slow" }, 429);
     const code = await ofcIssue(env, k);
     if (dev) return pj({ ok: true, dev: code });
-    const say = code.split("").join(", ");
-    const r = await smsSend(env, tel, `인증번호는 ${say} 입니다. 다시 한 번 알려 드립니다. ${say} 입니다.`, {
-      type: "VOICE", voiceOptions: { voiceType: "FEMALE",
-        headerMessage: `안녕하세요. 정치탈탈입니다. ${tels[t][0]} 의원실 직원분이 요청하신 의원실 인증 전화입니다.`,
-        tailMessage: "요청하지 않으셨다면 끊으셔도 됩니다. 감사합니다." } });
+    const r = await ofcVoice(env, tel, tels[t][0], code);
     return r.ok ? pj({ ok: true }) : pj({ ok: false, error: "send" }, 502);
   }
   if (path === "/ofc/callcheck" && post) {
@@ -1130,6 +1132,10 @@ async function handleLedger(request, env, url) {
       ]);
       const sms = smsOn(env) ? await smsSend(env, a.phone, `[정치탈탈] ${who[0]} 의원실 인증이 끝났습니다.\n지금부터 시민 한마디에 공식 답글을 달 수 있습니다.\npolitaltal.com/office/app`) : { ok: false };
       return pj({ ok: true, sms: sms.ok });
+    }
+    if (body.op === "voice_test" && /^0\d{8,10}$/.test(String(body.to || ""))) {   // ARS 시험 전화(운영자 번호로) — 발신번호와 같은 번호에는 걸 수 없다
+      const code = String(crypto.getRandomValues(new Uint32Array(1))[0] % 1e6).padStart(6, "0");
+      return pj({ ...(await ofcVoice(env, body.to, "시험", code)), code });
     }
     if (body.op === "ofc_no" && Number.isInteger(body.id)) {
       await ofcReady(env);
