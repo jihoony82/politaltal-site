@@ -36,19 +36,20 @@
   <meta name="twitter:description" content="최형두 의원 프로필 — 국민의힘 경남 창원시마산합포구 · 재선 · 1962년생·만 64세 · 소관 과학기술정보방송통신위원회 · 학력 하버드대학교 행정학석사(2001.7~2002.6). 출석률·대표발의 법안·표결 참여·재산공개 등 제22대 국회 의정활동을 공공데이터로 확인하세요.">
   <meta name="twitter:image" content="https://politaltal.com/images/og/A0P4646G.jpg">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610292219">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610292219">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610292219">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610292219">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610300024">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610300024">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610300024">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610300024">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610292219">
+  <link rel="stylesheet" href="/styles.css?v=202610300024">
+  <script>document.documentElement.classList.add("hub-js")</script><!-- 박스→카드: JS 없는 검색로봇은 전체 내용을 그대로 읽는다 -->
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610292219">
+  <link rel="manifest" href="/manifest.json?v=202610300024">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610292219">
+  <meta name="build-id" content="202610300024">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -255,11 +256,46 @@
       }).catch(function () {});
       </script>
 
-          <nav class="pv-nav" id="pvNav" aria-label="이 의원 페이지 바로가기">
-            <a href="#talk">소통</a><a href="#act">의정활동</a><a href="#assets">재산</a><a href="#bills">법안</a><a href="#contact">연락처</a>
-          </nav>
-
-          <section class="pv-sec" id="talk">
+          <div class="hub-grid">
+            <a class="hub-tile wide hero" href="#sm"><span class="hi">📮</span><b>최형두 의원 신문고</b><small>불편한 일, 바라는 일을 의원실에 직접 — 지금까지 <strong data-sm-n>0</strong>건 접수 · <strong data-sm-done>0</strong>건 답변</small><span class="hub-cta">민원·청원 넣기 ›</span></a>
+            <a class="hub-tile" href="#talk"><span class="hi">💬</span><b>한마디·응원</b><small>시민 한마디 <strong data-pc-n>-</strong>개 · 응원·팩트 폭탄</small></a>
+            <a class="hub-tile" href="#act"><span class="hi">📊</span><b>의정활동 성적표</b><small>종합 <strong>38점</strong> · 표결 참여 56%</small></a>
+            <a class="hub-tile" href="#bills"><span class="hi">📜</span><b>대표발의 법안</b><small><strong>43건</strong> · 그대로 통과 3건</small></a>
+            <a class="hub-tile" href="#assets"><span class="hi">💰</span><b>재산 공개</b><small><strong>20억</strong> · 280명 중 116위</small></a>
+            <a class="hub-tile" href="#ofcNews"><span class="hi">📣</span><b>의원실 소식</b><small>의원실이 직접 사진·영상으로 채우는 자리</small></a>
+            <a class="hub-tile" href="#contact"><span class="hi">👤</span><b>프로필·연락처</b><small>과학기술정보방송통신위원회 · 의원회관 전화·이메일</small></a>
+          </div>
+          <section class="pv-sec hub-sheet" id="sm" data-title="📮 최형두 의원 신문고"><div class="sm-box" id="smBox" data-t="p:A0P4646G" data-label="최형두 의원실">
+        <div class="sm-intro">
+          <h2>📮 최형두 의원 신문고</h2>
+          <p>불편한 일, 바라는 일을 <b>최형두 의원실</b>에 직접 전합니다. 공개 청원은 다른 시민도 '함께해요'로 힘을 보탤 수 있어요.</p>
+          <div class="sm-nums"><div><b data-sm-n>-</b><span>접수</span></div><div><b data-sm-done>-</b><span>답변 완료</span></div><div><b data-sm-priv>-</b><span>비공개 민원</span></div></div>
+          <p class="sm-ofc" id="smOfc" hidden></p>
+          <button type="button" class="sm-go" id="smGo">✍️ 민원·청원 넣기</button>
+        </div>
+        <form class="sm-form" id="smForm" hidden novalidate>
+          <div class="sm-f"><span>분야</span><div class="sm-cats"><label><input type="radio" name="cat" value="교통" checked><span>교통</span></label><label><input type="radio" name="cat" value="주거"><span>주거</span></label><label><input type="radio" name="cat" value="복지"><span>복지</span></label><label><input type="radio" name="cat" value="교육"><span>교육</span></label><label><input type="radio" name="cat" value="일자리"><span>일자리</span></label><label><input type="radio" name="cat" value="환경"><span>환경</span></label><label><input type="radio" name="cat" value="안전"><span>안전</span></label><label><input type="radio" name="cat" value="행정"><span>행정</span></label><label><input type="radio" name="cat" value="기타"><span>기타</span></label></div></div>
+          <label class="sm-f"><span>제목</span><input name="title" maxlength="60" placeholder="예: 동네 버스 배차 간격을 줄여 주세요"></label>
+          <label class="sm-f"><span>내용 <small id="smCnt">0 / 2000</small></span><textarea name="body" maxlength="2000" rows="7" placeholder="언제·어디서·무엇이 불편한지, 바라는 것을 구체적으로 적어 주세요. 남의 개인정보는 적지 마세요."></textarea></label>
+          <div class="sm-f"><span>공개 방식</span>
+            <label class="sm-r"><input type="radio" name="pub" value="1" checked><b>공개 청원</b><small>누구나 보고 '함께해요'를 누를 수 있어요</small></label>
+            <label class="sm-r"><input type="radio" name="pub" value="0"><b>비공개 민원</b><small>최형두 의원실과 운영자만 봅니다 — 주소·개인 사정이 들어가면 이쪽</small></label>
+          </div>
+          <label class="sm-f"><span>보일 이름 <small>선택 · 비우면 '시민'</small></span><input name="nick" maxlength="12" placeholder="시민"></label>
+          <div class="sm-f"><span>휴대폰 확인 <small>도배를 막고, 답변이 오면 문자로 알려 드려요</small></span>
+            <div class="sm-ph"><input name="phone" type="tel" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" autocomplete="tel"><button type="button" id="smOtp">인증번호 받기</button></div>
+            <input name="code" inputmode="numeric" maxlength="6" placeholder="문자로 받은 6자리" autocomplete="one-time-code" hidden>
+          </div>
+          <label class="sm-agree"><input type="checkbox" name="agree"><span>(필수) 개인정보 수집·이용 동의 — 휴대폰 번호는 본인 확인·답변 알림 문자에만 쓰고, 접수일부터 1년 보관 뒤 지웁니다(요청하면 바로). 비공개 민원 내용은 최형두 의원실과 운영자만 봅니다. <a href="/privacy.html" target="_blank" rel="noopener">개인정보처리방침</a></span></label>
+          <button type="submit" class="sm-submit">접수하기</button>
+          <p class="sm-msg" id="smMsg" role="status"></p>
+          <p class="sm-rule">욕설·비방·허위사실·남의 개인정보는 숨겨집니다. 접수가 곧 처리 약속은 아니며, 답변은 최형두 의원실이 직접 씁니다. 정부 국민신문고(epeople.go.kr)와는 다른 민간 서비스입니다.</p>
+        </form>
+        <div class="sm-done" id="smDone" hidden></div>
+        <div class="sm-list" id="smList"></div>
+      </div>
+      <script src="/sm.js?v=202610300024" defer></script></section>
+          <section class="pv-sec hub-sheet" id="talk" data-title="💬 최형두 의원 · 한마디·응원">
             
       <div class="pc-box" id="pcBox" data-t="p:A0P4646G">
         <div class="pc-head"><strong>💬 최형두 의원에게 한마디</strong><span class="pc-count" id="pcCount"></span>
@@ -286,10 +322,10 @@
         <p class="wp-msg" role="status"></p>
         <p class="wp-rule">응원·팩트 폭탄 모두 내 성향에 화력 +1 (하루 한 번씩). 팩트 폭탄은 국회·선관위 공개 기록 숫자만 던집니다.</p>
       </div>
-      <script src="/pc.js?v=202610292219" defer></script>
+      <script src="/pc.js?v=202610300024" defer></script>
           </section>
 
-          <section class="pv-sec" id="act">
+          <section class="pv-sec hub-sheet" id="act" data-title="📊 의정활동 성적표">
           <div class="ofn" id="ofcNews"><div class="ofn-head"><b id="ofnTitle">📣 의원실이 전하는 의정활동</b><span>의원실 제공</span></div>
             <div id="ofnList"><div class="ofn-empty" aria-hidden="true"><div><i>📷</i>현장 사진</div><div><i>▶</i>의정 영상</div><div><i>🗓</i>일정·행사</div></div>
               <p class="ofn-note">이 자리는 최형두 의원실이 직접 사진·영상으로 채웁니다. 아직 올라온 소식이 없어요.
@@ -308,7 +344,7 @@
         <span class="bd-leg"><span class="bd-dot bd-dot-orange"></span>관심사</span>
       </div>
       <div class="bigdata-cloud">
-        <span class="bd-word bd-name bd-dark" style="transform:rotate(-3deg);" data-tip="최형두 의원 (국민의힘)"><span class="bd-text">최형두</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(-3deg);" data-tip="소속 정당: 국민의힘"><span class="bd-text">국민의힘</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="출생: 1962-10-23"><span class="bd-text">64세 나이</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 공직선거법"><span class="bd-text">공직선거법 관심사</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(6deg);" data-tip="22대 국회 대표발의 43건 (가결 3건, 가결률 7%)"><span class="bd-text">43건 발의</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(-3deg);" data-tip="발의 키워드: 방송법"><span class="bd-text">방송법 관심사</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법"><span class="bd-text">정보통신망법 관심사</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="22대 국회 재선"><span class="bd-text">재선 선수</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(0deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">38</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(3deg);" data-tip="군 복무: 복무기록 미기재"><span class="bd-text">미기재 군복무</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(-6deg);" data-tip="신고 재산: 19억 5,575만원 (2025년)"><span class="bd-text">19억 557… 재산</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(6deg);" data-tip="본회의 표결 참여율 (405/720건)"><span class="bd-text">56% 출석</span></span><span class="bd-word bd-tiny bd-gray" style="transform:rotate(6deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">종합점수</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(-3deg);" data-tip="대표발의 43건 중 본회의 통과 3건"><span class="bd-text">7% 가결률</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(-3deg);" data-tip="성별: 남"><span class="bd-text">남 성별</span></span><span class="bd-word bd-medium bd-blue" style="transform:rotate(3deg);" data-tip="학력: 하버드대학교 대학원 행정학 (약력 자동 추출)"><span class="bd-text">하버드대학교 학력</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(6deg);" data-tip="과학기술정보방송통신위원회 간사"><span class="bd-text">과방위 간사</span></span>
+        <span class="bd-word bd-name bd-dark" style="transform:rotate(6deg);" data-tip="최형두 의원 (국민의힘)"><span class="bd-text">최형두</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(3deg);" data-tip="소속 정당: 국민의힘"><span class="bd-text">국민의힘</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(-3deg);" data-tip="22대 국회 재선"><span class="bd-text">재선 선수</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(6deg);" data-tip="본회의 표결 참여율 (405/720건)"><span class="bd-text">56% 출석</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(-6deg);" data-tip="과학기술정보방송통신위원회 간사"><span class="bd-text">과방위 간사</span></span><span class="bd-word bd-medium bd-gray" style="transform:rotate(0deg);" data-tip="신고 재산: 19억 5,575만원 (2025년)"><span class="bd-text">19억 557… 재산</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(0deg);" data-tip="22대 국회 대표발의 43건 (가결 3건, 가결률 7%)"><span class="bd-text">43건 발의</span></span><span class="bd-word bd-medium bd-red" style="transform:rotate(0deg);" data-tip="대표발의 43건 중 본회의 통과 3건"><span class="bd-text">7% 가결률</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(-6deg);" data-tip="성별: 남"><span class="bd-text">남 성별</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(0deg);" data-tip="발의 키워드: 공직선거법"><span class="bd-text">공직선거법 관심사</span></span><span class="bd-word bd-tiny bd-gray" style="transform:rotate(0deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">종합점수</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(6deg);" data-tip="발의 키워드: 정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법"><span class="bd-text">정보통신망법 관심사</span></span><span class="bd-word bd-medium bd-blue" style="transform:rotate(0deg);" data-tip="학력: 하버드대학교 대학원 행정학 (약력 자동 추출)"><span class="bd-text">하버드대학교 학력</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(-3deg);" data-tip="출생: 1962-10-23"><span class="bd-text">64세 나이</span></span><span class="bd-word bd-major bd-red" style="transform:rotate(6deg);" data-tip="5축 평균 점수 (만점 100) — 발의력·통과력·출석률·경험·위원회"><span class="bd-text">38</span></span><span class="bd-word bd-small bd-blue" style="transform:rotate(0deg);" data-tip="군 복무: 복무기록 미기재"><span class="bd-text">미기재 군복무</span></span><span class="bd-word bd-medium bd-orange" style="transform:rotate(-6deg);" data-tip="발의 키워드: 방송법"><span class="bd-text">방송법 관심사</span></span>
       </div>
       <div class="bd-hint">💡 단어 위에 마우스를 올리면 자세한 정보가 나옵니다</div>
     </div>
@@ -447,7 +483,7 @@
 
           </section>
 
-          <section class="pv-sec" id="assets">
+          <section class="pv-sec hub-sheet" id="assets" data-title="💰 재산 공개">
           <div class="stat-card">
             <h2>💰 재산 공개 (2025년)</h2>
             
@@ -476,7 +512,7 @@
           </div>
           </section>
 
-          <section class="pv-sec" id="bills">
+          <section class="pv-sec hub-sheet" id="bills" data-title="📜 대표발의 법안 43건">
           <div class="stat-card">
             <h2>📜 대표발의 법안 (43건)
               <span class="data-info" data-tooltip="제22대 국회 임기 동안 이 의원이 대표발의한 모든 법안. 카드 클릭 시 상세 페이지로 이동.">ⓘ</span>
@@ -502,7 +538,7 @@
     </div>
     
 
-          <section class="pv-sec" id="contact">
+          <section class="pv-sec hub-sheet" id="contact" data-title="👤 프로필·연락처">
           <div class="stat-card">
             <h2>👤 프로필·연락처</h2>
             <div class="stat-row"><span class="stat-label">학력</span><span class="stat-value" style="font-size:13px;font-weight:500;">하버드대학교 행정학석사(2001.7~2002.6)</span></div>
@@ -583,7 +619,8 @@
       <strong>본 서비스는 정부·국회·선관위 공식 서비스가 아닙니다.</strong><br>
       공공데이터(열린국회정보 OpenAPI)를 시각화한 민간 정보 플랫폼입니다.
       편향 없는 객관적 수치만 제공하며, 평가·해석은 이용자에게 위임합니다.<br>
-      데이터 기준일: 2026년 10월 29일 · 출처: open.assembly.go.kr (공공누리 제1유형)
+      데이터 기준일: 2026년 10월 30일 · 출처: open.assembly.go.kr (공공누리 제1유형)
+      <div class="dz-links"><a href="/sinmungo.html">📮 신문고</a><a href="/office" class="ofc-cta-link">🏛 의원실·단체장실 센터</a><a href="/donate.html">💝 후원</a><a href="/privacy.html">개인정보처리방침</a></div>
     </div>
     
         </div>
@@ -773,6 +810,7 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202610292219" defer></script>
+  <script src="/war.js?v=202610300024" defer></script>
+  <script src="/hub.js?v=202610300024" defer></script>
 </body>
 </html>

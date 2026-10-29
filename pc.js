@@ -91,6 +91,7 @@
     more.hidden = all || tops.length <= 1;
     more.textContent = "댓글 " + total + "개 모두 보기";
     count.textContent = total ? total.toLocaleString("ko-KR") + "개" : "";
+    [].forEach.call(document.querySelectorAll("[data-pc-n]"), function (e) { e.textContent = total.toLocaleString("ko-KR"); });   /* 박스(허브) 숫자 */
     sortBtn.hidden = !all || tops.length < 2;
     sortBtn.textContent = byLikes ? "최신순으로 보기" : "공감순으로 보기";
   }
@@ -101,7 +102,7 @@
     [].forEach.call(document.querySelectorAll("[data-ofc-off]"), function (e) { e.hidden = on; });
     var nb = $("ofcNews");
     if (!nb || !o || !o.posts || !o.posts.length) return;          /* 의원실 소식(Pro) — 최신 1개, 나머지는 더 보기. 없으면 빈자리 그대로 */
-    $("ofnTitle").textContent = "📣 " + o.name + " 의원실 소식";
+    $("ofnTitle").textContent = "📣 " + (o.label || o.name + " 의원실") + " 소식";
     var nl = $("ofnList"), nm = $("ofnMore");
     nl.textContent = "";
     function card(p) {
@@ -111,7 +112,7 @@
       if (p.body.length > 110 || p.body.split("\n").length > 3) { body.className += " clamp"; var mb = btn("ofn-open", "더 보기", function () { body.className = "ofn-body"; mb.remove(); }); c.appendChild(mb); }
       if (p.photos.length) {
         var g = el("div", "ofn-photos n" + p.photos.length);
-        p.photos.forEach(function (u) { var a = el("a"), i = el("img"); a.href = u; a.target = "_blank"; a.rel = "noopener"; i.src = u; i.alt = o.name + " 의원실 소식 사진"; i.loading = "lazy"; a.appendChild(i); g.appendChild(a); });
+        p.photos.forEach(function (u) { var a = el("a"), i = el("img"); a.href = u; a.target = "_blank"; a.rel = "noopener"; i.src = u; i.alt = (o.label || o.name) + " 소식 사진"; i.loading = "lazy"; a.appendChild(i); g.appendChild(a); });
         c.appendChild(g);
       }
       if (p.yt && p.photos.length) {                               /* 사진이 있으면 영상은 접어 둔다(한마디 칸이 밀리지 않게) */

@@ -36,19 +36,20 @@
   <meta name="twitter:description" content="말하는 대로 청기·홍기를 올리고 내리는 쉬운 게임. 맞힌 만큼 내 편(파랑·중립·빨강) 화력이 올라갑니다.">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610292219">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610292219">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610292219">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610292219">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202610300024">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202610300024">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202610300024">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202610300024">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202610292219">
+  <link rel="stylesheet" href="/styles.css?v=202610300024">
+  <script>document.documentElement.classList.add("hub-js")</script><!-- 박스→카드: JS 없는 검색로봇은 전체 내용을 그대로 읽는다 -->
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202610292219">
+  <link rel="manifest" href="/manifest.json?v=202610300024">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202610292219">
+  <meta name="build-id" content="202610300024">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -58,7 +59,7 @@
   .g-h { font-size: 27px; font-weight: 900; margin: 8px 0 4px; color: var(--color-primary); }
   .g-sub { font-size: 15.5px; line-height: 1.6; color: var(--color-text); margin: 0 0 10px; word-break: keep-all; }
   .g-team { font-size: 15px; font-weight: 800; display: flex; gap: 8px; justify-content: center; align-items: center; }
-  .g-team button { border: 1px solid var(--color-border); background: #fff; border-radius: 999px; padding: 5px 12px; font: 700 13px inherit; cursor: pointer; }
+  .g-team button { border: 1px solid var(--color-border); background: #fff; border-radius: 999px; padding: 5px 12px; font-weight: 700; font-size: 13px; font-family: inherit; cursor: pointer; }
   .g-stage { background: #fff; border-radius: 20px; box-shadow: var(--shadow-md); padding: 16px 14px 18px; margin: 12px 0; }
   .g-cmd { font-size: clamp(27px, 8.4vw, 40px); font-weight: 900; min-height: 2.7em; display: flex; align-items: center; justify-content: center;
            line-height: 1.25; word-break: keep-all; color: var(--color-primary); }
@@ -84,7 +85,7 @@
   .g-result { background: #fff7d6; border-radius: 16px; padding: 16px; margin: 12px 0; }
   .g-result[hidden] { display: none; }
   .g-result p { font-size: 21px; font-weight: 900; margin: 0 0 10px; word-break: keep-all; }
-  .g-result button, .g-result a { border: 0; border-radius: 999px; background: var(--color-primary); color: #fff; font: 800 14px inherit; padding: 10px 16px; margin: 3px; cursor: pointer; text-decoration: none; display: inline-block; }
+  .g-result button, .g-result a { border: 0; border-radius: 999px; background: var(--color-primary); color: #fff; font-weight: 800; font-size: 14px; font-family: inherit; padding: 10px 16px; margin: 3px; cursor: pointer; text-decoration: none; display: inline-block; }
   .g-how { text-align: left; font-size: 15px; line-height: 1.8; }
   .g-how ol { padding-left: 20px; margin: 6px 0; }
   @media (prefers-reduced-motion: reduce) { .g-flag .pole, .g-flag .cloth { transition: none; } }
@@ -444,6 +445,7 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202610292219" defer></script>
+  <script src="/war.js?v=202610300024" defer></script>
+  <script src="/hub.js?v=202610300024" defer></script>
 </body>
 </html>
