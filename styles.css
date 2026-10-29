@@ -2288,6 +2288,8 @@ a:hover { text-decoration: underline; }
 @keyframes hubIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .hub-js .hub-sheet.open { animation: none; } }
 .hub-bar { display: none; }
+.hub-empty { display: none; } [hidden] + .hub-empty { display: block; text-align: center; color: var(--color-text-soft); font-size: 14px; padding: 28px 10px; background: #fff; border: 1px dashed var(--color-border); border-radius: 14px; }
+.hub-more { display: block; text-align: center; margin: 14px 0 6px; padding: 12px; border-radius: 12px; background: #fff; border: 1px solid var(--color-border); font-weight: 800; color: var(--color-text); text-decoration: none; }
 .hub-js .hub-sheet .hub-bar { display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 3; margin: 0 -16px 14px; padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
   background: rgba(255,255,255,.97); border-bottom: 1px solid var(--color-border); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 .hub-bar .hub-back { border: 0; background: #f1f5f9; border-radius: 10px; padding: 8px 12px; font-weight: 800; font-size: 14px; font-family: inherit; color: var(--color-text); cursor: pointer; text-decoration: none; white-space: nowrap; }
