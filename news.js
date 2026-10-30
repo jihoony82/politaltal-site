@@ -12,7 +12,7 @@
   }
   function fill(ul, rows, ck) { ul.textContent = ''; rows.forEach(function (r) { ul.appendChild(item(r, ck)); }); }
   function pair(p, ck) {
-    var d = el('div', 'nw-pair'); d.appendChild(el('div', 'nw-pk', '⚔️ 같은 사건, 다른 제목'));
+    var d = el('div', 'nw-pair'); d.appendChild(el('div', 'nw-pk', '같은 사건, 다른 제목'));
     [['l', p.l], ['r', p.r]].forEach(function (x) {
       var a = el('a', 'nw-pl nw-pl-' + x[0]); a.href = '/news.html?id=' + x[1].id; if (ck) a.dataset.ck = ck;
       a.appendChild(el('span', 'nw-pt', x[1].title)); a.appendChild(el('span', 'nw-ps', x[1].src)); d.appendChild(a);
@@ -36,7 +36,7 @@
     return;
   }
   if (!home && !list) return;
-  fetch('/news/list?n=' + (home ? 3 : 20)).then(function (r) { return r.json(); }).then(function (d) {
+  fetch('/news/list?n=' + (home ? 6 : 20)).then(function (r) { return r.json(); }).then(function (d) {
     if (!d.ok || d.L.length < 2 || d.R.length < 2) return;
     fill($('nwL'), d.L, home ? 'home-news' : 'news-item'); fill($('nwR'), d.R, home ? 'home-news' : 'news-item');
     var ps = $('nwPairs');
