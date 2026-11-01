@@ -2096,16 +2096,14 @@ async function feedHead(res, max) {
 }
 
 // ── 정치인별 좌우 뉴스 (/news/who·/news/why) ──
-// 위 RSS 는 정치면 헤드라인뿐이라 의원 299명 중 57명만 걸린다(11-02 실측) → 구글 뉴스 검색으로 같은 6개 매체만, 최근 7일.
-// 페이지를 보는 사람이 있을 때만 받아 D1 에 2시간 둔다. 제목·링크·시각만 저장.
-// ponytail: 구글 뉴스 RSS 는 공식 API 가 아니다 — 막히면 news 표에서 이름으로 찾는다. 막힘이 잦으면 네이버 검색 API 로.
-const WHO_SITES = {
-  L: { "hani.co.kr": "한겨레", "khan.co.kr": "경향신문", "ohmynews.com": "오마이뉴스" },
-  R: { "chosun.com": "조선일보", "donga.com": "동아일보", "dailian.co.kr": "데일리안" },
+// 위 RSS 는 정치면 헤드라인뿐이라 의원 299명 중 57명만 걸린다(11-02 실측) → 네이버 뉴스 검색 API(비밀값 NAVER_SEARCH_ID·NAVER_SEARCH_SECRET)로
+// 사람별로 찾아 같은 6개 매체만 고른다. 구글 뉴스 RSS 는 Cloudflare 에서 503 으로 막힌다(11-02). 보는 사람이 있을 때만 받아 D1 에 2시간 둔다. 제목·링크·시각만 저장.
+// ponytail: 최신 100건 안에서만 고른다 — 기사가 많은 사람은 몇 시간 치뿐이라 news 표와 합친다. 모자라면 start 로 다음 쪽까지.
+const WHO_HOSTS = {
+  "hani.co.kr": ["L", "한겨레"], "khan.co.kr": ["L", "경향신문"], "ohmynews.com": ["L", "오마이뉴스"],
+  "chosun.com": ["R", "조선일보"], "donga.com": ["R", "동아일보"], "dailian.co.kr": ["R", "데일리안"],
 };
 const WHO_TTL = 2 * 3600e3, WHO_KEEP = 5, WHO_WEEK = 7 * 86400e3;
-// 이 두 곳은 기사 옆 목록 글자까지 검색에 걸려 엉뚱한 기사가 섞인다(11-02 표본 22명) → 제목에 이름이 있을 때만
-const WHO_TITLE_ONLY = new Set(["동아일보", "데일리안"]);
 // 제목에 이름이 낱말로 나오는가 — 김현 ≠ 김현지, 조국 ≠ 조국혁신당
 function whoNamed(title, name) {
   for (let i = title.indexOf(name); i >= 0; i = title.indexOf(name, i + 1)) {
@@ -2114,38 +2112,40 @@ function whoNamed(title, name) {
   }
   return false;
 }
-async function whoFeed(name, role, side) {
-  const sites = WHO_SITES[side], q = `"${name}" ${role} (${Object.keys(sites).map((s) => "site:" + s).join(" OR ")}) when:7d`;
-  const res = await fetch("https://news.google.com/rss/search?" + new URLSearchParams({ q, hl: "ko", gl: "KR", ceid: "KR:ko" }),
-    { headers: { "user-agent": "Mozilla/5.0 (politaltal.com news)" } });
-  if (!res.ok || !res.body) throw new Error("google news " + res.status);
-  const xml = await feedHead(res, 60000), out = [], seen = new Set(), now = Date.now();
-  for (const it of xml.match(/<item>[\s\S]*?<\/item>/g) || []) {
-    const src = sites[((it.match(/<source url="https?:\/\/([^"/]+)/) || [])[1] || "").replace(/^www\./, "")];
-    const title = newsText((it.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || "").replace(/ - [^-]+$/, "");
-    const link = newsText((it.match(/<link>([\s\S]*?)<\/link>/) || [])[1] || "");
-    const at = Date.parse(newsText((it.match(/<pubDate>([\s\S]*?)<\/pubDate>/) || [])[1] || ""));
-    if (!src || !title || title === src || seen.has(title) || /리스트$|연도별 콘텐츠/.test(title) || !/^https:\/\//.test(link) || !(at > now - WHO_WEEK)) continue;
-    if (WHO_TITLE_ONLY.has(src) && !whoNamed(title, name)) continue;
-    seen.add(title); out.push({ src, title: title.slice(0, 200), link, at });
+// 네이버 응답 → 6개 매체·최근 7일만
+function whoParse(items, now) {
+  const out = [];
+  for (const it of items) {
+    let host = "";
+    try { host = new URL(it.originallink).hostname.replace(/^(?:www|m|news)\./, ""); } catch (e) {}
+    const site = WHO_HOSTS[host], title = newsText(it.title || ""), at = Date.parse(it.pubDate);
+    if (site && title && at > now - WHO_WEEK) out.push({ side: site[0], src: site[1], title: title.slice(0, 200), link: it.originallink, at });
   }
-  // 제목에 이름이 나온 기사를 먼저, 그 안에서 최신순
-  return out.sort((a, b) => whoNamed(b.title, name) - whoNamed(a.title, name) || b.at - a.at).slice(0, WHO_KEEP);
+  return out;
+}
+// 한쪽 칸 — 같은 제목은 한 번, 제목에 이름이 나온 기사를 먼저, 그 안에서 최신순
+function whoPick(rows, side, name) {
+  const seen = new Set();
+  return rows.filter((r) => r.side === side && !seen.has(r.title) && seen.add(r.title))
+    .sort((a, b) => whoNamed(b.title, name) - whoNamed(a.title, name) || b.at - a.at).slice(0, WHO_KEEP)
+    .map(({ side: _, ...r }) => r);
 }
 async function whoLoad(env, t, label, old) {
   const db = env.PUSH_DB, [name, ...rest] = label.split(" "), now = Date.now();
-  const save = (j, at) => db.prepare("INSERT INTO news_who (t, j, at) VALUES (?, ?, ?) ON CONFLICT(t) DO UPDATE SET j = excluded.j, at = excluded.at").bind(t, j, at).run().then(() => j);
-  try {
-    const [L, R] = await Promise.all([whoFeed(name, rest.join(" "), "L"), whoFeed(name, rest.join(" "), "R")]);
-    return await save(JSON.stringify({ L, R }), now);
-  } catch (e) {                                                         // 구글이 막으면 모아 둔 헤드라인에서 찾고 30분 뒤 다시 시도
-    const retry = now - WHO_TTL + 30 * 60e3;
-    if (old) return save(old, retry);
-    const rows = (await db.prepare("SELECT side, src, title, link, at FROM news WHERE at > ? AND title LIKE ? ORDER BY at DESC LIMIT 40")
-      .bind(now - WHO_WEEK, "%" + name + "%").all()).results.filter((r) => whoNamed(r.title, name));
-    const pick = (s) => rows.filter((r) => r.side === s).slice(0, WHO_KEEP).map(({ side, ...r }) => r);
-    return save(JSON.stringify({ L: pick("L"), R: pick("R") }), retry);
+  const rows = (await db.prepare("SELECT side, src, title, link, at FROM news WHERE at > ? AND title LIKE ? ORDER BY at DESC LIMIT 40")
+    .bind(now - WHO_WEEK, "%" + name + "%").all()).results.filter((r) => whoNamed(r.title, name));
+  let live = false;
+  if (env.NAVER_SEARCH_ID) {
+    try {
+      const res = await fetch("https://openapi.naver.com/v1/search/news.json?" + new URLSearchParams({ query: `"${name}" ${rest.join(" ")}`, display: "100", sort: "date" }),
+        { headers: { "X-Naver-Client-Id": env.NAVER_SEARCH_ID, "X-Naver-Client-Secret": env.NAVER_SEARCH_SECRET } });
+      if (res.ok) { rows.push(...whoParse((await res.json()).items || [], now)); live = true; }
+    } catch (e) {}
   }
+  const j = !live && old ? old : JSON.stringify({ L: whoPick(rows, "L", name), R: whoPick(rows, "R", name) });   // 네이버가 안 되면 있던 결과를 두고 30분 뒤 다시
+  await db.prepare("INSERT INTO news_who (t, j, at) VALUES (?, ?, ?) ON CONFLICT(t) DO UPDATE SET j = excluded.j, at = excluded.at")
+    .bind(t, j, live ? now : now - WHO_TTL + 30 * 60e3).run();
+  return j;
 }
 
 async function newsFeed(f) {
