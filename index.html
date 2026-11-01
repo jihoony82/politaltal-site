@@ -36,20 +36,20 @@
   <meta name="twitter:description" content="공공데이터로 검증하는 제22대 국회 300명의 진짜 의정활동. 내가 뽑은 의원, 진짜 일하고 있나요?">
   <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202611020149">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202611020149">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202611020149">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202611020149">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202611020312">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202611020312">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202611020312">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202611020312">
   <meta name="theme-color" content="#0a2540">
-  <link rel="stylesheet" href="/styles.css?v=202611020149">
+  <link rel="stylesheet" href="/styles.css?v=202611020312">
   <script>document.documentElement.classList.add("hub-js")</script><!-- 박스→카드: JS 없는 검색로봇은 전체 내용을 그대로 읽는다 -->
   <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
-  <link rel="manifest" href="/manifest.json?v=202611020149">
+  <link rel="manifest" href="/manifest.json?v=202611020312">
   <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build-id" content="202611020149">
+  <meta name="build-id" content="202611020312">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="정치탈탈">
@@ -146,6 +146,13 @@
         }
       });
       document.addEventListener('DOMContentLoaded', function () {
+        var hw = document.getElementById('hwLamps');   // 홈 후원자의 벽 카드 — 켜진 자리 수
+        if (hw) wall.then(function (d) {
+          if (!d.ok) return;
+          var n = d.n || 0;
+          [].slice.call(hw.children, 0, n).forEach(function (s) { s.className = 'on'; });
+          document.getElementById('hwCount').textContent = n < 100 ? '창립 후원자석 100석 중 ' + n + '석 켜짐 · ' + (100 - n) + '석 남음' : '후원자 ' + n + '명이 함께합니다';
+        });
         var live = [].slice.call(document.querySelectorAll('.sup-live'));
         if (!live.length) return;
         var hot = fetch('/hot?p=' + encodeURIComponent(location.pathname)).then(function (r) { return r.json(); }).catch(function () { return {}; });
@@ -332,13 +339,22 @@
         <p class="nw-note">한겨레·경향신문·오마이뉴스 / 조선일보·동아일보·데일리안 정치면. 성향은 흔히 쓰는 분류이고, 제목은 언론사가 쓴 그대로입니다.</p>
         <button type="button" class="fold-more" onclick="var b=document.getElementById('nwBox');b.classList.toggle('all');this.textContent=b.classList.contains('all')?'접기':'더보기'">더보기</button>
       </section>
-      <script src="/news.js?v=202611020149" defer></script>
+      <script src="/news.js?v=202611020312" defer></script>
       <div class="rail-block">
         <div class="rail-head"><div><h2 class="rail-title">정치 비사</h2><div class="rail-sub">교과서엔 한 줄, 그날의 기록은 훨씬 길다 · 28편</div></div>
           <a href="/history.html" class="rail-more">전체 &rsaquo;</a></div>
         <div class="hs-rail"><a class="hs-rcard" href="/history.html#v=zxZDHRboWvU" data-ck="home-hist"><span class="hs-rthumb" style="background-image:url('https://i.ytimg.com/vi/zxZDHRboWvU/mqdefault.jpg')"></span><span class="hs-rtit">대통령이 늦게 출발한 그날, 17명이 돌아오지 못했다</span></a><a class="hs-rcard" href="/history.html#v=4oeKL_Z0LJg" data-ck="home-hist"><span class="hs-rthumb" style="background-image:url('https://i.ytimg.com/vi/4oeKL_Z0LJg/mqdefault.jpg')"></span><span class="hs-rtit">2,525명이 투표했고 2,524표가 한 사람에게 갔다</span></a><a class="hs-rcard" href="/history.html#v=hrD3qJBHdEE" data-ck="home-hist"><span class="hs-rthumb" style="background-image:url('https://i.ytimg.com/vi/hrD3qJBHdEE/mqdefault.jpg')"></span><span class="hs-rtit">중학생 소녀가 처음 본 육사 생도</span></a><a class="hs-rcard" href="/history.html#v=B9mU5n5X7vI" data-ck="home-hist"><span class="hs-rthumb" style="background-image:url('https://i.ytimg.com/vi/B9mU5n5X7vI/mqdefault.jpg')"></span><span class="hs-rtit">그 밤, 대통령의 재가는 없었다</span></a><a class="hs-rcard" href="/history.html#v=QFNSNo7yAw4" data-ck="home-hist"><span class="hs-rthumb" style="background-image:url('https://i.ytimg.com/vi/QFNSNo7yAw4/mqdefault.jpg')"></span><span class="hs-rtit">사형수가 대통령이 되기까지 17년</span></a><a class="hs-rcard" href="/history.html#v=scFNV1l6NWY" data-ck="home-hist"><span class="hs-rthumb" style="background-image:url('https://i.ytimg.com/vi/scFNV1l6NWY/mqdefault.jpg')"></span><span class="hs-rtit">바다에 던져지기 직전, 누군가 외쳤다 &quot;비행기다&quot;</span></a><a class="hs-rcard" href="/history.html#v=p5mtjtZqDS0" data-ck="home-hist"><span class="hs-rthumb" style="background-image:url('https://i.ytimg.com/vi/p5mtjtZqDS0/mqdefault.jpg')"></span><span class="hs-rtit">박정희와의 거리는 94만 표였다</span></a><a class="hs-rcard" href="/history.html#v=kQ7iYy8eWpU" data-ck="home-hist"><span class="hs-rthumb" style="background-image:url('https://i.ytimg.com/vi/kQ7iYy8eWpU/mqdefault.jpg')"></span><span class="hs-rtit">신부가 반지를 사 온 결혼식</span></a><a class="hs-rcard" href="/history.html#v=vxztqoW6IzU" data-ck="home-hist"><span class="hs-rthumb" style="background-image:url('https://i.ytimg.com/vi/vxztqoW6IzU/mqdefault.jpg')"></span><span class="hs-rtit">당선 이틀 만에 국회가 사라진 남자</span></a><a class="hs-rcard" href="/history.html#v=mr2DUVQhfyk" data-ck="home-hist"><span class="hs-rthumb" style="background-image:url('https://i.ytimg.com/vi/mr2DUVQhfyk/mqdefault.jpg')"></span><span class="hs-rtit">그 마을은 왜 해마다 8월 15일에 추모제를 지낼까</span></a></div>
       </div>
       </div>
+      <a class="home-wall" href="/supporters.html" data-ck="home-wall">
+        <div>
+          <p class="hw-eyebrow">시민 본회의 · 후원자의 벽</p>
+          <b class="hw-title">정치인의 일을 시민이 지켜본다</b>
+          <p class="hw-count" id="hwCount">창립 후원자석 100석</p>
+        </div>
+        <div class="hw-lamps" id="hwLamps" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <span class="hw-go">후원자의 벽 보기 →</span>
+      </a>
       <h2 class="hub-h">정치인 찾기</h2>
       <div class="hub-grid g4">
         <a class="hub-tile" href="#h-mem"><b>국회의원 300명</b><small>주제별로 골라 보기 · 전체 목록</small></a>
@@ -1748,7 +1764,7 @@
     else window.addEventListener("load", start);
   })();
   </script>
-  <script src="/war.js?v=202611020149" defer></script>
-  <script src="/hub.js?v=202611020149" defer></script>
+  <script src="/war.js?v=202611020312" defer></script>
+  <script src="/hub.js?v=202611020312" defer></script>
 </body>
 </html>

@@ -208,6 +208,18 @@ body { background: linear-gradient(115deg, #dce6ff 0%, #f1f5ff 36%, #ffffff 50%,
 .fb-line strong { font-weight: 800; }
 .sup-live, .mini-cta-text .sup-live { display: block; margin-top: 4px; font-size: 11.5px; font-weight: 700; color: var(--color-accent); }
 .sup-live[hidden] { display: none; }
+/* 홈 후원자의 벽 카드(앱·웹 공통) — 대표 11-02 '안 보이니 보이게' */
+.home-wall { display: grid; grid-template-columns: 1fr auto; gap: 14px 20px; align-items: center; margin: 20px 0 24px; padding: 20px; border-radius: 16px; background: linear-gradient(160deg, #123258, #0a2540); color: #fff; text-decoration: none; }
+.hw-eyebrow { margin: 0 0 6px; font-size: 12px; font-weight: 700; letter-spacing: .04em; color: #e9c46a; }
+.hw-title { display: block; font-size: 19px; font-weight: 800; line-height: 1.35; color: #fff; }
+.hw-count { margin: 6px 0 0; font-size: 13px; line-height: 1.4; color: #c7d3e3; }
+.hw-lamps { display: grid; grid-template-columns: repeat(10, 16px); gap: 5px; }
+.hw-lamps span { aspect-ratio: 5 / 4; border-radius: 3px; background: #1f4468; }
+.hw-lamps span.on { background: #e9c46a; box-shadow: 0 0 8px rgba(233,196,106,.65); }
+.hw-go { grid-column: 1 / -1; padding: 12px; border-radius: 10px; background: #e9c46a; color: #0a2540; font-size: 15px; font-weight: 800; text-align: center; }
+@media (max-width: 560px) { .home-wall { grid-template-columns: 1fr; } .hw-lamps { grid-template-columns: repeat(10, 1fr); } }
+/* 벽은 앱에서도 보이되, 앱 인앱결제로는 자리가 안 켜지므로(응원=화력만) '내 자리 켜기' 안내만 뺀다 */
+.in-app .wb-cta, .in-app .wb-fine { display: none !important; }
 .fb-progress-wrap { flex: 1 1 220px; min-width: 0; }
 .fb-progress-track {
   position: relative; height: 14px; background: #0a2540;
