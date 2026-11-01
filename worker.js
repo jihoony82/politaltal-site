@@ -2075,6 +2075,7 @@ async function newsReady(env) {
   await env.PUSH_DB.batch([
     env.PUSH_DB.prepare("CREATE TABLE IF NOT EXISTS news (id TEXT PRIMARY KEY, side TEXT NOT NULL, src TEXT NOT NULL, title TEXT NOT NULL, link TEXT NOT NULL, at INTEGER NOT NULL, seen INTEGER NOT NULL)"),
     env.PUSH_DB.prepare("CREATE INDEX IF NOT EXISTS news_at ON news (side, at)"),
+    env.PUSH_DB.prepare("CREATE TABLE IF NOT EXISTS news_who (t TEXT PRIMARY KEY, j TEXT NOT NULL, at INTEGER NOT NULL)"),
   ]);
   NEWS_READY = true;
 }
@@ -2084,16 +2085,73 @@ const newsText = (t) => t.replace(/<!\[CDATA\[|\]\]>/g, "").replace(/<[^>]+>/g, 
   .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&middot;/g, "·").replace(/&hellip;/g, "…").replace(/&amp;/g, "&")
   .replace(/\s+/g, " ").trim();
 
-async function newsFeed(f) {
-  // 피드 앞쪽 100KB만 읽는다(최신 기사가 앞에 있고, 큰 피드를 통째로 파싱하면 무료 요금제 CPU 한도에 걸린다)
-  const res = await fetch(f.url, { headers: { "user-agent": "Mozilla/5.0 (politaltal.com news)" }, cf: { cacheTtl: 300 } });
-  if (!res.ok || !res.body) return [];
+// 피드 앞쪽만 읽는다(최신 기사가 앞에 있고, 큰 피드를 통째로 파싱하면 무료 요금제 CPU 한도에 걸린다)
+async function feedHead(res, max) {
   const reader = res.body.getReader(), parts = [];
   let n = 0;
-  while (n < 100000) { const { done, value } = await reader.read(); if (done) break; parts.push(value); n += value.length; }
+  while (n < max) { const { done, value } = await reader.read(); if (done) break; parts.push(value); n += value.length; }
   reader.cancel().catch(() => {});
   const buf = new Uint8Array(n); let o = 0; for (const p of parts) { buf.set(p, o); o += p.length; }
-  const xml = new TextDecoder().decode(buf), out = [], now = Date.now();
+  return new TextDecoder().decode(buf);
+}
+
+// ── 정치인별 좌우 뉴스 (/news/who·/news/why) ──
+// 위 RSS 는 정치면 헤드라인뿐이라 의원 299명 중 57명만 걸린다(11-02 실측) → 구글 뉴스 검색으로 같은 6개 매체만, 최근 7일.
+// 페이지를 보는 사람이 있을 때만 받아 D1 에 2시간 둔다. 제목·링크·시각만 저장.
+// ponytail: 구글 뉴스 RSS 는 공식 API 가 아니다 — 막히면 news 표에서 이름으로 찾는다. 막힘이 잦으면 네이버 검색 API 로.
+const WHO_SITES = {
+  L: { "hani.co.kr": "한겨레", "khan.co.kr": "경향신문", "ohmynews.com": "오마이뉴스" },
+  R: { "chosun.com": "조선일보", "donga.com": "동아일보", "dailian.co.kr": "데일리안" },
+};
+const WHO_TTL = 2 * 3600e3, WHO_KEEP = 5, WHO_WEEK = 7 * 86400e3;
+// 이 두 곳은 기사 옆 목록 글자까지 검색에 걸려 엉뚱한 기사가 섞인다(11-02 표본 22명) → 제목에 이름이 있을 때만
+const WHO_TITLE_ONLY = new Set(["동아일보", "데일리안"]);
+// 제목에 이름이 낱말로 나오는가 — 김현 ≠ 김현지, 조국 ≠ 조국혁신당
+function whoNamed(title, name) {
+  for (let i = title.indexOf(name); i >= 0; i = title.indexOf(name, i + 1)) {
+    if (!/[가-힣]/.test(title[i - 1] || "") &&
+      /^(?:$|[^가-힣]|의|은|는|이|가|을|를|에|와|과|도|만|로|측|씨|대표|의원|시장|지사|군수|구청장|원내|위원|장관|총리|후보)/.test(title.slice(i + name.length))) return true;
+  }
+  return false;
+}
+async function whoFeed(name, role, side) {
+  const sites = WHO_SITES[side], q = `"${name}" ${role} (${Object.keys(sites).map((s) => "site:" + s).join(" OR ")}) when:7d`;
+  const res = await fetch("https://news.google.com/rss/search?" + new URLSearchParams({ q, hl: "ko", gl: "KR", ceid: "KR:ko" }),
+    { headers: { "user-agent": "Mozilla/5.0 (politaltal.com news)" } });
+  if (!res.ok || !res.body) throw new Error("google news " + res.status);
+  const xml = await feedHead(res, 60000), out = [], seen = new Set(), now = Date.now();
+  for (const it of xml.match(/<item>[\s\S]*?<\/item>/g) || []) {
+    const src = sites[((it.match(/<source url="https?:\/\/([^"/]+)/) || [])[1] || "").replace(/^www\./, "")];
+    const title = newsText((it.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || "").replace(/ - [^-]+$/, "");
+    const link = newsText((it.match(/<link>([\s\S]*?)<\/link>/) || [])[1] || "");
+    const at = Date.parse(newsText((it.match(/<pubDate>([\s\S]*?)<\/pubDate>/) || [])[1] || ""));
+    if (!src || !title || title === src || seen.has(title) || /리스트$|연도별 콘텐츠/.test(title) || !/^https:\/\//.test(link) || !(at > now - WHO_WEEK)) continue;
+    if (WHO_TITLE_ONLY.has(src) && !whoNamed(title, name)) continue;
+    seen.add(title); out.push({ src, title: title.slice(0, 200), link, at });
+  }
+  // 제목에 이름이 나온 기사를 먼저, 그 안에서 최신순
+  return out.sort((a, b) => whoNamed(b.title, name) - whoNamed(a.title, name) || b.at - a.at).slice(0, WHO_KEEP);
+}
+async function whoLoad(env, t, label, old) {
+  const db = env.PUSH_DB, [name, ...rest] = label.split(" "), now = Date.now();
+  const save = (j, at) => db.prepare("INSERT INTO news_who (t, j, at) VALUES (?, ?, ?) ON CONFLICT(t) DO UPDATE SET j = excluded.j, at = excluded.at").bind(t, j, at).run().then(() => j);
+  try {
+    const [L, R] = await Promise.all([whoFeed(name, rest.join(" "), "L"), whoFeed(name, rest.join(" "), "R")]);
+    return await save(JSON.stringify({ L, R }), now);
+  } catch (e) {                                                         // 구글이 막으면 모아 둔 헤드라인에서 찾고 30분 뒤 다시 시도
+    const retry = now - WHO_TTL + 30 * 60e3;
+    if (old) return save(old, retry);
+    const rows = (await db.prepare("SELECT side, src, title, link, at FROM news WHERE at > ? AND title LIKE ? ORDER BY at DESC LIMIT 40")
+      .bind(now - WHO_WEEK, "%" + name + "%").all()).results.filter((r) => whoNamed(r.title, name));
+    const pick = (s) => rows.filter((r) => r.side === s).slice(0, WHO_KEEP).map(({ side, ...r }) => r);
+    return save(JSON.stringify({ L: pick("L"), R: pick("R") }), retry);
+  }
+}
+
+async function newsFeed(f) {
+  const res = await fetch(f.url, { headers: { "user-agent": "Mozilla/5.0 (politaltal.com news)" }, cf: { cacheTtl: 300 } });
+  if (!res.ok || !res.body) return [];
+  const xml = await feedHead(res, 100000), out = [], now = Date.now();
   for (const [i, it] of (xml.match(/<item[\s>][\s\S]*?<\/item>/g) || []).slice(0, 15).entries()) {
     const title = newsText((it.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || "");
     let link = newsText((it.match(/<link>([\s\S]*?)<\/link>/) || [])[1] || "");
@@ -2169,6 +2227,27 @@ async function handleNews(request, env, url, ctx) {
     if (!item) return pj({ ok: false, error: "not found" }, 404);
     const other = await side(item.side === "L" ? "R" : "L", 8);
     return new Response(JSON.stringify({ ok: true, item, other }), { headers: cache });
+  }
+  if (path === "/news/who") {                                           // 의원·단체장 페이지 '최근 일주일 뉴스'
+    const t = url.searchParams.get("t") || "", label = (await hotNames(env, url.origin))[t];
+    if (!label) return pj({ ok: false, error: "invalid" }, 400);
+    const row = await db.prepare("SELECT j, at FROM news_who WHERE t = ?").bind(t).first();
+    if (row && Date.now() - row.at > WHO_TTL) ctx.waitUntil(whoLoad(env, t, label, row.j).catch(() => {}));
+    const j = row ? row.j : await whoLoad(env, t, label);
+    return new Response(JSON.stringify({ ok: true, ...JSON.parse(j) }), { headers: { ...cache, "cache-control": "public, max-age=300" } });
+  }
+  if (path === "/news/why") {                                           // 홈 급상승 목록 '왜 떴나' — 저장분만 읽고, 없거나 낡은 사람은 2명까지 뒤에서 채운다
+    const names = await hotNames(env, url.origin), ts = (url.searchParams.get("t") || "").split(",").filter((t) => names[t]).slice(0, 10);
+    if (!ts.length) return pj({ ok: false, error: "invalid" }, 400);
+    const got = new Map((await db.prepare(`SELECT t, j, at FROM news_who WHERE t IN (${ts.map(() => "?").join(",")})`).bind(...ts).all()).results.map((r) => [r.t, r]));
+    ts.filter((t) => !got.has(t) || Date.now() - got.get(t).at > WHO_TTL).slice(0, 2)
+      .forEach((t) => ctx.waitUntil(whoLoad(env, t, names[t], got.get(t) && got.get(t).j).catch(() => {})));
+    const rows = {};
+    for (const [t, r] of got) {
+      const x = JSON.parse(r.j), name = names[t].split(" ")[0], top = (s) => x[s].find((a) => whoNamed(a.title, name)) || null;   // 제목에 이름이 있는 기사만 '이유'로 보인다
+      rows[t] = { L: top("L"), R: top("R") };
+    }
+    return new Response(JSON.stringify({ ok: true, rows }), { headers: { ...cache, "cache-control": "public, max-age=120" } });
   }
   return pj({ ok: false, error: "not found" }, 404);
 }

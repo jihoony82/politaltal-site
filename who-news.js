@@ -3,7 +3,13 @@
   var box = document.getElementById("whoNews");
   if (!box) return;
   fetch("/news/who?t=" + encodeURIComponent(box.getAttribute("data-t"))).then(function (r) { return r.json(); }).then(function (d) {
-    if (!d.ok || !(d.L.length || d.R.length)) return;
+    if (!d.ok) return;
+    if (!d.L.length && !d.R.length) {                         /* 기사가 없으면 없다고 말한다(대표 11-02) */
+      box.querySelector(".nw-cols").hidden = true;
+      document.getElementById("whoEmpty").hidden = false;
+      box.hidden = false;
+      return;
+    }
     [["L", "whoL"], ["R", "whoR"]].forEach(function (p) {
       var ul = document.getElementById(p[1]);
       d[p[0]].forEach(function (r) {
