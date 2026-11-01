@@ -4286,3 +4286,5 @@ img.lh-card-avatar { object-fit:cover; object-position:center 20%; }
 .compare-cell.progress h4 { color: #0369a1; }
 .compare-cell.conservative { background: #fee2e2; color: #991b1b; }
 .compare-cell.conservative h4 { color: #b91c1c; }
+
+.who-news .nw-cols[hidden], .who-news .fold-more[hidden] { display: none; }
