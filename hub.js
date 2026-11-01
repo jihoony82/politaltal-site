@@ -8,14 +8,16 @@
     if (s.querySelector(":scope > .hub-bar")) return;
     var bar = document.createElement("div"), back = document.createElement("button"), t = document.createElement("b");
     bar.className = "hub-bar"; back.type = "button"; back.className = "hub-back"; back.textContent = "← 뒤로";
-    t.textContent = s.getAttribute("data-title") || ""; back.onclick = close;
+    t.textContent = (root.classList.contains("in-app") && s.getAttribute("data-title-app")) || s.getAttribute("data-title") || ""; back.onclick = close;
     bar.appendChild(back); bar.appendChild(t); s.insertBefore(bar, s.firstChild);
   });
   function open(id, push) {
     var s = document.getElementById(id);
     if (!s || !s.classList.contains("hub-sheet")) return false;
+    s.classList.add("open");
+    if (getComputedStyle(s).display === "none") { s.classList.remove("open"); return false; }   /* 앱에서 숨긴 카드(#sm·#news)로 바로 온 주소 — 빈 화면을 열지 않는다 */
     if (opened && opened !== s) opened.classList.remove("open");
-    s.classList.add("open"); s.scrollTop = 0; opened = s; root.classList.add("sheet-open");
+    s.scrollTop = 0; opened = s; root.classList.add("sheet-open");
     if (push) { history.pushState({ hub: id }, "", "#" + id); pushed = true; }
     try { window.dispatchEvent(new Event("resize")); navigator.sendBeacon("/t", JSON.stringify({ c: "sheet-" + id })); } catch (e) {}
     return true;

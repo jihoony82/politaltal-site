@@ -1,6 +1,19 @@
 {
   "updates": [
     {
+      "timestamp": "2026-11-02T01:24:44",
+      "deltas": {
+        "politicians": 0,
+        "bills": 287,
+        "passed": 0,
+        "votes": 0
+      },
+      "narrative": [
+        "📜 발의 의안: 20,080 → 20,367 (+287건)",
+        "🏆 발의 TOP 5: 윤준병, 이수진, 김선교, 문진석, 이용우"
+      ]
+    },
+    {
       "timestamp": "2026-10-26T08:21:50",
       "deltas": {
         "politicians": 0,

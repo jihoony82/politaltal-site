@@ -2187,6 +2187,8 @@ a:hover { text-decoration: underline; }
 .ofc-cta.on p { margin-bottom: 0; }
 /* 앱 안에서는 의원실 센터(웹 결제 B2B 요금 안내) 링크를 숨긴다 — 스토어 결제 규정과 엮이지 않게 */
 .in-app .ofc-cta, .in-app .pc-ofc-cta, .in-app .ofn { display: none !important; }
+/* 소식 칸(.ofn)이 없으니 그리로 가는 박스·빈 카드도 숨긴다 */
+.in-app a[href="#ofcNews"], .in-app a[href="#news"], .in-app #news { display: none !important; }
 /* 📮 신문고 */
 .sm-box { margin: 4px 0 20px; }
 .sm-intro { background: #fff; border: 1px solid var(--color-border); border-radius: 16px; padding: 16px; }
@@ -2297,6 +2299,11 @@ a:hover { text-decoration: underline; }
 @media (prefers-reduced-motion: reduce) { .hub-js .hub-sheet.open { animation: none; } }
 .hub-bar { display: none; }
 @media (min-width: 760px) { .hub-grid.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* 앱은 숨기는 박스가 있어 칸 수가 달라진다 — 남은 박스가 빈칸까지 늘어나 혼자 남는 줄이 없게(숨김을 풀어도 그대로 맞는다) */
+.in-app .hub-grid { display: flex; flex-wrap: wrap; }
+.in-app .hub-grid > .hub-tile { flex: 1 1 calc(50% - 5px); min-width: 0; }
+@media (min-width: 760px) { .in-app .hub-grid > .hub-tile { flex-basis: calc(33.34% - 7px); } .in-app .hub-grid.g4 > .hub-tile { flex-basis: calc(25% - 8px); } }
+.in-app .hub-grid > .hub-tile.wide { flex-basis: 100%; }
 .now-feed > * { margin-top: 0; }
 .now-feed .rail-block { margin: 0 0 14px; }
 .nw-box:not(.all) .nw-col li:nth-child(n+3) { display: none; }
@@ -3116,6 +3123,8 @@ a.post-card .post-cta {
 /* 인앱결제가 아직 안 켜진 앱: 후원 진입점 전부 숨김('준비 중' 화면을 보여주지 않는다) */
 .no-iap a[href^="/donate"], .no-iap a[href^="/transparency"], .no-iap a[href^="/supporters"], .no-iap .donate-banner, .no-iap .cost-cta,
 .no-iap .mini-cta, .no-iap .fundraiser-bar { display: none !important; }
+/* 📮 앱 심사 중 신문고 숨김 — 켜고 끄기는 generate.py APP_SM_LIVE 한 곳(직접 진입은 page() 머리 스크립트가 홈으로) */
+.no-sm #sm, .no-sm a[href="#sm"], .no-sm a[href^="/sinmungo"] { display: none !important; }
 /* 후원 띠가 맡던 노치(상태바) 여백을 본문이 대신 확보 — 없으면 sticky 헤더가 첫 화면을 덮는다 */
 .no-iap body { padding-top: env(safe-area-inset-top); }
 .iap-btn { border: 1px solid var(--color-border); font: inherit; cursor: pointer; width: 100%; }

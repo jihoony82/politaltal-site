@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T09:14:55",
+  "generated_at": "2026-11-02T01:25:16",
   "processed": [],
   "proposed": [
     {
@@ -772,7 +772,7 @@
       "date": "2026-11-02",
       "time": "10:00",
       "url": "https://www.assembly.go.kr/portal/na/agenda/agendaSchl.do?menuNo=600015&scheduleDivCd=ASSEM&uniqId=1100018247",
-      "is_today": false
+      "is_today": true
     }
   ]
 }
