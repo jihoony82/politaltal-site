@@ -2386,6 +2386,7 @@ html.sheet-open, html.sheet-open body { overflow: hidden; }
   .hot-box.has-why:not(.all) .hot-list li:nth-child(n+6) { display: none; }
 }
 .who-news { margin: 10px 0 14px; }
+.who-news .nw-cols[hidden], .who-news .fold-more[hidden] { display: none; }
 .nw-none { padding: 9px 2px; font-size: 12px; color: var(--color-text-soft); }
 .iss-rail, .hs-rail { display: flex; gap: 10px; overflow-x: auto; padding: 2px 2px 10px; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .iss-rail::-webkit-scrollbar, .hs-rail::-webkit-scrollbar { display: none; }
@@ -4286,5 +4287,3 @@ img.lh-card-avatar { object-fit:cover; object-position:center 20%; }
 .compare-cell.progress h4 { color: #0369a1; }
 .compare-cell.conservative { background: #fee2e2; color: #991b1b; }
 .compare-cell.conservative h4 { color: #b91c1c; }
-
-.who-news .nw-cols[hidden], .who-news .fold-more[hidden] { display: none; }
