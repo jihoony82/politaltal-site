@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-05T10:38:39",
+  "generated_at": "2026-11-05T20:26:09",
   "processed": [],
   "proposed": [
     {
@@ -763,5 +763,16 @@
       "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_9956D4447F3D463887023CAED0DFF2&ageFrom=22&ageTo=22"
     }
   ],
-  "upcoming": []
+  "upcoming": [
+    {
+      "kind": "session",
+      "session": "제439회국회(정기회)",
+      "cha": "제12차",
+      "title": "제439-12차(의사일정)",
+      "date": "2026-11-05",
+      "time": "15:00",
+      "url": "https://www.assembly.go.kr/portal/na/agenda/agendaSchl.do?menuNo=600015&scheduleDivCd=ASSEM&uniqId=1100018248",
+      "is_today": true
+    }
+  ]
 }
