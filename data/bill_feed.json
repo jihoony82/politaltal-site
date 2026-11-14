@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T10:57:50",
+  "generated_at": "2026-11-14T10:36:28",
   "processed": [
     {
       "kind": "processed",
@@ -64,29 +64,674 @@
   "proposed": [
     {
       "kind": "proposed",
-      "bill_id": "PRC_3BC569F72904472DACD39D4DE01AEE",
-      "bill_no": "2222757",
-      "bill_name": "군사기지 및 군사시설 보호법 일부개정법률안",
-      "propose_dt": "2026-11-12",
+      "bill_id": "PRC_60EA805AABE24F48AB48F3C63A84E4",
+      "bill_no": "2222815",
+      "bill_name": "문화예술진흥법 일부개정법률안",
+      "propose_dt": "2026-11-13",
       "committee": "",
       "proposer": {
-        "mona_cd": "RAJ1024Z",
-        "name": "임종득",
+        "mona_cd": "ANS8383S",
+        "name": "김대식",
         "party": "국민의힘",
-        "district": "경북 영주시영양군봉화군",
-        "url": "/politician/RAJ1024Z.html",
+        "district": "부산 사상구",
+        "url": "/politician/ANS8383S.html",
         "color": "#e2231a",
-        "text": "임종득의원 등 10인"
+        "text": "김대식의원 등 22인"
       },
-      "bill_url": "/bills/2222757.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_3BC569F72904472DACD39D4DE01AEE&ageFrom=22&ageTo=22"
+      "bill_url": "/bills/2222815.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_60EA805AABE24F48AB48F3C63A84E4&ageFrom=22&ageTo=22"
     },
     {
       "kind": "proposed",
-      "bill_id": "PRC_4936A5C31EE64424AE7CD8BA455349",
-      "bill_no": "2222756",
+      "bill_id": "PRC_5234DC1C1D6D4E1A98BE6DB14EFA35",
+      "bill_no": "2222814",
+      "bill_name": "노인장기요양보험법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "HE08888N",
+        "name": "김기웅",
+        "party": "국민의힘",
+        "district": "대구 중구남구",
+        "url": "/politician/HE08888N.html",
+        "color": "#e2231a",
+        "text": "김기웅의원 등 11인"
+      },
+      "bill_url": "/bills/2222814.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_5234DC1C1D6D4E1A98BE6DB14EFA35&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_B99D2BE165E3436F8B9C768BA1AA07",
+      "bill_no": "2222813",
+      "bill_name": "아동·청소년의 성보호에 관한 법률 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "0R68099X",
+        "name": "이수진",
+        "party": "더불어민주당",
+        "district": "경기 성남시중원구",
+        "url": "/politician/0R68099X.html",
+        "color": "#0a4ea2",
+        "text": "이수진의원 등 11인"
+      },
+      "bill_url": "/bills/2222813.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_B99D2BE165E3436F8B9C768BA1AA07&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_3D4C537687354022AF4AE5C3238F56",
+      "bill_no": "2222812",
+      "bill_name": "노인장기요양보험법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "ZDR63255",
+        "name": "소병훈",
+        "party": "더불어민주당",
+        "district": "경기 광주시갑",
+        "url": "/politician/ZDR63255.html",
+        "color": "#0a4ea2",
+        "text": "소병훈의원 등 12인"
+      },
+      "bill_url": "/bills/2222812.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_3D4C537687354022AF4AE5C3238F56&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_7E4E0AADAD1C46A58F08F3D7A373C8",
+      "bill_no": "2222811",
+      "bill_name": "통합발전회사 설립 및 지원에 관한 특별법안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": null,
+        "name": null,
+        "party": null,
+        "url": null,
+        "color": "#64748b",
+        "text": "김태선ㆍ김기현의원 등 10인"
+      },
+      "bill_url": "/bills/2222811.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_7E4E0AADAD1C46A58F08F3D7A373C8&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_1DCC95B8ABA7434BB232578770D638",
+      "bill_no": "2222810",
+      "bill_name": "전기공사업법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "4019850M",
+        "name": "박정",
+        "party": "더불어민주당",
+        "district": "경기 파주시을",
+        "url": "/politician/4019850M.html",
+        "color": "#0a4ea2",
+        "text": "박정의원 등 12인"
+      },
+      "bill_url": "/bills/2222810.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_1DCC95B8ABA7434BB232578770D638&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_D3263CEABC9042228AACE072190602",
+      "bill_no": "2222809",
+      "bill_name": "형사소송법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "NUB4941Z",
+        "name": "김한규",
+        "party": "더불어민주당",
+        "district": "제주 제주시을",
+        "url": "/politician/NUB4941Z.html",
+        "color": "#0a4ea2",
+        "text": "김한규의원 등 23인"
+      },
+      "bill_url": "/bills/2222809.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D3263CEABC9042228AACE072190602&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_644ACBD1058842ED845A544199F87A",
+      "bill_no": "2222808",
+      "bill_name": "신문 등의 진흥에 관한 법률 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "RUZ25800",
+        "name": "노종면",
+        "party": "더불어민주당",
+        "district": "인천 부평구갑",
+        "url": "/politician/RUZ25800.html",
+        "color": "#0a4ea2",
+        "text": "노종면의원 등 14인"
+      },
+      "bill_url": "/bills/2222808.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_644ACBD1058842ED845A544199F87A&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_17DD55711AE54A1D9D32D516513306",
+      "bill_no": "2222807",
+      "bill_name": "전자장치 부착 등에 관한 법률 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "NUB4941Z",
+        "name": "김한규",
+        "party": "더불어민주당",
+        "district": "제주 제주시을",
+        "url": "/politician/NUB4941Z.html",
+        "color": "#0a4ea2",
+        "text": "김한규의원 등 22인"
+      },
+      "bill_url": "/bills/2222807.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_17DD55711AE54A1D9D32D516513306&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_5845E3ED151A4DB7A9C89005A2E049",
+      "bill_no": "2222806",
+      "bill_name": "형사소송법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "JNL7001A",
+        "name": "김선교",
+        "party": "국민의힘",
+        "district": "경기 여주시양평군",
+        "url": "/politician/JNL7001A.html",
+        "color": "#e2231a",
+        "text": "김선교의원 등 10인"
+      },
+      "bill_url": "/bills/2222806.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_5845E3ED151A4DB7A9C89005A2E049&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_A9F2DEA777804CD2B190532D298327",
+      "bill_no": "2222805",
+      "bill_name": "노인복지법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "NUB4941Z",
+        "name": "김한규",
+        "party": "더불어민주당",
+        "district": "제주 제주시을",
+        "url": "/politician/NUB4941Z.html",
+        "color": "#0a4ea2",
+        "text": "김한규의원 등 24인"
+      },
+      "bill_url": "/bills/2222805.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_A9F2DEA777804CD2B190532D298327&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_C2A6Y0Z9H1I5G0G9F2D4E2L1M7L7L9",
+      "bill_no": "2222804",
+      "bill_name": "공인중개사법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "JNL7001A",
+        "name": "김선교",
+        "party": "국민의힘",
+        "district": "경기 여주시양평군",
+        "url": "/politician/JNL7001A.html",
+        "color": "#e2231a",
+        "text": "김선교의원 등 10인"
+      },
+      "bill_url": "/bills/2222804.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_C2A6Y0Z9H1I5G0G9F2D4E2L1M7L7L9&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_A61411D6741F4CA7959343B9694A54",
+      "bill_no": "2222803",
+      "bill_name": "가정폭력범죄의 처벌 등에 관한 특례법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "NUB4941Z",
+        "name": "김한규",
+        "party": "더불어민주당",
+        "district": "제주 제주시을",
+        "url": "/politician/NUB4941Z.html",
+        "color": "#0a4ea2",
+        "text": "김한규의원 등 24인"
+      },
+      "bill_url": "/bills/2222803.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_A61411D6741F4CA7959343B9694A54&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_C31304A04AA14C7C9A59B8C439224C",
+      "bill_no": "2222802",
+      "bill_name": "기초연금법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "HE08888N",
+        "name": "김기웅",
+        "party": "국민의힘",
+        "district": "대구 중구남구",
+        "url": "/politician/HE08888N.html",
+        "color": "#e2231a",
+        "text": "김기웅의원 등 10인"
+      },
+      "bill_url": "/bills/2222802.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_C31304A04AA14C7C9A59B8C439224C&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_C51A79A53EDE4C2D8AEB1CD1C163FB",
+      "bill_no": "2222801",
+      "bill_name": "조세특례제한법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "D6U6678O",
+        "name": "김주영",
+        "party": "더불어민주당",
+        "district": "경기 김포시갑",
+        "url": "/politician/D6U6678O.html",
+        "color": "#0a4ea2",
+        "text": "김주영의원 등 11인"
+      },
+      "bill_url": "/bills/2222801.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_C51A79A53EDE4C2D8AEB1CD1C163FB&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_FB255368D36E44FCB694DBCC446C4E",
+      "bill_no": "2222800",
+      "bill_name": "수산물 유통의 관리 및 지원에 관한 법률 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "JNL7001A",
+        "name": "김선교",
+        "party": "국민의힘",
+        "district": "경기 여주시양평군",
+        "url": "/politician/JNL7001A.html",
+        "color": "#e2231a",
+        "text": "김선교의원 등 10인"
+      },
+      "bill_url": "/bills/2222800.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_FB255368D36E44FCB694DBCC446C4E&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_24850DC9B3284552A39C6E5A7E043B",
+      "bill_no": "2222799",
+      "bill_name": "목재의 지속가능한 이용에 관한 법률 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "JNL7001A",
+        "name": "김선교",
+        "party": "국민의힘",
+        "district": "경기 여주시양평군",
+        "url": "/politician/JNL7001A.html",
+        "color": "#e2231a",
+        "text": "김선교의원 등 10인"
+      },
+      "bill_url": "/bills/2222799.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_24850DC9B3284552A39C6E5A7E043B&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_C0E22242A7CF406998D8253C178DC3",
+      "bill_no": "2222798",
+      "bill_name": "스토킹범죄의 처벌 등에 관한 법률 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "A494529E",
+        "name": "천준호",
+        "party": "더불어민주당",
+        "district": "서울 강북구갑",
+        "url": "/politician/A494529E.html",
+        "color": "#0a4ea2",
+        "text": "천준호의원 등 10인"
+      },
+      "bill_url": "/bills/2222798.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_C0E22242A7CF406998D8253C178DC3&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_EF4A658CA79B4A509DC96D3AD6B886",
+      "bill_no": "2222797",
+      "bill_name": "제주특별자치도 설치 및 국제자유도시 조성을 위한 특별법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "6EN68926",
+        "name": "송언석",
+        "party": "국민의힘",
+        "district": "경북 김천시",
+        "url": "/politician/6EN68926.html",
+        "color": "#e2231a",
+        "text": "송언석의원 등 10인"
+      },
+      "bill_url": "/bills/2222797.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_EF4A658CA79B4A509DC96D3AD6B886&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_ACDF6AD0CC9C49AC82144E1DBD06A9",
+      "bill_no": "2222796",
+      "bill_name": "조세특례제한법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "3UI95829",
+        "name": "김우영",
+        "party": "더불어민주당",
+        "district": "서울 은평구을",
+        "url": "/politician/3UI95829.html",
+        "color": "#0a4ea2",
+        "text": "김우영의원 등 14인"
+      },
+      "bill_url": "/bills/2222796.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_ACDF6AD0CC9C49AC82144E1DBD06A9&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_D0E2EE0A4C16480BBB3F2110FCB2CD",
+      "bill_no": "2222795",
+      "bill_name": "전기통신 이용 다중피해사기범죄의 예방 및 처벌 등에 관한 특별법안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "0VU8517U",
+        "name": "황희",
+        "party": "더불어민주당",
+        "district": "서울 양천구갑",
+        "url": "/politician/0VU8517U.html",
+        "color": "#0a4ea2",
+        "text": "황희의원 등 12인"
+      },
+      "bill_url": "/bills/2222795.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D0E2EE0A4C16480BBB3F2110FCB2CD&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_FCE0C9EAE7F047448F079737DED5E0",
+      "bill_no": "2222794",
+      "bill_name": "평화ㆍ통일 시민대화 활성화 및 지원에 관한 법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "5MD4184K",
+        "name": "홍기원",
+        "party": "더불어민주당",
+        "district": "경기 평택시갑",
+        "url": "/politician/5MD4184K.html",
+        "color": "#0a4ea2",
+        "text": "홍기원의원 등 16인"
+      },
+      "bill_url": "/bills/2222794.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_FCE0C9EAE7F047448F079737DED5E0&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_32359648FF5C46ACAD41417394CC50",
+      "bill_no": "2222793",
+      "bill_name": "통합발전회사 설립 및 지원에 관한 특별법안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "EVH1507C",
+        "name": "이헌승",
+        "party": "국민의힘",
+        "district": "부산 부산진구을",
+        "url": "/politician/EVH1507C.html",
+        "color": "#e2231a",
+        "text": "이헌승의원 등 13인"
+      },
+      "bill_url": "/bills/2222793.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_32359648FF5C46ACAD41417394CC50&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_3F1B3537D9264C8D816DC49F334343",
+      "bill_no": "2222792",
+      "bill_name": "민간임대주택에 관한 특별법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "0YT3774N",
+        "name": "황운하",
+        "party": "조국혁신당",
+        "district": "비례대표",
+        "url": "/politician/0YT3774N.html",
+        "color": "#0b8f8a",
+        "text": "황운하의원 등 11인"
+      },
+      "bill_url": "/bills/2222792.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_3F1B3537D9264C8D816DC49F334343&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_A433D21256E04712AA62F585A1893A",
+      "bill_no": "2222791",
+      "bill_name": "근로자퇴직급여 보장법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "LCZ1711I",
+        "name": "김위상",
+        "party": "국민의힘",
+        "district": "비례대표",
+        "url": "/politician/LCZ1711I.html",
+        "color": "#e2231a",
+        "text": "김위상의원 등 11인"
+      },
+      "bill_url": "/bills/2222791.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_A433D21256E04712AA62F585A1893A&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_7BAF5E7D457E4AA2BB1AD1CF7F020A",
+      "bill_no": "2222790",
+      "bill_name": "한국발전주식회사 설립 및 지원에 관한 특별법안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "EMH4976E",
+        "name": "박지혜",
+        "party": "더불어민주당",
+        "district": "경기 의정부시갑",
+        "url": "/politician/EMH4976E.html",
+        "color": "#0a4ea2",
+        "text": "박지혜의원 등 10인"
+      },
+      "bill_url": "/bills/2222790.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_7BAF5E7D457E4AA2BB1AD1CF7F020A&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_385D85B8036A45378C7A3C2A5A31F6",
+      "bill_no": "2222789",
+      "bill_name": "공공주택 특별법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "0YT3774N",
+        "name": "황운하",
+        "party": "조국혁신당",
+        "district": "비례대표",
+        "url": "/politician/0YT3774N.html",
+        "color": "#0b8f8a",
+        "text": "황운하의원 등 12인"
+      },
+      "bill_url": "/bills/2222789.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_385D85B8036A45378C7A3C2A5A31F6&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_59BF42D3D13949D591A873679E61EA",
+      "bill_no": "2222788",
+      "bill_name": "주택도시기금법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "0YT3774N",
+        "name": "황운하",
+        "party": "조국혁신당",
+        "district": "비례대표",
+        "url": "/politician/0YT3774N.html",
+        "color": "#0b8f8a",
+        "text": "황운하의원 등 12인"
+      },
+      "bill_url": "/bills/2222788.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_59BF42D3D13949D591A873679E61EA&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_U2V6T0U9S0T9A0B9A1Y3Y0W6Y9F8G9",
+      "bill_no": "2222787",
+      "bill_name": "국가유공자 등 예우 및 지원에 관한 법률 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "0YT3774N",
+        "name": "황운하",
+        "party": "조국혁신당",
+        "district": "비례대표",
+        "url": "/politician/0YT3774N.html",
+        "color": "#0b8f8a",
+        "text": "황운하의원 등 10인"
+      },
+      "bill_url": "/bills/2222787.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_U2V6T0U9S0T9A0B9A1Y3Y0W6Y9F8G9&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_D38EF8EBA71840AC97FAD71CC10022",
+      "bill_no": "2222786",
+      "bill_name": "원자력안전법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "EVH1507C",
+        "name": "이헌승",
+        "party": "국민의힘",
+        "district": "부산 부산진구을",
+        "url": "/politician/EVH1507C.html",
+        "color": "#e2231a",
+        "text": "이헌승의원 등 12인"
+      },
+      "bill_url": "/bills/2222786.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D38EF8EBA71840AC97FAD71CC10022&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_BF414E0A3B604E8095E48C6E52481B",
+      "bill_no": "2222785",
+      "bill_name": "대도시권 광역교통 관리에 관한 특별법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "0YT3774N",
+        "name": "황운하",
+        "party": "조국혁신당",
+        "district": "비례대표",
+        "url": "/politician/0YT3774N.html",
+        "color": "#0b8f8a",
+        "text": "황운하의원 등 12인"
+      },
+      "bill_url": "/bills/2222785.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_BF414E0A3B604E8095E48C6E52481B&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_363C34CF9207472C91593F5A281E5E",
+      "bill_no": "2222784",
+      "bill_name": "한국국제교류재단법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "5MD4184K",
+        "name": "홍기원",
+        "party": "더불어민주당",
+        "district": "경기 평택시갑",
+        "url": "/politician/5MD4184K.html",
+        "color": "#0a4ea2",
+        "text": "홍기원의원 등 11인"
+      },
+      "bill_url": "/bills/2222784.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_363C34CF9207472C91593F5A281E5E&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_6430AC318FF24691AF547E078BA24B",
+      "bill_no": "2222783",
+      "bill_name": "국제과학기술외교기본법안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "5MD4184K",
+        "name": "홍기원",
+        "party": "더불어민주당",
+        "district": "경기 평택시갑",
+        "url": "/politician/5MD4184K.html",
+        "color": "#0a4ea2",
+        "text": "홍기원의원 등 18인"
+      },
+      "bill_url": "/bills/2222783.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_6430AC318FF24691AF547E078BA24B&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_CB836B2270A046B780A96329D0EEF0",
+      "bill_no": "2222782",
+      "bill_name": "남북교류협력에 관한 법률 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "GP21946O",
+        "name": "박충권",
+        "party": "국민의힘",
+        "district": "비례대표",
+        "url": "/politician/GP21946O.html",
+        "color": "#e2231a",
+        "text": "박충권의원 등 18인"
+      },
+      "bill_url": "/bills/2222782.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_CB836B2270A046B780A96329D0EEF0&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_2022B20D9EFC4AB0AFEB8E6702AA56",
+      "bill_no": "2222781",
+      "bill_name": "주택법 일부개정법률안",
+      "propose_dt": "2026-11-13",
+      "committee": "",
+      "proposer": {
+        "mona_cd": "0YT3774N",
+        "name": "황운하",
+        "party": "조국혁신당",
+        "district": "비례대표",
+        "url": "/politician/0YT3774N.html",
+        "color": "#0b8f8a",
+        "text": "황운하의원 등 11인"
+      },
+      "bill_url": "/bills/2222781.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_2022B20D9EFC4AB0AFEB8E6702AA56&ageFrom=22&ageTo=22"
+    },
+    {
+      "kind": "proposed",
+      "bill_id": "PRC_FABC8D90CC1241E8BD30A764E3B40C",
+      "bill_no": "2222780",
       "bill_name": "지방세특례제한법 일부개정법률안",
-      "propose_dt": "2026-11-12",
+      "propose_dt": "2026-11-13",
       "committee": "",
       "proposer": {
         "mona_cd": "1S05899F",
@@ -97,730 +742,84 @@
         "color": "#0a4ea2",
         "text": "채현일의원 등 10인"
       },
-      "bill_url": "/bills/2222756.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_4936A5C31EE64424AE7CD8BA455349&ageFrom=22&ageTo=22"
+      "bill_url": "/bills/2222780.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_FABC8D90CC1241E8BD30A764E3B40C&ageFrom=22&ageTo=22"
     },
     {
       "kind": "proposed",
-      "bill_id": "PRC_FBC0E2FEB8D44D829A9FBC3076BE77",
-      "bill_no": "2222755",
-      "bill_name": "조세특례제한법 일부개정법률안",
-      "propose_dt": "2026-11-12",
+      "bill_id": "PRC_37C854D890104BFD9ADB1EF0F6DEDD",
+      "bill_no": "2222779",
+      "bill_name": "자동차관리법 일부개정법률안",
+      "propose_dt": "2026-11-13",
       "committee": "",
       "proposer": {
-        "mona_cd": "FH777496",
-        "name": "임호선",
+        "mona_cd": "J1G57517",
+        "name": "모경종",
         "party": "더불어민주당",
-        "district": "충북 증평군진천군음성군",
-        "url": "/politician/FH777496.html",
+        "district": "인천 서구병",
+        "url": "/politician/J1G57517.html",
         "color": "#0a4ea2",
-        "text": "임호선의원 등 11인"
+        "text": "모경종의원 등 11인"
       },
-      "bill_url": "/bills/2222755.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_FBC0E2FEB8D44D829A9FBC3076BE77&ageFrom=22&ageTo=22"
+      "bill_url": "/bills/2222779.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_37C854D890104BFD9ADB1EF0F6DEDD&ageFrom=22&ageTo=22"
     },
     {
       "kind": "proposed",
-      "bill_id": "PRC_4B2B9B4046554F4B8D98571C2074B2",
-      "bill_no": "2222754",
-      "bill_name": "교육환경 보호에 관한 법률 일부개정법률안",
-      "propose_dt": "2026-11-12",
+      "bill_id": "PRC_C2B58D9FA4EC4C56BC97FBEC2C4CC4",
+      "bill_no": "2222778",
+      "bill_name": "재외동포기본법 일부개정법률안",
+      "propose_dt": "2026-11-13",
       "committee": "",
       "proposer": {
-        "mona_cd": "EH27538E",
-        "name": "임이자",
-        "party": "국민의힘",
-        "district": "경북 상주시문경시 ",
-        "url": "/politician/EH27538E.html",
-        "color": "#e2231a",
-        "text": "임이자의원 등 11인"
-      },
-      "bill_url": "/bills/2222754.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_4B2B9B4046554F4B8D98571C2074B2&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_5B28ED18D261470F8C7FE191A999BA",
-      "bill_no": "2222753",
-      "bill_name": "치유관광산업 육성에 관한 법률 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "MQU41854",
-        "name": "조은희",
-        "party": "국민의힘",
-        "district": "서울 서초구갑",
-        "url": "/politician/MQU41854.html",
-        "color": "#e2231a",
-        "text": "조은희의원 등 10인"
-      },
-      "bill_url": "/bills/2222753.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_5B28ED18D261470F8C7FE191A999BA&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_BAA06BB2B2B04D51BDD8D239AFC684",
-      "bill_no": "2222752",
-      "bill_name": "제주4·3사건 진상규명 및 희생자 명예회복에 관한 특별법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "DOZ1588B",
-        "name": "김성범",
+        "mona_cd": "5MD4184K",
+        "name": "홍기원",
         "party": "더불어민주당",
-        "district": "제주 서귀포시",
-        "url": "/politician/DOZ1588B.html",
+        "district": "경기 평택시갑",
+        "url": "/politician/5MD4184K.html",
         "color": "#0a4ea2",
-        "text": "김성범의원 등 11인"
+        "text": "홍기원의원 등 17인"
       },
-      "bill_url": "/bills/2222752.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_BAA06BB2B2B04D51BDD8D239AFC684&ageFrom=22&ageTo=22"
+      "bill_url": "/bills/2222778.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_C2B58D9FA4EC4C56BC97FBEC2C4CC4&ageFrom=22&ageTo=22"
     },
     {
       "kind": "proposed",
-      "bill_id": "PRC_16F8DE0B14334CC98643A8C3E7894F",
-      "bill_no": "2222751",
-      "bill_name": "국가재정법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "7GW5372Y",
-        "name": "김선민",
-        "party": "조국혁신당",
-        "district": "비례대표",
-        "url": "/politician/7GW5372Y.html",
-        "color": "#0b8f8a",
-        "text": "김선민의원 등 12인"
-      },
-      "bill_url": "/bills/2222751.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_16F8DE0B14334CC98643A8C3E7894F&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_5AA86C11CE5C4FE1B0CF6B63EEB1C1",
-      "bill_no": "2222750",
-      "bill_name": "미래대응기금 설치 및 운용에 관한 법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "7GW5372Y",
-        "name": "김선민",
-        "party": "조국혁신당",
-        "district": "비례대표",
-        "url": "/politician/7GW5372Y.html",
-        "color": "#0b8f8a",
-        "text": "김선민의원 등 12인"
-      },
-      "bill_url": "/bills/2222750.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_5AA86C11CE5C4FE1B0CF6B63EEB1C1&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_2BA275E3DA24439C9B4B91CC39C6D8",
-      "bill_no": "2222749",
-      "bill_name": "유아교육법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "EH27538E",
-        "name": "임이자",
-        "party": "국민의힘",
-        "district": "경북 상주시문경시 ",
-        "url": "/politician/EH27538E.html",
-        "color": "#e2231a",
-        "text": "임이자의원 등 12인"
-      },
-      "bill_url": "/bills/2222749.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_2BA275E3DA24439C9B4B91CC39C6D8&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_2D5B55C5B5024ECB9EA6FEA4635D0D",
-      "bill_no": "2222748",
-      "bill_name": "교원의 지위 향상 및 교육활동 보호를 위한 특별법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "EH27538E",
-        "name": "임이자",
-        "party": "국민의힘",
-        "district": "경북 상주시문경시 ",
-        "url": "/politician/EH27538E.html",
-        "color": "#e2231a",
-        "text": "임이자의원 등 11인"
-      },
-      "bill_url": "/bills/2222748.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_2D5B55C5B5024ECB9EA6FEA4635D0D&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_8F503181BB4044078A40A2EBAB7E9F",
-      "bill_no": "2222747",
-      "bill_name": "공직자윤리법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "FH777496",
-        "name": "임호선",
-        "party": "더불어민주당",
-        "district": "충북 증평군진천군음성군",
-        "url": "/politician/FH777496.html",
-        "color": "#0a4ea2",
-        "text": "임호선의원 등 10인"
-      },
-      "bill_url": "/bills/2222747.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_8F503181BB4044078A40A2EBAB7E9F&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_6103188BF88E414E84CD88E556630C",
-      "bill_no": "2222746",
+      "bill_id": "PRC_622A03060576470D9B4E99F451066F",
+      "bill_no": "2222777",
       "bill_name": "응급의료에 관한 법률 일부개정법률안",
-      "propose_dt": "2026-11-12",
+      "propose_dt": "2026-11-13",
       "committee": "",
       "proposer": {
-        "mona_cd": "XR24352K",
-        "name": "서영석",
-        "party": "더불어민주당",
-        "district": "경기 부천시갑",
-        "url": "/politician/XR24352K.html",
-        "color": "#0a4ea2",
-        "text": "서영석의원 등 10인"
-      },
-      "bill_url": "/bills/2222746.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_6103188BF88E414E84CD88E556630C&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_45CC8F305BA449CABB2C6C505A6DDE",
-      "bill_no": "2222745",
-      "bill_name": "군보건의료에 관한 법률 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "KBK8836C",
-        "name": "유용원",
+        "mona_cd": "OSV9142K",
+        "name": "이만희",
         "party": "국민의힘",
-        "district": "비례대표",
-        "url": "/politician/KBK8836C.html",
+        "district": "경북 영천시청도군",
+        "url": "/politician/OSV9142K.html",
         "color": "#e2231a",
-        "text": "유용원의원 등 13인"
+        "text": "이만희의원 등 10인"
       },
-      "bill_url": "/bills/2222745.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_45CC8F305BA449CABB2C6C505A6DDE&ageFrom=22&ageTo=22"
+      "bill_url": "/bills/2222777.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_622A03060576470D9B4E99F451066F&ageFrom=22&ageTo=22"
     },
     {
       "kind": "proposed",
-      "bill_id": "PRC_P2X6X0W9W2V1V1U7U5C9B5B0Z2A8Y1",
-      "bill_no": "2222744",
-      "bill_name": "건축법 일부개정법률안",
-      "propose_dt": "2026-11-12",
+      "bill_id": "PRC_0B27E551C4BB40058E72D52FC037F4",
+      "bill_no": "2222776",
+      "bill_name": "평화통일기반조성법안",
+      "propose_dt": "2026-11-13",
       "committee": "",
       "proposer": {
-        "mona_cd": "REG96285",
-        "name": "곽규택",
-        "party": "국민의힘",
-        "district": "부산 서구동구",
-        "url": "/politician/REG96285.html",
-        "color": "#e2231a",
-        "text": "곽규택의원 등 10인"
-      },
-      "bill_url": "/bills/2222744.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_P2X6X0W9W2V1V1U7U5C9B5B0Z2A8Y1&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_0978B6EF112D4EF08CC6314DA19356",
-      "bill_no": "2222743",
-      "bill_name": "초·중등교육법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "EH27538E",
-        "name": "임이자",
-        "party": "국민의힘",
-        "district": "경북 상주시문경시 ",
-        "url": "/politician/EH27538E.html",
-        "color": "#e2231a",
-        "text": "임이자의원 등 11인"
-      },
-      "bill_url": "/bills/2222743.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_0978B6EF112D4EF08CC6314DA19356&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_107E9D407B824E58B7EE814272A278",
-      "bill_no": "2222742",
-      "bill_name": "주차장법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "RPN2293B",
-        "name": "장경태",
-        "party": "무소속",
-        "district": "서울 동대문구을",
-        "url": "/politician/RPN2293B.html",
-        "color": "#64748b",
-        "text": "장경태의원 등 10인"
-      },
-      "bill_url": "/bills/2222742.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_107E9D407B824E58B7EE814272A278&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_2FE7A8418FF74395B77FCC313C571B",
-      "bill_no": "2222741",
-      "bill_name": "한국은행법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "8O34202I",
-        "name": "김영환",
+        "mona_cd": "5MD4184K",
+        "name": "홍기원",
         "party": "더불어민주당",
-        "district": "경기 고양시정",
-        "url": "/politician/8O34202I.html",
+        "district": "경기 평택시갑",
+        "url": "/politician/5MD4184K.html",
         "color": "#0a4ea2",
-        "text": "김영환의원 등 11인"
+        "text": "홍기원의원 등 15인"
       },
-      "bill_url": "/bills/2222741.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_2FE7A8418FF74395B77FCC313C571B&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_BE20546D08DA4BEA9D1A0E64701006",
-      "bill_no": "2222740",
-      "bill_name": "지하안전관리에 관한 특별법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "RPN2293B",
-        "name": "장경태",
-        "party": "무소속",
-        "district": "서울 동대문구을",
-        "url": "/politician/RPN2293B.html",
-        "color": "#64748b",
-        "text": "장경태의원 등 10인"
-      },
-      "bill_url": "/bills/2222740.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_BE20546D08DA4BEA9D1A0E64701006&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_360EC965B0F54F25A431B281D30F0E",
-      "bill_no": "2222739",
-      "bill_name": "원도심 정비 및 지원에 관한 특별법안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "RUZ25800",
-        "name": "노종면",
-        "party": "더불어민주당",
-        "district": "인천 부평구갑",
-        "url": "/politician/RUZ25800.html",
-        "color": "#0a4ea2",
-        "text": "노종면의원 등 10인"
-      },
-      "bill_url": "/bills/2222739.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_360EC965B0F54F25A431B281D30F0E&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_92CBB2AEBCE74335B0AF44B713F72A",
-      "bill_no": "2222738",
-      "bill_name": "환경보건법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "E2B3753X",
-        "name": "박해철",
-        "party": "더불어민주당",
-        "district": "경기 안산시병",
-        "url": "/politician/E2B3753X.html",
-        "color": "#0a4ea2",
-        "text": "박해철의원 등 14인"
-      },
-      "bill_url": "/bills/2222738.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_92CBB2AEBCE74335B0AF44B713F72A&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_55703ECC24C94AC1B958A0517AB12A",
-      "bill_no": "2222737",
-      "bill_name": "건설기술 진흥법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "RPN2293B",
-        "name": "장경태",
-        "party": "무소속",
-        "district": "서울 동대문구을",
-        "url": "/politician/RPN2293B.html",
-        "color": "#64748b",
-        "text": "장경태의원 등 10인"
-      },
-      "bill_url": "/bills/2222737.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_55703ECC24C94AC1B958A0517AB12A&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_373CCF9E539A4834B8AA96EA49B27B",
-      "bill_no": "2222736",
-      "bill_name": "전기사업법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "6WK3815W",
-        "name": "김태선",
-        "party": "더불어민주당",
-        "district": "울산 동구",
-        "url": "/politician/6WK3815W.html",
-        "color": "#0a4ea2",
-        "text": "김태선의원 등 11인"
-      },
-      "bill_url": "/bills/2222736.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_373CCF9E539A4834B8AA96EA49B27B&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_072602CE386848BE9EDCCDE4A8EC58",
-      "bill_no": "2222735",
-      "bill_name": "전기안전관리법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "6WK3815W",
-        "name": "김태선",
-        "party": "더불어민주당",
-        "district": "울산 동구",
-        "url": "/politician/6WK3815W.html",
-        "color": "#0a4ea2",
-        "text": "김태선의원 등 11인"
-      },
-      "bill_url": "/bills/2222735.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_072602CE386848BE9EDCCDE4A8EC58&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_033699BCFACD4CF8AE36E33EAADB79",
-      "bill_no": "2222734",
-      "bill_name": "미술진흥법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "UQ282145",
-        "name": "이재정",
-        "party": "더불어민주당",
-        "district": "경기 안양시동안구을",
-        "url": "/politician/UQ282145.html",
-        "color": "#0a4ea2",
-        "text": "이재정의원 등 11인"
-      },
-      "bill_url": "/bills/2222734.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_033699BCFACD4CF8AE36E33EAADB79&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_D41B18411C574C4FA1FF3F043655A5",
-      "bill_no": "2222733",
-      "bill_name": "농업협동조합법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "X639721U",
-        "name": "임미애",
-        "party": "더불어민주당",
-        "district": "비례대표",
-        "url": "/politician/X639721U.html",
-        "color": "#0a4ea2",
-        "text": "임미애의원 등 14인"
-      },
-      "bill_url": "/bills/2222733.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D41B18411C574C4FA1FF3F043655A5&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_I2H6F0F8E2F4M1L1L1K9L4J1R3R5P7",
-      "bill_no": "2222732",
-      "bill_name": "조세특례제한법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "JG77046J",
-        "name": "이언주",
-        "party": "더불어민주당",
-        "district": "경기 용인시정",
-        "url": "/politician/JG77046J.html",
-        "color": "#0a4ea2",
-        "text": "이언주의원 등 10인"
-      },
-      "bill_url": "/bills/2222732.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_I2H6F0F8E2F4M1L1L1K9L4J1R3R5P7&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_4F58159012D342F0B82FA0068F2847",
-      "bill_no": "2222731",
-      "bill_name": "한국주택금융공사법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "JSA8739I",
-        "name": "손명수",
-        "party": "더불어민주당",
-        "district": "경기 용인시을",
-        "url": "/politician/JSA8739I.html",
-        "color": "#0a4ea2",
-        "text": "손명수의원 등 11인"
-      },
-      "bill_url": "/bills/2222731.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_4F58159012D342F0B82FA0068F2847&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_0EB9ED01079247178BB55D126BE007",
-      "bill_no": "2222730",
-      "bill_name": "지방교부세법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "PAO22428",
-        "name": "송영길",
-        "party": "더불어민주당",
-        "district": "인천 연수구갑",
-        "url": "/politician/PAO22428.html",
-        "color": "#0a4ea2",
-        "text": "송영길의원 등 10인"
-      },
-      "bill_url": "/bills/2222730.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_0EB9ED01079247178BB55D126BE007&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_FC79D898E5D8439EA5FB1D92AAC1B1",
-      "bill_no": "2222729",
-      "bill_name": "국가재정법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "FU87526G",
-        "name": "박수영",
-        "party": "국민의힘",
-        "district": "부산 남구",
-        "url": "/politician/FU87526G.html",
-        "color": "#e2231a",
-        "text": "박수영의원 등 13인"
-      },
-      "bill_url": "/bills/2222729.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_FC79D898E5D8439EA5FB1D92AAC1B1&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_AA9D8896011E4A62B0CFE9B508DFB5",
-      "bill_no": "2222728",
-      "bill_name": "공익신고자 보호법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "QHL3248U",
-        "name": "김남국",
-        "party": "더불어민주당",
-        "district": "경기 안산시갑",
-        "url": "/politician/QHL3248U.html",
-        "color": "#0a4ea2",
-        "text": "김남국의원 등 11인"
-      },
-      "bill_url": "/bills/2222728.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_AA9D8896011E4A62B0CFE9B508DFB5&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_284FAF29B35040FDA43E8129226692",
-      "bill_no": "2222727",
-      "bill_name": "폐기물관리법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "6WK3815W",
-        "name": "김태선",
-        "party": "더불어민주당",
-        "district": "울산 동구",
-        "url": "/politician/6WK3815W.html",
-        "color": "#0a4ea2",
-        "text": "김태선의원 등 11인"
-      },
-      "bill_url": "/bills/2222727.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_284FAF29B35040FDA43E8129226692&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_8996A7C3E36346A7B4D8320459339D",
-      "bill_no": "2222726",
-      "bill_name": "지방자치법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "RKS3658I",
-        "name": "이재관",
-        "party": "더불어민주당",
-        "district": "충남 천안시을",
-        "url": "/politician/RKS3658I.html",
-        "color": "#0a4ea2",
-        "text": "이재관의원 등 12인"
-      },
-      "bill_url": "/bills/2222726.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_8996A7C3E36346A7B4D8320459339D&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_88C3FDC3342741EE830F79F1069988",
-      "bill_no": "2222725",
-      "bill_name": "민사소송비용법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "REG96285",
-        "name": "곽규택",
-        "party": "국민의힘",
-        "district": "부산 서구동구",
-        "url": "/politician/REG96285.html",
-        "color": "#e2231a",
-        "text": "곽규택의원 등 11인"
-      },
-      "bill_url": "/bills/2222725.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_88C3FDC3342741EE830F79F1069988&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_FB3F89EDE6E44B7D87D4B855B0C684",
-      "bill_no": "2222724",
-      "bill_name": "민법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "REG96285",
-        "name": "곽규택",
-        "party": "국민의힘",
-        "district": "부산 서구동구",
-        "url": "/politician/REG96285.html",
-        "color": "#e2231a",
-        "text": "곽규택의원 등 12인"
-      },
-      "bill_url": "/bills/2222724.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_FB3F89EDE6E44B7D87D4B855B0C684&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_10F381D3E8B246C0BC6C6F6F93BEE4",
-      "bill_no": "2222723",
-      "bill_name": "보증인 보호를 위한 특별법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "MIS62075",
-        "name": "김동아",
-        "party": "더불어민주당",
-        "district": "서울 서대문구갑",
-        "url": "/politician/MIS62075.html",
-        "color": "#0a4ea2",
-        "text": "김동아의원 등 11인"
-      },
-      "bill_url": "/bills/2222723.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_10F381D3E8B246C0BC6C6F6F93BEE4&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_2BCDA08FE1F64D899DDF609E0A1C54",
-      "bill_no": "2222722",
-      "bill_name": "부동산등기 특별조치법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "MIS62075",
-        "name": "김동아",
-        "party": "더불어민주당",
-        "district": "서울 서대문구갑",
-        "url": "/politician/MIS62075.html",
-        "color": "#0a4ea2",
-        "text": "김동아의원 등 11인"
-      },
-      "bill_url": "/bills/2222722.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_2BCDA08FE1F64D899DDF609E0A1C54&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_8862D12F4D1F4522BA0DB2D17DECE1",
-      "bill_no": "2222721",
-      "bill_name": "민사소송법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "REG96285",
-        "name": "곽규택",
-        "party": "국민의힘",
-        "district": "부산 서구동구",
-        "url": "/politician/REG96285.html",
-        "color": "#e2231a",
-        "text": "곽규택의원 등 11인"
-      },
-      "bill_url": "/bills/2222721.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_8862D12F4D1F4522BA0DB2D17DECE1&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_1AE36E431022425681967556327AC5",
-      "bill_no": "2222720",
-      "bill_name": "보안관찰법 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "MIS62075",
-        "name": "김동아",
-        "party": "더불어민주당",
-        "district": "서울 서대문구갑",
-        "url": "/politician/MIS62075.html",
-        "color": "#0a4ea2",
-        "text": "김동아의원 등 11인"
-      },
-      "bill_url": "/bills/2222720.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_1AE36E431022425681967556327AC5&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_28A617D7E4D54BE0B4621E549058B1",
-      "bill_no": "2222719",
-      "bill_name": "민사소송 등에서의 전자문서 이용 등에 관한 법률 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "REG96285",
-        "name": "곽규택",
-        "party": "국민의힘",
-        "district": "부산 서구동구",
-        "url": "/politician/REG96285.html",
-        "color": "#e2231a",
-        "text": "곽규택의원 등 11인"
-      },
-      "bill_url": "/bills/2222719.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_28A617D7E4D54BE0B4621E549058B1&ageFrom=22&ageTo=22"
-    },
-    {
-      "kind": "proposed",
-      "bill_id": "PRC_8C3A54518A2846498F4E8410372470",
-      "bill_no": "2222718",
-      "bill_name": "보호소년 등의 처우에 관한 법률 일부개정법률안",
-      "propose_dt": "2026-11-12",
-      "committee": "",
-      "proposer": {
-        "mona_cd": "MIS62075",
-        "name": "김동아",
-        "party": "더불어민주당",
-        "district": "서울 서대문구갑",
-        "url": "/politician/MIS62075.html",
-        "color": "#0a4ea2",
-        "text": "김동아의원 등 11인"
-      },
-      "bill_url": "/bills/2222718.html",
-      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_8C3A54518A2846498F4E8410372470&ageFrom=22&ageTo=22"
+      "bill_url": "/bills/2222776.html",
+      "likms_url": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_0B27E551C4BB40058E72D52FC037F4&ageFrom=22&ageTo=22"
     }
   ],
   "upcoming": []
