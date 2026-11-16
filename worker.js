@@ -1626,7 +1626,7 @@ const OFC_SM_SYS = "당신은 대한민국 국회의원실(또는 시·도지사
 // 관리자(admin.html)가 들어온 후원·나간 지출을 적는다. 공개되는 것은 /ledger/summary 의
 // '지난 달까지' 월 합계·기부 영수증 링크뿐 — 메모(입금자명 등)는 관리자에게만 나간다.
 // 인증: 긴 무작위 키의 SHA-256만 둔다(공개 저장소라 키는 못 둠). 원본 = 운영자 맥 ~/.config/politaltal/ledger-admin.key
-const LEDGER_KEY_SHA256 = "6ebe63593c6e5e84afff3590aabb6bfa81172eee8ba17798da13ecace4c052e0";
+const LEDGER_KEY_SHA256 = "3fdf96902365b7c6d0515e7b57e91e43fa37fc1161a7291dbf7bc500aaef26b4";
 const LEDGER_CH = { in: ["kakaopay", "bank", "card", "appstore", "play", "etc"], out: ["server", "domain", "pgfee", "charity", "etc"] };
 let LEDGER_READY = false;
 
