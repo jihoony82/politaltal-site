@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:true,android:true},S={ios:false,android:false},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(!S[P])E.classList.add('no-sm');if(/^[/](community|post|login|data([.]html)?$)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency|supporters)/.test(location.pathname))||(!S[P]&&/^[/]sinmungo/.test(location.pathname)))location.replace('/');}</script>
+  <title>우리 동네 의원 맞히기 — 지역구 국회의원 퀴즈 | 정치탈탈</title>
+  <meta name="description" content="우리 동네 지역구 국회의원은 누구? 시·도와 지역구를 고르고 4명 중에서 맞히는 쉬운 퀴즈.">
+  <meta name="keywords" content="정치탈탈,국회의원,의정활동,출석률,발의 법안,표결,재산공개,지역구,공공데이터,22대 국회,국회의원 검색,내 지역구 의원">
+  <meta name="author" content="정치탈탈">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://politaltal.com/game-local">
+
+  <!-- 검색엔진 사이트 소유 확인 (각 사이트에서 등록 후 content 값 채우기) -->
+  <meta name="naver-site-verification" content="9e3ca58898c588a94375445bf3e90634c27da43d">
+  <meta name="google-site-verification" content="3T1zR-6vdABc-R7XTfG9TFbnljB_3DYZQroa1B6pbiE">
+  <meta name="msvalidate.01" content="50D545291AE8CB679E6A71ED05D18AC4">
+  <!-- ↑ 빙(Bing) 웹마스터: https://www.bing.com/webmasters 등록 후 받은 코드 -->
+  <!-- ↑ 다음(Daum)은 verification 메타 없음. https://register.search.daum.net 사이트 URL만 등록 -->
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="정치탈탈">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="우리 동네 의원 맞히기 — 지역구 국회의원 퀴즈 | 정치탈탈">
+  <meta property="og:description" content="우리 동네 지역구 국회의원은 누구? 시·도와 지역구를 고르고 4명 중에서 맞히는 쉬운 퀴즈.">
+  <meta property="og:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="정치탈탈 - 국회의원 의정활동 대시보드">
+  <meta property="og:url" content="https://politaltal.com/game-local">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="우리 동네 의원 맞히기 — 지역구 국회의원 퀴즈 | 정치탈탈">
+  <meta name="twitter:description" content="우리 동네 지역구 국회의원은 누구? 시·도와 지역구를 고르고 4명 중에서 맞히는 쉬운 퀴즈.">
+  <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202611162223">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202611162223">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202611162223">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202611162223">
+  <meta name="theme-color" content="#0a2540">
+  <link rel="stylesheet" href="/styles.css?v=202611162223">
+  <script>document.documentElement.classList.add("hub-js")</script><!-- 박스→카드: JS 없는 검색로봇은 전체 내용을 그대로 읽는다 -->
+  <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
+  <link rel="manifest" href="/manifest.json?v=202611162223">
+  <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="build-id" content="202611162223">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="정치탈탈">
+
+  <style>
+  .pg { max-width: 600px; }
+  .pg [hidden] { display: none !important; }
+  .pg-h { font-size: 27px; font-weight: 900; margin: 10px 0 4px; color: var(--color-primary); text-align: center; word-break: keep-all; }
+  .pg-sub { font-size: 16.5px; line-height: 1.6; text-align: center; margin: 0 0 10px; color: var(--color-text); word-break: keep-all; }
+  .pg-stage { background: #fff; border-radius: 20px; box-shadow: var(--shadow-md); padding: 16px 14px 18px; margin: 12px 0; }
+  .pg-bar { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  .pg-say { min-height: 48px; border: 1px solid var(--color-border); background: #f8fafc; border-radius: 999px; padding: 6px 16px;
+            font-family: inherit; font-size: 16px; font-weight: 800; color: var(--color-text); cursor: pointer; }
+  .pg-q { font-size: 23px; font-weight: 900; line-height: 1.45; margin: 10px 0 16px; color: var(--color-text); word-break: keep-all; overflow-wrap: anywhere; }
+  .pg-q small { display: block; font-size: 17px; font-weight: 700; color: var(--color-text-soft); margin-top: 6px; }
+  .pg-opts { display: grid; gap: 10px; }
+  .pg-opts.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .pg-opt { width: 100%; min-height: 60px; border: 2px solid var(--color-border); background: #f8fafc; border-radius: 14px; padding: 12px 12px;
+            font-family: inherit; font-size: 21px; font-weight: 800; line-height: 1.35; color: var(--color-text); cursor: pointer; text-align: center;
+            word-break: keep-all; overflow-wrap: anywhere; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  .pg-opt small { display: block; font-size: 15px; font-weight: 700; color: var(--color-text-soft); margin-top: 4px; }
+  .pg-opt:disabled { cursor: default; color: var(--color-text); opacity: 1; }
+  .pg-opt.ok { border-color: #16a34a; background: #dcfce7; } .pg-opt.no { border-color: #dc2626; background: #fee2e2; }
+  .pg-opt.done { border-color: var(--color-primary); background: #e0e7ff; }
+  .pg-fb { margin-top: 16px; font-size: 18px; line-height: 1.65; word-break: keep-all; overflow-wrap: anywhere; }
+  .pg-fb b.ok { color: #16a34a; font-size: 22px; } .pg-fb b.no { color: #dc2626; font-size: 22px; }
+  .pg-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; justify-content: center; }
+  .pg-links a, .pg-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; border: 0; border-radius: 999px;
+            background: var(--color-primary); color: #fff; font-family: inherit; font-size: 17px; font-weight: 800; padding: 10px 18px; text-decoration: none; cursor: pointer; }
+  .pg-links a.sub, .pg-btn.sub { background: #eef2f7; color: var(--color-text); }
+  .pg-big { width: 100%; min-height: 60px; font-size: 22px; border-radius: 14px; margin-top: 14px; }
+  .pg-result { background: #fff7d6; border-radius: 16px; padding: 18px 14px; margin: 12px 0; text-align: center; }
+  .pg-result p { font-size: 23px; font-weight: 900; line-height: 1.45; margin: 0 0 10px; word-break: keep-all; }
+  .pg-sel { width: 100%; min-height: 60px; font-family: inherit; font-size: 20px; font-weight: 800; border: 2px solid var(--color-border); border-radius: 14px;
+            padding: 8px 12px; background: #fff; color: var(--color-text); }
+  .pg-src { font-size: 13.5px; color: var(--color-text-soft); line-height: 1.6; margin: 8px 2px 18px; word-break: keep-all; }
+  .pg-how { font-size: 16px; line-height: 1.8; }
+  .pg-how ol { padding-left: 20px; margin: 6px 0; }
+  </style>
+  <!-- Cloudflare Web Analytics -->
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "26dbbaa3ad4d4e4a95991d64553fa612"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+  <!-- 후원 진행 배너 (사이트 최상단) — 매일 다른 감정 카피 -->
+  <div class="fundraiser-bar">
+    <div class="container fb-inner">
+      <div class="fb-copy">
+        <span class="fb-kicker">정치탈탈 후원</span>
+        <span class="fb-line" id="fbLine">
+          <strong>정치인은 4년에 한 번 옵니다.</strong> 그들의 매일은 우리가 봅니다.
+        </span>
+      </div>
+      <div class="fb-progress-wrap">
+        <div class="fb-progress-track">
+          <div class="fb-progress-fill" id="fbFill" style="width: 2%;"></div>
+          <span class="fb-progress-text" id="fbSeat">창립 후원자석 100석</span>
+        </div>
+        <div class="fb-progress-stats">
+          <span class="fb-raised" id="fbLeft">먼저 온 100명이 창립 후원자</span>
+          <span class="fb-pct" id="fbPledge">후원금은 전액 좋은 일에</span>
+        </div>
+      </div>
+      <a href="/donate.html" class="fb-donate-btn">☕ 후원하기</a>
+    </div>
+  </div>
+  <script>
+    // 후원 카피 매일 회전 (날짜 기준 → 모든 사용자에게 같은 메시지)
+    (function() {
+      const COPIES = [
+        ['정치인은 4년에 한 번 옵니다.', '그들의 매일은 우리가 봅니다.'],
+        ['투표한 의원, 그 다음은', '잊고 계셨나요?'],
+        ['선거 다음 날부터,', '우리는 추적을 시작합니다.'],
+        ['300명의 발의·표결·재산.', '잊지 않고 기록합니다.'],
+        ['그들의 무기는 잊혀짐.', '우리의 무기는 기록입니다.'],
+        ['당신의 커피값은', '전액 국민을 위한 좋은 일에 쓰입니다.'],
+        ['발의 20,818건, 통과 727건.', '우리는 그 차이를 봅니다.'],
+      ];
+      try {
+        const day = Math.floor(Date.now() / 86400000);
+        const c = COPIES[day % COPIES.length];
+        const el = document.getElementById('fbLine');
+        if (el && c) {
+          el.innerHTML = '<strong>' + c[0] + '</strong> ' + c[1];
+        }
+      } catch (e) {}
+    })();
+    // 후원자의 벽 실제 숫자(점등 수·최근 점등) — 상단 띠와 페이지 끝 후원 카드(.sup-live)가 같이 쓴다
+    (function () {
+      var ago = function (t) { var m = Math.floor((Date.now() - t) / 6e4); return m < 1 ? '방금' : m < 60 ? m + '분 전' : m < 1440 ? Math.floor(m / 60) + '시간 전' : Math.floor(m / 1440) + '일 전'; };
+      var wall = fetch('/wall/list?brief=1').then(function (r) { return r.json(); }).catch(function () { return {}; });
+      wall.then(function (d) {
+        var bar = document.querySelector('.fundraiser-bar');
+        if (!d.ok || !bar || !bar.offsetParent) return;
+        var lit = Math.min(d.n || 0, 100), s = d.last, el = document.getElementById('fbLine');
+        document.getElementById('fbFill').style.width = Math.max(lit, 2) + '%';
+        document.getElementById('fbSeat').textContent = '창립 후원자석 ' + lit + ' / 100';
+        document.getElementById('fbLeft').textContent = lit < 100 ? '창립 후원자석 ' + (100 - lit) + '석 남음' : '창립 후원자석 마감';
+        if (s && Date.now() - s.at < 3 * 864e5) {
+          var b = document.createElement('strong');
+          b.textContent = '🔔 ' + s.name + '님이 제' + s.no + '석에 불을 켰습니다';
+          el.textContent = ''; el.appendChild(b);
+          el.appendChild(document.createTextNode(' ' + ago(s.at) + (lit < 100 ? ' · 창립석 ' + (100 - lit) + '석 남음' : '')));
+        }
+      });
+      document.addEventListener('DOMContentLoaded', function () {
+        var hw = document.getElementById('hwLamps');   // 홈 후원자의 벽 카드 — 켜진 자리 수
+        if (hw) wall.then(function (d) {
+          if (!d.ok) return;
+          var n = d.n || 0;
+          [].slice.call(hw.children, 0, n).forEach(function (s) { s.className = 'on'; });
+          document.getElementById('hwCount').textContent = n < 100 ? '창립 후원자석 100석 중 ' + n + '석 켜짐 · ' + (100 - n) + '석 남음' : '후원자 ' + n + '명이 함께합니다';
+        });
+        var live = [].slice.call(document.querySelectorAll('.sup-live'));
+        if (!live.length) return;
+        var hot = fetch('/hot?p=' + encodeURIComponent(location.pathname)).then(function (r) { return r.json(); }).catch(function () { return {}; });
+        Promise.all([hot, wall]).then(function (v) {
+          var parts = [];
+          if (v[0].n >= 10) parts.push('오늘 이 페이지 조회 ' + v[0].n.toLocaleString('ko-KR') + '회');
+          if (v[1].ok) parts.push(v[1].n < 100 ? '창립 후원자석 ' + (100 - v[1].n) + '석 남음' : '후원자 ' + v[1].n + '명이 함께합니다');
+          if (!parts.length) return;
+          live.forEach(function (p) { p.textContent = parts.join(' · '); p.hidden = false; });
+        });
+      });
+    })();
+  </script>
+
+  <header class="app-header">
+    <div class="container">
+      <a href="/" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
+        <span>정치탈탈</span>
+      </a>
+      <div class="header-actions">
+        <a href="/donate.html" class="header-donate"
+           title="당신의 커피 한 잔이 정치 감시의 눈이 됩니다 👀 (월 1,000원~)">
+          <span class="hd-heart">♥</span><span class="hd-text">커피 한 잔</span>
+        </a>
+        <a href="/login.html" id="headerAuthBtn"
+           onclick="if(!location.pathname.startsWith('/login')){this.href='/login.html?return='+encodeURIComponent(location.pathname+location.search+location.hash);}"
+           style="font-size:12px;font-weight:700;padding:6px 12px;
+                                      background:var(--color-primary);color:white;
+                                      border-radius:6px;text-decoration:none;
+                                      display:flex;align-items:center;gap:6px;">
+          로그인
+        </a>
+      </div>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
+    </div>
+  </header>
+  <main>
+    <div class="container pg">
+      <a href="/games.html" class="back-link" data-ck="games-back-local">← 게임 모음</a>
+      <h1 class="pg-h">🏘 우리 동네 의원 맞히기</h1>
+      <p class="pg-sub">시·도와 지역구를 고르면<br>그 지역구 국회의원이 누구인지 맞혀 보세요.</p>
+      <div class="pg-stage">
+        <div class="pg-bar"><span id="pgScore">맞힌 문제 0개</span><button type="button" class="pg-say" id="pgSay">🔊 문제 듣기</button></div>
+        <label for="pgSido" style="font-size:17px;font-weight:800;display:block;margin:6px 0 4px;">① 시·도</label>
+        <select class="pg-sel" id="pgSido"></select>
+        <label for="pgDist" style="font-size:17px;font-weight:800;display:block;margin:12px 0 4px;">② 지역구</label>
+        <select class="pg-sel" id="pgDist"></select>
+        <button type="button" class="pg-btn sub pg-big" id="pgRand" data-ck="games-local-random" style="min-height:56px;font-size:19px;">🎲 아무 지역구나 내 주세요</button>
+        <div class="pg-q" id="pgQ" aria-live="polite"></div>
+        <div class="pg-opts" id="pgOpts"></div>
+        <div class="pg-fb" id="pgFb" aria-live="polite" hidden></div></div>
+      <div class="pg-result" id="pgResult" hidden>
+        <p id="pgRes"></p>
+        <div class="pg-links">
+          <button type="button" class="pg-btn" id="pgShare" data-ck="games-share-local">친구에게 자랑하기</button>
+          <button type="button" class="pg-btn sub" id="pgAgain" data-ck="games-again-local">▶ 한 판 더</button>
+          <a class="sub" href="/games.html" data-ck="games-more-local">다른 게임</a>
+        </div>
+      </div>
+      <p class="pg-src">출처: 국회 공개 자료(열린국회정보·의안정보) 기준 · 기준일 2026-11-16 · 숫자는 자료 그대로이며 정당은 표시하지 않습니다. 비례대표 의원은 지역구가 없어 문제에서 뺐습니다.</p>
+      <div class="stat-card pg-how"><h2>하는 법</h2><ol><li>① 시·도, ② 지역구를 고르면 문제가 나옵니다.</li>
+        <li>보기 4명 중 그 지역구 의원을 누르세요. 오답은 같은 시·도 의원들입니다.</li><li>🎲 버튼을 누르면 아무 지역구나 바로 나와요.</li></ol></div>
+    </div>
+    <script type="application/json" id="pgData">{"local":{"강원":[["TZP9391O","이철규","동해시태백시삼척시정선군","3선"],["S9U45255","이양수","속초시인제군고성군양양군","3선"],["6RD62559","박정하","원주시갑","재선"],["SQ36001H","송기헌","원주시을","3선"],["FU53642G","허영","춘천시철원군화천군양구군갑","재선"],["JQA21112","한기호","춘천시철원군화천군양구군을","4선"],["MU69217P","유상범","홍천군횡성군영월군평창군","재선"]],"경기":[["88O1334C","김성회","고양시갑","초선"],["W3U3344O","이기헌","고양시병","초선"],["BCQ55105","한준호","고양시을","재선"],["8O34202I","김영환","고양시정","초선"],["4T026790","임오경","광명시갑","재선"],["NXB3178C","김남희","광명시을","초선"],["ZDR63255","소병훈","광주시갑","3선"],["W8L9421K","안태준","광주시을","초선"],["M0A1658U","윤호중","구리시","5선"],["K5F2023J","이학영","군포시","4선"],["D6U6678O","김주영","김포시갑","재선"],["HXT76735","박상혁","김포시을","재선"],["YS38221N","최민희","남양주시갑","재선"],["OFE45081","김용민","남양주시병","재선"],["GF286398","김병주","남양주시을","재선"],["V429892C","정성호","동두천시양주시연천군갑","5선"],["9D939735","김성원","동두천시양주시연천군을","3선"],["XR24352K","서영석","부천시갑","재선"],["7YC6702R","이건태","부천시병","초선"],["3CC88975","김기표","부천시을","초선"],["YOG1280B","안철수","성남시분당구갑","4선"],["L5P27909","김은혜","성남시분당구을","재선"],["1WE5693J","김태년","성남시수정구","5선"],["0R68099X","이수진","성남시중원구","재선"],["ATB59635","김승원","수원시갑","재선"],["URX8075K","염태영","수원시무","초선"],["5765663F","김영진","수원시병","3선"],["HSS7466Y","백혜련","수원시을","3선"],["YM42715P","김준혁","수원시정","초선"],["GOC54665","문정복","시흥시갑","재선"],["IN328264","조정식","시흥시을","6선"],["QHL3248U","김남국","안산시갑","재선"],["E2B3753X","박해철","안산시병","초선"],["7YL9580G","김현","안산시을","재선"],["MQK9493H","윤종군","안성시","초선"],["TZ228122","민병덕","안양시동안구갑","재선"],["UQ282145","이재정","안양시동안구을","3선"],["8P37634C","강득구","안양시만안구","재선"],["JNL7001A","김선교","여주시양평군","재선"],["RC885085","차지호","오산시","초선"],["W8W95421","이상식","용인시갑","초선"],["6I88973D","부승찬","용인시병","초선"],["JSA8739I","손명수","용인시을","초선"],["JG77046J","이언주","용인시정","3선"],["WTR5885Y","이소영","의왕시과천시","재선"],["EMH4976E","박지혜","의정부시갑","초선"],["3LP22204","이재강","의정부시을","초선"],["CNW5754J","송석준","이천시","3선"],["O7R5461J","윤후덕","파주시갑","4선"],["4019850M","박정","파주시을","3선"],["5MD4184K","홍기원","평택시갑","재선"],["6VC83722","김현정","평택시병","초선"],["MRK4871S","유의동","평택시을","4선"],["EPI69383","김용태","포천시가평군","초선"],["4A067125","이광재","하남시갑","4선"],["NB64509Z","김용만","하남시을","초선"],["3249208I","송옥주","화성시갑","3선"],["C7E79345","권칠승","화성시병","3선"],["QWL7778X","이준석","화성시을","초선"],["TJW93720","전용기","화성시정","재선"]],"경남":[["MR210505","서일준","거제시","재선"],["O6D8329R","민홍철","김해시갑","4선"],["9LD2641Q","김정호","김해시을","3선"],["VA04150X","박상웅","밀양시의령군함안군창녕군","초선"],["JP222486","서천호","사천시남해군하동군","초선"],["RMC1840P","신성범","산청군함양군거창군합천군","3선"],["9VR65006","윤영석","양산시갑","4선"],["P0F1530P","김태호","양산시을","4선"],["W4X85128","박대출","진주시갑","4선"],["GX22581L","강민국","진주시을","재선"],["A0P4646G","최형두","창원시마산합포구","재선"],["8X15119P","윤한홍","창원시마산회원구","3선"],["HHB5652A","허성무","창원시성산구","초선"],["N378078V","김종양","창원시의창구","초선"],["NLS46526","이종욱","창원시진해구","초선"],["LJK4960Z","정점식","통영시고성군","3선"]],"경북":[["3NI5978A","조지연","경산시","초선"],["ZYP7962W","김석기","경주시","3선"],["PFG2137X","정희용","고령군성주군칠곡군","재선"],["7469929V","구자근","구미시갑","재선"],["9901388T","강명구","구미시을","초선"],["6EN68926","송언석","김천시","3선"],["EH27538E","임이자","상주시문경시","3선"],["JEZ3130Q","김형동","안동시예천군","재선"],["RAJ1024Z","임종득","영주시영양군봉화군","초선"],["OSV9142K","이만희","영천시청도군","3선"],["6U243644","박형수","의성군청송군영덕군울진군","재선"],["8L52480G","이상휘","포항시남구울릉군","초선"],["E1J8836Y","김정재","포항시북구","3선"]],"대구":[["JZV5283U","유영하","달서구갑","초선"],["LYY5513O","권영진","달서구병","재선"],["ZRF3039U","윤재옥","달서구을","4선"],["29V4537Y","이진숙","달성군","초선"],["UF53617M","최은석","동구군위군갑","초선"],["L2I9861C","강대식","동구군위군을","재선"],["8UC4779G","우재준","북구갑","초선"],["5K93695T","김승수","북구을","재선"],["1Y73132H","김상훈","서구","4선"],["8SV6917G","주호영","수성구갑","6선"],["DWK26447","이인선","수성구을","재선"],["HE08888N","김기웅","중구남구","초선"]],"대전":[["HVV5250J","박정현","대덕구","초선"],["2NV6751W","장철민","동구","재선"],["CIZ8557P","장종태","서구갑","초선"],["7R156073","박범계","서구을","4선"],["FYI20317","조승래","유성구갑","3선"],["T6A6557F","황정아","유성구을","초선"],["1JI2689F","박용갑","중구","초선"]],"부산":[["LH97552Q","김도읍","강서구","4선"],["CAA7713A","백종헌","금정구","재선"],["DAY6557K","정동만","기장군","재선"],["FU87526G","박수영","남구","재선"],["P7U7800Z","서지영","동래구","초선"],["CGW7415Z","정성국","부산진구갑","초선"],["EVH1507C","이헌승","부산진구을","4선"],["5DC8083A","한동훈","북구갑","초선"],["NX534083","박성훈","북구을","초선"],["ANS8383S","김대식","사상구","초선"],["WXJ8352N","이성권","사하구갑","재선"],["5KV82250","조경태","사하구을","6선"],["REG96285","곽규택","서구동구","초선"],["8XE7026P","정연욱","수영구","초선"],["HRG9655C","김희정","연제구","3선"],["ME83002L","조승환","중구영도구","초선"],["GJK57930","주진우","해운대구갑","초선"],["3BC6890E","김미애","해운대구을","재선"]],"서울":[["QQ429063","서명옥","강남구갑","초선"],["HS39431V","고동진","강남구병","초선"],["Y0X4618N","박수민","강남구을","초선"],["68P7228G","진선미","강동구갑","4선"],["CCU1009B","이해식","강동구을","재선"],["A494529E","천준호","강북구갑","재선"],["8JG4358H","한민수","강북구을","초선"],["MNZ4401T","강선우","강서구갑","재선"],["XPP2564T","한정애","강서구병","4선"],["3C23171A","진성준","강서구을","3선"],["M4O5221T","박민규","관악구갑","초선"],["UHB5553T","정태호","관악구을","재선"],["5762459L","이정헌","광진구갑","초선"],["WCD5518S","고민정","광진구을","재선"],["3ZR4438W","이인영","구로구갑","5선"],["GP07421U","윤건영","구로구을","재선"],["I5I2468R","최기상","금천구","재선"],["XBT9550Q","우원식","노원구갑","5선"],["XSP20229","김성환","노원구을","3선"],["57B28032","김재섭","도봉구갑","초선"],["OIA3741M","오기형","도봉구을","재선"],["TST4507I","안규백","동대문구갑","5선"],["RPN2293B","장경태","동대문구을","재선"],["8Q88373R","김병기","동작구갑","3선"],["SLW27496","나경원","동작구을","5선"],["WJL30106","조정훈","마포구갑","재선"],["2385336L","정청래","마포구을","4선"],["MIS62075","김동아","서대문구갑","초선"],["7BM2933Y","김영호","서대문구을","3선"],["MQU41854","조은희","서초구갑","재선"],["OWD1018N","신동욱","서초구을","초선"],["B7D7534L","김영배","성북구갑","재선"],["IUX1829H","김남근","성북구을","초선"],["AEJ19639","박정훈","송파구갑","초선"],["04T3751T","남인순","송파구병","4선"],["4X525582","배현진","송파구을","재선"],["0VU8517U","황희","양천구갑","3선"],["9JF4562W","이용선","양천구을","재선"],["1S05899F","채현일","영등포구갑","초선"],["MLH1404S","김민석","영등포구을","4선"],["LG63087O","권영세","용산구","5선"],["6AU2417B","박주민","은평구갑","3선"],["3UI95829","김우영","은평구을","초선"],["FIE6569O","곽상언","종로구","초선"],["25G2571T","전현희","중구성동구갑","3선"],["IL74008M","박성준","중구성동구을","재선"],["TKJ4800F","서영교","중랑구갑","4선"],["S824682L","박홍근","중랑구을","4선"]],"세종":[["M2Q9024I","김종민","갑","3선"],["5KV96424","강준현","을","재선"]],"울산":[["7ZS19508","김태규","남구갑","초선"],["X7I4680R","김기현","남구을","5선"],["6WK3815W","김태선","동구","초선"],["3TP65086","윤종오","북구","재선"],["L7J93733","서범수","울주군","재선"],["X3170462","박성민","중구","재선"]],"인천":[["GX38539O","유동수","계양구갑","3선"],["SKP6181Y","김남준","계양구을","초선"],["FJK3396E","맹성규","남동구갑","3선"],["2S73768V","이훈기","남동구을","초선"],["VCP96419","허종식","동구미추홀구갑","재선"],["MSY7784L","윤상현","동구미추홀구을","5선"],["RUZ25800","노종면","부평구갑","초선"],["VZA76236","박선원","부평구을","초선"],["X1K3667J","김교흥","서구갑","3선"],["J1G57517","모경종","서구병","초선"],["6K79158C","이용우","서구을","초선"],["PAO22428","송영길","연수구갑","6선"],["LT72093S","정일영","연수구을","재선"],["QQP4727N","배준영","중구강화군옹진군","재선"]],"전남광주통합특별시":[["GRP3908I","문금주","고흥군보성군장흥군강진군","초선"],["IWR8966I","박균택","광산구갑","초선"],["JVK71445","임문영","광산구을","초선"],["M7O7878U","신정훈","나주시화순군","3선"],["I7R13867","이개호","담양군함평군영광군장성군","4선"],["9HE7226N","정진욱","동구남구갑","초선"],["EB16073M","안도걸","동구남구을","초선"],["4L695580","김원이","목포시","재선"],["IC499858","정준호","북구갑","초선"],["QUR40502","전진숙","북구을","초선"],["ZKB18611","조인철","서구갑","초선"],["CK143054","양부남","서구을","초선"],["86R9476S","김문수","순천시광양시곡성군구례군갑","초선"],["EFU76868","권향엽","순천시광양시곡성군구례군을","초선"],["T465023H","주철현","여수시갑","재선"],["8TU8443O","조계원","여수시을","초선"],["FOK3459D","서삼석","영암군무안군신안군","3선"],["8BF5855P","박지원","해남군완도군진도군","5선"]],"전북":[["FIC9046Z","김의겸","군산시김제시부안군갑","재선"],["H7X3372O","박지원","군산시김제시부안군을","초선"],["43Q3892U","박희승","남원시장수군임실군순창군","초선"],["XEF29171","안호영","완주군진안군무주군","3선"],["V2R7430Z","이춘석","익산시갑","4선"],["H5476989","한병도","익산시을","3선"],["JZY9937U","김윤덕","전주시갑","3선"],["ARP89147","정동영","전주시병","5선"],["N2P9317N","이성윤","전주시을","초선"],["JC14718Q","윤준병","정읍시고창군","재선"]],"제주":[["DOZ1588B","김성범","서귀포시","초선"],["D9I3309M","문대림","제주시갑","초선"],["NUB4941Z","김한규","제주시을","재선"]],"충남":[["W0154979","윤용근","공주시부여군청양군","초선"],["RJH6314D","황명선","논산시계룡시금산군","초선"],["8FB1535Y","어기구","당진시","3선"],["KFM1081G","장동혁","보령시서천군","재선"],["7XY7109I","성일종","서산시태안군","3선"],["GJ56729D","복기왕","아산시갑","재선"],["FYG6302V","전은수","아산시을","초선"],["4U29186R","문진석","천안시갑","재선"],["O0I2045I","이정문","천안시병","재선"],["RKS3658I","이재관","천안시을","초선"],["42K7317Y","강승규","홍성군예산군","재선"]],"충북":[["N4R2421C","박덕흠","보은군옥천군영동군괴산군","4선"],["8348421R","엄태영","제천시단양군","재선"],["FH777496","임호선","증평군진천군음성군","재선"],["AEO5706C","이강일","청주시상당구","초선"],["95J3282H","이광희","청주시서원구","초선"],["RG972910","송재봉","청주시청원구","초선"],["EBH1101V","이연희","청주시흥덕구","초선"],["HSW1214Q","이종배","충주시","4선"]]},"sidos":["경기","서울","부산","전남광주통합특별시","경남","인천","경북","대구","충남","전북","충북","강원","대전","울산","제주","세종"]}</script>
+    
+<script>
+var PG = (function () {
+  var $ = function (id) { return document.getElementById(id); };
+  function say(t) {
+    if (!window.speechSynthesis) return;
+    try { speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = "ko-KR"; u.rate = 0.95; speechSynthesis.speak(u); } catch (e) {}
+  }
+  function get(k, d) { try { var v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }
+  function set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function share(btn, title, text, url) {
+    if (navigator.share) navigator.share({ title: title, text: text, url: url }).catch(function () {});
+    else if (navigator.clipboard) navigator.clipboard.writeText(text + " " + url).then(function () { btn.textContent = "복사했어요"; });
+  }
+  function shuffle(a, r) { r = r || Math.random; for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(r() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function rng(seed) {   /* 같은 날엔 같은 문제가 나오게 하는 고정 난수 */
+    var s = seed >>> 0;
+    return function () { s = (s + 0x6D2B79F5) >>> 0; var t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  }
+  function today() { return new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10); }   /* 한국 시각 날짜 */
+  function dayNum(s) { return Math.floor(Date.parse(s + "T00:00:00Z") / 864e5); }
+  function data() { return JSON.parse($("pgData").textContent); }
+  /* 보기 버튼 만들기 — labels: 글자 또는 [큰 글자, 작은 글자] */
+  function opts(box, labels, onPick) {
+    box.innerHTML = ""; box.removeAttribute("data-done");
+    labels.forEach(function (l, i) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "pg-opt";
+      if (typeof l === "string") b.textContent = l;
+      else { b.textContent = l[0]; var s = document.createElement("small"); s.textContent = l[1]; b.appendChild(s); }
+      b.onclick = function () { if (box.getAttribute("data-done")) return; box.setAttribute("data-done", "1"); onPick(i, b); };
+      box.appendChild(b);
+    });
+  }
+  function mark(box, right, picked) {
+    var bs = box.children;
+    for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; if (i === right) bs[i].classList.add("ok"); else if (i === picked) bs[i].classList.add("no"); }
+  }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function link(href, text, ck, sub) { var a = el("a", sub ? "sub" : "", text); a.href = href; if (ck) a.setAttribute("data-ck", ck); return a; }
+  var NO = ["1번", "2번", "3번", "4번"];
+  function readQ(q, labels) {
+    say(q + ". " + labels.map(function (l, i) { return NO[i] + ", " + (typeof l === "string" ? l : l[0]); }).join(". "));
+  }
+  var ag = $("pgAgain"), sh = $("pgShare");   /* 한 판 더 → 공유 버튼 글자 되돌리기 */
+  if (ag && sh) ag.addEventListener("click", function () { sh.textContent = "친구에게 자랑하기"; });
+  return { $: $, say: say, get: get, set: set, share: share, shuffle: shuffle, rng: rng, today: today, dayNum: dayNum,
+           data: data, opts: opts, mark: mark, el: el, link: link, readQ: readQ };
+})();
+</script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      var D = PG.data(), L = D.local, S = D.sidos, $ = PG.$, right = 0, tried = 0, lastRead = null;
+      S.forEach(function (s) { var o = PG.el("option", "", s + " (" + L[s].length + "곳)"); o.value = s; $("pgSido").appendChild(o); });
+      function fill() {
+        var s = $("pgSido").value, d = $("pgDist"); d.innerHTML = "";
+        d.appendChild(PG.el("option", "", "지역구를 고르세요"));
+        L[s].forEach(function (r, i) { var o = PG.el("option", "", r[2]); o.value = i; d.appendChild(o); });
+        $("pgQ").textContent = ""; $("pgOpts").innerHTML = ""; $("pgFb").hidden = true;
+      }
+      function ask(s, i) {
+        var r = L[s][i], pool = L[s].filter(function (x) { return x[0] !== r[0]; });
+        if (pool.length < 3) Object.keys(L).forEach(function (k) { if (k !== s) pool = pool.concat(L[k]); });
+        var names = {}; names[r[1]] = 1;
+        var wrong = PG.shuffle(pool.slice()).filter(function (x) { if (names[x[1]]) return false; names[x[1]] = 1; return true; }).slice(0, 3);
+        var o = PG.shuffle(wrong.concat([r]));
+        $("pgQ").innerHTML = ""; $("pgQ").appendChild(document.createTextNode("「" + s + " " + r[2] + "」 지역구 국회의원은 누구일까요?"));
+        $("pgFb").hidden = true;
+        var labels = o.map(function (x) { return x[1]; });
+        lastRead = [s + " " + r[2] + " 지역구 국회의원은 누구일까요?", labels];
+        PG.opts($("pgOpts"), labels, function (k) {
+          var ok = o[k] === r, fb = $("pgFb");
+          tried++; if (ok) right++;
+          PG.mark($("pgOpts"), o.indexOf(r), k);
+          $("pgScore").textContent = "맞힌 문제 " + right + "개 / " + tried + "문제";
+          fb.innerHTML = ""; fb.hidden = false;
+          fb.appendChild(PG.el("b", ok ? "ok" : "no", ok ? "⭕ 정답!" : "❌ 아쉬워요"));
+          fb.appendChild(PG.el("div", "", s + " " + r[2] + " 지역구 의원은 " + r[1] + " 의원" + (r[3] ? "(" + r[3] + ")" : "") + "입니다."));
+          var ln = PG.el("div", "pg-links");
+          ln.appendChild(PG.link("/politician/" + r[0] + ".html", r[1] + " 의원 성적표", "games-local-card"));
+          ln.appendChild(PG.link("/sinmungo.html", "📮 신문고에 민원 넣기", "games-local-sm", true));
+          var nx = PG.el("button", "pg-btn sub", "🎲 다른 지역구"); nx.type = "button"; nx.setAttribute("data-ck", "games-local-next"); nx.onclick = rand;
+          ln.appendChild(nx);
+          fb.appendChild(ln);
+          PG.say(ok ? "정답" : "아쉬워요. 정답은 " + r[1] + " 의원");
+          if (tried >= 5 && tried % 5 === 0) { $("pgResult").hidden = false; $("pgRes").textContent = tried + "문제 중 " + right + "개 맞혔어요!"; }
+        });
+      }
+      function rand() {
+        var s = $("pgSido").value, i = Math.floor(Math.random() * L[s].length);
+        $("pgDist").value = String(i); ask(s, i);
+        $("pgQ").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      $("pgSido").onchange = fill;
+      $("pgDist").onchange = function () { if (this.value !== "" && !isNaN(+this.value)) ask($("pgSido").value, +this.value); };
+      $("pgRand").onclick = rand;
+      $("pgSay").onclick = function () { if (lastRead) PG.readQ(lastRead[0], lastRead[1]); else PG.say("시도와 지역구를 고르세요"); };
+      $("pgAgain").onclick = function () { right = 0; tried = 0; $("pgScore").textContent = "맞힌 문제 0개"; $("pgResult").hidden = true; rand(); };
+      $("pgShare").onclick = function () { PG.share(this, "정치탈탈 우리 동네 의원 맞히기", "우리 동네 의원 맞히기 " + tried + "문제 중 " + right + "개 맞혔어요! — 정치탈탈", "https://politaltal.com/game-local"); };
+      fill();
+    });
+    </script>
+    
+  <section class="tail">
+    <div class="container">
+      <h2 class="tail-h">이어서 보기</h2>
+      <div class="next-list"><a class="next-card" href="/bills.html" data-ck="next-bills"><span class="nk">법안</span><strong>법안 20,818건 중 통과는 727건</strong><span class="ns">100건을 내면 3건꼴 — 어떤 법이 통과됐을까요? →</span></a><a class="next-card" href="/live.html" data-ck="next-live"><span class="nk">국회 속보</span><strong>국회가 최근 통과시킨 법, 알고 계신가요?</strong><span class="ns">본회의 처리 결과를 공식 기록 그대로 정리합니다 →</span></a><a class="next-card" href="/money.html" data-ck="next-money"><span class="nk">재산</span><strong>의원 재산 1위 1,368억, 꼴찌는 −11억</strong><span class="ns">내 의원은 몇 위일까요? →</span></a></div>
+      <div class="yt-band">
+        <div class="yt-head">
+          <div>
+            <span class="nk">정치탈탈 유튜브</span>
+            <strong class="yt-title">모르고 뽑으면 또 4년입니다</strong>
+            <p class="yt-sub">의원 성적표(출석·표결·법안·재산)와 정치사 이야기를 영상으로 정리합니다. 편은 들지 않습니다.</p>
+          </div>
+          <a class="yt-btn" href="https://www.youtube.com/@politaltal?sub_confirmation=1" target="_blank" rel="noopener" data-ck="yt-sub">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>유튜브에서 구독</a>
+        </div>
+        <div class="yt-row" id="ytRow" hidden></div>
+      </div>
+    </div>
+  </section></main>
+  <nav class="bottom-nav">
+    <a href="/" class="active">
+      <span class="icon">🏠</span>홈
+    </a>
+    <a href="/people.html" class="">
+      <span class="icon">👤</span>정치인
+    </a>
+    <a href="/pledges.html" class="">
+      <span class="icon">📜</span>공약·법안
+    </a>
+    <a href="/community.html" class="">
+      <span class="icon">💬</span>커뮤니티
+    </a>
+    <a href="/history.html" class="">
+      <span class="icon">📼</span>비사
+    </a>
+  </nav>
+  <script>
+    // 정치 용어 tooltip — 모바일 tap-to-show, 다시 탭하면 닫기
+    document.addEventListener('click', function(e) {
+      const t = e.target.closest('.term-tip');
+      if (t) {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          if (x !== t) x.classList.remove('tt-active');
+        });
+        t.classList.toggle('tt-active');
+        e.stopPropagation();
+      } else {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          x.classList.remove('tt-active');
+        });
+      }
+    });
+  </script>
+  <script>/* 방문 집계: 페이지 주소·유입 사이트 이름만 보낸다(쿠키·식별값 없음) → site/worker.js /t */
+  try { navigator.sendBeacon("/t", JSON.stringify({ p: location.pathname, r: document.referrer ? new URL(document.referrer).host : "" })); } catch (e) {}
+  /* 띠 클릭 집계: data-ck 가 붙은 링크만, 이름표(key)만 보낸다 */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("[data-ck]");
+    if (a) try { navigator.sendBeacon("/t", JSON.stringify({ c: a.getAttribute("data-ck") })); } catch (x) {}
+  });
+  /* 유튜브 띠: 채널 최신 영상(매일 수집) — 지금 보는 정치인 이름이 제목에 있으면 맨 앞으로 */
+  (function () {
+    var row = document.getElementById("ytRow");
+    if (!row) return;
+    fetch("/data/stories_videos.json").then(function (r) { return r.json(); }).then(function (d) {
+      var v = (d.latest || []).slice();
+      if (!v.length) return;
+      var name = /^[/](politician|local)[/]/.test(location.pathname) ? document.title.split(" ")[0] : "";
+      if (name.length >= 2) v = v.filter(function (x) { return (x.mine = x.title.indexOf(name) >= 0 || (x.tags || []).indexOf(name) >= 0); }).concat(v.filter(function (x) { return !x.mine; }));
+      v.slice(0, 8).forEach(function (x) {
+        var a = document.createElement("a"), img = document.createElement("img"), t = document.createElement("span");
+        a.className = "yt-card"; a.href = "https://www.youtube.com/watch?v=" + encodeURIComponent(x.id); a.target = "_blank"; a.rel = "noopener";
+        a.setAttribute("data-ck", "yt-video");
+        img.loading = "lazy"; img.alt = ""; img.src = "https://i.ytimg.com/vi/" + encodeURIComponent(x.id) + "/mqdefault.jpg";
+        a.appendChild(img);
+        if (x.mine) { var m = document.createElement("em"); m.textContent = name + " 영상"; a.appendChild(m); }
+        t.textContent = x.title; a.appendChild(t); row.appendChild(a);
+      });
+      row.hidden = false;
+    }).catch(function () {});
+  })();
+  </script>
+  <script>
+  /* ── 정치탈탈 앱 전용: 의정 속보 푸시 등록 (웹에서는 아무것도 안 함) ── */
+  (function() {
+    var Cap = window.Capacitor;
+    var inApp = !!(Cap && Cap.isNativePlatform && Cap.isNativePlatform())
+                || /PolitaltalApp/.test(navigator.userAgent || "");
+    if (!inApp || !Cap || !Cap.Plugins || !Cap.Plugins.PushNotifications) return;
+    var PN = Cap.Plugins.PushNotifications;
+    var platform = (Cap.getPlatform && Cap.getPlatform()) || "unknown";
+    var PUSH_API = "";   // 같은 오리진 /push/* (site/worker.js)
+
+    function postToken(value) {
+      try {
+        fetch(PUSH_API + "/push/register", {
+          method: "POST", headers: { "content-type": "application/json" },
+          body: JSON.stringify({ token: value, platform: platform, topics: "all" })
+        }).catch(function() {});
+      } catch (e) {}
+    }
+
+    // 딥링크: 알림 탭 → 해당 URL로 이동
+    PN.addListener("pushNotificationActionPerformed", function(ev) {
+      try {
+        var url = ev && ev.notification && ev.notification.data && ev.notification.data.url;
+        if (url) window.location.href = url;
+      } catch (e) {}
+    });
+    PN.addListener("registration", function(t) { if (t && t.value) postToken(t.value); });
+    PN.addListener("registrationError", function() {});
+
+    function start() {
+      // 안드로이드 알림 채널(중요도 높음) — send_push.py 의 channel_id 와 일치
+      if (platform === "android" && PN.createChannel) {
+        PN.createChannel({ id: "politaltal_news", name: "의정 속보",
+          description: "본회의 처리·신규 발의 속보", importance: 5, visibility: 1 }).catch(function() {});
+      }
+      PN.checkPermissions().then(function(p) {
+        if (p.receive === "granted") { PN.register(); return; }
+        // 첫 방문 1회만 권한 요청(거부 후 매번 묻지 않도록 플래그)
+        if (localStorage.getItem("pt_push_asked") === "1" && p.receive === "denied") return;
+        localStorage.setItem("pt_push_asked", "1");
+        PN.requestPermissions().then(function(r) { if (r.receive === "granted") PN.register(); });
+      }).catch(function() {});
+    }
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start);
+  })();
+  </script>
+  <script src="/war.js?v=202611162223" defer></script>
+  <script src="/hub.js?v=202611162223" defer></script>
+</body>
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:true,android:true},S={ios:false,android:false},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(!S[P])E.classList.add('no-sm');if(/^[/](community|post|login|data([.]html)?$)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency|supporters)/.test(location.pathname))||(!S[P]&&/^[/]sinmungo/.test(location.pathname)))location.replace('/');}</script>
+  <title>오늘의 국회 3문제 — 매일 바뀌는 쉬운 퀴즈 | 정치탈탈</title>
+  <meta name="description" content="매일 바뀌는 국회 3문제. 이 법 통과됐을까, 숫자 감 잡기, 용어 뜻 고르기 — 하루 1분, 출석 도장까지.">
+  <meta name="keywords" content="정치탈탈,국회의원,의정활동,출석률,발의 법안,표결,재산공개,지역구,공공데이터,22대 국회,국회의원 검색,내 지역구 의원">
+  <meta name="author" content="정치탈탈">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://politaltal.com/game-daily">
+
+  <!-- 검색엔진 사이트 소유 확인 (각 사이트에서 등록 후 content 값 채우기) -->
+  <meta name="naver-site-verification" content="9e3ca58898c588a94375445bf3e90634c27da43d">
+  <meta name="google-site-verification" content="3T1zR-6vdABc-R7XTfG9TFbnljB_3DYZQroa1B6pbiE">
+  <meta name="msvalidate.01" content="50D545291AE8CB679E6A71ED05D18AC4">
+  <!-- ↑ 빙(Bing) 웹마스터: https://www.bing.com/webmasters 등록 후 받은 코드 -->
+  <!-- ↑ 다음(Daum)은 verification 메타 없음. https://register.search.daum.net 사이트 URL만 등록 -->
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="정치탈탈">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="오늘의 국회 3문제 — 매일 바뀌는 쉬운 퀴즈 | 정치탈탈">
+  <meta property="og:description" content="매일 바뀌는 국회 3문제. 이 법 통과됐을까, 숫자 감 잡기, 용어 뜻 고르기 — 하루 1분, 출석 도장까지.">
+  <meta property="og:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="정치탈탈 - 국회의원 의정활동 대시보드">
+  <meta property="og:url" content="https://politaltal.com/game-daily">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="오늘의 국회 3문제 — 매일 바뀌는 쉬운 퀴즈 | 정치탈탈">
+  <meta name="twitter:description" content="매일 바뀌는 국회 3문제. 이 법 통과됐을까, 숫자 감 잡기, 용어 뜻 고르기 — 하루 1분, 출석 도장까지.">
+  <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202611162223">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202611162223">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202611162223">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202611162223">
+  <meta name="theme-color" content="#0a2540">
+  <link rel="stylesheet" href="/styles.css?v=202611162223">
+  <script>document.documentElement.classList.add("hub-js")</script><!-- 박스→카드: JS 없는 검색로봇은 전체 내용을 그대로 읽는다 -->
+  <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
+  <link rel="manifest" href="/manifest.json?v=202611162223">
+  <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="build-id" content="202611162223">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="정치탈탈">
+
+  <style>
+  .pg { max-width: 600px; }
+  .pg [hidden] { display: none !important; }
+  .pg-h { font-size: 27px; font-weight: 900; margin: 10px 0 4px; color: var(--color-primary); text-align: center; word-break: keep-all; }
+  .pg-sub { font-size: 16.5px; line-height: 1.6; text-align: center; margin: 0 0 10px; color: var(--color-text); word-break: keep-all; }
+  .pg-stage { background: #fff; border-radius: 20px; box-shadow: var(--shadow-md); padding: 16px 14px 18px; margin: 12px 0; }
+  .pg-bar { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  .pg-say { min-height: 48px; border: 1px solid var(--color-border); background: #f8fafc; border-radius: 999px; padding: 6px 16px;
+            font-family: inherit; font-size: 16px; font-weight: 800; color: var(--color-text); cursor: pointer; }
+  .pg-q { font-size: 23px; font-weight: 900; line-height: 1.45; margin: 10px 0 16px; color: var(--color-text); word-break: keep-all; overflow-wrap: anywhere; }
+  .pg-q small { display: block; font-size: 17px; font-weight: 700; color: var(--color-text-soft); margin-top: 6px; }
+  .pg-opts { display: grid; gap: 10px; }
+  .pg-opts.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .pg-opt { width: 100%; min-height: 60px; border: 2px solid var(--color-border); background: #f8fafc; border-radius: 14px; padding: 12px 12px;
+            font-family: inherit; font-size: 21px; font-weight: 800; line-height: 1.35; color: var(--color-text); cursor: pointer; text-align: center;
+            word-break: keep-all; overflow-wrap: anywhere; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  .pg-opt small { display: block; font-size: 15px; font-weight: 700; color: var(--color-text-soft); margin-top: 4px; }
+  .pg-opt:disabled { cursor: default; color: var(--color-text); opacity: 1; }
+  .pg-opt.ok { border-color: #16a34a; background: #dcfce7; } .pg-opt.no { border-color: #dc2626; background: #fee2e2; }
+  .pg-opt.done { border-color: var(--color-primary); background: #e0e7ff; }
+  .pg-fb { margin-top: 16px; font-size: 18px; line-height: 1.65; word-break: keep-all; overflow-wrap: anywhere; }
+  .pg-fb b.ok { color: #16a34a; font-size: 22px; } .pg-fb b.no { color: #dc2626; font-size: 22px; }
+  .pg-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; justify-content: center; }
+  .pg-links a, .pg-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; border: 0; border-radius: 999px;
+            background: var(--color-primary); color: #fff; font-family: inherit; font-size: 17px; font-weight: 800; padding: 10px 18px; text-decoration: none; cursor: pointer; }
+  .pg-links a.sub, .pg-btn.sub { background: #eef2f7; color: var(--color-text); }
+  .pg-big { width: 100%; min-height: 60px; font-size: 22px; border-radius: 14px; margin-top: 14px; }
+  .pg-result { background: #fff7d6; border-radius: 16px; padding: 18px 14px; margin: 12px 0; text-align: center; }
+  .pg-result p { font-size: 23px; font-weight: 900; line-height: 1.45; margin: 0 0 10px; word-break: keep-all; }
+  .pg-sel { width: 100%; min-height: 60px; font-family: inherit; font-size: 20px; font-weight: 800; border: 2px solid var(--color-border); border-radius: 14px;
+            padding: 8px 12px; background: #fff; color: var(--color-text); }
+  .pg-src { font-size: 13.5px; color: var(--color-text-soft); line-height: 1.6; margin: 8px 2px 18px; word-break: keep-all; }
+  .pg-how { font-size: 16px; line-height: 1.8; }
+  .pg-how ol { padding-left: 20px; margin: 6px 0; }
+  </style>
+  <!-- Cloudflare Web Analytics -->
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "26dbbaa3ad4d4e4a95991d64553fa612"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+  <!-- 후원 진행 배너 (사이트 최상단) — 매일 다른 감정 카피 -->
+  <div class="fundraiser-bar">
+    <div class="container fb-inner">
+      <div class="fb-copy">
+        <span class="fb-kicker">정치탈탈 후원</span>
+        <span class="fb-line" id="fbLine">
+          <strong>정치인은 4년에 한 번 옵니다.</strong> 그들의 매일은 우리가 봅니다.
+        </span>
+      </div>
+      <div class="fb-progress-wrap">
+        <div class="fb-progress-track">
+          <div class="fb-progress-fill" id="fbFill" style="width: 2%;"></div>
+          <span class="fb-progress-text" id="fbSeat">창립 후원자석 100석</span>
+        </div>
+        <div class="fb-progress-stats">
+          <span class="fb-raised" id="fbLeft">먼저 온 100명이 창립 후원자</span>
+          <span class="fb-pct" id="fbPledge">후원금은 전액 좋은 일에</span>
+        </div>
+      </div>
+      <a href="/donate.html" class="fb-donate-btn">☕ 후원하기</a>
+    </div>
+  </div>
+  <script>
+    // 후원 카피 매일 회전 (날짜 기준 → 모든 사용자에게 같은 메시지)
+    (function() {
+      const COPIES = [
+        ['정치인은 4년에 한 번 옵니다.', '그들의 매일은 우리가 봅니다.'],
+        ['투표한 의원, 그 다음은', '잊고 계셨나요?'],
+        ['선거 다음 날부터,', '우리는 추적을 시작합니다.'],
+        ['300명의 발의·표결·재산.', '잊지 않고 기록합니다.'],
+        ['그들의 무기는 잊혀짐.', '우리의 무기는 기록입니다.'],
+        ['당신의 커피값은', '전액 국민을 위한 좋은 일에 쓰입니다.'],
+        ['발의 20,818건, 통과 727건.', '우리는 그 차이를 봅니다.'],
+      ];
+      try {
+        const day = Math.floor(Date.now() / 86400000);
+        const c = COPIES[day % COPIES.length];
+        const el = document.getElementById('fbLine');
+        if (el && c) {
+          el.innerHTML = '<strong>' + c[0] + '</strong> ' + c[1];
+        }
+      } catch (e) {}
+    })();
+    // 후원자의 벽 실제 숫자(점등 수·최근 점등) — 상단 띠와 페이지 끝 후원 카드(.sup-live)가 같이 쓴다
+    (function () {
+      var ago = function (t) { var m = Math.floor((Date.now() - t) / 6e4); return m < 1 ? '방금' : m < 60 ? m + '분 전' : m < 1440 ? Math.floor(m / 60) + '시간 전' : Math.floor(m / 1440) + '일 전'; };
+      var wall = fetch('/wall/list?brief=1').then(function (r) { return r.json(); }).catch(function () { return {}; });
+      wall.then(function (d) {
+        var bar = document.querySelector('.fundraiser-bar');
+        if (!d.ok || !bar || !bar.offsetParent) return;
+        var lit = Math.min(d.n || 0, 100), s = d.last, el = document.getElementById('fbLine');
+        document.getElementById('fbFill').style.width = Math.max(lit, 2) + '%';
+        document.getElementById('fbSeat').textContent = '창립 후원자석 ' + lit + ' / 100';
+        document.getElementById('fbLeft').textContent = lit < 100 ? '창립 후원자석 ' + (100 - lit) + '석 남음' : '창립 후원자석 마감';
+        if (s && Date.now() - s.at < 3 * 864e5) {
+          var b = document.createElement('strong');
+          b.textContent = '🔔 ' + s.name + '님이 제' + s.no + '석에 불을 켰습니다';
+          el.textContent = ''; el.appendChild(b);
+          el.appendChild(document.createTextNode(' ' + ago(s.at) + (lit < 100 ? ' · 창립석 ' + (100 - lit) + '석 남음' : '')));
+        }
+      });
+      document.addEventListener('DOMContentLoaded', function () {
+        var hw = document.getElementById('hwLamps');   // 홈 후원자의 벽 카드 — 켜진 자리 수
+        if (hw) wall.then(function (d) {
+          if (!d.ok) return;
+          var n = d.n || 0;
+          [].slice.call(hw.children, 0, n).forEach(function (s) { s.className = 'on'; });
+          document.getElementById('hwCount').textContent = n < 100 ? '창립 후원자석 100석 중 ' + n + '석 켜짐 · ' + (100 - n) + '석 남음' : '후원자 ' + n + '명이 함께합니다';
+        });
+        var live = [].slice.call(document.querySelectorAll('.sup-live'));
+        if (!live.length) return;
+        var hot = fetch('/hot?p=' + encodeURIComponent(location.pathname)).then(function (r) { return r.json(); }).catch(function () { return {}; });
+        Promise.all([hot, wall]).then(function (v) {
+          var parts = [];
+          if (v[0].n >= 10) parts.push('오늘 이 페이지 조회 ' + v[0].n.toLocaleString('ko-KR') + '회');
+          if (v[1].ok) parts.push(v[1].n < 100 ? '창립 후원자석 ' + (100 - v[1].n) + '석 남음' : '후원자 ' + v[1].n + '명이 함께합니다');
+          if (!parts.length) return;
+          live.forEach(function (p) { p.textContent = parts.join(' · '); p.hidden = false; });
+        });
+      });
+    })();
+  </script>
+
+  <header class="app-header">
+    <div class="container">
+      <a href="/" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
+        <span>정치탈탈</span>
+      </a>
+      <div class="header-actions">
+        <a href="/donate.html" class="header-donate"
+           title="당신의 커피 한 잔이 정치 감시의 눈이 됩니다 👀 (월 1,000원~)">
+          <span class="hd-heart">♥</span><span class="hd-text">커피 한 잔</span>
+        </a>
+        <a href="/login.html" id="headerAuthBtn"
+           onclick="if(!location.pathname.startsWith('/login')){this.href='/login.html?return='+encodeURIComponent(location.pathname+location.search+location.hash);}"
+           style="font-size:12px;font-weight:700;padding:6px 12px;
+                                      background:var(--color-primary);color:white;
+                                      border-radius:6px;text-decoration:none;
+                                      display:flex;align-items:center;gap:6px;">
+          로그인
+        </a>
+      </div>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
+    </div>
+  </header>
+  <main>
+    <div class="container pg">
+      <a href="/games.html" class="back-link" data-ck="games-back-daily">← 게임 모음</a>
+      <h1 class="pg-h">📅 오늘의 국회 3문제</h1>
+      <p class="pg-sub">하루 딱 3문제. 매일 새 문제가 나옵니다.<br>날마다 풀면 출석 도장이 쌓여요.</p>
+      <div class="pg-stage"><p id="pgStamp" style="font-size:17px;font-weight:800;text-align:center;margin:0 0 8px;word-break:keep-all;"></p>
+        <div class="pg-bar"><span id="pgScore"></span><button type="button" class="pg-say" id="pgSay">🔊 문제 듣기</button></div>
+        <div class="pg-q" id="pgQ" aria-live="polite"></div>
+        <div class="pg-opts" id="pgOpts"></div>
+        <div class="pg-fb" id="pgFb" aria-live="polite" hidden></div>
+        <button type="button" class="pg-btn pg-big" id="pgNext" hidden>다음 문제 ▶</button></div>
+      <div class="pg-result" id="pgResult" hidden>
+        <p id="pgRes"></p>
+        <div class="pg-links">
+          <button type="button" class="pg-btn" id="pgShare" data-ck="games-share-daily">친구에게 자랑하기</button>
+          <button type="button" class="pg-btn sub" id="pgAgain" data-ck="games-again-daily">▶ 한 판 더</button>
+          <a class="sub" href="/games.html" data-ck="games-more-daily">다른 게임</a>
+        </div>
+      </div>
+      <p class="pg-src">출처: 국회 의안정보·열린국회정보 공개 자료 기준 · 법안 기준일 2026-11-16 · 의원 숫자 기준일 2026-11-16 · 용어는 정치 배움터 기준. '대안 반영'으로 처리된 법안은 헷갈릴 수 있어 문제에서 뺐습니다. 날짜는 한국 시각 기준으로 바뀝니다.</p>
+      <div class="stat-card pg-how"><h2>하는 법</h2><ol><li>하루에 3문제, 고르기만 하면 됩니다.</li>
+        <li>다 풀면 출석 도장이 찍혀요. 어제도 풀었다면 연속 출석이 이어집니다.</li><li>기록은 이 휴대폰에만 남습니다.</li></ol>
+        <p style="font-size:15px;margin:6px 0 0;">모르는 말은 <a href="/learn.html" data-ck="games-daily-learn">정치 배움터</a>에서 찾아보세요.</p></div>
+    </div>
+    <script type="application/json" id="pgData">{"bills":[["2200113","소득세법 일부개정법률안","송언석","2024-06-04",0,"철회"],["2200447","문화기본법 일부개정법률안","조계원","2024-06-13",1,"수정가결"],["2200478","대중교통의 육성 및 이용촉진에 관한 법률 일부개정법률안","송옥주","2024-06-14",1,"수정가결"],["2200485","폐기물관리법 일부개정법률안","박홍배","2024-06-14",1,"수정가결"],["2200492","국가유공자 등 단체 설립에 관한 법률 일부개정법률안","강대식","2024-06-14",0,"계류 중(아직 심사 중)"],["2200612","남북관계 발전에 관한 법률 일부개정법률안","윤후덕","2024-06-18",0,"계류 중(아직 심사 중)"],["2200767","도시가스사업법 일부개정법률안","김원이","2024-06-21",1,"수정가결"],["2200855","지방공무원법 일부개정법률안","김한규","2024-06-24",0,"계류 중(아직 심사 중)"],["2200950","신문 등의 진흥에 관한 법률 일부개정법률안","조계원","2024-06-26",0,"계류 중(아직 심사 중)"],["2201029","조세특례제한법 일부개정법률안","박희승","2024-06-27",0,"계류 중(아직 심사 중)"],["2201147","중소기업 인력지원 특별법 일부개정법률안","허종식","2024-06-28",1,"원안가결"],["2201217","장애아동 복지지원법 일부개정법률안","강선우","2024-07-01",1,"수정가결"],["2201460","마약류 관리에 관한 법률 일부개정법률안","서명옥","2024-07-08",1,"수정가결"],["2201475","영화 및 비디오물의 진흥에 관한 법률 전부개정법률안","김윤덕","2024-07-08",0,"계류 중(아직 심사 중)"],["2201513","선원법 일부개정법률안","조승환","2024-07-09",0,"계류 중(아직 심사 중)"],["2201606","여객자동차 운수사업법 일부개정법률안","임오경","2024-07-11",0,"계류 중(아직 심사 중)"],["2201632","옥외광고물 등의 관리와 옥외광고산업 진흥에 관한 법률 일부개정법률안","조정훈","2024-07-11",0,"계류 중(아직 심사 중)"],["2201656","박물관 및 미술관 진흥법 일부개정법률안","한정애","2024-07-12",0,"계류 중(아직 심사 중)"],["2201849","대차대조표 용어정비를 위한 상공회의소법 등 3개 법률의 일부개정에 관한 법률안","김현정","2024-07-17",1,"원안가결"],["2201987","국가경찰과 자치경찰의 조직 및 운영에 관한 법률 일부개정법률안","한정애","2024-07-19",0,"계류 중(아직 심사 중)"],["2202247","사회서비스 지원 및 진흥에 관한 법률안","안상훈","2024-07-25",0,"계류 중(아직 심사 중)"],["2202457","간토 대학살사건 진상규명 및 피해자 명예회복에 관한 특별법안","윤건영","2024-07-31",1,"수정가결"],["2202653","토양환경보전법 일부개정법률안","김위상","2024-08-08",1,"수정가결"],["2202818","국민건강보험법 일부개정법률안","한정애","2024-08-14",0,"계류 중(아직 심사 중)"],["2202930","국가재정법 일부개정법률안","허영","2024-08-19",0,"계류 중(아직 심사 중)"],["2203066","군인복지기본법 일부개정법률안","안규백","2024-08-22",1,"수정가결"],["2203079","수상에서의 수색·구조 등에 관한 법률 일부개정법률안","정희용","2024-08-22",1,"수정가결"],["2203121","먹는물관리법 일부개정법률안","김원이","2024-08-23",0,"계류 중(아직 심사 중)"],["2203163","장애인복지법 전부개정법률안","최보윤","2024-08-23",0,"계류 중(아직 심사 중)"],["2203184","금융실명거래 및 비밀보장에 관한 법률 일부개정법률안","허영","2024-08-26",0,"계류 중(아직 심사 중)"],["2203217","국유재산특례제한법 일부개정법률안","곽규택","2024-08-27",0,"계류 중(아직 심사 중)"],["2203312","파산선고 등에 따른 결격조항 정비를 위한 환경노동위원회  소관 33개 법률 일부개정을 위한 법률안","박정","2024-08-28",0,"계류 중(아직 심사 중)"],["2203854","국군의 방첩 및 보안업무 등에 관한 법률안","부승찬","2024-09-10",0,"계류 중(아직 심사 중)"],["2204012","장기공공임대주택 입주자 삶의 질 향상 지원법 일부개정법률안","김도읍","2024-09-13",1,"원안가결"],["2204014","자본시장과 금융투자업에 관한 법률 일부개정법률안","강민국","2024-09-13",1,"원안가결"],["2204097","국방정보화 기반조성 및 국방정보자원관리에 관한 법률 일부개정법률안","성일종","2024-09-19",1,"원안가결"],["2204103","해저광물자원 개발법 일부개정법률안","장철민","2024-09-20",1,"원안가결"],["2204172","발달장애인 권리보장 및 지원에 관한 법률 일부개정법률안","이수진","2024-09-23",1,"수정가결"],["2205185","대체역의 편입 및 복무 등에 관한 법률 일부개정법률안","김병주","2024-11-01",1,"수정가결"],["2205224","고용보험 및 산업재해보상보험의 보험료징수 등에 관한 법률 일부개정법률안","정혜경","2024-11-04",0,"계류 중(아직 심사 중)"],["2205443","항만법 일부개정법률안","김선교","2024-11-11",1,"수정가결"],["2205536","응급의료에 관한 법률 일부개정법률안","서명옥","2024-11-13",1,"수정가결"],["2205567","조세특례제한법 일부개정법률안","엄태영","2024-11-14",0,"계류 중(아직 심사 중)"],["2205642","학교급식법 일부개정법률안","박성훈","2024-11-18",1,"원안가결"],["2205653","주택임대차보호법 일부개정법률안","정점식","2024-11-18",0,"계류 중(아직 심사 중)"],["2205672","자동차관리법 일부개정법률안","문진석","2024-11-18",0,"계류 중(아직 심사 중)"],["2205752","산림자원의 조성 및 관리에 관한 법률 일부개정법률안","어기구","2024-11-21",1,"수정가결"],["2205866","고등교육법 일부개정법률안","정성국","2024-11-26",1,"수정가결"],["2205894","지방재정법 일부개정법률안","이달희","2024-11-26",1,"원안가결"],["2205932","정치자금법 일부개정법률안","이해식","2024-11-27",0,"계류 중(아직 심사 중)"],["2206059","농촌진흥법 일부개정법률안","정희용","2024-11-29",1,"수정가결"],["2206140","공유수면 관리 및 매립에 관한 법률 일부개정법률안","박성훈","2024-12-03",1,"수정가결"],["2206280","계엄법 일부개정법률안","황명선","2024-12-06",0,"계류 중(아직 심사 중)"],["2206303","참전유공자 예우 및 단체설립에 관한 법률 일부개정법률안","김성원","2024-12-09",0,"계류 중(아직 심사 중)"],["2206410","국가공무원법 일부개정법률안","윤호중","2024-12-11",0,"계류 중(아직 심사 중)"],["2206500","근현대문화유산의 보존 및 활용에 관한 법률 일부개정법률안","조계원","2024-12-16",1,"수정가결"],["2206601","국민건강보험법 일부개정법률안","안상훈","2024-12-17",1,"수정가결"],["2206679","아동학대범죄의 처벌 등에 관한 특례법 일부개정법률안","이만희","2024-12-18",0,"계류 중(아직 심사 중)"],["2206729","군사경찰의 직무수행에 관한 법률 일부개정법률안","허영","2024-12-19",1,"수정가결"],["2206741","의무경찰대 설치 및 운영에 관한 법률 일부개정법률안","김기현","2024-12-19",0,"계류 중(아직 심사 중)"],["2206742","석재산업 진흥에 관한 법률 일부개정법률안","이만희","2024-12-19",1,"수정가결"],["2206770","법령 등에 따른 법정의무교육에 관한 특례법안","강경숙","2024-12-20",0,"계류 중(아직 심사 중)"],["2206933","건축법 일부개정법률안","염태영","2024-12-26",1,"원안가결"],["2206950","상속세 및 증여세법 일부개정법률안","이종욱","2024-12-26",0,"계류 중(아직 심사 중)"],["2206952","공무원 인재개발법 일부개정법률안","모경종","2024-12-26",0,"계류 중(아직 심사 중)"],["2207099","은행법 일부개정법률안","민병덕","2024-12-30",1,"수정가결"],["2207156","개별소비세법 일부개정법률안","정태호","2024-12-31",0,"계류 중(아직 심사 중)"],["2207329","역사문화권 정비 등에 관한 특별법 일부개정법률안","김윤덕","2025-01-08",1,"수정가결"],["2207501","해수욕장의 이용 및 관리에 관한 법률 일부개정법률안","김선교","2025-01-14",1,"수정가결"],["2207665","내수면 가두리양식어업 면허기간 연장불허에 따른 손실보상에 관한 특별법 일부개정법률안","송기헌","2025-01-21",1,"수정가결"],["2207853","군인연금법 일부개정법률안","강득구","2025-01-31",0,"계류 중(아직 심사 중)"],["2208040","국회법 일부개정법률안","윤준병","2025-02-11",0,"계류 중(아직 심사 중)"],["2208052","구직자 취업촉진 및 생활안정지원에 관한 법률 일부개정법률안","이용우","2025-02-11",0,"계류 중(아직 심사 중)"],["2208137","사립학교법 일부개정법률안","강경숙","2025-02-13",0,"계류 중(아직 심사 중)"],["2208229","고등교육법 일부개정법률안","서명옥","2025-02-18",0,"계류 중(아직 심사 중)"],["2208273","항공보안법 일부개정법률안","이춘석","2025-02-19",0,"계류 중(아직 심사 중)"],["2208459","농업협동조합법 일부개정법률안","김선교","2025-02-26",0,"계류 중(아직 심사 중)"],["2208656","산림교육의 활성화에 관한 법률 일부개정법률안","박성훈","2025-03-05",1,"원안가결"],["2208962","공공주택 특별법 일부개정법률안","강대식","2025-03-14",0,"계류 중(아직 심사 중)"],["2209130","빈집 및 소규모주택 정비에 관한 특례법 일부개정법률안","윤준병","2025-03-19",1,"수정가결"],["2209337","수산업법 일부개정법률안","서천호","2025-03-25",1,"수정가결"],["2209462","국회법 일부개정법률안","배준영","2025-03-28",0,"계류 중(아직 심사 중)"],["2209579","문학진흥법 일부개정법률안","임오경","2025-04-03",1,"원안가결"],["2209709","외무공무원법 일부개정법률안","김상훈","2025-04-10",0,"계류 중(아직 심사 중)"],["2209794","석유 및 석유대체연료 사업법 일부개정법률안","허성무","2025-04-14",1,"수정가결"],["2209808","선원법 일부개정법률안","어기구","2025-04-15",1,"수정가결"],["2209828","산림재난방지법 일부개정법률안","박홍배","2025-04-15",0,"계류 중(아직 심사 중)"],["2210004","수산종자산업육성법 일부개정법률안","정점식","2025-04-22",1,"수정가결"],["2210055","드론 활용의 촉진 및 기반조성에 관한 법률 일부개정법률안","이성권","2025-04-23",1,"수정가결"],["2210082","법인세법 일부개정법률안","한정애","2025-04-24",0,"계류 중(아직 심사 중)"],["2210358","형사소송법 일부개정법률안","박은정","2025-05-02",0,"계류 중(아직 심사 중)"],["2210571","공유수면 관리 및 매립에 관한 법률 일부개정법률안","조경태","2025-05-21",1,"수정가결"],["2211009","섬 발전 촉진법 일부개정법률안","서삼석","2025-06-23",0,"계류 중(아직 심사 중)"],["2211266","학원의 설립·운영 및 과외교습에 관한 법률 일부개정법률안","김문수","2025-07-03",0,"계류 중(아직 심사 중)"],["2211534","상훈법 일부개정법률안","한기호","2025-07-17",0,"계류 중(아직 심사 중)"],["2211565","주택임대차보호법 일부개정법률안","전종덕","2025-07-18",0,"계류 중(아직 심사 중)"],["2211764","축산물 위생관리법 일부개정법률안","전진숙","2025-07-25",0,"계류 중(아직 심사 중)"],["2212214","주한미군기지 이전에 따른 평택시 등의 지원 등에 관한 특별법 일부개정법률안","김성원","2025-08-18",0,"계류 중(아직 심사 중)"],["2212403","최저임금법 일부개정법률안","윤준병","2025-08-27",0,"계류 중(아직 심사 중)"],["2213123","의료법 일부개정법률안","이수진","2025-09-18",0,"계류 중(아직 심사 중)"],["2213160","건설안전특별법안","문진석","2025-09-22",0,"계류 중(아직 심사 중)"],["2213215","전자장치 부착 등에 관한 법률 일부개정법률안","김기표","2025-09-24",1,"수정가결"],["2213343","통일교육 지원법 일부개정법률안","조정식","2025-09-29",0,"계류 중(아직 심사 중)"],["2213549","약사법 일부개정법률안","남인순","2025-10-13",1,"수정가결"],["2213598","인공지능 발전과 신뢰 기반 조성 등에 관한 기본법 일부개정법률안","나경원","2025-10-15",0,"계류 중(아직 심사 중)"],["2213601","여권법 일부개정법률안","김기웅","2025-10-15",1,"원안가결"],["2213891","조세특례제한법 일부개정법률안","송석준","2025-11-04",0,"계류 중(아직 심사 중)"],["2214095","대·중소기업 상생협력 촉진에 관한 법률 일부개정법률안","송재봉","2025-11-11",1,"수정가결"],["2214105","장애인·노인·임산부 등의 편의증진 보장에 관한 법률 일부개정법률안","최보윤","2025-11-11",1,"수정가결"],["2215250","여성폭력방지기본법 일부개정법률안","김한규","2025-12-15",1,"수정가결"],["2215601","기후변화대응 기술개발 촉진법 일부개정법률안","김선교","2025-12-24",1,"수정가결"],["2215770","의료 해외진출 및 외국인환자 유치 지원에 관한 법률 일부개정법률안","이수진","2025-12-30",1,"수정가결"],["2216106","2028 유엔해양총회 지원 특별법안","어기구","2026-01-16",1,"수정가결"],["2216156","소상공인 생계형 적합업종 지정에 관한 특별법 일부개정법률안","김원이","2026-01-19",1,"수정가결"],["2216322","댐 주변지역 친환경 보전 및 활용에 관한 특별법 일부개정법률안","김형동","2026-01-26",1,"수정가결"],["2216910","대중문화예술산업발전법 일부개정법률안","조은희","2026-02-20",1,"원안가결"],["2218002","인공지능 발전과 신뢰 기반 조성 등에 관한 기본법 일부개정법률안","김현","2026-03-31",1,"수정가결"],["2219229","지방자치단체 기금관리기본법 일부개정법률안","윤건영","2026-06-12",1,"원안가결"],["2221268","정보통신망 이용촉진 및 정보보호 등에 관한 법률 일부개정법률안","한준호","2026-09-09",1,"수정가결"],["2221346","집회 및 시위에 관한 법률 일부개정법률안","이해식","2026-09-11",1,"원안가결"]],"nums":[["22대 국회에 나온 법안을 100건으로 치면, 본회의를 통과(가결)한 법안은 몇 건쯤일까요?",["3건","7건","15건","23건"],0,"전체 20,818건 중 통과 727건 — 100건으로 치면 약 3건입니다."],["22대 국회에 나온 법안을 100건으로 치면, 아직 심사 중(계류)인 법안은 몇 건쯤일까요?",["37건","50건","75건","95건"],2,"전체 20,818건 중 계류 15,562건 — 100건으로 치면 약 75건입니다."],["22대 국회에 나온 법안을 100건으로 치면, 다른 법안에 흡수(대안 반영)된 법안은 몇 건쯤일까요?",["10건","21건","43건","87건"],1,"전체 20,818건 중 대안 반영 4,347건 — 100건으로 치면 약 21건입니다."],["국회의원들의 본회의 표결 참여율, 평균 몇 %쯤일까요?",["35%","55%","65%","75%"],3,"표결 기록이 있는 의원 299명의 평균 참여율은 약 75%입니다."],["국회의원 1명이 대표발의한 법안, 평균 몇 건쯤일까요?",["21건","32건","65건","195건"],2,"의원 299명이 대표발의한 법안은 1명당 평균 약 65건입니다."],["국회의원은 모두 몇 명일까요? (정원)",["200명","250명","300명","350명"],2,"국회의원 정원은 지역구와 비례대표를 합쳐 300명입니다."],["윤한홍 의원(경남 창원시마산회원구)이 대표발의한 법안은 몇 건일까요?",["20건","41건","56건","87건"],1,"윤한홍 의원 대표발의 41건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["신성범 의원(경남 산청군함양군거창군합천군)이 대표발의한 법안은 몇 건일까요?",["24건","48건","63건","101건"],1,"신성범 의원 대표발의 48건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["윤종오 의원(울산 북구)이 대표발의한 법안은 몇 건일까요?",["33건","67건","82건","139건"],1,"윤종오 의원 대표발의 67건, 그중 본회의를 그대로 통과한 법안 0건입니다."],["엄태영 의원(충북 제천시단양군)이 대표발의한 법안은 몇 건일까요?",["65건","130건","145건","265건"],1,"엄태영 의원 대표발의 130건, 그중 본회의를 그대로 통과한 법안 0건입니다."],["최은석 의원(대구 동구군위군갑)이 대표발의한 법안은 몇 건일까요?",["47건","95건","110건","195건"],1,"최은석 의원 대표발의 95건, 그중 본회의를 그대로 통과한 법안 0건입니다."],["안태준 의원(경기 광주시을)이 대표발의한 법안은 몇 건일까요?",["29건","58건","73건","121건"],1,"안태준 의원 대표발의 58건, 그중 본회의를 그대로 통과한 법안 0건입니다."],["김영환 의원(경기 고양시정)이 대표발의한 법안은 몇 건일까요?",["23건","46건","61건","97건"],1,"김영환 의원 대표발의 46건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["백혜련 의원(경기 수원시을)이 대표발의한 법안은 몇 건일까요?",["61건","123건","138건","251건"],1,"백혜련 의원 대표발의 123건, 그중 본회의를 그대로 통과한 법안 4건입니다."],["나경원 의원(서울 동작구을)이 대표발의한 법안은 몇 건일까요?",["15건","31건","46건","67건"],1,"나경원 의원 대표발의 31건, 그중 본회의를 그대로 통과한 법안 0건입니다."],["송기헌 의원(강원 원주시을)이 대표발의한 법안은 몇 건일까요?",["18건","36건","51건","77건"],1,"송기헌 의원 대표발의 36건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["서미화 의원(비례대표)이 대표발의한 법안은 몇 건일까요?",["51건","102건","117건","209건"],1,"서미화 의원 대표발의 102건, 그중 본회의를 그대로 통과한 법안 4건입니다."],["권영진 의원(대구 달서구병)이 대표발의한 법안은 몇 건일까요?",["25건","50건","65건","105건"],1,"권영진 의원 대표발의 50건, 그중 본회의를 그대로 통과한 법안 8건입니다."],["성일종 의원(충남 서산시태안군)이 대표발의한 법안은 몇 건일까요?",["28건","57건","72건","119건"],1,"성일종 의원 대표발의 57건, 그중 본회의를 그대로 통과한 법안 2건입니다."],["주진우 의원(부산 해운대구갑)이 대표발의한 법안은 몇 건일까요?",["18건","37건","52건","79건"],1,"주진우 의원 대표발의 37건, 그중 본회의를 그대로 통과한 법안 0건입니다."],["김상훈 의원(대구 서구)이 대표발의한 법안은 몇 건일까요?",["58건","116건","131건","237건"],1,"김상훈 의원 대표발의 116건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["권칠승 의원(경기 화성시병)이 대표발의한 법안은 몇 건일까요?",["43건","86건","101건","177건"],1,"권칠승 의원 대표발의 86건, 그중 본회의를 그대로 통과한 법안 0건입니다."],["정태호 의원(서울 관악구을)이 대표발의한 법안은 몇 건일까요?",["43건","86건","101건","177건"],1,"정태호 의원 대표발의 86건, 그중 본회의를 그대로 통과한 법안 2건입니다."],["정점식 의원(경남 통영시고성군)이 대표발의한 법안은 몇 건일까요?",["19건","38건","53건","81건"],1,"정점식 의원 대표발의 38건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["배현진 의원(서울 송파구을)이 대표발의한 법안은 몇 건일까요?",["8건","17건","32건","39건"],1,"배현진 의원 대표발의 17건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["김은혜 의원(경기 성남시분당구을)이 대표발의한 법안은 몇 건일까요?",["25건","50건","65건","105건"],1,"김은혜 의원 대표발의 50건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["박형수 의원(경북 의성군청송군영덕군울진군)이 대표발의한 법안은 몇 건일까요?",["22건","44건","59건","93건"],1,"박형수 의원 대표발의 44건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["이강일 의원(충북 청주시상당구)이 대표발의한 법안은 몇 건일까요?",["47건","94건","109건","193건"],1,"이강일 의원 대표발의 94건, 그중 본회의를 그대로 통과한 법안 0건입니다."],["진종오 의원(비례대표)이 대표발의한 법안은 몇 건일까요?",["20건","41건","56건","87건"],1,"진종오 의원 대표발의 41건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["강민국 의원(경남 진주시을)이 대표발의한 법안은 몇 건일까요?",["11건","22건","37건","49건"],1,"강민국 의원 대표발의 22건, 그중 본회의를 그대로 통과한 법안 2건입니다."],["김승원 의원(경기 수원시갑)이 대표발의한 법안은 몇 건일까요?",["43건","87건","102건","179건"],1,"김승원 의원 대표발의 87건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["조지연 의원(경북 경산시)이 대표발의한 법안은 몇 건일까요?",["41건","82건","97건","169건"],1,"조지연 의원 대표발의 82건, 그중 본회의를 그대로 통과한 법안 2건입니다."],["조경태 의원(부산 사하구을)이 대표발의한 법안은 몇 건일까요?",["33건","66건","81건","137건"],1,"조경태 의원 대표발의 66건, 그중 본회의를 그대로 통과한 법안 11건입니다."],["최혁진 의원(비례대표)이 대표발의한 법안은 몇 건일까요?",["24건","48건","63건","101건"],1,"최혁진 의원 대표발의 48건, 그중 본회의를 그대로 통과한 법안 0건입니다."],["정일영 의원(인천 연수구을)이 대표발의한 법안은 몇 건일까요?",["31건","63건","78건","131건"],1,"정일영 의원 대표발의 63건, 그중 본회의를 그대로 통과한 법안 0건입니다."],["서왕진 의원(비례대표)이 대표발의한 법안은 몇 건일까요?",["25건","51건","66건","107건"],1,"서왕진 의원 대표발의 51건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["김정재 의원(경북 포항시북구)이 대표발의한 법안은 몇 건일까요?",["41건","83건","98건","171건"],1,"김정재 의원 대표발의 83건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["조정훈 의원(서울 마포구갑)이 대표발의한 법안은 몇 건일까요?",["30건","60건","75건","125건"],1,"조정훈 의원 대표발의 60건, 그중 본회의를 그대로 통과한 법안 5건입니다."],["김병주 의원(경기 남양주시을)이 대표발의한 법안은 몇 건일까요?",["19건","38건","53건","81건"],1,"김병주 의원 대표발의 38건, 그중 본회의를 그대로 통과한 법안 2건입니다."],["전용기 의원(경기 화성시정)이 대표발의한 법안은 몇 건일까요?",["41건","83건","98건","171건"],1,"전용기 의원 대표발의 83건, 그중 본회의를 그대로 통과한 법안 1건입니다."],["이정헌 의원(서울 광진구갑)이 대표발의한 법안은 몇 건일까요?",["30건","61건","76건","127건"],1,"이정헌 의원 대표발의 61건, 그중 본회의를 그대로 통과한 법안 3건입니다."],["한준호 의원(경기 고양시을)이 대표발의한 법안은 몇 건일까요?",["21건","42건","57건","89건"],1,"한준호 의원 대표발의 42건, 그중 본회의를 그대로 통과한 법안 2건입니다."],["전현희 의원(서울 중구성동구갑)이 대표발의한 법안은 몇 건일까요?",["30건","60건","75건","125건"],1,"전현희 의원 대표발의 60건, 그중 본회의를 그대로 통과한 법안 0건입니다."],["김기웅 의원(대구 중구남구)이 대표발의한 법안은 몇 건일까요?",["22건","45건","60건","95건"],1,"김기웅 의원 대표발의 45건, 그중 본회의를 그대로 통과한 법안 3건입니다."],["박홍배 의원(비례대표)이 대표발의한 법안은 몇 건일까요?",["81건","162건","177건","329건"],1,"박홍배 의원 대표발의 162건, 그중 본회의를 그대로 통과한 법안 3건입니다."],["이양수 의원(강원 속초시인제군고성군양양군)이 대표발의한 법안은 몇 건일까요?",["22건","45건","60건","95건"],1,"이양수 의원 대표발의 45건, 그중 본회의를 그대로 통과한 법안 5건입니다."],["정동만 의원(부산 기장군)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 42%","약 57%","약 77%","약 87%"],2,"정동만 의원은 본회의 표결 721번 중 77.1%에 참여했습니다."],["박성훈 의원(부산 북구을)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 43%","약 58%","약 78%","약 88%"],2,"박성훈 의원은 본회의 표결 721번 중 77.8%에 참여했습니다."],["김위상 의원(비례대표)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 33%","약 48%","약 68%","약 78%"],2,"김위상 의원은 본회의 표결 721번 중 68.5%에 참여했습니다."],["서왕진 의원(비례대표)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 46%","약 61%","약 81%","약 91%"],2,"서왕진 의원은 본회의 표결 721번 중 80.7%에 참여했습니다."],["안태준 의원(경기 광주시을)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 64%","약 79%","약 89%","약 99%"],3,"안태준 의원은 본회의 표결 721번 중 98.8%에 참여했습니다."],["한준호 의원(경기 고양시을)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 34%","약 49%","약 69%","약 79%"],2,"한준호 의원은 본회의 표결 721번 중 69.2%에 참여했습니다."],["김기표 의원(경기 부천시을)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 63%","약 78%","약 88%","약 98%"],3,"김기표 의원은 본회의 표결 721번 중 97.6%에 참여했습니다."],["곽상언 의원(서울 종로구)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 21%","약 36%","약 56%","약 66%"],2,"곽상언 의원은 본회의 표결 721번 중 56.2%에 참여했습니다."],["서일준 의원(경남 거제시)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 19%","약 34%","약 54%","약 64%"],2,"서일준 의원은 본회의 표결 721번 중 54.5%에 참여했습니다."],["송옥주 의원(경기 화성시갑)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 53%","약 68%","약 88%","약 98%"],2,"송옥주 의원은 본회의 표결 721번 중 87.8%에 참여했습니다."],["문대림 의원(제주 제주시갑)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 50%","약 65%","약 85%","약 95%"],2,"문대림 의원은 본회의 표결 721번 중 85.0%에 참여했습니다."],["김주영 의원(경기 김포시갑)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 58%","약 73%","약 83%","약 93%"],3,"김주영 의원은 본회의 표결 721번 중 93.3%에 참여했습니다."],["서영교 의원(서울 중랑구갑)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 54%","약 69%","약 89%","약 99%"],2,"서영교 의원은 본회의 표결 721번 중 88.8%에 참여했습니다."],["이소희 의원(비례대표)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 13%","약 28%","약 48%","약 58%"],2,"이소희 의원은 본회의 표결 338번 중 47.9%에 참여했습니다."],["박정 의원(경기 파주시을)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 40%","약 55%","약 75%","약 85%"],2,"박정 의원은 본회의 표결 721번 중 74.6%에 참여했습니다."],["신동욱 의원(서울 서초구을)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 9%","약 24%","약 44%","약 54%"],2,"신동욱 의원은 본회의 표결 721번 중 44.0%에 참여했습니다."],["장경태 의원(서울 동대문구을)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 23%","약 38%","약 58%","약 68%"],2,"장경태 의원은 본회의 표결 721번 중 58.0%에 참여했습니다."],["용혜인 의원(비례대표)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 17%","약 32%","약 52%","약 62%"],2,"용혜인 의원은 본회의 표결 721번 중 52.4%에 참여했습니다."],["조승래 의원(대전 유성구갑)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 54%","약 69%","약 89%","약 99%"],2,"조승래 의원은 본회의 표결 721번 중 89.3%에 참여했습니다."],["이헌승 의원(부산 부산진구을)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 42%","약 57%","약 77%","약 87%"],2,"이헌승 의원은 본회의 표결 721번 중 77.0%에 참여했습니다."],["이건태 의원(경기 부천시병)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 65%","약 80%","약 90%","약 100%"],3,"이건태 의원은 본회의 표결 721번 중 99.9%에 참여했습니다."],["문금주 의원(전남광주통합특별시 고흥군보성군장흥군강진군)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 58%","약 73%","약 83%","약 93%"],3,"문금주 의원은 본회의 표결 721번 중 92.9%에 참여했습니다."],["서미화 의원(비례대표)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 62%","약 77%","약 87%","약 97%"],3,"서미화 의원은 본회의 표결 721번 중 96.8%에 참여했습니다."],["천하람 의원(비례대표)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 34%","약 49%","약 69%","약 79%"],2,"천하람 의원은 본회의 표결 721번 중 68.8%에 참여했습니다."],["정진욱 의원(전남광주통합특별시 동구남구갑)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 57%","약 72%","약 82%","약 92%"],3,"정진욱 의원은 본회의 표결 721번 중 92.0%에 참여했습니다."],["김영배 의원(서울 성북구갑)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 32%","약 47%","약 67%","약 77%"],2,"김영배 의원은 본회의 표결 721번 중 67.1%에 참여했습니다."],["한기호 의원(강원 춘천시철원군화천군양구군을)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 30%","약 45%","약 65%","약 75%"],2,"한기호 의원은 본회의 표결 721번 중 65.2%에 참여했습니다."],["김원이 의원(전남광주통합특별시 목포시)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 55%","약 70%","약 90%","약 100%"],2,"김원이 의원은 본회의 표결 721번 중 89.7%에 참여했습니다."],["이훈기 의원(인천 남동구을)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 65%","약 80%","약 90%","약 100%"],3,"이훈기 의원은 본회의 표결 721번 중 100.0%에 참여했습니다."],["최은석 의원(대구 동구군위군갑)의 본회의 표결 참여율은 몇 %쯤일까요?",["약 18%","약 33%","약 53%","약 63%"],2,"최은석 의원은 본회의 표결 721번 중 53.1%에 참여했습니다."]],"terms":[["본회의","국회의원 전원이 모여 법안 등을 최종 의결하는 회의"],["상임위원회","분야별로 법안을 먼저 심사하는 국회의 위원회"],["교섭단체","국회의원 20명 이상이 모인 정당 등의 단체"],["면책특권","국회 안에서 한 직무상 발언·표결은 국회 밖에서 책임지지 않는 권리"],["불체포특권","회기 중에는 국회 동의 없이 체포·구금되지 않는 권리(현행범 제외)"],["대표발의","법안을 처음 작성해 제출하는 주된 의원"],["공동발의","법안을 낼 때 대표 의원과 함께 이름을 올리는 것"],["원안가결","처음 낸 모습 그대로 본회의를 통과한 것"],["수정가결","심사하면서 일부를 고친 뒤 본회의를 통과한 것"],["대안반영폐기","내용이 다른 법안(대안)에 흡수되고 본래 법안은 폐기된 것"],["비례대표","정당이 받은 표의 비율에 따라 정당 명부 순서대로 뽑히는 의원"],["지역구","그 구역에서 가장 많은 표를 받은 후보가 당선되는 선거 구역"],["국정감사","국회가 해마다 정부 기관이 일을 제대로 했는지 살펴보는 것"],["국정조사","특정 사안을 정해 국회가 따로 조사하는 것"],["인사청문회","고위 공직 후보자의 자격을 국회가 묻고 따져 보는 자리"],["탄핵","고위 공직자가 중대하게 법을 어겼을 때 파면을 요구하는 절차"],["거부권","대통령이 국회가 의결한 법률안을 다시 의결해 달라고 돌려보내는 권한"],["예산안","정부가 다음 해 나라 살림 계획을 담아 국회에 내는 안"],["결산","지난해 나라 돈을 실제로 어떻게 썼는지 따져 보는 것"],["헌법재판소","법률이 헌법에 맞는지 등을 판단하는 재판 기관"],["삼권분립","입법·행정·사법 권력을 나눠 서로 견제하게 하는 원리"],["지방자치","주민이 뽑은 기관이 지역 일을 스스로 처리하는 제도"],["정치자금","후원금·보조금처럼 정치 활동에 쓰이는 돈"],["후원회","정치인을 위해 후원금을 모으는 공식 단체"],["기탁금","선거에 나갈 때 선관위에 맡기고 득표에 따라 돌려받는 돈"],["선거비용","선거운동에 쓴 돈. 득표율에 따라 나라가 돌려주기도 함"],["국무총리","대통령을 보좌하고 행정 각부를 이끄는 자리(국회 동의 필요)"],["감사원","나라 돈의 쓰임과 공무원의 직무를 감사하는 헌법 기관"],["선거관리위원회","선거와 국민투표를 공정하게 관리하는 독립 기관"],["팩트체크","주장이나 보도가 사실인지 근거를 찾아 확인하는 일"],["반론보도","보도된 당사자가 자기 쪽 입장을 실어 달라고 해서 싣는 보도"],["정정보도","사실과 다르게 나간 보도를 바로잡는 보도"],["조례","지방의회가 법령 범위 안에서 만드는 지역의 규칙"],["대법원","3심제에서 마지막 재판을 맡는 최고 법원"],["위헌법률심판","법률이 헌법에 어긋나는지 헌법재판소가 판단하는 것"],["헌법소원","기본권을 침해당한 국민이 헌법재판소에 구제를 청구하는 것"],["권한쟁의","국가기관끼리 생긴 권한 다툼을 헌법재판소가 가리는 것"],["국민동의청원","30일 안에 5만 명이 동의하면 국회가 심사하는 청원"],["재적의원","지금 국회에 적을 두고 있는 의원 전체"],["기권","표결에서 찬성도 반대도 하지 않는 것"],["준연동형","정당 득표율과 지역구 당선 수를 일부 맞물려 비례 의석을 나누는 방식"],["공직선거법","대통령·국회의원·지방선거의 규칙을 정한 법"],["세액공제","정치후원금처럼 낸 돈의 일부를 세금에서 빼 주는 것"],["비준","조약을 나라가 최종 확인해 효력을 갖게 하는 절차"],["의안","국회에서 심의하는 법률안·예산안 같은 안건"],["여론조사","일부 사람에게 물어 전체의 생각을 짐작하는 조사"],["표본오차","전체가 아닌 일부만 조사해서 생기는 오차 범위"],["지방의회","시·도와 시·군·구 주민이 뽑은 의원들의 의회"],["교육감","시·도의 교육 행정을 맡는, 주민이 직접 뽑는 책임자"],["입법부","법을 만드는 국가 기관, 곧 국회"],["사법부","법에 따라 재판하는 국가 기관, 곧 법원"],["가결","표결을 통과한 것"],["발의","의원이 법안을 만들어 국회에 내는 것"],["표결","찬성·반대·기권으로 의견을 정하는 것"]]}</script>
+    
+<script>
+var PG = (function () {
+  var $ = function (id) { return document.getElementById(id); };
+  function say(t) {
+    if (!window.speechSynthesis) return;
+    try { speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = "ko-KR"; u.rate = 0.95; speechSynthesis.speak(u); } catch (e) {}
+  }
+  function get(k, d) { try { var v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }
+  function set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function share(btn, title, text, url) {
+    if (navigator.share) navigator.share({ title: title, text: text, url: url }).catch(function () {});
+    else if (navigator.clipboard) navigator.clipboard.writeText(text + " " + url).then(function () { btn.textContent = "복사했어요"; });
+  }
+  function shuffle(a, r) { r = r || Math.random; for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(r() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function rng(seed) {   /* 같은 날엔 같은 문제가 나오게 하는 고정 난수 */
+    var s = seed >>> 0;
+    return function () { s = (s + 0x6D2B79F5) >>> 0; var t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  }
+  function today() { return new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10); }   /* 한국 시각 날짜 */
+  function dayNum(s) { return Math.floor(Date.parse(s + "T00:00:00Z") / 864e5); }
+  function data() { return JSON.parse($("pgData").textContent); }
+  /* 보기 버튼 만들기 — labels: 글자 또는 [큰 글자, 작은 글자] */
+  function opts(box, labels, onPick) {
+    box.innerHTML = ""; box.removeAttribute("data-done");
+    labels.forEach(function (l, i) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "pg-opt";
+      if (typeof l === "string") b.textContent = l;
+      else { b.textContent = l[0]; var s = document.createElement("small"); s.textContent = l[1]; b.appendChild(s); }
+      b.onclick = function () { if (box.getAttribute("data-done")) return; box.setAttribute("data-done", "1"); onPick(i, b); };
+      box.appendChild(b);
+    });
+  }
+  function mark(box, right, picked) {
+    var bs = box.children;
+    for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; if (i === right) bs[i].classList.add("ok"); else if (i === picked) bs[i].classList.add("no"); }
+  }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function link(href, text, ck, sub) { var a = el("a", sub ? "sub" : "", text); a.href = href; if (ck) a.setAttribute("data-ck", ck); return a; }
+  var NO = ["1번", "2번", "3번", "4번"];
+  function readQ(q, labels) {
+    say(q + ". " + labels.map(function (l, i) { return NO[i] + ", " + (typeof l === "string" ? l : l[0]); }).join(". "));
+  }
+  var ag = $("pgAgain"), sh = $("pgShare");   /* 한 판 더 → 공유 버튼 글자 되돌리기 */
+  if (ag && sh) ag.addEventListener("click", function () { sh.textContent = "친구에게 자랑하기"; });
+  return { $: $, say: say, get: get, set: set, share: share, shuffle: shuffle, rng: rng, today: today, dayNum: dayNum,
+           data: data, opts: opts, mark: mark, el: el, link: link, readQ: readQ };
+})();
+</script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      var D = PG.data(), $ = PG.$, day = PG.today(), dn = PG.dayNum(day), r = PG.rng(dn * 2654435761), qs = [], at = 0, right = 0, lastRead = null;
+      var rec = PG.get("pg-daily", {});
+      /* 오늘의 3문제: 법안 통과 여부 · 숫자 감 잡기 · 용어 뜻 */
+      if (D.bills.length) {
+        var b = D.bills[(dn * 37) % D.bills.length];
+        qs.push({ q: "「" + b[1] + "」", s: b[2] + " 의원 대표발의 · " + b[3] + "\n이 법안, 본회의를 통과했을까요?", two: true,
+                  o: ["⭕ 통과했다", "❌ 통과 못 했다"], a: b[4] ? 0 : 1,
+                  e: "처리 결과: " + b[5] + (b[4] ? " (본회의 통과)" : " (본회의 통과 전이거나 통과하지 못함)"), href: "/bills/" + b[0] + ".html" });
+      }
+      if (D.nums.length) { var n = D.nums[(dn * 13) % D.nums.length]; qs.push({ q: n[0], o: n[1], a: n[2], e: n[3] }); }
+      if (D.terms.length >= 4) {
+        var ti = (dn * 7) % D.terms.length, t = D.terms[ti], pool = [];
+        for (var i = 0; i < D.terms.length; i++) if (i !== ti) pool.push(D.terms[i][1]);
+        var o = PG.shuffle(PG.shuffle(pool, r).slice(0, 3).concat([t[1]]), r);
+        qs.push({ q: "'" + t[0] + "'의 뜻은 무엇일까요?", o: o, a: o.indexOf(t[1]), e: t[0] + " — " + t[1] });
+      }
+      function stamp() {
+        var s = rec.streak || 0, done = rec.last === day;
+        $("pgStamp").textContent = (s ? "연속 출석 " + s + "일 " + "🟢".repeat(Math.min(s, 7)) : "첫 도장을 찍어 보세요") + (done ? " · 오늘 기록 " + rec.score + "/3 (다시 풀어도 기록은 그대로)" : "");
+      }
+      function show() {
+        var q = qs[at];
+        $("pgFb").hidden = true; $("pgNext").hidden = true;
+        $("pgScore").textContent = (at + 1) + " / " + qs.length + " 문제";
+        $("pgQ").innerHTML = ""; $("pgQ").appendChild(document.createTextNode(q.q));
+        if (q.s) q.s.split("\n").forEach(function (l) { $("pgQ").appendChild(PG.el("small", "", l)); });
+        $("pgOpts").className = "pg-opts" + (q.two ? " two" : "");
+        lastRead = [q.q + " " + (q.s || "").replace("\n", " "), q.o];
+        PG.opts($("pgOpts"), q.o, pick);
+      }
+      function pick(i) {
+        var q = qs[at], ok = i === q.a, fb = $("pgFb");
+        if (ok) right++;
+        PG.mark($("pgOpts"), q.a, i);
+        fb.innerHTML = ""; fb.hidden = false;
+        fb.appendChild(PG.el("b", ok ? "ok" : "no", ok ? "⭕ 정답!" : "❌ 아쉬워요"));
+        fb.appendChild(PG.el("div", "", q.e));
+        if (q.href) { var ln = PG.el("div", "pg-links"); ln.appendChild(PG.link(q.href, "이 법안 자세히 보기", "games-daily-bill", true)); fb.appendChild(ln); }
+        PG.say(ok ? "정답" : "아쉬워요");
+        $("pgNext").textContent = at + 1 < qs.length ? "다음 문제 ▶" : "결과 보기 ▶";
+        $("pgNext").hidden = false;
+      }
+      function end() {
+        if (rec.last !== day) {
+          var y = new Date(Date.parse(day + "T00:00:00Z") - 864e5).toISOString().slice(0, 10);
+          rec = { last: day, score: right, streak: rec.last === y ? (rec.streak || 0) + 1 : 1, days: (rec.days || 0) + 1 };
+          PG.set("pg-daily", rec);
+        }
+        stamp();
+        $("pgResult").hidden = false;
+        $("pgRes").textContent = "오늘 " + qs.length + "문제 중 " + right + "개 맞혔어요! 연속 출석 " + (rec.streak || 1) + "일";
+        PG.say(right + "개 맞혔어요. 내일 또 만나요");
+      }
+      $("pgNext").onclick = function () { at++; if (at < qs.length) show(); else end(); };
+      $("pgAgain").textContent = "▶ 다시 풀기";
+      $("pgAgain").onclick = function () { at = 0; right = 0; $("pgResult").hidden = true; show(); window.scrollTo(0, 0); };
+      $("pgSay").onclick = function () { if (lastRead) PG.readQ(lastRead[0], lastRead[1]); };
+      $("pgShare").onclick = function () { PG.share(this, "정치탈탈 오늘의 국회 3문제", "오늘의 국회 3문제 " + right + "/3, 연속 출석 " + (rec.streak || 1) + "일! — 정치탈탈", "https://politaltal.com/game-daily"); };
+      stamp(); show();
+    });
+    </script>
+    
+  <section class="tail">
+    <div class="container">
+      <h2 class="tail-h">이어서 보기</h2>
+      <div class="next-list"><a class="next-card" href="/money.html" data-ck="next-money"><span class="nk">재산</span><strong>의원 재산 1위 1,368억, 꼴찌는 −11억</strong><span class="ns">내 의원은 몇 위일까요? →</span></a><a class="next-card" href="/list.html" data-ck="next-vote"><span class="nk">표결</span><strong>본회의 표결 4번 중 1번은 ‘불참’</strong><span class="ns">내 의원은 몇 번 빠졌는지 참여율로 확인하세요 →</span></a><a class="next-card" href="/region.html" data-ck="next-region"><span class="nk">우리 동네</span><strong>우리 동네 의원 이름, 바로 떠오르시나요?</strong><span class="ns">지역만 고르면 성적표가 나옵니다 →</span></a></div>
+      <div class="yt-band">
+        <div class="yt-head">
+          <div>
+            <span class="nk">정치탈탈 유튜브</span>
+            <strong class="yt-title">모르고 뽑으면 또 4년입니다</strong>
+            <p class="yt-sub">의원 성적표(출석·표결·법안·재산)와 정치사 이야기를 영상으로 정리합니다. 편은 들지 않습니다.</p>
+          </div>
+          <a class="yt-btn" href="https://www.youtube.com/@politaltal?sub_confirmation=1" target="_blank" rel="noopener" data-ck="yt-sub">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>유튜브에서 구독</a>
+        </div>
+        <div class="yt-row" id="ytRow" hidden></div>
+      </div>
+    </div>
+  </section></main>
+  <nav class="bottom-nav">
+    <a href="/" class="active">
+      <span class="icon">🏠</span>홈
+    </a>
+    <a href="/people.html" class="">
+      <span class="icon">👤</span>정치인
+    </a>
+    <a href="/pledges.html" class="">
+      <span class="icon">📜</span>공약·법안
+    </a>
+    <a href="/community.html" class="">
+      <span class="icon">💬</span>커뮤니티
+    </a>
+    <a href="/history.html" class="">
+      <span class="icon">📼</span>비사
+    </a>
+  </nav>
+  <script>
+    // 정치 용어 tooltip — 모바일 tap-to-show, 다시 탭하면 닫기
+    document.addEventListener('click', function(e) {
+      const t = e.target.closest('.term-tip');
+      if (t) {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          if (x !== t) x.classList.remove('tt-active');
+        });
+        t.classList.toggle('tt-active');
+        e.stopPropagation();
+      } else {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          x.classList.remove('tt-active');
+        });
+      }
+    });
+  </script>
+  <script>/* 방문 집계: 페이지 주소·유입 사이트 이름만 보낸다(쿠키·식별값 없음) → site/worker.js /t */
+  try { navigator.sendBeacon("/t", JSON.stringify({ p: location.pathname, r: document.referrer ? new URL(document.referrer).host : "" })); } catch (e) {}
+  /* 띠 클릭 집계: data-ck 가 붙은 링크만, 이름표(key)만 보낸다 */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("[data-ck]");
+    if (a) try { navigator.sendBeacon("/t", JSON.stringify({ c: a.getAttribute("data-ck") })); } catch (x) {}
+  });
+  /* 유튜브 띠: 채널 최신 영상(매일 수집) — 지금 보는 정치인 이름이 제목에 있으면 맨 앞으로 */
+  (function () {
+    var row = document.getElementById("ytRow");
+    if (!row) return;
+    fetch("/data/stories_videos.json").then(function (r) { return r.json(); }).then(function (d) {
+      var v = (d.latest || []).slice();
+      if (!v.length) return;
+      var name = /^[/](politician|local)[/]/.test(location.pathname) ? document.title.split(" ")[0] : "";
+      if (name.length >= 2) v = v.filter(function (x) { return (x.mine = x.title.indexOf(name) >= 0 || (x.tags || []).indexOf(name) >= 0); }).concat(v.filter(function (x) { return !x.mine; }));
+      v.slice(0, 8).forEach(function (x) {
+        var a = document.createElement("a"), img = document.createElement("img"), t = document.createElement("span");
+        a.className = "yt-card"; a.href = "https://www.youtube.com/watch?v=" + encodeURIComponent(x.id); a.target = "_blank"; a.rel = "noopener";
+        a.setAttribute("data-ck", "yt-video");
+        img.loading = "lazy"; img.alt = ""; img.src = "https://i.ytimg.com/vi/" + encodeURIComponent(x.id) + "/mqdefault.jpg";
+        a.appendChild(img);
+        if (x.mine) { var m = document.createElement("em"); m.textContent = name + " 영상"; a.appendChild(m); }
+        t.textContent = x.title; a.appendChild(t); row.appendChild(a);
+      });
+      row.hidden = false;
+    }).catch(function () {});
+  })();
+  </script>
+  <script>
+  /* ── 정치탈탈 앱 전용: 의정 속보 푸시 등록 (웹에서는 아무것도 안 함) ── */
+  (function() {
+    var Cap = window.Capacitor;
+    var inApp = !!(Cap && Cap.isNativePlatform && Cap.isNativePlatform())
+                || /PolitaltalApp/.test(navigator.userAgent || "");
+    if (!inApp || !Cap || !Cap.Plugins || !Cap.Plugins.PushNotifications) return;
+    var PN = Cap.Plugins.PushNotifications;
+    var platform = (Cap.getPlatform && Cap.getPlatform()) || "unknown";
+    var PUSH_API = "";   // 같은 오리진 /push/* (site/worker.js)
+
+    function postToken(value) {
+      try {
+        fetch(PUSH_API + "/push/register", {
+          method: "POST", headers: { "content-type": "application/json" },
+          body: JSON.stringify({ token: value, platform: platform, topics: "all" })
+        }).catch(function() {});
+      } catch (e) {}
+    }
+
+    // 딥링크: 알림 탭 → 해당 URL로 이동
+    PN.addListener("pushNotificationActionPerformed", function(ev) {
+      try {
+        var url = ev && ev.notification && ev.notification.data && ev.notification.data.url;
+        if (url) window.location.href = url;
+      } catch (e) {}
+    });
+    PN.addListener("registration", function(t) { if (t && t.value) postToken(t.value); });
+    PN.addListener("registrationError", function() {});
+
+    function start() {
+      // 안드로이드 알림 채널(중요도 높음) — send_push.py 의 channel_id 와 일치
+      if (platform === "android" && PN.createChannel) {
+        PN.createChannel({ id: "politaltal_news", name: "의정 속보",
+          description: "본회의 처리·신규 발의 속보", importance: 5, visibility: 1 }).catch(function() {});
+      }
+      PN.checkPermissions().then(function(p) {
+        if (p.receive === "granted") { PN.register(); return; }
+        // 첫 방문 1회만 권한 요청(거부 후 매번 묻지 않도록 플래그)
+        if (localStorage.getItem("pt_push_asked") === "1" && p.receive === "denied") return;
+        localStorage.setItem("pt_push_asked", "1");
+        PN.requestPermissions().then(function(r) { if (r.receive === "granted") PN.register(); });
+      }).catch(function() {});
+    }
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start);
+  })();
+  </script>
+  <script src="/war.js?v=202611162223" defer></script>
+  <script src="/hub.js?v=202611162223" defer></script>
+</body>
+</html>

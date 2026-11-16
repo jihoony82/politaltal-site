@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <script>if(/PolitaltalApp/.test(navigator.userAgent)){var E=document.documentElement,L={ios:true,android:true},S={ios:false,android:false},P=/iPhone|iPad|iPod/.test(navigator.userAgent)?'ios':'android';E.classList.add('in-app');if(!L[P])E.classList.add('no-iap');if(!S[P])E.classList.add('no-sm');if(/^[/](community|post|login|data([.]html)?$)/.test(location.pathname)||(!L[P]&&/^[/](donate|transparency|supporters)/.test(location.pathname))||(!S[P]&&/^[/]sinmungo/.test(location.pathname)))location.replace('/');}</script>
+  <title>정치 초성 퀴즈 — 초성 보고 정치 용어 맞히기 | 정치탈탈</title>
+  <meta name="description" content="ㅂㅎㅇ은 무슨 말? 초성과 힌트를 보고 정치 용어를 고르는 쉬운 퀴즈. 정치 배움터 용어로 만들었습니다.">
+  <meta name="keywords" content="정치탈탈,국회의원,의정활동,출석률,발의 법안,표결,재산공개,지역구,공공데이터,22대 국회,국회의원 검색,내 지역구 의원">
+  <meta name="author" content="정치탈탈">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://politaltal.com/game-chosung">
+
+  <!-- 검색엔진 사이트 소유 확인 (각 사이트에서 등록 후 content 값 채우기) -->
+  <meta name="naver-site-verification" content="9e3ca58898c588a94375445bf3e90634c27da43d">
+  <meta name="google-site-verification" content="3T1zR-6vdABc-R7XTfG9TFbnljB_3DYZQroa1B6pbiE">
+  <meta name="msvalidate.01" content="50D545291AE8CB679E6A71ED05D18AC4">
+  <!-- ↑ 빙(Bing) 웹마스터: https://www.bing.com/webmasters 등록 후 받은 코드 -->
+  <!-- ↑ 다음(Daum)은 verification 메타 없음. https://register.search.daum.net 사이트 URL만 등록 -->
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="정치탈탈">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="정치 초성 퀴즈 — 초성 보고 정치 용어 맞히기 | 정치탈탈">
+  <meta property="og:description" content="ㅂㅎㅇ은 무슨 말? 초성과 힌트를 보고 정치 용어를 고르는 쉬운 퀴즈. 정치 배움터 용어로 만들었습니다.">
+  <meta property="og:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="정치탈탈 - 국회의원 의정활동 대시보드">
+  <meta property="og:url" content="https://politaltal.com/game-chosung">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="정치 초성 퀴즈 — 초성 보고 정치 용어 맞히기 | 정치탈탈">
+  <meta name="twitter:description" content="ㅂㅎㅇ은 무슨 말? 초성과 힌트를 보고 정치 용어를 고르는 쉬운 퀴즈. 정치 배움터 용어로 만들었습니다.">
+  <meta name="twitter:image" content="https://politaltal.com/images/og-bigdata.png?v=2">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=202611162223">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=202611162223">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=202611162223">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=202611162223">
+  <meta name="theme-color" content="#0a2540">
+  <link rel="stylesheet" href="/styles.css?v=202611162223">
+  <script>document.documentElement.classList.add("hub-js")</script><!-- 박스→카드: JS 없는 검색로봇은 전체 내용을 그대로 읽는다 -->
+  <!-- PWA manifest (홈 화면 추가 시 사용 — 캐시 무력화 헬퍼) -->
+  <link rel="manifest" href="/manifest.json?v=202611162223">
+  <!-- 캐시 무력화 (홈 화면 추가 사용자의 PWA 캐시도 강제 갱신) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="build-id" content="202611162223">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="정치탈탈">
+
+  <style>
+  .pg { max-width: 600px; }
+  .pg [hidden] { display: none !important; }
+  .pg-h { font-size: 27px; font-weight: 900; margin: 10px 0 4px; color: var(--color-primary); text-align: center; word-break: keep-all; }
+  .pg-sub { font-size: 16.5px; line-height: 1.6; text-align: center; margin: 0 0 10px; color: var(--color-text); word-break: keep-all; }
+  .pg-stage { background: #fff; border-radius: 20px; box-shadow: var(--shadow-md); padding: 16px 14px 18px; margin: 12px 0; }
+  .pg-bar { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  .pg-say { min-height: 48px; border: 1px solid var(--color-border); background: #f8fafc; border-radius: 999px; padding: 6px 16px;
+            font-family: inherit; font-size: 16px; font-weight: 800; color: var(--color-text); cursor: pointer; }
+  .pg-q { font-size: 23px; font-weight: 900; line-height: 1.45; margin: 10px 0 16px; color: var(--color-text); word-break: keep-all; overflow-wrap: anywhere; }
+  .pg-q small { display: block; font-size: 17px; font-weight: 700; color: var(--color-text-soft); margin-top: 6px; }
+  .pg-opts { display: grid; gap: 10px; }
+  .pg-opts.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .pg-opt { width: 100%; min-height: 60px; border: 2px solid var(--color-border); background: #f8fafc; border-radius: 14px; padding: 12px 12px;
+            font-family: inherit; font-size: 21px; font-weight: 800; line-height: 1.35; color: var(--color-text); cursor: pointer; text-align: center;
+            word-break: keep-all; overflow-wrap: anywhere; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  .pg-opt small { display: block; font-size: 15px; font-weight: 700; color: var(--color-text-soft); margin-top: 4px; }
+  .pg-opt:disabled { cursor: default; color: var(--color-text); opacity: 1; }
+  .pg-opt.ok { border-color: #16a34a; background: #dcfce7; } .pg-opt.no { border-color: #dc2626; background: #fee2e2; }
+  .pg-opt.done { border-color: var(--color-primary); background: #e0e7ff; }
+  .pg-fb { margin-top: 16px; font-size: 18px; line-height: 1.65; word-break: keep-all; overflow-wrap: anywhere; }
+  .pg-fb b.ok { color: #16a34a; font-size: 22px; } .pg-fb b.no { color: #dc2626; font-size: 22px; }
+  .pg-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; justify-content: center; }
+  .pg-links a, .pg-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; border: 0; border-radius: 999px;
+            background: var(--color-primary); color: #fff; font-family: inherit; font-size: 17px; font-weight: 800; padding: 10px 18px; text-decoration: none; cursor: pointer; }
+  .pg-links a.sub, .pg-btn.sub { background: #eef2f7; color: var(--color-text); }
+  .pg-big { width: 100%; min-height: 60px; font-size: 22px; border-radius: 14px; margin-top: 14px; }
+  .pg-result { background: #fff7d6; border-radius: 16px; padding: 18px 14px; margin: 12px 0; text-align: center; }
+  .pg-result p { font-size: 23px; font-weight: 900; line-height: 1.45; margin: 0 0 10px; word-break: keep-all; }
+  .pg-sel { width: 100%; min-height: 60px; font-family: inherit; font-size: 20px; font-weight: 800; border: 2px solid var(--color-border); border-radius: 14px;
+            padding: 8px 12px; background: #fff; color: var(--color-text); }
+  .pg-src { font-size: 13.5px; color: var(--color-text-soft); line-height: 1.6; margin: 8px 2px 18px; word-break: keep-all; }
+  .pg-how { font-size: 16px; line-height: 1.8; }
+  .pg-how ol { padding-left: 20px; margin: 6px 0; }
+  </style>
+  <!-- Cloudflare Web Analytics -->
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "26dbbaa3ad4d4e4a95991d64553fa612"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+  <!-- 후원 진행 배너 (사이트 최상단) — 매일 다른 감정 카피 -->
+  <div class="fundraiser-bar">
+    <div class="container fb-inner">
+      <div class="fb-copy">
+        <span class="fb-kicker">정치탈탈 후원</span>
+        <span class="fb-line" id="fbLine">
+          <strong>정치인은 4년에 한 번 옵니다.</strong> 그들의 매일은 우리가 봅니다.
+        </span>
+      </div>
+      <div class="fb-progress-wrap">
+        <div class="fb-progress-track">
+          <div class="fb-progress-fill" id="fbFill" style="width: 2%;"></div>
+          <span class="fb-progress-text" id="fbSeat">창립 후원자석 100석</span>
+        </div>
+        <div class="fb-progress-stats">
+          <span class="fb-raised" id="fbLeft">먼저 온 100명이 창립 후원자</span>
+          <span class="fb-pct" id="fbPledge">후원금은 전액 좋은 일에</span>
+        </div>
+      </div>
+      <a href="/donate.html" class="fb-donate-btn">☕ 후원하기</a>
+    </div>
+  </div>
+  <script>
+    // 후원 카피 매일 회전 (날짜 기준 → 모든 사용자에게 같은 메시지)
+    (function() {
+      const COPIES = [
+        ['정치인은 4년에 한 번 옵니다.', '그들의 매일은 우리가 봅니다.'],
+        ['투표한 의원, 그 다음은', '잊고 계셨나요?'],
+        ['선거 다음 날부터,', '우리는 추적을 시작합니다.'],
+        ['300명의 발의·표결·재산.', '잊지 않고 기록합니다.'],
+        ['그들의 무기는 잊혀짐.', '우리의 무기는 기록입니다.'],
+        ['당신의 커피값은', '전액 국민을 위한 좋은 일에 쓰입니다.'],
+        ['발의 20,818건, 통과 727건.', '우리는 그 차이를 봅니다.'],
+      ];
+      try {
+        const day = Math.floor(Date.now() / 86400000);
+        const c = COPIES[day % COPIES.length];
+        const el = document.getElementById('fbLine');
+        if (el && c) {
+          el.innerHTML = '<strong>' + c[0] + '</strong> ' + c[1];
+        }
+      } catch (e) {}
+    })();
+    // 후원자의 벽 실제 숫자(점등 수·최근 점등) — 상단 띠와 페이지 끝 후원 카드(.sup-live)가 같이 쓴다
+    (function () {
+      var ago = function (t) { var m = Math.floor((Date.now() - t) / 6e4); return m < 1 ? '방금' : m < 60 ? m + '분 전' : m < 1440 ? Math.floor(m / 60) + '시간 전' : Math.floor(m / 1440) + '일 전'; };
+      var wall = fetch('/wall/list?brief=1').then(function (r) { return r.json(); }).catch(function () { return {}; });
+      wall.then(function (d) {
+        var bar = document.querySelector('.fundraiser-bar');
+        if (!d.ok || !bar || !bar.offsetParent) return;
+        var lit = Math.min(d.n || 0, 100), s = d.last, el = document.getElementById('fbLine');
+        document.getElementById('fbFill').style.width = Math.max(lit, 2) + '%';
+        document.getElementById('fbSeat').textContent = '창립 후원자석 ' + lit + ' / 100';
+        document.getElementById('fbLeft').textContent = lit < 100 ? '창립 후원자석 ' + (100 - lit) + '석 남음' : '창립 후원자석 마감';
+        if (s && Date.now() - s.at < 3 * 864e5) {
+          var b = document.createElement('strong');
+          b.textContent = '🔔 ' + s.name + '님이 제' + s.no + '석에 불을 켰습니다';
+          el.textContent = ''; el.appendChild(b);
+          el.appendChild(document.createTextNode(' ' + ago(s.at) + (lit < 100 ? ' · 창립석 ' + (100 - lit) + '석 남음' : '')));
+        }
+      });
+      document.addEventListener('DOMContentLoaded', function () {
+        var hw = document.getElementById('hwLamps');   // 홈 후원자의 벽 카드 — 켜진 자리 수
+        if (hw) wall.then(function (d) {
+          if (!d.ok) return;
+          var n = d.n || 0;
+          [].slice.call(hw.children, 0, n).forEach(function (s) { s.className = 'on'; });
+          document.getElementById('hwCount').textContent = n < 100 ? '창립 후원자석 100석 중 ' + n + '석 켜짐 · ' + (100 - n) + '석 남음' : '후원자 ' + n + '명이 함께합니다';
+        });
+        var live = [].slice.call(document.querySelectorAll('.sup-live'));
+        if (!live.length) return;
+        var hot = fetch('/hot?p=' + encodeURIComponent(location.pathname)).then(function (r) { return r.json(); }).catch(function () { return {}; });
+        Promise.all([hot, wall]).then(function (v) {
+          var parts = [];
+          if (v[0].n >= 10) parts.push('오늘 이 페이지 조회 ' + v[0].n.toLocaleString('ko-KR') + '회');
+          if (v[1].ok) parts.push(v[1].n < 100 ? '창립 후원자석 ' + (100 - v[1].n) + '석 남음' : '후원자 ' + v[1].n + '명이 함께합니다');
+          if (!parts.length) return;
+          live.forEach(function (p) { p.textContent = parts.join(' · '); p.hidden = false; });
+        });
+      });
+    })();
+  </script>
+
+  <header class="app-header">
+    <div class="container">
+      <a href="/" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="태극">
+          <circle cx="16" cy="16" r="15" fill="#fff" stroke="#0a2540" stroke-width="1.5"/>
+          <!-- 태극 (빨강 위 / 파랑 아래) -->
+          <path d="M 16,1 A 15,15 0 0 1 16,31 A 7.5,7.5 0 0 1 16,16 A 7.5,7.5 0 0 0 16,1 Z" fill="#c8102e"/>
+          <path d="M 16,1 A 15,15 0 0 0 16,31 A 7.5,7.5 0 0 0 16,16 A 7.5,7.5 0 0 1 16,1 Z" fill="#003478"/>
+        </svg>
+        <span>정치탈탈</span>
+      </a>
+      <div class="header-actions">
+        <a href="/donate.html" class="header-donate"
+           title="당신의 커피 한 잔이 정치 감시의 눈이 됩니다 👀 (월 1,000원~)">
+          <span class="hd-heart">♥</span><span class="hd-text">커피 한 잔</span>
+        </a>
+        <a href="/login.html" id="headerAuthBtn"
+           onclick="if(!location.pathname.startsWith('/login')){this.href='/login.html?return='+encodeURIComponent(location.pathname+location.search+location.hash);}"
+           style="font-size:12px;font-weight:700;padding:6px 12px;
+                                      background:var(--color-primary);color:white;
+                                      border-radius:6px;text-decoration:none;
+                                      display:flex;align-items:center;gap:6px;">
+          로그인
+        </a>
+      </div>
+      <script>
+        (function() {
+          try {
+            const u = JSON.parse(localStorage.getItem('politaltal.user') || 'null');
+            if (u && u.name) {
+              const btn = document.getElementById('headerAuthBtn');
+              if (btn) {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-text)';
+                btn.style.border = '1px solid var(--color-border)';
+                const photoTag = u.photo
+                  ? '<img src="' + u.photo + '" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">'
+                  : '👤';
+                btn.innerHTML = photoTag + ' <span>' + u.name + '</span>';
+              }
+            }
+          } catch (e) {}
+        })();
+      </script>
+    </div>
+  </header>
+  <main>
+    <div class="container pg">
+      <a href="/games.html" class="back-link" data-ck="games-back-chosung">← 게임 모음</a>
+      <h1 class="pg-h">🔤 정치 초성 퀴즈</h1>
+      <p class="pg-sub">초성과 힌트를 보고 정치 용어를 골라 보세요.<br>한 판에 5문제입니다.</p>
+      <div class="pg-stage">
+        <div class="pg-bar"><span id="pgScore"></span><button type="button" class="pg-say" id="pgSay">🔊 문제 듣기</button></div>
+        <div id="pgCho" style="font-size:clamp(32px,10vw,56px);font-weight:900;letter-spacing:.12em;text-align:center;color:var(--color-primary);margin:6px 0 0;word-break:keep-all;overflow-wrap:anywhere;"></div><div class="pg-q" id="pgQ" aria-live="polite"></div>
+        <div class="pg-opts" id="pgOpts"></div>
+        <div class="pg-fb" id="pgFb" aria-live="polite" hidden></div>
+        <button type="button" class="pg-btn pg-big" id="pgNext" hidden>다음 문제 ▶</button></div>
+      <div class="pg-result" id="pgResult" hidden>
+        <p id="pgRes"></p>
+        <div class="pg-links">
+          <button type="button" class="pg-btn" id="pgShare" data-ck="games-share-chosung">친구에게 자랑하기</button>
+          <button type="button" class="pg-btn sub" id="pgAgain" data-ck="games-again-chosung">▶ 한 판 더</button>
+          <a class="sub" href="/games.html" data-ck="games-more-chosung">다른 게임</a>
+        </div>
+      </div>
+      <p class="pg-src">용어와 풀이는 정치탈탈 <a href="/learn.html" data-ck="games-chosung-learn">정치 배움터</a> 기준입니다(용어 54개).</p>
+      <div class="stat-card pg-how"><h2>하는 법</h2><ol><li>큰 글씨 초성과 힌트를 보고 알맞은 용어를 누르세요.</li>
+        <li>타자는 칠 필요 없어요. 4개 중에서 고르기만 하면 됩니다.</li><li>한 판 5문제, 다 맞히면 만점!</li></ol></div>
+    </div>
+    <script type="application/json" id="pgData">{"chosung":[["본회의","ㅂㅎㅇ","국회의원 전원이 모여 법안 등을 최종 의결하는 회의"],["상임위원회","ㅅㅇㅇㅇㅎ","분야별로 법안을 먼저 심사하는 국회의 위원회"],["교섭단체","ㄱㅅㄷㅊ","국회의원 20명 이상이 모인 정당 등의 단체"],["면책특권","ㅁㅊㅌㄱ","국회 안에서 한 직무상 발언·표결은 국회 밖에서 책임지지 않는 권리"],["불체포특권","ㅂㅊㅍㅌㄱ","회기 중에는 국회 동의 없이 체포·구금되지 않는 권리(현행범 제외)"],["대표발의","ㄷㅍㅂㅇ","법안을 처음 작성해 제출하는 주된 의원"],["공동발의","ㄱㄷㅂㅇ","법안을 낼 때 대표 의원과 함께 이름을 올리는 것"],["원안가결","ㅇㅇㄱㄱ","처음 낸 모습 그대로 본회의를 통과한 것"],["수정가결","ㅅㅈㄱㄱ","심사하면서 일부를 고친 뒤 본회의를 통과한 것"],["대안반영폐기","ㄷㅇㅂㅇㅍㄱ","내용이 다른 법안(대안)에 흡수되고 본래 법안은 폐기된 것"],["비례대표","ㅂㄹㄷㅍ","정당이 받은 표의 비율에 따라 정당 명부 순서대로 뽑히는 의원"],["지역구","ㅈㅇㄱ","그 구역에서 가장 많은 표를 받은 후보가 당선되는 선거 구역"],["국정감사","ㄱㅈㄱㅅ","국회가 해마다 정부 기관이 일을 제대로 했는지 살펴보는 것"],["국정조사","ㄱㅈㅈㅅ","특정 사안을 정해 국회가 따로 조사하는 것"],["인사청문회","ㅇㅅㅊㅁㅎ","고위 공직 후보자의 자격을 국회가 묻고 따져 보는 자리"],["탄핵","ㅌㅎ","고위 공직자가 중대하게 법을 어겼을 때 파면을 요구하는 절차"],["거부권","ㄱㅂㄱ","대통령이 국회가 의결한 법률안을 다시 의결해 달라고 돌려보내는 권한"],["예산안","ㅇㅅㅇ","정부가 다음 해 나라 살림 계획을 담아 국회에 내는 안"],["결산","ㄱㅅ","지난해 나라 돈을 실제로 어떻게 썼는지 따져 보는 것"],["헌법재판소","ㅎㅂㅈㅍㅅ","법률이 헌법에 맞는지 등을 판단하는 재판 기관"],["삼권분립","ㅅㄱㅂㄹ","입법·행정·사법 권력을 나눠 서로 견제하게 하는 원리"],["지방자치","ㅈㅂㅈㅊ","주민이 뽑은 기관이 지역 일을 스스로 처리하는 제도"],["정치자금","ㅈㅊㅈㄱ","후원금·보조금처럼 정치 활동에 쓰이는 돈"],["후원회","ㅎㅇㅎ","정치인을 위해 후원금을 모으는 공식 단체"],["기탁금","ㄱㅌㄱ","선거에 나갈 때 선관위에 맡기고 득표에 따라 돌려받는 돈"],["선거비용","ㅅㄱㅂㅇ","선거운동에 쓴 돈. 득표율에 따라 나라가 돌려주기도 함"],["국무총리","ㄱㅁㅊㄹ","대통령을 보좌하고 행정 각부를 이끄는 자리(국회 동의 필요)"],["감사원","ㄱㅅㅇ","나라 돈의 쓰임과 공무원의 직무를 감사하는 헌법 기관"],["선거관리위원회","ㅅㄱㄱㄹㅇㅇㅎ","선거와 국민투표를 공정하게 관리하는 독립 기관"],["팩트체크","ㅍㅌㅊㅋ","주장이나 보도가 사실인지 근거를 찾아 확인하는 일"],["반론보도","ㅂㄹㅂㄷ","보도된 당사자가 자기 쪽 입장을 실어 달라고 해서 싣는 보도"],["정정보도","ㅈㅈㅂㄷ","사실과 다르게 나간 보도를 바로잡는 보도"],["조례","ㅈㄹ","지방의회가 법령 범위 안에서 만드는 지역의 규칙"],["대법원","ㄷㅂㅇ","3심제에서 마지막 재판을 맡는 최고 법원"],["위헌법률심판","ㅇㅎㅂㄹㅅㅍ","법률이 헌법에 어긋나는지 헌법재판소가 판단하는 것"],["헌법소원","ㅎㅂㅅㅇ","기본권을 침해당한 국민이 헌법재판소에 구제를 청구하는 것"],["권한쟁의","ㄱㅎㅈㅇ","국가기관끼리 생긴 권한 다툼을 헌법재판소가 가리는 것"],["국민동의청원","ㄱㅁㄷㅇㅊㅇ","30일 안에 5만 명이 동의하면 국회가 심사하는 청원"],["재적의원","ㅈㅈㅇㅇ","지금 국회에 적을 두고 있는 의원 전체"],["기권","ㄱㄱ","표결에서 찬성도 반대도 하지 않는 것"],["준연동형","ㅈㅇㄷㅎ","정당 득표율과 지역구 당선 수를 일부 맞물려 비례 의석을 나누는 방식"],["공직선거법","ㄱㅈㅅㄱㅂ","대통령·국회의원·지방선거의 규칙을 정한 법"],["세액공제","ㅅㅇㄱㅈ","정치후원금처럼 낸 돈의 일부를 세금에서 빼 주는 것"],["비준","ㅂㅈ","조약을 나라가 최종 확인해 효력을 갖게 하는 절차"],["의안","ㅇㅇ","국회에서 심의하는 법률안·예산안 같은 안건"],["여론조사","ㅇㄹㅈㅅ","일부 사람에게 물어 전체의 생각을 짐작하는 조사"],["표본오차","ㅍㅂㅇㅊ","전체가 아닌 일부만 조사해서 생기는 오차 범위"],["지방의회","ㅈㅂㅇㅎ","시·도와 시·군·구 주민이 뽑은 의원들의 의회"],["교육감","ㄱㅇㄱ","시·도의 교육 행정을 맡는, 주민이 직접 뽑는 책임자"],["입법부","ㅇㅂㅂ","법을 만드는 국가 기관, 곧 국회"],["사법부","ㅅㅂㅂ","법에 따라 재판하는 국가 기관, 곧 법원"],["가결","ㄱㄱ","표결을 통과한 것"],["발의","ㅂㅇ","의원이 법안을 만들어 국회에 내는 것"],["표결","ㅍㄱ","찬성·반대·기권으로 의견을 정하는 것"]]}</script>
+    
+<script>
+var PG = (function () {
+  var $ = function (id) { return document.getElementById(id); };
+  function say(t) {
+    if (!window.speechSynthesis) return;
+    try { speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = "ko-KR"; u.rate = 0.95; speechSynthesis.speak(u); } catch (e) {}
+  }
+  function get(k, d) { try { var v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }
+  function set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function share(btn, title, text, url) {
+    if (navigator.share) navigator.share({ title: title, text: text, url: url }).catch(function () {});
+    else if (navigator.clipboard) navigator.clipboard.writeText(text + " " + url).then(function () { btn.textContent = "복사했어요"; });
+  }
+  function shuffle(a, r) { r = r || Math.random; for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(r() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function rng(seed) {   /* 같은 날엔 같은 문제가 나오게 하는 고정 난수 */
+    var s = seed >>> 0;
+    return function () { s = (s + 0x6D2B79F5) >>> 0; var t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  }
+  function today() { return new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10); }   /* 한국 시각 날짜 */
+  function dayNum(s) { return Math.floor(Date.parse(s + "T00:00:00Z") / 864e5); }
+  function data() { return JSON.parse($("pgData").textContent); }
+  /* 보기 버튼 만들기 — labels: 글자 또는 [큰 글자, 작은 글자] */
+  function opts(box, labels, onPick) {
+    box.innerHTML = ""; box.removeAttribute("data-done");
+    labels.forEach(function (l, i) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "pg-opt";
+      if (typeof l === "string") b.textContent = l;
+      else { b.textContent = l[0]; var s = document.createElement("small"); s.textContent = l[1]; b.appendChild(s); }
+      b.onclick = function () { if (box.getAttribute("data-done")) return; box.setAttribute("data-done", "1"); onPick(i, b); };
+      box.appendChild(b);
+    });
+  }
+  function mark(box, right, picked) {
+    var bs = box.children;
+    for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; if (i === right) bs[i].classList.add("ok"); else if (i === picked) bs[i].classList.add("no"); }
+  }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function link(href, text, ck, sub) { var a = el("a", sub ? "sub" : "", text); a.href = href; if (ck) a.setAttribute("data-ck", ck); return a; }
+  var NO = ["1번", "2번", "3번", "4번"];
+  function readQ(q, labels) {
+    say(q + ". " + labels.map(function (l, i) { return NO[i] + ", " + (typeof l === "string" ? l : l[0]); }).join(". "));
+  }
+  var ag = $("pgAgain"), sh = $("pgShare");   /* 한 판 더 → 공유 버튼 글자 되돌리기 */
+  if (ag && sh) ag.addEventListener("click", function () { sh.textContent = "친구에게 자랑하기"; });
+  return { $: $, say: say, get: get, set: set, share: share, shuffle: shuffle, rng: rng, today: today, dayNum: dayNum,
+           data: data, opts: opts, mark: mark, el: el, link: link, readQ: readQ };
+})();
+</script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      var D = PG.data(), C = D.chosung, $ = PG.$, set = [], at = 0, right = 0, lastRead = null, N = 5;
+      var NAME = { "ㄱ": "기역", "ㄲ": "쌍기역", "ㄴ": "니은", "ㄷ": "디귿", "ㄸ": "쌍디귿", "ㄹ": "리을", "ㅁ": "미음", "ㅂ": "비읍", "ㅃ": "쌍비읍", "ㅅ": "시옷",
+                   "ㅆ": "쌍시옷", "ㅇ": "이응", "ㅈ": "지읒", "ㅉ": "쌍지읒", "ㅊ": "치읓", "ㅋ": "키읔", "ㅌ": "티읕", "ㅍ": "피읖", "ㅎ": "히읗" };
+      function start() { set = PG.shuffle(C.slice()).slice(0, N); at = 0; right = 0; $("pgResult").hidden = true; show(); }
+      function show() {
+        var c = set[at];
+        $("pgFb").hidden = true; $("pgNext").hidden = true;
+        $("pgScore").textContent = (at + 1) + " / " + N + " 문제 · 맞힘 " + right;
+        $("pgCho").textContent = c[1];
+        $("pgQ").innerHTML = ""; $("pgQ").appendChild(document.createTextNode("힌트: " + c[2]));
+        var same = C.filter(function (x) { return x[0] !== c[0] && x[0].length === c[0].length; }),
+            other = C.filter(function (x) { return x[0] !== c[0] && x[0].length !== c[0].length; });
+        var wrong = PG.shuffle(same).concat(PG.shuffle(other)).slice(0, 3);
+        var o = PG.shuffle(wrong.concat([c])), labels = o.map(function (x) { return x[0]; });
+        lastRead = ["초성, " + c[1].split("").map(function (ch) { return NAME[ch] || ch; }).join(" ") + ". 힌트, " + c[2], labels];
+        PG.opts($("pgOpts"), labels, function (k) {
+          var ok = o[k] === c, fb = $("pgFb");
+          if (ok) right++;
+          PG.mark($("pgOpts"), o.indexOf(c), k);
+          $("pgScore").textContent = (at + 1) + " / " + N + " 문제 · 맞힘 " + right;
+          fb.innerHTML = ""; fb.hidden = false;
+          fb.appendChild(PG.el("b", ok ? "ok" : "no", ok ? "⭕ 정답!" : "❌ 아쉬워요"));
+          fb.appendChild(PG.el("div", "", c[0] + " (" + c[1] + ") — " + c[2].replace(/○○/g, c[0])));
+          PG.say(ok ? "정답" : "정답은 " + c[0]);
+          $("pgNext").textContent = at + 1 < N ? "다음 문제 ▶" : "결과 보기 ▶";
+          $("pgNext").hidden = false;
+        });
+      }
+      function end() {
+        var best = Math.max(PG.get("pg-chosung-best", 0), right); PG.set("pg-chosung-best", best);
+        $("pgResult").hidden = false;
+        $("pgRes").textContent = N + "문제 중 " + right + "개 맞혔어요! (내 최고 " + best + "개)";
+        PG.say(right + "개 맞혔어요");
+      }
+      $("pgNext").onclick = function () { at++; if (at < N) show(); else end(); };
+      $("pgAgain").onclick = function () { start(); window.scrollTo(0, 0); };
+      $("pgSay").onclick = function () { if (lastRead) PG.readQ(lastRead[0], lastRead[1]); };
+      $("pgShare").onclick = function () { PG.share(this, "정치탈탈 정치 초성 퀴즈", "정치 초성 퀴즈 " + N + "문제 중 " + right + "개 맞혔어요! — 정치탈탈", "https://politaltal.com/game-chosung"); };
+      start();
+    });
+    </script>
+    
+  <section class="tail">
+    <div class="container">
+      <h2 class="tail-h">이어서 보기</h2>
+      <div class="next-list"><a class="next-card" href="/bills.html" data-ck="next-bills"><span class="nk">법안</span><strong>법안 20,818건 중 통과는 727건</strong><span class="ns">100건을 내면 3건꼴 — 어떤 법이 통과됐을까요? →</span></a><a class="next-card" href="/live.html" data-ck="next-live"><span class="nk">국회 속보</span><strong>국회가 최근 통과시킨 법, 알고 계신가요?</strong><span class="ns">본회의 처리 결과를 공식 기록 그대로 정리합니다 →</span></a><a class="next-card" href="/money.html" data-ck="next-money"><span class="nk">재산</span><strong>의원 재산 1위 1,368억, 꼴찌는 −11억</strong><span class="ns">내 의원은 몇 위일까요? →</span></a></div>
+      <div class="yt-band">
+        <div class="yt-head">
+          <div>
+            <span class="nk">정치탈탈 유튜브</span>
+            <strong class="yt-title">모르고 뽑으면 또 4년입니다</strong>
+            <p class="yt-sub">의원 성적표(출석·표결·법안·재산)와 정치사 이야기를 영상으로 정리합니다. 편은 들지 않습니다.</p>
+          </div>
+          <a class="yt-btn" href="https://www.youtube.com/@politaltal?sub_confirmation=1" target="_blank" rel="noopener" data-ck="yt-sub">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>유튜브에서 구독</a>
+        </div>
+        <div class="yt-row" id="ytRow" hidden></div>
+      </div>
+    </div>
+  </section></main>
+  <nav class="bottom-nav">
+    <a href="/" class="active">
+      <span class="icon">🏠</span>홈
+    </a>
+    <a href="/people.html" class="">
+      <span class="icon">👤</span>정치인
+    </a>
+    <a href="/pledges.html" class="">
+      <span class="icon">📜</span>공약·법안
+    </a>
+    <a href="/community.html" class="">
+      <span class="icon">💬</span>커뮤니티
+    </a>
+    <a href="/history.html" class="">
+      <span class="icon">📼</span>비사
+    </a>
+  </nav>
+  <script>
+    // 정치 용어 tooltip — 모바일 tap-to-show, 다시 탭하면 닫기
+    document.addEventListener('click', function(e) {
+      const t = e.target.closest('.term-tip');
+      if (t) {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          if (x !== t) x.classList.remove('tt-active');
+        });
+        t.classList.toggle('tt-active');
+        e.stopPropagation();
+      } else {
+        document.querySelectorAll('.term-tip.tt-active').forEach(function(x) {
+          x.classList.remove('tt-active');
+        });
+      }
+    });
+  </script>
+  <script>/* 방문 집계: 페이지 주소·유입 사이트 이름만 보낸다(쿠키·식별값 없음) → site/worker.js /t */
+  try { navigator.sendBeacon("/t", JSON.stringify({ p: location.pathname, r: document.referrer ? new URL(document.referrer).host : "" })); } catch (e) {}
+  /* 띠 클릭 집계: data-ck 가 붙은 링크만, 이름표(key)만 보낸다 */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("[data-ck]");
+    if (a) try { navigator.sendBeacon("/t", JSON.stringify({ c: a.getAttribute("data-ck") })); } catch (x) {}
+  });
+  /* 유튜브 띠: 채널 최신 영상(매일 수집) — 지금 보는 정치인 이름이 제목에 있으면 맨 앞으로 */
+  (function () {
+    var row = document.getElementById("ytRow");
+    if (!row) return;
+    fetch("/data/stories_videos.json").then(function (r) { return r.json(); }).then(function (d) {
+      var v = (d.latest || []).slice();
+      if (!v.length) return;
+      var name = /^[/](politician|local)[/]/.test(location.pathname) ? document.title.split(" ")[0] : "";
+      if (name.length >= 2) v = v.filter(function (x) { return (x.mine = x.title.indexOf(name) >= 0 || (x.tags || []).indexOf(name) >= 0); }).concat(v.filter(function (x) { return !x.mine; }));
+      v.slice(0, 8).forEach(function (x) {
+        var a = document.createElement("a"), img = document.createElement("img"), t = document.createElement("span");
+        a.className = "yt-card"; a.href = "https://www.youtube.com/watch?v=" + encodeURIComponent(x.id); a.target = "_blank"; a.rel = "noopener";
+        a.setAttribute("data-ck", "yt-video");
+        img.loading = "lazy"; img.alt = ""; img.src = "https://i.ytimg.com/vi/" + encodeURIComponent(x.id) + "/mqdefault.jpg";
+        a.appendChild(img);
+        if (x.mine) { var m = document.createElement("em"); m.textContent = name + " 영상"; a.appendChild(m); }
+        t.textContent = x.title; a.appendChild(t); row.appendChild(a);
+      });
+      row.hidden = false;
+    }).catch(function () {});
+  })();
+  </script>
+  <script>
+  /* ── 정치탈탈 앱 전용: 의정 속보 푸시 등록 (웹에서는 아무것도 안 함) ── */
+  (function() {
+    var Cap = window.Capacitor;
+    var inApp = !!(Cap && Cap.isNativePlatform && Cap.isNativePlatform())
+                || /PolitaltalApp/.test(navigator.userAgent || "");
+    if (!inApp || !Cap || !Cap.Plugins || !Cap.Plugins.PushNotifications) return;
+    var PN = Cap.Plugins.PushNotifications;
+    var platform = (Cap.getPlatform && Cap.getPlatform()) || "unknown";
+    var PUSH_API = "";   // 같은 오리진 /push/* (site/worker.js)
+
+    function postToken(value) {
+      try {
+        fetch(PUSH_API + "/push/register", {
+          method: "POST", headers: { "content-type": "application/json" },
+          body: JSON.stringify({ token: value, platform: platform, topics: "all" })
+        }).catch(function() {});
+      } catch (e) {}
+    }
+
+    // 딥링크: 알림 탭 → 해당 URL로 이동
+    PN.addListener("pushNotificationActionPerformed", function(ev) {
+      try {
+        var url = ev && ev.notification && ev.notification.data && ev.notification.data.url;
+        if (url) window.location.href = url;
+      } catch (e) {}
+    });
+    PN.addListener("registration", function(t) { if (t && t.value) postToken(t.value); });
+    PN.addListener("registrationError", function() {});
+
+    function start() {
+      // 안드로이드 알림 채널(중요도 높음) — send_push.py 의 channel_id 와 일치
+      if (platform === "android" && PN.createChannel) {
+        PN.createChannel({ id: "politaltal_news", name: "의정 속보",
+          description: "본회의 처리·신규 발의 속보", importance: 5, visibility: 1 }).catch(function() {});
+      }
+      PN.checkPermissions().then(function(p) {
+        if (p.receive === "granted") { PN.register(); return; }
+        // 첫 방문 1회만 권한 요청(거부 후 매번 묻지 않도록 플래그)
+        if (localStorage.getItem("pt_push_asked") === "1" && p.receive === "denied") return;
+        localStorage.setItem("pt_push_asked", "1");
+        PN.requestPermissions().then(function(r) { if (r.receive === "granted") PN.register(); });
+      }).catch(function() {});
+    }
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start);
+  })();
+  </script>
+  <script src="/war.js?v=202611162223" defer></script>
+  <script src="/hub.js?v=202611162223" defer></script>
+</body>
+</html>
